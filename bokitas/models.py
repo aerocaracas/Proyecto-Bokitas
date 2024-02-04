@@ -520,7 +520,7 @@ class ImcPesoTalla_5x(models.Model):
 
 class Tareas(models.Model):
     titulo = models.CharField(max_length=100)
-    descrpcion = models.TextField(blank=True)
+    descripcion = models.TextField(blank=True)
     creado = models.DateTimeField(auto_now_add=True)
     completado = models.DateTimeField(null=True, blank=True)
     importante = models.BooleanField(default=False)

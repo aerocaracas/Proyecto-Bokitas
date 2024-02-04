@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+    <h1>Crear Tareas</h1>
+
+    <form action="/tareas/crear" method="POST">
+
+        {{form.as_p}}
+
+        <button>
+            Aceptar
+        </button>
+
+    </form>
+   
+{% endblock %}
