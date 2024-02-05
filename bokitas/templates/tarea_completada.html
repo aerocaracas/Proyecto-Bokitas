@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+    <h1>Tareas Completadas</h1>
+
+    <ul>
+        {% for tarea in tareas %}
+
+        <li>
+            {% if tarea.importante %}
+                <h1>{{tarea.titulo}}</h1>
+            {% else %}
+                <h3>{{tarea.titulo}}</h3>
+            {% endif %}
+            <p>{{tarea.descripcion}}</p>
+            <p>{{tarea.user.username}}</p>
+
+            <p>{{tarea.completado|date:'j M Y:i'}}</p>
+        </li>
+ 
+        {% endfor %}
+    </ul>
+   
+{% endblock %}

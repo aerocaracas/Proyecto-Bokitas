@@ -2,6 +2,25 @@
 
 {% block content %}   
 
-    <h1>Tareas</h1>
+    <h1>Tareas Pendintes</h1>
+
+    <ul>
+        {% for tarea in tareas %}
+
+        <li>
+            <a href="{% url 'tarea_detalle' tarea.id %}">
+                {% if tarea.importante %}
+                    <h1>{{tarea.titulo}}</h1>
+                {% else %}
+                    <h3>{{tarea.titulo}}</h3>
+                {% endif %}
+ 
+            </a>
+            <p>{{tarea.descripcion}}</p>
+            <p>{{tarea.user.username}}</p>
+        </li>
+ 
+        {% endfor %}
+    </ul>
    
 {% endblock %}

@@ -4,7 +4,10 @@
 
     <h1>Crear Tareas</h1>
 
-    <form action="/tareas/crear" method="POST">
+    {{error}}
+
+    <form action="/tareas/crear/" method="POST">
+        {% csrf_token %}
 
         {{form.as_p}}
 
