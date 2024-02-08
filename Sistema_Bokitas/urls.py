@@ -15,24 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from bokitas import views
+from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('signup/', views.signup, name='signup'),
-    path('logout/', views.signout, name='logout'),
-    path('signin/', views.signin, name='signin'),
-    path('proyecto/', views.proyecto, name='proyecto'),
-    path('beneficiario/', views.beneficiario, name='beneficiario'),    
-    path('medica/', views.medica, name='medica'),
-    path('nutricional/', views.nutricional, name='nutricional'),
-    path('socioeconomico/', views.socioeconomico, name='socioeconomico'),    
-    path('tareas/', views.tareas, name='tareas'),
-    path('tareas/completada', views.tarea_completada, name='tarea_completada'),
-    path('tareas/crear/', views.tarea_crear, name='tarea_crear'),
-    path('tareas/<int:tarea_id>/', views.tarea_detalle, name='tarea_detalle'),
-    path('tareas/<int:tarea_id>/completar', views.tarea_complatar, name='tarea_completar'),
-    path('tareas/<int:tarea_id>/eliminar', views.tarea_eliminar, name='tarea_eliminar'),
+    path('', include('bokitas.urls')),
+    path('', include('proyecto.urls')),
+    path('', include('beneficiario.urls')),
+    path('', include('medica.urls')),
+    path('', include('nutricional.urls')),
+    path('', include('socioeconomico.urls')),
+    path('', include('tareas.urls')),
+  
 ]

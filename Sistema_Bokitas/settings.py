@@ -38,6 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bokitas',
+    'proyecto',
+    'beneficiario',
+    'medica',
+    'nutricional',
+    'socioeconomico',
+    'tareas',
 ]
 
 MIDDLEWARE = [

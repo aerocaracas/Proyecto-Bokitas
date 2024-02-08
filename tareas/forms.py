@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Tareas
+from bokitas.models import Tareas
 
 class TareaForm(ModelForm):
     class Meta:
