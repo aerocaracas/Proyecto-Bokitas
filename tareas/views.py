@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from tareas.forms import TareaForm
-from bokitas.models import Tareas
+from bokitas.models import Tarea
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required  
 def tareas(request):
-    tareas = Tareas.objects.filter(user=request.user, completado__isnull=True)
+    tareas = Tarea.objects.filter(user=request.user, completado__isnull=True)
     return render(request, 'tareas.html', {
         'tareas': tareas
     })
@@ -36,44 +36,44 @@ def tarea_crear(request):
 @login_required      
 def tarea_detalle(request, tarea_id):
     if request.method == 'GET':
-        tarea = get_object_or_404(Tareas, pk=tarea_id, user=request.user)
-        form = TareaForm(instance=tarea)
+        tareas = get_object_or_404(Tarea, pk=tarea_id, user=request.user)
+        form = TareaForm(instance=tareas)
         return render(request, 'tarea_detalle.html',{
-            'tarea':tarea,
+            'tareas':tareas,
             'form': form
         })
     else:
         try:
-            tarea = get_object_or_404(Tareas, pk=tarea_id, user=request.user)
-            form = TareaForm(request.POST, instance=tarea)
+            tareas = get_object_or_404(Tarea, pk=tarea_id, user=request.user)
+            form = TareaForm(request.POST, instance=tareas)
             form.save()
             return redirect('tareas')
         except ValueError:
             return render(request, 'tarea_detalle.html',{
-            'tarea':tarea,
+            'tareas':tareas,
             'form': form,
             'error': "Error al actualizar la Tarea"
         })
 
 @login_required  
 def tarea_completada(request):
-    tareas = Tareas.objects.filter(user=request.user, completado__isnull=False).order_by('-completado')
+    tareas = Tarea.objects.filter(user=request.user, completado__isnull=False).order_by('-completado')
     return render(request, 'tarea_completada.html', {
         'tareas': tareas
     })
 
 @login_required  
 def tarea_complatar(request, tarea_id):
-    tarea = get_object_or_404(Tareas, pk=tarea_id, user=request.user)
+    tareas = get_object_or_404(Tarea, pk=tarea_id, user=request.user)
     if request.method == 'POST':
-        tarea.completado = timezone.now()
-        tarea.save()
+        tareas.completado = timezone.now()
+        tareas.save()
         return redirect('tareas')
 
 @login_required  
 def tarea_eliminar(request, tarea_id):
-    tarea = get_object_or_404(Tareas, pk=tarea_id, user=request.user)
+    tareas = get_object_or_404(Tarea, pk=tarea_id, user=request.user)
     if request.method == 'POST':
-        tarea.delete()
+        tareas.delete()
         return redirect('tareas')
 

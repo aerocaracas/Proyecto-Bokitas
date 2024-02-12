@@ -38,7 +38,7 @@ LABORAL = (
 
 ESTATUS = (
     ("ACTIVO", "ACTIVO"),
-    ("PASIVO", "PASIVO"),
+    ("CERRADO", "CERRADO"),
 )
 
 PARENTESCO = (
@@ -71,9 +71,9 @@ EXAMEN_FISICO = (
 )
 
 # Create your models here.
-class Centro(models.Model):
+class Proyecto(models.Model):
     proyecto = models.CharField(max_length=50, primary_key=True, unique=True, blank=False)
-    estatus = models.BooleanField(default=True, choices=ESTATUS)
+    estatus = models.CharField(max_length=10, blank=False, choices=ESTATUS)
     nombre_centro = models.CharField(max_length=50,blank=False)
     direccion = models.TextField(blank=True)
     estado = models.CharField(max_length=25)
@@ -85,13 +85,15 @@ class Centro(models.Model):
     fecha_modificado = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        ordering = ('-creado',)
+
     def __str__(self):
         return f"{self.proyecto}, {self.nombre_centro} {self.representante}"
 
-
 class Beneficiario(models.Model):
     cedula = models.CharField(max_length=15, primary_key=True, unique=True, blank=False)
-    proyecto = models.ForeignKey(Centro, on_delete=models.SET_NULL, null=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
     sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
@@ -123,10 +125,10 @@ class Beneficiario(models.Model):
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
-class Menores(models.Model):
+class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    proyecto = models.ForeignKey(Centro, on_delete=models.SET_NULL, null=True)
-    cedula = models.CharField(max_length=15, unique=True, blank=False)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    cedula = models.CharField(max_length=15, primary_key=True, unique=True, blank=False)
     parentesco = models.CharField(max_length=15, choices=PARENTESCO)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
@@ -151,13 +153,16 @@ class Menores(models.Model):
     fecha_modificado = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        ordering = ('-cedula_bef',)
+
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
-class Familiares(models.Model):
+class Familia(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.CharField(max_length=15, unique=True, blank=False)
-    proyecto = models.ForeignKey(Centro, on_delete=models.SET_NULL, null=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     parentesco = models.CharField(max_length=15, choices=PARENTESCO)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
@@ -179,7 +184,7 @@ class Familiares(models.Model):
 
 class Antropometrico(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.ForeignKey(Familiares, on_delete=models.CASCADE, blank=True)
+    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
     proyecto = models.CharField(max_length=50, blank=False)
     tipo_usuario = models.CharField(max_length=3, choices=TIPO_USUARIO)
     fecha = models.DateField(null=False, blank=False)
@@ -312,7 +317,7 @@ class Nutricional(models.Model):
 
 class Medica(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.ForeignKey(Familiares, on_delete=models.CASCADE, blank=True)
+    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
     proyecto = models.CharField(max_length=50, blank=False)
     fecha = models.DateField(null=False, blank=False)
     medico_tratante = models.CharField(max_length=50, blank=False)
@@ -518,7 +523,7 @@ class ImcPesoTalla_5x(models.Model):
     ds2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     ds3 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
 
-class Tareas(models.Model):
+class Tarea(models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
     creado = models.DateTimeField(auto_now_add=True)

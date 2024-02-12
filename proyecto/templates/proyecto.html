@@ -2,6 +2,44 @@
 
 {% block content %}   
 
-    <h1>Proyectos</h1>
+    
+    <div class="col-10 offset-1"> 
+      <h2>PROYECTOS</h2>
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ESTATUS</th>
+            <th scope="col">PROYECTO</th>
+            <th scope="col">CENTRO</th>
+            <th scope="col">CIUDAD</th>
+            <th scope="col">REPRESENTANTE</th>
+            <th scope="col">TELEFONO</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if proyectos %}
+                {% for proyecto in proyectos %}
+                    <tr>
+                        {% if proyecto.estatus == "ACTIVO" %}
+                          <td class="text-success">{{proyecto.estatus}}</td>
+                        {% else %}
+                          <td class="text-danger">{{proyecto.estatus}}</td>
+                        {% endif %}
+                        <td>{{proyecto.proyecto}}</td>
+                        <td>{{proyecto.nombre_centro}}</td>
+                        <td>{{proyecto.ciudad}}</td>
+                        <td>{{proyecto.representante}}</td>
+                        <td>{{proyecto.telefono}}</td>
+                    </tr>
+                {% endfor %}
+            {% endif%}
+        </tbody>
+      </table>
+    </div>
+
+      
+            
+
+        
    
 {% endblock %}
