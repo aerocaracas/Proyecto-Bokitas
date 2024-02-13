@@ -2,22 +2,33 @@
 
 {% block content %}   
 
-    <h1>Registrarse</h1>
+
+<body>
+    <br>
+    <div class="container bg-light shadow-md p-2">
+        <h3>Registrarse</h3>
+
+        <h5>Administrar su clave, recuerde que es personal</h5>
+
+        <hr>
    
-    {{error}}
+        {{error}}
 
-    <form action="/signup/" method="POST">
+        <form action="/signup/" method="POST">
 
-        {% csrf_token %}
+            {% csrf_token %}
 
-        {{form.as_p}}
+            <br>
 
-        <button>
+                {{form.as_p}}
 
-            Aceptar
+            <button type="submit" class="btn btn-primary w-25 btn-block p-2 text-center">
 
-        </button>
+                Aceptar
 
-    </form>
+            </button>
 
+        </form>
+    </div>
+</body>
 {% endblock %}

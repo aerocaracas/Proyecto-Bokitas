@@ -72,7 +72,7 @@ EXAMEN_FISICO = (
 
 # Create your models here.
 class Proyecto(models.Model):
-    proyecto = models.CharField(max_length=50, primary_key=True, unique=True, blank=False)
+    proyecto = models.CharField(max_length=50, unique=True, blank=False)
     estatus = models.CharField(max_length=10, blank=False, choices=ESTATUS)
     nombre_centro = models.CharField(max_length=50,blank=False)
     direccion = models.TextField(blank=True)
@@ -92,7 +92,7 @@ class Proyecto(models.Model):
         return f"{self.proyecto}, {self.nombre_centro} {self.representante}"
 
 class Beneficiario(models.Model):
-    cedula = models.CharField(max_length=15, primary_key=True, unique=True, blank=False)
+    cedula = models.CharField(max_length=15, unique=True, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
@@ -128,7 +128,7 @@ class Beneficiario(models.Model):
 class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    cedula = models.CharField(max_length=15, primary_key=True, unique=True, blank=False)
+    cedula = models.CharField(max_length=15, unique=True, blank=False)
     parentesco = models.CharField(max_length=15, choices=PARENTESCO)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)

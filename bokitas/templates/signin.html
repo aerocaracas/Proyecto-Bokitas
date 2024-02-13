@@ -2,23 +2,33 @@
 
 {% block content %}   
 
-    <h1>Ingresar</h1>
+<body>
+    <br>
+    <div class="container bg-light shadow-md p-5 text-center">
+        <h3>Ingresar</h3>
 
-    {{error}}
+        <h5>Administrar su clave, recuerde que es personal</h5>
+
+        <hr>
    
-    <form action="/signin/" method="POST">
-        {% csrf_token %}
-
-        {{form.as_p}}
-
-        <button>
+        {{error}}
     
-            Ingresar
-    
-        </button>
-     
-    </form>
+        <form action="/signin/" method="POST">
+            {% csrf_token %}
 
+            <br>
+            {{form.as_p}}
 
+            <br>
 
+            <button type="submit" class="btn btn-primary w-25 btn-block p-2">
+        
+                Ingresar
+        
+            </button>
+        
+        </form>
+
+    </div>
+</body>
 {% endblock %}

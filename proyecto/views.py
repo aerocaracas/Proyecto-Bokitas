@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from proyecto.forms import ProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required      
@@ -11,24 +12,24 @@ def proyecto(request):
         'proyectos': proyectos
     })
 
-@login_required      
-def proyecto_detalle(request, proyectos_id):
+
+@login_required  
+def proyecto_crear(request):
     if request.method == 'GET':
-        proyectos = get_object_or_404(Proyecto, pk=proyectos_id)
-        form = ProyectoForm(instance=proyectos)
-        return render(request, 'proyecto_detalle.html',{
-            'proyectos':proyectos,
-            'form': form
+        return render(request, 'proyecto_crear.html', {
+            'form': ProyectoForm
         })
     else:
         try:
-            proyectos = get_object_or_404(Proyecto, pk=proyectos_id)
-            form = ProyectoForm(request.POST, instance=proyectos)
-            form.save()
+            form = ProyectoForm(request.POST)
+            new_proyecto = form.save(commit=False)
+            new_proyecto.user = request.user
+            new_proyecto.save()
             return redirect('proyecto')
         except ValueError:
-            return render(request, 'proyecto_detalle.html',{
-            'proyectos':proyectos,
-            'form': form,
-            'error': "Error al actualizar Proyecto"
-        })
+            return render(request, 'proyecto_crear.html', {
+            'form': ProyectoForm,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
+
+
