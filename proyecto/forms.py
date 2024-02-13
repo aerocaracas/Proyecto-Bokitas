@@ -4,5 +4,5 @@ from bokitas.models import Proyecto
 class ProyectoForm(ModelForm):
     class Meta:
         model = Proyecto
-        fields = ['cedula', 'nombre','apellido']
+        fields = ['proyecto','estatus','nombre_centro', 'direccion','estado','ciudad','representante','telefono','correo']
 
