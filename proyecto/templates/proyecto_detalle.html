@@ -10,9 +10,19 @@
         {% csrf_token %}
         {{form.as_p}}
 
-        <button>
-            Actualizar
-        </button>
+
+        <br>
+
+        <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
+
+        &nbsp;
+
+        <a href="{% url 'proyecto' %}" class="btn btn-info"> Actualizar </a>
+
+        &nbsp;
+
+        <a href="{% url 'proyecto' %}" class="btn btn-danger"> Eliminar </a>
+
     </form>
 
    

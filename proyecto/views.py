@@ -32,4 +32,24 @@ def proyecto_crear(request):
             'error': 'Datos incorectos, Favor verificar la información'
             })
 
-
+@login_required      
+def proyecto_detalle(request, pk):
+    if request.method == 'GET':
+        proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
+        form = ProyectoForm(instance=proyectos)
+        return render(request, 'proyecto_detalle.html',{
+            'proyectos':proyectos,
+            'form': form
+        })
+    else:
+        try:
+            proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
+            form = ProyectoForm(request.POST, instance=proyectos)
+            form.save()
+            return redirect('proyecto')
+        except ValueError:
+            return render(request, 'proyecto_detalle.html',{
+            'proyectos':proyectos,
+            'form': form,
+            'error': "Error al actualizar Proyecto"
+        })

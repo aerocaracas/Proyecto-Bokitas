@@ -38,17 +38,13 @@
                         <td>{{proyecto.ciudad}}</td>
                         <td>{{proyecto.representante}}</td>
                         <td>{{proyecto.telefono}}</td>
-                        <td> Editar </td>
+                        <td> <a href="{% url 'proyecto_detalle' proyecto.id %}">Editar</a> </td>
                     </tr>
                 {% endfor %}
             {% endif%}
         </tbody>
       </table>
     </div>
-
-      
-            
-
-        
+     
    
 {% endblock %}

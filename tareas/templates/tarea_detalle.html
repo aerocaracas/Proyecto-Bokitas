@@ -8,28 +8,33 @@
 
     {{error}}
 
+    <br>
+
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
 
-        <button>
+        <a href="{% url 'tareas' %}" class="btn btn-secondary"> Regresar </a>
+
+        <button class="btn btn-secondary">
             Actualizar
         </button>
-    </form>
+        
+    </form> 
 
     <form action="{% url 'tarea_completar' tareas.id %}" method="POST">
         {% csrf_token %}
 
-        <button>
-            Complatodo
+        <button class="btn btn-info">
+            Tarea Realizada
         </button>
 
     </form>
- 
+
     <form action="{% url 'tarea_eliminar' tareas.id %}" method="POST">
         {% csrf_token %}
 
-        <button>
+        <button class="btn btn-danger">
             Eliminar
         </button>
 
