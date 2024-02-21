@@ -72,7 +72,7 @@ EXAMEN_FISICO = (
 
 # Create your models here.
 class Proyecto(models.Model):
-    proyecto = models.CharField(max_length=50, unique=True, blank=False)
+    proyecto = models.CharField(max_length=100, unique=True, blank=False)
     estatus = models.CharField(max_length=10, blank=False, choices=ESTATUS)
     nombre_centro = models.CharField(max_length=50,blank=False)
     direccion = models.TextField(blank=True)
@@ -86,7 +86,7 @@ class Proyecto(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        ordering = ('-creado',)
+        ordering = ('-estatus',)
 
     def __str__(self):
         return f"{self.proyecto}, {self.nombre_centro} {self.representante}"

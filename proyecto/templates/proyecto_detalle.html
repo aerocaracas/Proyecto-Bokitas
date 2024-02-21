@@ -10,20 +10,23 @@
         {% csrf_token %}
         {{form.as_p}}
 
-
-        <br>
-
         <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
 
-        &nbsp;
+        <button class="btn btn-info">
+            Actualizar
+        </button>
+        
+    </form> 
 
-        <a href="{% url 'proyecto' %}" class="btn btn-info"> Actualizar </a>
+    <form action="{% url 'proyecto_eliminar' proyectos.id %}" method="POST">
+        {% csrf_token %}
 
-        &nbsp;
-
-        <a href="{% url 'proyecto' %}" class="btn btn-danger"> Eliminar </a>
+        <button class="btn btn-danger">
+            Eliminar
+        </button>
 
     </form>
 
    
+
 {% endblock %}
