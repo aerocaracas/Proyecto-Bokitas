@@ -23,11 +23,12 @@
             <th scope="col">TELEFONO</th>
             <th scope="col">PROFESION</th>
             <th scope="col">LABORAL</th>
+            <th scope="col">DETALLE</th>
           </tr>
         </thead>
         <tbody>
-            {% if proyectos %}
-                {% for proyecto in proyectos %}
+            {% if beneficiarios %}
+                {% for beneficiario in beneficiarios %}
                     <tr>
                         <td>{{beneficiario.proyecto}}</td>
                         <td>{{beneficiario.cedula}}</td>

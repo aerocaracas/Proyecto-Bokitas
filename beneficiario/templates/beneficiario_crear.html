@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+    <h1>Crear Beneficiario</h1>
+
+    {{error}}
+
+    <form action="/beneficiario/crear/" method="POST">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button>
+            Aceptar
+        </button>
+
+    </form>
+   
+{% endblock %}

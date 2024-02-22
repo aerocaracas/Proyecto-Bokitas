@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 # Specifying the choices
 SEXOS = (
-    ("MASCULINO", "1"),
-    ("FEMENINO", "2"),
+    ("1", "MASCULINO"),
+    ("2", "FEMENINO"),
 )
 
 ESTADO_CIVIL = (
@@ -16,8 +16,8 @@ ESTADO_CIVIL = (
 )
 
 SI_NO = (
-    ("SI", "1"),
-    ("NO", "0"),
+    ("1", "SI"),
+    ("0", "NO"),
 )
 
 EDUCACION = (
@@ -89,14 +89,14 @@ class Proyecto(models.Model):
         ordering = ('-estatus',)
 
     def __str__(self):
-        return f"{self.proyecto}, {self.nombre_centro} {self.representante}"
+        return f"{self.proyecto}"
 
 class Beneficiario(models.Model):
     cedula = models.CharField(max_length=15, unique=True, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
-    sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
+    sexo = models.CharField(max_length=10, blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0) 
     meses = models.PositiveIntegerField(default=0)
@@ -109,12 +109,12 @@ class Beneficiario(models.Model):
     laboral = models.CharField(max_length=20, choices=LABORAL)
     telefono = models.CharField(max_length=15)
     correo = models.EmailField(blank=True)
-    embarazada = models.BooleanField(default=False, choices=SI_NO)
-    lactando = models.BooleanField(default=False, choices=SI_NO)
+    embarazada = models.CharField(max_length=10, default=0, choices=SI_NO)
+    lactando = models.CharField(max_length=10, default=0, choices=SI_NO)
     condicion = models.TextField(max_length=200, blank=True)
-    estatus = models.BooleanField(default=True, choices=ESTATUS)
+    estatus = models.CharField(max_length=10, default=1, choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0)
-    tipo_usuario = models.CharField(max_length=3)
+    tipo_usuario = models.CharField(max_length=3, default='BEF', choices=TIPO_USUARIO)
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

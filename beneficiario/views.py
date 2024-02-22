@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 @login_required      
 def beneficiario(request):
-    beneficiarios = beneficiarios.objects.all()
+    beneficiarios = Beneficiario.objects.all()
     return render(request, 'beneficiario.html',{
         'beneficiarios': beneficiarios
     })

@@ -130,3 +130,19 @@ LOGIN_URL = '/signin'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LANGUAGE_CODE = 'es'
+
+TIME_ZONE = 'America/Santiago'
+
+USE_I18N = False
+
+USE_L10N = False
+
+DATE_FORMAT = ['%d %m %Y']
+
+#DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
+DATE_INPUT_FORMATS = ['%d %m %Y']
+
+USE_TZ = False
