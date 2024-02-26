@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+    <h1>Detalle Consulta Medica</h1>
+
+     {{error}}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <a href="{% url 'medica' %}" class="btn btn-secondary"> Regresar </a>
+
+        <button class="btn btn-info">
+            Actualizar
+        </button>
+        
+    </form> 
+
+    <form action="{% url 'medica_eliminar' medicas.id %}" method="POST">
+        {% csrf_token %}
+
+        <button class="btn btn-danger">
+            Eliminar
+        </button>
+
+    </form>
+
+   
+
+{% endblock %}
