@@ -28,7 +28,7 @@ def beneficiario_crear(request):
             return redirect('beneficiario')
         except ValueError:
             return render(request, 'beneficiario_crear.html', {
-            'form': BeneficiarioForm,
+            'form': form,
             'error': 'Datos incorectos, Favor verificar la información'
             })
 
