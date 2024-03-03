@@ -2,19 +2,38 @@
 
 {% block content %}   
 
-    <h1>Crear Proyecto</h1>
+{% load crispy_forms_tags %}
 
-    {{error}}
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
 
-    <form action="/proyecto/crear/" method="POST">
-        {% csrf_token %}
+                <h1>Crear Proyecto</h1>
+                <hr>
 
-        {{form.as_p}}
+                {{error}}
 
-        <button>
-            Aceptar
-        </button>
+                <form action="/proyecto/crear/" method="POST">
+                    {% csrf_token %}
 
-    </form>
-   
+                    {{form | crispy }}
+
+                    <button>
+                        Aceptar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+            
+    </div>
+</div>
+            
+
+
 {% endblock %}

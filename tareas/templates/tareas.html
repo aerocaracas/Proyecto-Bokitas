@@ -2,26 +2,42 @@
 
 {% block content %}   
 
-    <h1>Tareas Pendintes</h1>
-    <hr>
+{% load crispy_forms_tags %}
 
-    <ul>
-        {% for tarea in tareas %}
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
 
-        <li>
-            <a href="{% url 'tarea_detalle' tarea.id %}">
-                {% if tarea.importante %}
-                    <h1>{{tarea.titulo}}</h1>
-                {% else %}
-                    <h3>{{tarea.titulo}}</h3>
-                {% endif %}
- 
-            </a>
-            <p>{{tarea.descripcion}}</p>
-            <p>{{tarea.user.username}}</p>
-        </li>
- 
-        {% endfor %}
-    </ul>
-   
+                <h1>Tareas Pendintes</h1>
+                <hr>
+
+                <ul>
+                    {% for tarea in tareas %}
+
+                    <li>
+                        <a href="{% url 'tarea_detalle' tarea.id %}">
+                            {% if tarea.importante %}
+                                <h1>{{tarea.titulo}}</h1>
+                            {% else %}
+                                <h3>{{tarea.titulo}}</h3>
+                            {% endif %}
+            
+                        </a>
+                        <p>{{tarea.descripcion}}</p>
+                        <p>{{tarea.user.username}}</p>
+                    </li>
+            
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+        
+    </div>
+</div>            
+
 {% endblock %}

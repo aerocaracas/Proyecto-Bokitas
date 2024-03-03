@@ -2,30 +2,48 @@
 
 {% block content %}   
 
-    <h1>Detalle de Proyecto</h1>
+{% load crispy_forms_tags %}
 
-     {{error}}
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
 
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
+                <h1>Detalle de Proyecto</h1>
+                <hr>
 
-        <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
+                {{error}}
 
-        <button class="btn btn-info">
-            Actualizar
-        </button>
-        
-    </form> 
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form | crispy }}
 
-    <form action="{% url 'proyecto_eliminar' proyectos.id %}" method="POST">
-        {% csrf_token %}
+                    <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
 
-        <button class="btn btn-danger">
-            Eliminar
-        </button>
+                    <button class="btn btn-info">
+                        Actualizar
+                    </button>
+                    
+                </form> 
 
-    </form>
+                <form action="{% url 'proyecto_eliminar' proyectos.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <button class="btn btn-danger">
+                        Eliminar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+            
+    </div>
+</div>
+            
 
    
 

@@ -2,44 +2,59 @@
 
 {% block content %}   
 
-    <h1>Detalle de Tareas</h1>
-    <hr>
+{% load crispy_forms_tags %}
 
-    <h1>{{tareas.titulo}}</h1>
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
 
-    {{error}}
+                <h1>Detalle de Tareas</h1>
+                <hr>
 
-    <br>
+                <h1>{{tareas.titulo}}</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
+                {{error}}
 
-        <a href="{% url 'tareas' %}" class="btn btn-secondary"> Regresar </a>
+                <br>
 
-        <button class="btn btn-secondary">
-            Actualizar
-        </button>
-        
-    </form> 
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
 
-    <form action="{% url 'tarea_completar' tareas.id %}" method="POST">
-        {% csrf_token %}
+                    <a href="{% url 'tareas' %}" class="btn btn-secondary"> Regresar </a>
 
-        <button class="btn btn-info">
-            Tarea Realizada
-        </button>
+                    <button class="btn btn-secondary">
+                        Actualizar
+                    </button>
+                    
+                </form> 
 
-    </form>
+                <form action="{% url 'tarea_completar' tareas.id %}" method="POST">
+                    {% csrf_token %}
 
-    <form action="{% url 'tarea_eliminar' tareas.id %}" method="POST">
-        {% csrf_token %}
+                    <button class="btn btn-info">
+                        Tarea Realizada
+                    </button>
 
-        <button class="btn btn-danger">
-            Eliminar
-        </button>
+                </form>
 
-    </form>
- 
+                <form action="{% url 'tarea_eliminar' tareas.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <button class="btn btn-danger">
+                        Eliminar
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+            
+    </div>
+</div>
+           
    
 {% endblock %}
