@@ -30,9 +30,9 @@
                 {% for proyecto in proyectos %}
                     <tr>
                         {% if proyecto.estatus == "ACTIVO" %}
-                          <td class="text-success">{{proyecto.estatus}}</td>
+                          <td class="text-success fw-bold">{{proyecto.estatus}}</td>
                         {% else %}
-                          <td class="text-danger">{{proyecto.estatus}}</td>
+                          <td class="text-danger fw-bold">{{proyecto.estatus}}</td>
                         {% endif %}
                         <td>{{proyecto.proyecto}}</td>
                         <td>{{proyecto.nombre_centro}}</td>
