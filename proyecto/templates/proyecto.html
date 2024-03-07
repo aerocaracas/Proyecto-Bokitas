@@ -19,9 +19,7 @@
             <th scope="col">ESTATUS</th>
             <th scope="col">PROYECTO</th>
             <th scope="col">CENTRO</th>
-            <th scope="col">CIUDAD</th>
-            <th scope="col">REPRESENTANTE</th>
-            <th scope="col">TELEFONO</th>
+            <th scope="col">RESPONSABLE</th>
             <th scope="col">DETALLE</th>
           </tr>
         </thead>
@@ -36,9 +34,7 @@
                         {% endif %}
                         <td>{{proyecto.proyecto}}</td>
                         <td>{{proyecto.nombre_centro}}</td>
-                        <td>{{proyecto.ciudad}}</td>
                         <td>{{proyecto.representante}}</td>
-                        <td>{{proyecto.telefono}}</td>
                         <td> <a href="{% url 'proyecto_detalle' proyecto.id %}">Editar</a> </td>
                     </tr>
                 {% endfor %}

@@ -20,10 +20,6 @@
             <th scope="col">CEDULA</th>
             <th scope="col">NOMBRE</th>
             <th scope="col">APELLIDO</th>
-            <th scope="col">EDAD</th>
-            <th scope="col">TELEFONO</th>
-            <th scope="col">PROFESION</th>
-            <th scope="col">LABORAL</th>
             <th scope="col">DETALLE</th>
           </tr>
         </thead>
@@ -35,10 +31,6 @@
                         <td>{{beneficiario.cedula}}</td>
                         <td>{{beneficiario.nombre}}</td>
                         <td>{{beneficiario.apellido}}</td>
-                        <td>{{beneficiario.edad}}</td>
-                        <td>{{beneficiario.telefono}}</td>
-                        <td>{{beneficiario.profesion}}</td>
-                        <td>{{beneficiario.laboral}}</td>
                         <td> <a href="{% url 'beneficiario_detalle' beneficiario.id %}">Editar</a> </td>
                     </tr>
                 {% endfor %}

@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}   
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
+            <div class="card-body bg-body-secondary">
+                
+                <h1 class="text-center">Consulta Medica</h1>
 
-    <h1>Consulta Medica</h1>
+                {{error}}
 
-    {{error}}
+                <form action="/medica/crear/" method="POST">
+                    {% csrf_token %}
 
-    <form action="/medica/crear/" method="POST">
-        {% csrf_token %}
+                    {{form.as_p}}
 
-        {{form.as_p}}
+                    <button>
+                        Aceptar
+                    </button>
 
-        <button>
-            Aceptar
-        </button>
-
-    </form>
+                </form>
    
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
 {% endblock %}
