@@ -162,7 +162,6 @@ class Menor(models.Model):
 class Familia(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.CharField(max_length=15, unique=True, blank=False)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     parentesco = models.CharField(max_length=15, choices=PARENTESCO)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
