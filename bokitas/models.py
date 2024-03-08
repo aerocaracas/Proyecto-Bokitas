@@ -52,13 +52,6 @@ PARENTESCO = (
     ("ABUELOS", "ABUELOS"),
 )
 
-TIPO_USUARIO = (
-    ("MEN", "MENOR"),
-    ("BEF", "BENEFICIARIO"),
-    ("EMB", "EMBARAZADA"),
-    ("LAC", "LACTANTE"),
-)
-
 TIPO_CONSULTA = (
     ("JORNADA", "JORNADA"),
     ("CONSULTA PROGRAMADA", "CONSULTA PROGRAMADA"),
@@ -102,19 +95,18 @@ class Beneficiario(models.Model):
     meses = models.PositiveIntegerField(default=0)
     estado_civil = models.CharField(max_length=20, choices=ESTADO_CIVIL)
     direccion = models.TextField(blank=True)
-    estado = models.CharField(max_length=25)
-    ciudad = models.CharField(max_length=30)
-    educacion = models.CharField(max_length=20, choices=EDUCACION)
-    profesion = models.CharField(max_length=25)
-    laboral = models.CharField(max_length=20, choices=LABORAL)
+    estado = models.CharField(max_length=25,blank=True)
+    ciudad = models.CharField(max_length=30,blank=True)
+    educacion = models.CharField(max_length=20, choices=EDUCACION,blank=True)
+    profesion = models.CharField(max_length=25,blank=True)
+    laboral = models.CharField(max_length=20, choices=LABORAL,blank=True)
     telefono = models.CharField(max_length=15)
     correo = models.EmailField(blank=True)
     embarazada = models.CharField(max_length=10, default=0, choices=SI_NO)
     lactando = models.CharField(max_length=10, default=0, choices=SI_NO)
-    condicion = models.TextField(max_length=200, blank=True)
+    observacion = models.TextField(max_length=200, blank=True)
     estatus = models.CharField(max_length=10, default=1, choices=ESTATUS)
-    numero_cuenta = models.PositiveIntegerField(default=0)
-    tipo_usuario = models.CharField(max_length=3, default='BEF', choices=TIPO_USUARIO)
+    numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -135,9 +127,9 @@ class Menor(models.Model):
     sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
-    edad_meses = models.PositiveIntegerField(default=0)
+    meses = models.PositiveIntegerField(default=0)
     fecha_ing_proyecto = models.DateTimeField(null=True)
-    condicion = models.TextField(max_length=200, blank=True)
+    observacion = models.TextField(max_length=200, blank=True)
     estatus = models.BooleanField(default=True, choices=ESTATUS)
     peso_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -161,19 +153,19 @@ class Menor(models.Model):
 
 class Familia(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.CharField(max_length=15, unique=True, blank=False)
     parentesco = models.CharField(max_length=15, choices=PARENTESCO)
+    cedula = models.CharField(max_length=15, unique=True, blank=False)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
     sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
-    edad_meses = models.PositiveIntegerField(default=0)
+    meses = models.PositiveIntegerField(default=0)
     estado_civil = models.CharField(max_length=15, choices=ESTADO_CIVIL)
     educacion = models.CharField(max_length=20, choices=EDUCACION)
     profesion = models.CharField(max_length=25)
     laboral = models.BooleanField(default=False, choices=LABORAL)
-    condicion = models.TextField(max_length=200, blank=True)
+    observacion = models.TextField(max_length=200, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -185,7 +177,6 @@ class Antropometrico(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    tipo_usuario = models.CharField(max_length=3, choices=TIPO_USUARIO)
     fecha = models.DateField(null=False, blank=False)
     jornada = models.PositiveIntegerField(default=0)
     tiempo_gestacion = models.PositiveIntegerField(default=0) 

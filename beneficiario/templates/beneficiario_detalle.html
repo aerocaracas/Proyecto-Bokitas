@@ -15,27 +15,9 @@
                 <hr>
 
                 {{error}}
-
-                <form method="POST">
-                    {% csrf_token %}
-                    {{form | crispy }}
-
-                    <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
-
-                    <button class="btn btn-info">
-                        Actualizar
-                    </button>
-                    
-                </form> 
-
-                <form action="{% url 'beneficiario_eliminar' beneficiarios.id %}" method="POST">
-                    {% csrf_token %}
-
-                    <button class="btn btn-danger">
-                        Eliminar
-                    </button>
-
-                </form>
+                {{form | crispy }}
+                
+                <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
 
             </div>
 

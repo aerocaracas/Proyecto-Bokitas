@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
+            <div class="card-body bg-body-secondary">
+                
+                <h1 class="text-center">Detalle Beneficiario</h1>
+                <hr>
+
+                {{error}}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form | crispy }}
+
+                    <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+
+                    <button class="btn btn-info">
+                        Actualizar
+                    </button>
+                    
+                </form> 
+
+                <form action="{% url 'beneficiario_eliminar' beneficiarios.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <button class="btn btn-danger">
+                        Eliminar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+   
+
+{% endblock %}
