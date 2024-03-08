@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}   
+
+{% load crispy_forms_tags %}
+
 <br>
 <br>
 <div class="row">
@@ -14,9 +17,9 @@
 
                 <form action="/medica/crear/" method="POST">
                     {% csrf_token %}
-
-                    {{form.as_p}}
-
+   
+                    {{form | crispy}}
+                    
                     <button>
                         Aceptar
                     </button>
