@@ -13,30 +13,32 @@
 
       </a>
       <hr>
-      <table class="table table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">PROYECTO</th>
-            <th scope="col">CEDULA</th>
-            <th scope="col">NOMBRE</th>
-            <th scope="col">APELLIDO</th>
-            <th scope="col">DETALLE</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% if beneficiarios %}
-                {% for beneficiario in beneficiarios %}
-                    <tr>
-                        <td>{{beneficiario.proyecto}}</td>
-                        <td>{{beneficiario.cedula}}</td>
-                        <td>{{beneficiario.nombre}}</td>
-                        <td>{{beneficiario.apellido}}</td>
-                        <td> <a href="{% url 'beneficiario_detalle' beneficiario.id %}">Editar</a> </td>
-                    </tr>
-                {% endfor %}
-            {% endif%}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">PROYECTO</th>
+              <th scope="col">CEDULA</th>
+              <th scope="col">NOMBRE</th>
+              <th scope="col">APELLIDO</th>
+              <th scope="col">DETALLE</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% if beneficiarios %}
+                  {% for beneficiario in beneficiarios %}
+                      <tr>
+                          <td>{{beneficiario.proyecto}}</td>
+                          <td>{{beneficiario.cedula}}</td>
+                          <td>{{beneficiario.nombre}}</td>
+                          <td>{{beneficiario.apellido}}</td>
+                          <td> <a href="{% url 'beneficiario_detalle' beneficiario.id %}">Editar</a> </td>
+                      </tr>
+                  {% endfor %}
+              {% endif%}
+          </tbody>
+        </table>
+      </div>
     </div>
      
    

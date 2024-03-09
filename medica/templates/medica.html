@@ -13,32 +13,34 @@
 
       </a>
       <hr>
-      <table class="table table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">PROYECTO</th>
-            <th scope="col">CEDULA</th>
-            <th scope="col">NOMBRE</th>
-            <th scope="col">APELLIDO</th>
-            <th scope="col">FECHA</th>
-            <th scope="col">DETALLE</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% if medicas %}
-                {% for medica in medicas %}
-                    <tr>
-                        <td>{{medica.proyecto}}</td>
-                        <td>{{medica.cedula}}</td>
-                        <td>{{medica.nombre}}</td>
-                        <td>{{medica.apellido}}</td>
-                        <td>{{medica.fecha}}</td>
-                        <td> <a href="{% url 'medica_detalle' medica.id %}">Editar</a> </td>
-                    </tr>
-                {% endfor %}
-            {% endif%}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">PROYECTO</th>
+              <th scope="col">CEDULA</th>
+              <th scope="col">NOMBRE</th>
+              <th scope="col">APELLIDO</th>
+              <th scope="col">FECHA</th>
+              <th scope="col">DETALLE</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% if medicas %}
+                  {% for medica in medicas %}
+                      <tr>
+                          <td>{{medica.proyecto}}</td>
+                          <td>{{medica.cedula}}</td>
+                          <td>{{medica.nombre}}</td>
+                          <td>{{medica.apellido}}</td>
+                          <td>{{medica.fecha}}</td>
+                          <td> <a href="{% url 'medica_detalle' medica.id %}">Editar</a> </td>
+                      </tr>
+                  {% endfor %}
+              {% endif%}
+          </tbody>
+        </table>
+      </div>
     </div>
      
    
