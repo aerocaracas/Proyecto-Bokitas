@@ -14,7 +14,21 @@
             <br>
             <br>
             {% if user.is_authenticated %}
-                <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam magnam, quod est consequatur alias ut labore ullam assumenda. Soluta nostrum aspernatur eveniet in! Ad molestiae sed id, molestias voluptatum blanditiis dignissimos. Error esse consequuntur nemo ipsum? Voluptas ex reiciendis, porro inventore debitis culpa ea perspiciatis voluptatibus laborum veniam praesentium hic nostrum repudiandae obcaecati excepturi provident sunt, a maiores atque. Beatae molestias nulla vero ut, deserunt minus consequuntur? Architecto quisquam, voluptatum maxime eaque pariatur quo commodi aliquid? Inventore sed, cum similique nam quasi repellendus enim eum aliquam, eius, debitis quo! Ut dignissimos tempora recusandae necessitatibus delectus sed mollitia et hic vero.</P>
+
+                <div class="row">
+                    <div class="col-12 col-md-6 offset-md-3">
+                        <div class="card-body">
+                            <P>Bienaventurados aquellos cuya fuerza está en ti,
+                                cuyos corazones están decididos a peregrinar.
+                            Al pasar por el valle de Baka, las lluvias de otoño también lo cubren de charcos.
+                            Van viento en popa, hasta que cada uno se presenta ante Dios en Sión.
+                            </P>
+                            <p>Salmo 84:5-7 NVI</P>
+
+                        </div>
+                    </div>
+                </div>
+
             {% else %}
                 <a class="btn btn-primary" type="button" href="{% url 'signin' %}"> Ingresar</a>
             {% endif %}
