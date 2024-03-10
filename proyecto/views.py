@@ -3,13 +3,24 @@ from proyecto.forms import ProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.http import Http404
 
 # Create your views here.
 @login_required      
 def proyecto(request):
     proyectos = Proyecto.objects.all()
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(proyectos, 1)
+        proyectos = paginator.page(page)
+    except:
+        raise Http404
+
     return render(request, 'proyecto.html',{
-        'proyectos': proyectos
+        'entity': proyectos,
+        'paginator': paginator
     })
 
 
