@@ -8,27 +8,60 @@
         <div class="text-center bg-light.bg-gradient">
 
             <h2> Sistema Integral de Atención BOKITAS </h2>
-            <br>
             <h5> Realice el seguimiento al beneficiario de manera efectiva </h5>
             <hr>
             <br>
-            <br>
+
             {% if user.is_authenticated %}
+                <div class="container">
+                    <h2 class="text-center"> COMO TRABAJAMOS </h2>
+                    <br>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/static/img/cuchilleria.png" class="card-img-top" alt="Suplementos nutricionales" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">NUTRICIONAL</h5>
+                                    <p class="card-text">Bokitas facilitan el acceso a suplementos nutricionales y educación nutricional.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/static/img/medicion.png" class="card-img-top" alt="Pesan y miden a menores" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">MEDICIONES</h5>
+                                    <p class="card-text">Especialistas pesan y miden a menores e identifican a los desnutridos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/static/img/estetoscopio.png" class="card-img-top" alt="Pediatria" height="300">
+                                <div class="card-body">
+                                    <h5 class="card-title">PEDIATRIA</h5>
+                                    <p class="card-text">El pediatra examina a los niños y solicita pruebas de laboratorio y medicamentos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="row">
-                    <div class="col-12 col-md-6 offset-md-3">
-                        <div class="card-body">
-                            <P>Bienaventurados aquellos cuya fuerza está en ti,
-                                cuyos corazones están decididos a peregrinar.
-                            Al pasar por el valle de Baka, las lluvias de otoño también lo cubren de charcos.
-                            Van viento en popa, hasta que cada uno se presenta ante Dios en Sión.
-                            </P>
-                            <p>Salmo 84:5-7 NVI</P>
+                    <br>
 
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-3">
+                            <div class="card-body">
+                                <P>Bienaventurados aquellos cuya fuerza está en ti,
+                                    cuyos corazones están decididos a peregrinar.
+                                Al pasar por el valle de Baka, las lluvias de otoño también lo cubren de charcos.
+                                Van viento en popa, hasta que cada uno se presenta ante Dios en Sión.
+                                </P>
+                                <p>Salmo 84:5-7 NVI</P>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-
             {% else %}
                 <a class="btn btn-primary" type="button" href="{% url 'signin' %}"> Ingresar</a>
             {% endif %}
