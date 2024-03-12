@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('bokitas.urls')),
     path('', include('proyecto.urls')),
     path('', include('beneficiario.urls')),
+    path('', include('antropometrico.urls')),
     path('', include('medica.urls')),
     path('', include('nutricional.urls')),
     path('', include('socioeconomico.urls')),
