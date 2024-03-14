@@ -17,7 +17,10 @@ class SignUpForm(UserCreationForm):
 
 # Login 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=TextInput())
-    password = forms.CharField(widget=PasswordInput())
+    username = forms.CharField(label='Usuario',widget=TextInput())
+    password = forms.CharField(label='Clave',widget=PasswordInput())
+    class Meta:
+        model = User
+        fields = ('username','password')
     
     

@@ -6,42 +6,27 @@
 
 <br>
 <br>
-<div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
-            <div class="card-body bg-body-secondary">
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
-                <h1 class="text-center">Detalle Beneficiario</h1>
-                <hr>
+    <h1 class="text-center">Actualización de Datos</h1>
+    <hr>
+    <br>
 
-                {{error}}
+    {{error}}
 
-                <form method="POST">
-                    {% csrf_token %}
-                    {{form | crispy }}
+    <form method="POST">
+        {% csrf_token %}
+        
+        {{form | crispy }}
 
-                    <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+        <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
 
-                    <button class="btn btn-info">
-                        Actualizar
-                    </button>
+        <button class="btn btn-info">
+            Actualizar
+        </button>
                     
-                </form> 
+    </form> 
 
-                <form action="{% url 'beneficiario_eliminar' beneficiarios.id %}" method="POST">
-                    {% csrf_token %}
-
-                    <button class="btn btn-danger">
-                        Eliminar
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
 </div>
 
 

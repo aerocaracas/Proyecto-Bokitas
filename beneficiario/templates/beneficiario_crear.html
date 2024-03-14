@@ -6,34 +6,27 @@
 
 <br>
 <br>
-<div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="card shadow p-5 mb-5 bg-body-tertiary rounded ">
-            <div class="card-body bg-body-secondary">
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
-                <h1 class="text-center">Crear Beneficiario</h1>
-                <hr>
+    <h1 class="text-center">Crear Beneficiario</h1>
+    <hr>
+    <br>
 
-                {{error}}
+    {{error}}
             
-                <form action="/beneficiario/crear/" method="POST">
-                    {% csrf_token %}
-            
-                    {{form | crispy }}
+    <form action="/beneficiario/crear/" method="POST">
+        {% csrf_token %}
+
+        {{form | crispy }}
                     
-                    <br>
-                    <hr>
-                    <button>
-                        Aceptar
-                    </button>
+        <br>
+        <hr>
+        <button>
+            Aceptar
+        </button>
             
-                </form>
+    </form>
 
-            </div>
-
-        </div>
-
-    </div>
 </div>
 
    

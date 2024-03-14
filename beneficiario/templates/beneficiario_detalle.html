@@ -6,25 +6,47 @@
 
 <br>
 <br>
-<div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
-            <div class="card-body bg-body-secondary">
-                <div class="card-header">
-                    <h1 class="text-center">Detalle Beneficiario</h1>
-                </div>
-                <br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
 
-                {{error}}
-                {{form | crispy }}
-                
-                <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+    <h1 class="text-center">Detalles Beneficiario</h1>
+    <hr>
+    <br>
 
-            </div>
+    {{error}}
 
-        </div>
+        <P> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
+        <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p> 
+        <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+        <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+        <P> <strong> Sexo: </strong>{{beneficiarios.sexo}}</p>
+        <P> <strong> Fecha de Nacimiento: </strong>{{beneficiarios.fecha_nac}}</p>
+        <P> <strong> Edad: </strong>{{beneficiarios.edad}}</p>
+        <P> <strong> Meses: </strong>{{beneficiarios.meses}}</p>
+        <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
+        <P> <strong> Dirección: </strong>{{beneficiarios.direccion}}</p>
+        <P> <strong> Estado: </strong>{{beneficiarios.estado}}</p>
+        <P> <strong> Ciudad: </strong>{{beneficiarios.ciudad}}</p>
+        <P> <strong> Grado de Instrucción: </strong>{{beneficiarios.instruccion}}</p>
+        <P> <strong> Profesión: </strong>{{beneficiarios.profesion}}</p>
+        <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
+        <P> <strong> Teléfono: </strong>{{beneficiarios.telefono}}</p>
+        <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
+        <P> <strong> Se encuentar Embarazada: </strong>{{beneficiarios.embarazada}}</p>
+        <P> <strong> Se encuentra Lactando: </strong>{{beneficiarios.lactando}}</p>
+        <P> <strong> Observaciones: </strong>{{beneficiarios.observaciones}}</p>
+        <P> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
+        <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
 
-    </div>
+
+    <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+    &nbsp
+    &nbsp
+    <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-secondary"> Actualizar </a>
+    &nbsp
+    &nbsp
+    <a href="{% url 'beneficiario_eliminar' beneficiarios.id  %}" class="btn btn-secondary"> Eliminar </a>
+
+
 </div>
 
 

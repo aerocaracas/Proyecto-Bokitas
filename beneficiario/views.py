@@ -54,6 +54,28 @@ def beneficiario_detalle(request, pk):
             'error': "Error al actualizar al Beneficiario"
         })
 
+@login_required      
+def beneficiario_actualizar(request, pk):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+        form = BeneficiarioForm(instance=beneficiarios)
+        return render(request, 'beneficiario_actualizar.html',{
+            'beneficiarios':beneficiarios,
+            'form': form
+        })
+    else:
+        try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+            form = BeneficiarioForm(request.POST, instance=beneficiarios)
+            form.save()
+            return redirect('beneficiario')
+        except ValueError:
+            return render(request, 'beneficiario_actualizar.html',{
+            'beneficiarios':beneficiarios,
+            'form': form,
+            'error': "Error al actualizar al Beneficiario"
+        })
+
 @login_required   
 def beneficiario_eliminar(request, pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
