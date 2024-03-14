@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from bokitas.forms import SignUpForm
+from bokitas.forms import SignUpForm, LoginForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 
@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, 'index.html')
 
+# Registro de un nuevo usuario
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -34,11 +35,13 @@ def signup(request):
             "error": 'Password no Coincide'
         })
 
+# Salir de la aplicacion
 @login_required  
 def signout(request):
     logout(request)
     return redirect('home')
 
+# Iniciar Sesion
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {
