@@ -8,44 +8,154 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
 
-    <h1 class="text-center">Detalles Beneficiario</h1>
+    <h1 class="text-center">Detalles del Beneficiario</h1>
+    <h5 class="text-center">Información detallada del Beneficiario</h5>
     <hr>
-    <br>
 
     {{error}}
+    <br>
+    <div class="row">
+        <div class="col">
+            <P> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
+        </div>
+    <div class="row">
 
-        <P> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
-        <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p> 
-        <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
-        <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
-        <P> <strong> Sexo: </strong>{{beneficiarios.sexo}}</p>
-        <P> <strong> Fecha de Nacimiento: </strong>{{beneficiarios.fecha_nac}}</p>
-        <P> <strong> Edad: </strong>{{beneficiarios.edad}}</p>
-        <P> <strong> Meses: </strong>{{beneficiarios.meses}}</p>
-        <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
-        <P> <strong> Dirección: </strong>{{beneficiarios.direccion}}</p>
-        <P> <strong> Estado: </strong>{{beneficiarios.estado}}</p>
-        <P> <strong> Ciudad: </strong>{{beneficiarios.ciudad}}</p>
-        <P> <strong> Grado de Instrucción: </strong>{{beneficiarios.instruccion}}</p>
-        <P> <strong> Profesión: </strong>{{beneficiarios.profesion}}</p>
-        <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
-        <P> <strong> Teléfono: </strong>{{beneficiarios.telefono}}</p>
-        <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
-        <P> <strong> Se encuentar Embarazada: </strong>{{beneficiarios.embarazada}}</p>
-        <P> <strong> Se encuentra Lactando: </strong>{{beneficiarios.lactando}}</p>
-        <P> <strong> Observaciones: </strong>{{beneficiarios.observaciones}}</p>
-        <P> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
-        <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
+        <div class="col">
+            <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+        </div>
+        <div class="col">
+            <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Teléfono: </strong>{{beneficiarios.telefono}}</p>
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col">
+            <P> <strong> Sexo: </strong>{{beneficiarios.sexo}}</p>
+        </div>
+        <div class="col-4">
+            <P> <strong> Fecha Nacimiento: </strong>{{beneficiarios.fecha_nac}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Edad: </strong>{{beneficiarios.edad}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Meses: </strong>{{beneficiarios.meses}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
+        </div>
+      </div>
+         
+      <div class="row">
+        <div class="col">
+            <P> <strong> Grado de Instrucción: </strong>{{beneficiarios.educacion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Profesión: </strong>{{beneficiarios.profesion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
+        </div>
+      </div>       
 
-    <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
-    &nbsp
-    &nbsp
-    <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-secondary"> Actualizar </a>
-    &nbsp
-    &nbsp
-    <a href="{% url 'beneficiario_eliminar' beneficiarios.id  %}" class="btn btn-secondary"> Eliminar </a>
+      <div class="row">
+        <div class="col-5">
+            <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Se encuentar Embarazada: </strong>{{beneficiarios.embarazada}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Se encuentra Lactando: </strong>{{beneficiarios.lactando}}</p>
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col-5">
+            <P> <strong> Dirección: </strong>{{beneficiarios.direccion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Estado: </strong>{{beneficiarios.estado}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Ciudad: </strong>{{beneficiarios.ciudad}}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+            <P> <strong> Observaciones: </strong>{{beneficiarios.observacion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
+        </div>
+      </div>
+            
+        <h4 class="text-center">CONSULTAS ANTROPOMETRICAS</h4>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">ESTADO</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">PESO</th>
+                        <th scope="col">TALLA</th>
+                        <th scope="col">IMC</th>
+                        <th scope="col">DIAGNOSTICO</th>
+                        <th scope="col">DETALLE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <!--    tabla     -->
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <hr>
+        <br>
+
+        <h4 class="text-center">GRUPO FAMILIAR</h4>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">PARENTESCO</th>
+                        <th scope="col">PROYECTO</th>
+                        <th scope="col">CEDULA</th>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">APELLIDO</th>
+                        <th scope="col">TELEFONO</th>
+                        <th scope="col">DETALLE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <!--    tabla     -->
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <hr>
+        <div class="container">
+            <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+           
+            &nbsp
+            <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-primary"> Actualizar </a>
+           
+            &nbsp
+            <a href="{% url 'beneficiario_eliminar' beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+        
+        </div>
+  
 
 </div>
 

@@ -68,7 +68,6 @@ def proyecto_detalle(request, pk):
 @login_required   
 def proyecto_eliminar(request, pk):
     proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
-    if request.method == 'POST':
-        proyectos.delete()
-        return redirect('proyecto')
+    proyectos.delete()
+    return redirect('proyecto')
 

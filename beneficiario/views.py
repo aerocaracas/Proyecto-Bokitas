@@ -35,23 +35,11 @@ def beneficiario_crear(request):
 @login_required      
 def beneficiario_detalle(request, pk):
     if request.method == 'GET':
-        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_detalle.html',{
             'beneficiarios':beneficiarios,
             'form': form
-        })
-    else:
-        try:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
-            form = BeneficiarioForm(request.POST, instance=beneficiarios)
-            form.save()
-            return redirect('beneficiario')
-        except ValueError:
-            return render(request, 'beneficiario_detalle.html',{
-            'beneficiarios':beneficiarios,
-            'form': form,
-            'error': "Error al actualizar al Beneficiario"
         })
 
 @login_required      
@@ -62,7 +50,7 @@ def beneficiario_actualizar(request, pk):
         return render(request, 'beneficiario_actualizar.html',{
             'beneficiarios':beneficiarios,
             'form': form
-        })
+      })
     else:
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
@@ -78,8 +66,7 @@ def beneficiario_actualizar(request, pk):
 
 @login_required   
 def beneficiario_eliminar(request, pk):
-    beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
-    if request.method == 'POST':
-        beneficiarios.delete()
-        return redirect('beneficiario')
+    beneficiarios = get_object_or_404(Beneficiario, id=pk)
+    beneficiarios.delete()
+    return redirect('beneficiario')
 

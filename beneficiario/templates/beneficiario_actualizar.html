@@ -9,6 +9,7 @@
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
     <h1 class="text-center">Actualización de Datos</h1>
+    <h5 class="text-center">Actualice los datos del Beneficiario</h5>
     <hr>
     <br>
 
@@ -19,13 +20,16 @@
         
         {{form | crispy }}
 
-        <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
-
-        <button class="btn btn-info">
-            Actualizar
-        </button>
-                    
+        <div class="container">
+            <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+           
+            &nbsp
+            <button type="submit" class="btn btn-primary"> Actualizar </button>
+        </div>
+                 
     </form> 
+
+
 
 </div>
 

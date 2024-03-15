@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 # Specifying the choices
 SEXOS = (
-    ("1", "MASCULINO"),
-    ("2", "FEMENINO"),
+    ("MASCULINO", "MASCULINO"),
+    ("FEMENINO", "FEMENINO"),
 )
 
 ESTADO_CIVIL = (
@@ -16,8 +16,8 @@ ESTADO_CIVIL = (
 )
 
 SI_NO = (
-    ("1", "SI"),
-    ("0", "NO"),
+    ("SI", "SI"),
+    ("NO", "NO"),
 )
 
 EDUCACION = (
@@ -26,7 +26,7 @@ EDUCACION = (
     ("SECUNDARIA", "SECUNDARIA"),
     ("TEC MEDIO", "TECNICO MEDIO"),
     ("TEC SUPERIOR", "TECNICO SUPERIOR"),
-    ("UNIVERSITAQRIO", "UNIVERSITARIO"),
+    ("UNIVERSITARIO", "UNIVERSITARIO"),
 )
 
 LABORAL = (
@@ -39,6 +39,11 @@ LABORAL = (
 ESTATUS = (
     ("ACTIVO", "ACTIVO"),
     ("CERRADO", "CERRADO"),
+)
+
+EMBARAZO_LACTANDO = (
+    ("EMBARAZADA", "EMBARAZADA"),
+    ("LACTANDO", "LACTANDO"),
 )
 
 PARENTESCO = (
@@ -179,6 +184,7 @@ class Antropometrico(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateField(null=False, blank=False)
     jornada = models.PositiveIntegerField(default=0)
+    embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0) 
     edad = models.PositiveIntegerField(default=0)
     edad_meses = models.PositiveIntegerField(default=0)
