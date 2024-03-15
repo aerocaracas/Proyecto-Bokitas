@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm
+from beneficiario.forms import BeneficiarioForm, MenorForm, FamiliarForm, AntropBenefForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario
+from bokitas.models import Beneficiario, Menor, Familia, Antropometrico
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -36,16 +36,27 @@ def beneficiario_crear(request):
 def beneficiario_detalle(request, pk):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
+
+        antropometricos = Antropometrico.objects.filter(cedula_bef = beneficiarios.cedula)
+
+        menores = Menor.objects.filter(cedula_bef = beneficiarios.cedula)
+
+        familias = Familia.objects.filter(cedula_bef = beneficiarios.cedula)
+        
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_detalle.html',{
             'beneficiarios':beneficiarios,
-            'form': form
+            'antropometricos': antropometricos,
+            'menores': menores,
+            'familias': familias,
+            'form': form,
+            'pk': pk,
         })
 
 @login_required      
 def beneficiario_actualizar(request, pk):
     if request.method == 'GET':
-        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.User)
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_actualizar.html',{
             'beneficiarios':beneficiarios,
@@ -53,7 +64,7 @@ def beneficiario_actualizar(request, pk):
       })
     else:
         try:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.User)
             form = BeneficiarioForm(request.POST, instance=beneficiarios)
             form.save()
             return redirect('beneficiario')
@@ -69,4 +80,87 @@ def beneficiario_eliminar(request, pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
     beneficiarios.delete()
     return redirect('beneficiario')
+
+
+
+# Sesion de Menores 
+
+@login_required  
+def menor_crear(request):
+    if request.method == 'GET':
+        return render(request, 'menor_crear.html', {
+            'form': MenorForm
+        })
+    else:
+        try:
+            form = MenorForm(request.POST)
+            new_menor = form.save(commit=False)
+            new_menor.user = request.user
+            new_menor.save()
+
+            beneficiarios = get_object_or_404(Beneficiario,id)
+            
+            antropometricos = Antropometrico.objects.filter(cedula_bef = beneficiarios.cedula)
+
+            menores = Menor.objects.filter(cedula_bef = beneficiarios.cedula)
+
+            familias = Familia.objects.filter(cedula_bef = beneficiarios.cedula)
+            return render(request, 'beneficiario_detalle.html',{
+            'beneficiarios':beneficiarios,
+            'antropometricos': antropometricos,
+            'menores': menores,
+            'familias': familias,
+            'form': form
+            })
+        except ValueError:
+            return render(request, 'menor_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
+
+
+
+
+# Sesion del Familiar
+
+@login_required  
+def familiar_crear(request,pk):
+    if request.method == 'GET':
+        return render(request, 'familiar_crear.html', {
+            'form': FamiliarForm
+        })
+    else:
+        try:
+            form = FamiliarForm(request.POST)
+            new_familiar = form.save(commit=False)
+            new_familiar.user = request.user
+            new_familiar.save()
+            return redirect('beneficiario_detalle')
+        except ValueError:
+            return render(request, 'familiar_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
+
+
+# Sesion Antropometrico de Beneficiario
+
+@login_required  
+def antrop_benef_crear(request,pk):
+    if request.method == 'GET':
+        return render(request, 'antrop_bene_crear.html', {
+            'form': AntropBenefForm
+        })
+    else:
+        try:
+            form = AntropBenefForm(request.POST)
+            new_antrop = form.save(commit=False)
+            new_antrop.user = request.user
+            new_antrop.save()
+            return redirect('beneficiario_detalle')
+        except ValueError:
+            return render(request, 'antrop_bene_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
 

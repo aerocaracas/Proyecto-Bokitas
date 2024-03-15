@@ -47,7 +47,6 @@ EMBARAZO_LACTANDO = (
 )
 
 PARENTESCO = (
-    ("HIJO", "HIJO"),
     ("SOBRINO", "SOBRINO"),
     ("NIETO", "NIETO"),
     ("ASISTIDO", "ASISTIDO"),
@@ -84,7 +83,7 @@ class Proyecto(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        ordering = ('-estatus',)
+        ordering = ('estatus',)
 
     def __str__(self):
         return f"{self.proyecto}"
@@ -126,16 +125,16 @@ class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     cedula = models.CharField(max_length=15, unique=True, blank=False)
-    parentesco = models.CharField(max_length=15, choices=PARENTESCO)
+    parentesco = models.CharField(max_length=15, default='HIJO')
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
-    sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
+    sexo = models.CharField(max_length=20,null=False, blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
     fecha_ing_proyecto = models.DateTimeField(null=True)
     observacion = models.TextField(max_length=200, blank=True)
-    estatus = models.BooleanField(default=True, choices=ESTATUS)
+    estatus = models.CharField(max_length=20,default=True, choices=ESTATUS)
     peso_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     imc_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -190,11 +189,11 @@ class Antropometrico(models.Model):
     edad_meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     ptr = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     pse = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     diagnostico = models.CharField(max_length=50, blank=False)
     diagnostico_talla = models.CharField(max_length=50, blank=False)
     riesgo = models.BooleanField(default=False, choices=SI_NO)

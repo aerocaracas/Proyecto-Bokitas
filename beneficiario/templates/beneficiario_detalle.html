@@ -18,6 +18,7 @@
         <div class="col">
             <P> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
         </div>
+    </div>
     <div class="row">
 
         <div class="col">
@@ -32,9 +33,9 @@
         <div class="col">
             <P> <strong> Teléfono: </strong>{{beneficiarios.telefono}}</p>
         </div>
-      </div>
+    </div>
 
-      <div class="row">
+    <div class="row">
         <div class="col">
             <P> <strong> Sexo: </strong>{{beneficiarios.sexo}}</p>
         </div>
@@ -50,9 +51,9 @@
         <div class="col">
             <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
         </div>
-      </div>
+    </div>
          
-      <div class="row">
+    <div class="row">
         <div class="col">
             <P> <strong> Grado de Instrucción: </strong>{{beneficiarios.educacion}}</p>
         </div>
@@ -62,9 +63,9 @@
         <div class="col">
             <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
         </div>
-      </div>       
+    </div>       
 
-      <div class="row">
+    <div class="row">
         <div class="col-5">
             <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
         </div>
@@ -74,9 +75,9 @@
         <div class="col">
             <P> <strong> Se encuentra Lactando: </strong>{{beneficiarios.lactando}}</p>
         </div>
-      </div>
+    </div>
 
-      <div class="row">
+    <div class="row">
         <div class="col-5">
             <P> <strong> Dirección: </strong>{{beneficiarios.direccion}}</p>
         </div>
@@ -86,9 +87,9 @@
         <div class="col">
             <P> <strong> Ciudad: </strong>{{beneficiarios.ciudad}}</p>
         </div>
-      </div>
+    </div>
 
-      <div class="row">
+    <div class="row">
         <div class="col-5">
             <P> <strong> Observaciones: </strong>{{beneficiarios.observacion}}</p>
         </div>
@@ -98,63 +99,111 @@
         <div class="col">
             <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
         </div>
-      </div>
+    </div>
             
-        <h4 class="text-center">CONSULTAS ANTROPOMETRICAS</h4>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">ESTADO</th>
-                        <th scope="col">FECHA</th>
-                        <th scope="col">PESO</th>
-                        <th scope="col">TALLA</th>
-                        <th scope="col">IMC</th>
-                        <th scope="col">DIAGNOSTICO</th>
-                        <th scope="col">DETALLE</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <h4 class="text-center">CONSULTAS ANTROPOMETRICAS</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">ESTADO</th>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">PESO</th>
+                    <th scope="col">TALLA</th>
+                    <th scope="col">IMC</th>
+                    <th scope="col">DIAGNOSTICO</th>
+                    <th scope="col">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
                         <!--    tabla     -->
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <hr>
-        <br>
+            </tbody>
+        </table>
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' %}">
 
-        <h4 class="text-center">GRUPO FAMILIAR</h4>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">PARENTESCO</th>
-                        <th scope="col">PROYECTO</th>
-                        <th scope="col">CEDULA</th>
-                        <th scope="col">NOMBRE</th>
-                        <th scope="col">APELLIDO</th>
-                        <th scope="col">TELEFONO</th>
-                        <th scope="col">DETALLE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        <!--    tabla     -->
-                </tbody>
-            </table>
-        </div>
+            Nuevo Control Antropométrico
+    
+          </a>
+    </div>
+    <br>
+    <hr>
+    <br>
 
-        <br>
-        <hr>
-        <div class="container">
-            <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+    <h4 class="text-center">HIJOS DEL BENEFICIARIO</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">PROYECTO</th>
+                    <th scope="col">CEDULA</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">APELLIDO</th>
+                    <th scope="col">EDAD</th>
+                    <th scope="col">MESES</th>
+                    <th scope="col">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>{{familias.parentesco}}</td>
+                <td>{{familias.proyecto}}</td>
+                <td>{{familias.cedula}}</td>
+                <td>{{familias.nombre}}</td>
+                <td>{{familias.apellido}}</td>
+                <td>{{familias.telefono}}</td>
+            </tbody>
+        </table>
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_crear' %}">
+
+            Agregar Nuevo Hijo
+    
+          </a>
+    </div>
+    <br>
+    <hr>
+    <br>
+
+    <h4 class="text-center">GRUPO FAMILIAR</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">PARENTESCO</th>
+                    <th scope="col">PROYECTO</th>
+                    <th scope="col">CEDULA</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">APELLIDO</th>
+                    <th scope="col">TELEFONO</th>
+                    <th scope="col">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>{{familias.parentesco}}</td>
+                <td>{{familias.proyecto}}</td>
+                <td>{{familias.cedula}}</td>
+                <td>{{familias.nombre}}</td>
+                <td>{{familias.apellido}}</td>
+                <td>{{familias.telefono}}</td>
+            </tbody>
+        </table>
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' %}">
+
+            Agregar Nuevo Familiar
+    
+          </a>
+    </div>
+
+    <br>
+    <hr>
+    <div class="container">
+        <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
            
-            &nbsp
-            <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-primary"> Actualizar </a>
+        &nbsp
+        <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-primary"> Actualizar </a>
            
-            &nbsp
-            <a href="{% url 'beneficiario_eliminar' beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+        &nbsp
+        <a href="{% url 'beneficiario_eliminar' beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
         
-        </div>
+    </div>
   
 
 </div>
