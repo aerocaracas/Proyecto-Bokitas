@@ -144,15 +144,22 @@
                 </tr>
             </thead>
             <tbody>
-                <td>{{familias.parentesco}}</td>
-                <td>{{familias.proyecto}}</td>
-                <td>{{familias.cedula}}</td>
-                <td>{{familias.nombre}}</td>
-                <td>{{familias.apellido}}</td>
-                <td>{{familias.telefono}}</td>
+                {% if menores %}
+                    {% for menor in menores %}
+                        <tr>
+                            <td>{{menor.proyecto}}</td>
+                            <td>{{menor.cedula}}</td>
+                            <td>{{menor.nombre}}</td>
+                            <td>{{menor.apellido}}</td>
+                            <td>{{menor.edad}}</td>
+                            <td>{{menor.meses}}</td>
+                            <td> <a href="#">Editar</a> </td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
             </tbody>
         </table>
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_crear' %}">
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'beneficiario:menor_crear' pk %}">
 
             Agregar Nuevo Hijo
     
@@ -177,12 +184,18 @@
                 </tr>
             </thead>
             <tbody>
-                <td>{{familias.parentesco}}</td>
-                <td>{{familias.proyecto}}</td>
-                <td>{{familias.cedula}}</td>
-                <td>{{familias.nombre}}</td>
-                <td>{{familias.apellido}}</td>
-                <td>{{familias.telefono}}</td>
+                {% if familias %}
+                    {% for familia in familias %}
+                        <tr>
+                            <td>{{familia.parentesco}}</td>
+                            <td>{{familia.proyecto}}</td>
+                            <td>{{familia.cedula}}</td>
+                            <td>{{familia.nombre}}</td>
+                            <td>{{familia.apellido}}</td>
+                            <td>{{familia.telefono}}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
             </tbody>
         </table>
         <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' %}">
@@ -198,10 +211,10 @@
         <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_actualizar' beneficiarios.id %}" class="btn btn-primary"> Actualizar </a>
+        <a href="{% url 'beneficiario_actualizar' pk %}" class="btn btn-primary"> Actualizar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_eliminar' beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+        <a href="{% url 'beneficiario_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
         
     </div>
   

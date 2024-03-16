@@ -35,13 +35,14 @@ def beneficiario_crear(request):
 @login_required      
 def beneficiario_detalle(request, pk):
     if request.method == 'GET':
+        
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
 
-        antropometricos = Antropometrico.objects.filter(cedula_bef = beneficiarios.cedula)
+        antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
 
-        menores = Menor.objects.filter(cedula_bef = beneficiarios.cedula)
+        menores = Menor.objects.filter(cedula_bef=pk)
 
-        familias = Familia.objects.filter(cedula_bef = beneficiarios.cedula)
+        familias = Familia.objects.filter(cedula_bef = pk)
         
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_detalle.html',{
@@ -56,7 +57,7 @@ def beneficiario_detalle(request, pk):
 @login_required      
 def beneficiario_actualizar(request, pk):
     if request.method == 'GET':
-        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.User)
+        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_actualizar.html',{
             'beneficiarios':beneficiarios,
@@ -64,7 +65,7 @@ def beneficiario_actualizar(request, pk):
       })
     else:
         try:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.User)
+            beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
             form = BeneficiarioForm(request.POST, instance=beneficiarios)
             form.save()
             return redirect('beneficiario')
@@ -86,10 +87,11 @@ def beneficiario_eliminar(request, pk):
 # Sesion de Menores 
 
 @login_required  
-def menor_crear(request):
+def menor_crear(request,pk):
     if request.method == 'GET':
         return render(request, 'menor_crear.html', {
-            'form': MenorForm
+            'form': MenorForm,
+            'pk':pk
         })
     else:
         try:
@@ -97,21 +99,11 @@ def menor_crear(request):
             new_menor = form.save(commit=False)
             new_menor.user = request.user
             new_menor.save()
-
-            beneficiarios = get_object_or_404(Beneficiario,id)
             
-            antropometricos = Antropometrico.objects.filter(cedula_bef = beneficiarios.cedula)
-
-            menores = Menor.objects.filter(cedula_bef = beneficiarios.cedula)
-
-            familias = Familia.objects.filter(cedula_bef = beneficiarios.cedula)
-            return render(request, 'beneficiario_detalle.html',{
-            'beneficiarios':beneficiarios,
-            'antropometricos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'form': form
-            })
+                
+            return render(request, 'beneficiario_detalle.html', {
+                'pk': pk
+                })
         except ValueError:
             return render(request, 'menor_crear.html', {
             'form': form,
@@ -124,7 +116,7 @@ def menor_crear(request):
 # Sesion del Familiar
 
 @login_required  
-def familiar_crear(request,pk):
+def familiar_crear(request):
     if request.method == 'GET':
         return render(request, 'familiar_crear.html', {
             'form': FamiliarForm
@@ -146,7 +138,7 @@ def familiar_crear(request,pk):
 # Sesion Antropometrico de Beneficiario
 
 @login_required  
-def antrop_benef_crear(request,pk):
+def antrop_benef_crear(request):
     if request.method == 'GET':
         return render(request, 'antrop_bene_crear.html', {
             'form': AntropBenefForm
