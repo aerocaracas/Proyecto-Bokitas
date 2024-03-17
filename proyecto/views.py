@@ -13,7 +13,7 @@ def proyecto(request):
     page = request.GET.get('page',1)
 
     try:
-        paginator = Paginator(proyectos, 1)
+        paginator = Paginator(proyectos, 2)
         proyectos = paginator.page(page)
     except:
         raise Http404

@@ -3,13 +3,24 @@ from beneficiario.forms import BeneficiarioForm, MenorForm, FamiliarForm, Antrop
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, Antropometrico
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.http import Http404
 
 # Create your views here.
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all()
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(beneficiarios, 2)
+        beneficiarios = paginator.page(page)
+    except:
+        raise Http404
+    
     return render(request, 'beneficiario.html',{
-        'beneficiarios': beneficiarios
+        'entity': beneficiarios,
+        'paginator': paginator
     })
 
 
@@ -35,7 +46,7 @@ def beneficiario_crear(request):
 @login_required      
 def beneficiario_detalle(request, pk):
     if request.method == 'GET':
-        
+     
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
 
         antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
@@ -45,6 +56,15 @@ def beneficiario_detalle(request, pk):
         familias = Familia.objects.filter(cedula_bef = pk)
         
         form = BeneficiarioForm(instance=beneficiarios)
+
+        page = request.GET.get('page',1)
+        try:
+            paginator2 = Paginator(menores, 5)
+            menores = paginator2.page(page)
+        except:
+            raise Http404
+    
+
         return render(request, 'beneficiario_detalle.html',{
             'beneficiarios':beneficiarios,
             'antropometricos': antropometricos,
@@ -52,6 +72,7 @@ def beneficiario_detalle(request, pk):
             'familias': familias,
             'form': form,
             'pk': pk,
+            'paginator2': paginator2
         })
 
 @login_required      
@@ -99,15 +120,28 @@ def menor_crear(request,pk):
             new_menor = form.save(commit=False)
             new_menor.user = request.user
             new_menor.save()
-            
-                
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+   
             return render(request, 'beneficiario_detalle.html', {
-                'pk': pk
+            'beneficiarios': beneficiarios,
+            'antropometicos': antropometricos,
+            'menores': menores,
+            'familias': familias,
+            'pk': pk
                 })
         except ValueError:
             return render(request, 'menor_crear.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información'
+            'error': 'Datos incorectos, Favor verificar la información',
+            'beneficiarios': beneficiarios,
+            'antropometicos': antropometricos,
+            'menores': menores,
+            'familias': familias,
+            'pk': pk
             })
 
 

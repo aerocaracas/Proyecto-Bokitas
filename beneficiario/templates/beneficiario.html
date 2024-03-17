@@ -26,8 +26,8 @@
             </tr>
           </thead>
           <tbody>
-              {% if beneficiarios %}
-                  {% for beneficiario in beneficiarios %}
+              {% if entity %}
+                  {% for beneficiario in entity %}
                       <tr>
                           <td>{{beneficiario.proyecto}}</td>
                           <td>{{beneficiario.cedula}}</td>
@@ -40,6 +40,9 @@
               {% endif%}
           </tbody>
         </table>
+        <div>
+          {% include 'paginator.html' %}
+      </div>
       </div>
     </div>
      
