@@ -195,13 +195,10 @@ def familiar_crear(request,pk):
             'pk': pk
                 })
         except ValueError:
-            return render(request, 'menor_crear.html', {
+            return render(request, 'familiar_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
+
             'pk': pk
             })
 
@@ -233,7 +230,7 @@ def antrop_benef_crear(request,pk):
             'pk': pk
                 })
         except ValueError:
-            return render(request, 'menor_crear.html', {
+            return render(request, 'antrop_bene_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
             'beneficiarios': beneficiarios,

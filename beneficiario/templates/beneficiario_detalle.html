@@ -229,11 +229,11 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">PARENTESCO</th>
-                    <th scope="col">PROYECTO</th>
                     <th scope="col">CEDULA</th>
                     <th scope="col">NOMBRE</th>
                     <th scope="col">APELLIDO</th>
-                    <th scope="col">TELEFONO</th>
+                    <th scope="col">SEXO</th>
+                    <th scope="col">FECHA NACIMIENTO</th>
                     <th scope="col">DETALLE</th>
                 </tr>
             </thead>
@@ -242,11 +242,12 @@
                     {% for familia in familias %}
                         <tr>
                             <td>{{familia.parentesco}}</td>
-                            <td>{{familia.proyecto}}</td>
                             <td>{{familia.cedula}}</td>
                             <td>{{familia.nombre}}</td>
                             <td>{{familia.apellido}}</td>
-                            <td>{{familia.telefono}}</td>
+                            <td>{{familia.sexo}}</td>
+                            <td>{{familia.fecha_nac}}</td>
+                            <td> <a href="#">Editar</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -257,12 +258,12 @@
         <div class="d-flex justify-content-center">
             <ul class="pagination">
                 <li class="page-item d-none d-sm-block">
-                    {% if menores.has_previous %}
+                    {% if familias.has_previous %}
                         <a class="page-link" href="?page={{ familias.previous_page_number }}#pagtable">Anterior</a>
                     {% endif%}
                 </li>
                 <li class="page-item d-none d-sm-block">
-                    {% if menores.has_next %}
+                    {% if familias.has_next %}
                         <a class="page-link" href="?page={{ familias.next_page_number }}#pagtable">Siguiente</a>
                     {% endif%}
                 </li>
@@ -273,6 +274,58 @@
         <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' pk %}">
 
             Agregar Nuevo Familiar
+    
+          </a>
+    </div>
+
+    <!-- ########  Tabla Medicamentro  ##########-->
+    <h4 class="text-center">ENTREGA DE MEDICAMENTOS</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">DESCRIPCION</th>
+                    <th scope="col">CANTIDAD</th>
+                    <th scope="col">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if medicamentos %}
+                    {% for medicamento in medicamentos %}
+                        <tr>
+                            <td>{{medicamento.fecha}}</td>
+                            <td>{{medicamento.nombre}}</td>
+                            <td>{{medicamento.descripcion}}</td>
+                            <td>{{medicamento.cantidad}}</td>
+                            <td> <a href="#">Editar</a> </td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
+            </tbody>
+        </table>
+
+        <!-- ########  paginador Familiares ##########-->
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item d-none d-sm-block">
+                    {% if medicamentos.has_previous %}
+                        <a class="page-link" href="?page={{ medicamentos.previous_page_number }}#pagtable">Anterior</a>
+                    {% endif%}
+                </li>
+                <li class="page-item d-none d-sm-block">
+                    {% if medicamentos.has_next %}
+                        <a class="page-link" href="?page={{ medicamentos.next_page_number }}#pagtable">Siguiente</a>
+                    {% endif%}
+                </li>
+            </ul>
+        </div>
+
+        <!-- ########  Boton agregar Familiar  ##########-->
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
+
+            Agregar Nueva Entrega
     
           </a>
     </div>

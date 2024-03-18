@@ -161,14 +161,14 @@ class Familia(models.Model):
     cedula = models.CharField(max_length=15, unique=True, blank=False)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
-    sexo = models.PositiveIntegerField(null=False, blank=False, choices=SEXOS)
+    sexo = models.CharField(max_length=20,null=False, blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
     estado_civil = models.CharField(max_length=15, choices=ESTADO_CIVIL)
     educacion = models.CharField(max_length=20, choices=EDUCACION)
     profesion = models.CharField(max_length=25)
-    laboral = models.BooleanField(default=False, choices=LABORAL)
+    laboral = models.CharField(max_length=20, choices=LABORAL,blank=True)
     observacion = models.TextField(max_length=200, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(null=True)
@@ -203,6 +203,17 @@ class Antropometrico(models.Model):
 
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"
+
+class Medicamento(models.Model):
+    cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
+    fecha = models.DateField(null=False, blank=False)
+    nombre = models.CharField(max_length=50, blank=False)
+    descripcion = models.CharField(max_length=100, blank=False)
+    cantidad = models.CharField(max_length=50, blank=False)
+    
+    def __str__(self):
+        return f"{self.cedula_bef}"
+
 
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
