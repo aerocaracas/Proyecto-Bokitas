@@ -102,6 +102,8 @@
             <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
         </div>
     </div>
+    <hr>
+    <br>
     
     <!-- ########  Tabla Antropometricos  ##########-->
     <h4 class="text-center">CONSULTAS ANTROPOMETRICAS</h4>
@@ -158,7 +160,6 @@
     
         </a>
     </div>
-    <br>
     <hr>
     <br>
 
@@ -187,7 +188,7 @@
                             <td>{{menor.apellido}}</td>
                             <td>{{menor.edad}}</td>
                             <td>{{menor.meses}}</td>
-                            <td> <a href="#">Editar</a> </td>
+                            <td> <a href="{% url 'menor_detalle' menor.id %}">Editar</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -218,7 +219,6 @@
         </a>
 
     </div>
-    <br>
     <hr>
     <br>
 
@@ -277,6 +277,8 @@
     
           </a>
     </div>
+    <hr>
+    <br>
 
     <!-- ########  Tabla Medicamentro  ##########-->
     <h4 class="text-center">ENTREGA DE MEDICAMENTOS</h4>

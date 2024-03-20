@@ -132,7 +132,7 @@ class Menor(models.Model):
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
-    fecha_ing_proyecto = models.DateTimeField(null=True)
+    fecha_ing_proyecto = models.DateField(null=True)
     observacion = models.TextField(max_length=200, blank=True)
     estatus = models.CharField(max_length=20,default=True, choices=ESTATUS)
     peso_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)

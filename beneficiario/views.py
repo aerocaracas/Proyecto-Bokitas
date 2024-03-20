@@ -176,6 +176,50 @@ def menor_crear(request,pk):
             })
 
 
+@login_required      
+def menor_detalle(request, pk):
+    if request.method == 'GET':
+     
+        menor_detalles = get_object_or_404(Menor, id=pk)
+        print(pk)
+        beneficiarios = Beneficiario.objects.filter(id=pk)
+        antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+        menores = Menor.objects.filter(cedula_bef=pk)
+        familias = Familia.objects.filter(cedula_bef = pk)
+        medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+        
+        form = MenorForm(instance=menor_detalles)
+        page = request.GET.get('page',1)
+        try:
+            paginator1 = Paginator(antropometricos, 5)
+            antropometricos = paginator1.page(page)
+            paginator2 = Paginator(menores, 5)
+            menores = paginator2.page(page)
+            paginator3 = Paginator(familias, 5)
+            familias = paginator3.page(page)
+            paginator4 = Paginator(medicamentos, 5)
+            medicamentos= paginator4.page(page)
+        except:
+            raise Http404
+    
+        return render(request, 'menor_detalle.html',{
+            'menor_detalles': menor_detalles,
+            'beneficiarios': beneficiarios,
+            'antropometricos': antropometricos,
+            'menores': menores,
+            'familias': familias,
+            'medicamentos': medicamentos,
+            'form': form,
+            'pk': pk,
+            'paginator1': paginator1,
+            'paginator2': paginator2,
+            'paginator3': paginator3,
+            'paginator4': paginator4,
+        })
+
+
+
+
 # Sesion del Familiar
 
 @login_required  
