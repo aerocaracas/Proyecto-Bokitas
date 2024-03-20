@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from bokitas.models import Beneficiario, Familia, Menor, Antropometrico
+from bokitas.models import Beneficiario, Familia, Menor, Antropometrico, Medicamento
 
 class BeneficiarioForm(ModelForm):
     class Meta:
@@ -39,3 +39,11 @@ class FamiliarForm(ModelForm):
 
         labels = {'cedula_bef':'Cédula Beneficiario','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','edad':'Edad','meses':'Meses','estado_civil':'Estado Civil','educacion':'Eduación','profesion':'Profesión','laboral':'Situación Laboral','observacion':'Observación'
         }
+
+
+class MedicamentoForm(ModelForm):
+    class Meta:
+        model = Medicamento
+        fields = ['cedula_bef','fecha','nombre','descripcion','cantidad']
+
+        labels = {'cedula_bef':'Cédula','fecha':'Fecha','nombre':'Nombre del Medicamento','descripcion':'Descripción','cantidad':'Cantidad'}

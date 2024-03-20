@@ -5,6 +5,7 @@ from .models import Familia
 from .models import Menor
 from .models import Antropometrico
 from .models import Medica
+from .models import Medicamento
 from .models import Nutricional
 from .models import Socioeconomico
 from .models import Tarea
@@ -26,6 +27,7 @@ admin.site.register(Familia)
 admin.site.register(Menor)
 admin.site.register(Antropometrico)
 admin.site.register(Medica)
+admin.site.register(Medicamento)
 admin.site.register(Nutricional)
 admin.site.register(Socioeconomico)
 admin.site.register(Tarea)

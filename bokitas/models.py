@@ -79,7 +79,7 @@ class Proyecto(models.Model):
     telefono = models.CharField(max_length=15, blank=True)
     correo = models.EmailField(blank=True)
     creado = models.DateTimeField(auto_now_add=True)
-    fecha_modificado = models.DateTimeField(null=True, blank=True)
+    fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -112,7 +112,7 @@ class Beneficiario(models.Model):
     estatus = models.CharField(max_length=10, default=1, choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
     creado = models.DateTimeField(auto_now_add=True)
-    fecha_modificado = models.DateTimeField(null=True)
+    fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -146,7 +146,7 @@ class Menor(models.Model):
     diagnostico_talla_actual = models.CharField(max_length=50, blank=False)
     estado_nutri_actual = models.CharField(max_length=50, blank=False)
     creado = models.DateTimeField(auto_now_add=True)
-    fecha_modificado = models.DateTimeField(null=True)
+    fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
@@ -171,7 +171,7 @@ class Familia(models.Model):
     laboral = models.CharField(max_length=20, choices=LABORAL,blank=True)
     observacion = models.TextField(max_length=200, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
-    fecha_modificado = models.DateTimeField(null=True)
+    fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -181,7 +181,7 @@ class Antropometrico(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField(null=False, blank=False)
+    fecha = models.DateField()
     jornada = models.PositiveIntegerField(default=0)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0) 
@@ -206,7 +206,7 @@ class Antropometrico(models.Model):
 
 class Medicamento(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    fecha = models.DateField(null=False, blank=False)
+    fecha = models.DateField()
     nombre = models.CharField(max_length=50, blank=False)
     descripcion = models.CharField(max_length=100, blank=False)
     cantidad = models.CharField(max_length=50, blank=False)
@@ -218,7 +218,7 @@ class Medicamento(models.Model):
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField(null=False, blank=False)
+    fecha = models.DateField(auto_now_add=True)
     embarazada_ini = models.PositiveIntegerField()
     lactante_ini = models.PositiveIntegerField()
     gestacion = models.PositiveIntegerField()
@@ -325,7 +325,7 @@ class Medica(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField(null=False)
+    fecha = models.DateField(auto_now_add=True)
     medico_tratante = models.CharField(max_length=50, blank=False)
     tipo_consulta = models.CharField(max_length=20, choices=TIPO_CONSULTA, blank=False)
     examen_fisico = models.CharField(max_length=10, choices=EXAMEN_FISICO, blank=False)
@@ -369,7 +369,7 @@ class Medica(models.Model):
 class Socioeconomico(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField(null=False, blank=False)
+    fecha = models.DateField(auto_now_add=True)
     tipo_vivienda = models.PositiveIntegerField()
     material_vivienda = models.PositiveIntegerField()
     ambiente_vivienda = models.PositiveIntegerField()
