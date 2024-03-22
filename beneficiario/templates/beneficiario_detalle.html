@@ -154,11 +154,73 @@
         </div>
 
         <!-- ########  boton agregar Antropometrico  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
 
+                <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Nuevo Control Antropométrico
-    
-        </a>
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">CONTROL ANTROPOMETRICO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="fs-5">Introduzca los datos:</h2>
+                    <br>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="col-12">
+                            <label for=""> Fecha: </label>
+                            <input type="date" name="fecha" class="form-control">
+                        </div>
+
+                        <div class="col-12">
+                            <label for=""> Peso: </label>
+                            <input type="text" name="peso" class="form-control" required placeholder="Kg.">
+                        </div>
+
+                        <div class="col-12">
+                            <label for=""> Talla: </label>
+                            <input type="text" name="talla" class="form-control" required placeholder="Mts.">
+                        </div>
+
+                        <div class="col-12">
+                            <label for=""> CBI: </label>
+                            <input type="text" name="cbi" class="form-control" required placeholder="cm.">
+                        </div>
+                        <br>
+
+                        <button type="submit" class="btn btn-secondary" action="{% url 'antrop_benef_crear' pk %}">  Calcular  </button>
+                        
+                    </form>
+                    
+                    {% if imc %}
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <h2> Resultado: </h2>
+                            <p> Su IMC = {{imc}} Kg/m² | {{diagnostico}}</p>
+                        <div>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                <button type="button" class="btn btn-primary">Agregar Registro</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
     </div>
     <hr>
     <br>
