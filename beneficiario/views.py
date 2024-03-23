@@ -93,11 +93,8 @@ def beneficiario_detalle(request, pk):
         imc = (new_antrop.peso/(new_antrop.talla**2))
         #new_antrop.save()
 
-  
         imc = round(imc)
-
-        print(imc)
-           
+         
         if imc < 18.5:
             diagnostico = "Bajo Peso"
         elif imc > 18.5 and imc < 25:
@@ -109,13 +106,10 @@ def beneficiario_detalle(request, pk):
         elif imc > 40:
             diagnostico = "Obesidad Severa"
 
-        print(diagnostico)
-
-
         context["imc"] = round(imc)
         context["diagnostico"] = diagnostico
         context["pk"] = pk
-        return render(request, "beneficiario_detalle.html", context)
+        return render(request,'beneficiario_detalle.html', context)
  
 
     
