@@ -13,12 +13,11 @@ class BeneficiarioForm(ModelForm):
 class AntropBenefForm(ModelForm):
     class Meta:
         model = Antropometrico 
-        fields = ['cedula_bef','fecha','embarazo_lactando','tiempo_gestacion','edad','edad_meses','peso','talla','cbi','ptr','pse','cc','imc','diagnostico','riesgo','servicio','centro_hospital','observacion'
+        fields = ['fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi'
         ]
 
-        labels = {'cedula_bef':'Cédula Beneficiario','fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','edad':'Edad','edad_meses':'Meses','peso':'Peso','talla':'Talla','cbi':'CBI','ptr':'PTR','pse':'PSE','cc':'CC','imc':'IMC','diagnostico':'Diagnostico','riesgo':'Riesgo','servicio':'Servicio','centro_hospital':'Centro Hospitalario','observacion':'Observaciones'
+        labels = {'fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI'
         }
-
 
 
 class MenorForm(ModelForm):
