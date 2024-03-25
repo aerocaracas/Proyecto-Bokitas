@@ -311,8 +311,7 @@ def antrop_benef_crear(request,pk):
         new_antrop = form.save(commit=False)
         new_antrop.cedula = Beneficiario.cedula
 
-        print(new_antrop.peso)
-           
+                   
         imc = (new_antrop.peso/(new_antrop.talla**2))
         new_antrop.save()
         
