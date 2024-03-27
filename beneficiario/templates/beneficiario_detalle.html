@@ -156,48 +156,51 @@
         <!-- ########  boton agregar Antropometrico  ##########-->
 
 
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Nuevo Control Antropométrico
-        </button>
+    
+        </a>
+
+        <!--################################################################--> 
         
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">CONTROL ANTROPOMETRICO</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Cálculo Antropométrico</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h2 class="fs-5">Introduzca los datos:</h2>
-                    <br>
-                    <form method="POST">
-                        {% csrf_token %}
-
-                        {{form2 | crispy }}
-                        <br>
-
-                        <button type="submit" class="btn btn-secondary" action="{% url 'beneficiario_detalle' pk %}">  Calcular  </button>
-                        
-                    </form>
-                    
-                    <!-- {% if imc %} -->
-                        <div>
-                            <h3> Resultado: </h3>
-                            <p> Su IMC = {{imc}} Kg/m² | Diagnóstico: {{diagnostico}}</p>
-                        <div>
-                    <!-- {% endif %} -->
+                  Show a second modal and hide this one with the button below.
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                <button type="button" class="btn btn-primary">Agregar Registro</button>
+                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
                 </div>
+              </div>
             </div>
+          </div>
+          <div class="modal fade" id="exampleModalToggle2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button>
 
+
+
+           <!--################################################################--> 
       
        
     </div>
@@ -322,7 +325,7 @@
     <br>
 
     <!-- ########  Tabla Medicamentro  ##########-->
-    <h4 class="text-center">ENTREGA DE MEDICAMENTOS</h4>
+    <h4 class="text-center">ENTREGA DE MEDICAMENTOS / PRODUCTOs</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-primary">

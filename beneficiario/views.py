@@ -300,70 +300,7 @@ def familiar_crear(request,pk):
 @login_required  
 def antrop_benef_crear(request,pk):
 
-    if request.method == 'GET':
-        return render(request, 'beneficiario_detalle.html', {
-            'form_antrop': AntropBenefForm,
-            'pk':pk
-        })
-    else:
-
-        form = AntropBenefForm(request.POST)
-        new_antrop = form.save(commit=False)
-        new_antrop.cedula = Beneficiario.cedula
-
-        print(new_antrop.peso)
-           
-        imc = (new_antrop.peso/(new_antrop.talla**2))
-        new_antrop.save()
-        
-        
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
-        menores = Menor.objects.filter(cedula_bef=pk)
-        familias = Familia.objects.filter(cedula_bef = pk)
-        medicamentos = Medicamento.objects.filter(cedula_bef=pk)    
-
-    
-        imc = round(new_antrop.imc)
-           
-        if imc < 18.5:
-            diagnostico = "Bajo Peso"
-        elif imc > 18.5 and imc < 25:
-            diagnostico = "Peso Adecuado"
-        elif imc > 25 and imc < 30:
-            diagnostico = "Sobrepeso"
-        elif imc > 30 and imc < 40:
-            diagnostico = "Obesidad"
-        elif imc > 40:
-            diagnostico = "Obesidad Severa"
-        
-    try:
-  
-        return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'imc': round(imc),
-            'diagnostico': diagnostico,
-            'pk': pk
-        })
-    except ValueError:
-        return render(request, 'beneficiario_detalle.html', {
-            'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'imc': round(imc),
-            'diagnostico': diagnostico,
-            'pk': pk
-        })
-        
-    
-
+    return
 
 # Sesion de Medicamento 
 

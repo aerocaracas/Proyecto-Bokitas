@@ -45,4 +45,4 @@ class MedicamentoForm(ModelForm):
         model = Medicamento
         fields = ['cedula_bef','fecha','nombre','descripcion','cantidad']
 
-        labels = {'cedula_bef':'Cédula','fecha':'Fecha','nombre':'Nombre del Medicamento','descripcion':'Descripción','cantidad':'Cantidad'}
+        labels = {'cedula_bef':'Cédula','fecha':'Fecha','nombre':'Nombre del Medicamento/Producto','descripcion':'Descripción','cantidad':'Cantidad'}
