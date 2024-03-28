@@ -13,10 +13,10 @@ class BeneficiarioForm(ModelForm):
 class AntropBenefForm(ModelForm):
     class Meta:
         model = Antropometrico 
-        fields = ['fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi'
+        fields = ['fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi','riesgo','servicio','centro_hospital','observacion'
         ]
 
-        labels = {'fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI'
+        labels = {'fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI','riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospitalario':'Centro Hospitalario','observacion':'Observaciones'
         }
 
 

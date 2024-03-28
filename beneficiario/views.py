@@ -82,37 +82,7 @@ def beneficiario_detalle(request, pk):
             'paginator3': paginator3,
             'paginator4': paginator4,
         })
-    else:
-        context = {}
-        form2 = AntropBenefForm(request.POST)
-        new_antrop = form2.save(commit=False)
-        
-
-        # new_antrop.cedula = beneficiario.cedula
-           
-        imc = (new_antrop.peso/(new_antrop.talla**2))
-        #new_antrop.save()
-
-        imc = round(imc)
-         
-        if imc < 18.5:
-            diagnostico = "Bajo Peso"
-        elif imc > 18.5 and imc < 25:
-            diagnostico = "Peso Adecuado"
-        elif imc > 25 and imc < 30:
-            diagnostico = "Sobrepeso"
-        elif imc > 30 and imc < 40:
-            diagnostico = "Obesidad"
-        elif imc > 40:
-            diagnostico = "Obesidad Severa"
-
-        context["imc"] = round(imc)
-        context["diagnostico"] = diagnostico
-        context["pk"] = pk
-        return render(request,'beneficiario_detalle.html', context)
- 
-
-    
+  
 
 @login_required      
 def beneficiario_actualizar(request, pk):
@@ -299,8 +269,83 @@ def familiar_crear(request,pk):
 
 @login_required  
 def antrop_benef_crear(request,pk):
+    if request.method == 'GET':
+        return render(request, 'antrop_benef_crear.html', {
+            'form': AntropBenefForm,
+            'pk':pk
+        })
+    else:
 
-    return
+        context = {}
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        
+        cedula = beneficiarios.cedula
+        proyecto = beneficiarios.proyecto
+        fecha = request.POST.get("fecha")
+        embarazo_lactando = request.POST.get("embarazo_lactando")
+        tiempo_gestacion = request.POST.get("tiempo_gestacion")
+        peso = float(request.POST.get("peso"))
+        talla = float(request.POST.get("talla"))
+        cbi = request.POST.get("cbi")
+
+        imc = (peso / (talla**2))
+
+        # new_antrop.cedula = beneficiario.cedula
+
+        imc = round(imc)
+         
+        if imc < 18.5:
+            diagnostico = "Bajo Peso"
+        elif imc > 18.5 and imc < 25:
+            diagnostico = "Peso Adecuado"
+        elif imc > 25 and imc < 30:
+            diagnostico = "Sobrepeso"
+        elif imc > 30 and imc < 40:
+            diagnostico = "Obesidad"
+        elif imc > 40:
+            diagnostico = "Obesidad Severa"
+
+ 
+        save = request.POST.get("save")
+
+        if save == "on":
+            Antropometrico.objects.create(cedula_bef = cedula, proyecto= proyecto,fecha=fecha,embarazo_lactando=embarazo_lactando,tiempo_gestacion=tiempo_gestacion,peso=peso,talla=talla,cbi=cbi,diagnostico=diagnostico)
+
+
+        context["imc"] = imc
+        context["diagnostico"] = diagnostico
+        context["pk"] = pk
+        return render(request,'antrop_benef_crear.html', context)
+
+
+@login_required  
+def antrop_calculo(request,peso,talla,pk):
+    context = {}
+
+    if context:
+        imc = (peso / (talla**2))
+
+        # new_antrop.cedula = beneficiario.cedula
+
+        imc = round(imc)
+         
+        if imc < 18.5:
+            diagnostico = "Bajo Peso"
+        elif imc > 18.5 and imc < 25:
+            diagnostico = "Peso Adecuado"
+        elif imc > 25 and imc < 30:
+            diagnostico = "Sobrepeso"
+        elif imc > 30 and imc < 40:
+            diagnostico = "Obesidad"
+        elif imc > 40:
+            diagnostico = "Obesidad Severa"
+        
+        context["imc"] = imc
+        context["diagnostico"] = diagnostico
+        context["pk"] = pk
+        
+        return render(request,'antrop_benef_crear.html', context)
 
 # Sesion de Medicamento 
 
