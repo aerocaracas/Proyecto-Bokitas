@@ -155,12 +155,102 @@
 
         <!-- ########  boton agregar Antropometrico  ##########-->
 
+<<<<<<< HEAD
         <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
 
             Nuevo Control Antropométrico
     
         </a>
       
+=======
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+            Nuevo Control Antropométrico
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">CONTROL ANTROPOMETRICO</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="fs-5">Introduzca los datos:</h2>
+                    <br>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-5">
+                                {{form2.fecha|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{form2.embarazo_lactando|as_crispy_field}}
+                            </div>
+                            <div class="col">
+                                {{form2.tiempo_gestacion|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                {{form2.peso|as_crispy_field}}
+                            </div>
+                            <div class="col">
+                                {{form2.talla|as_crispy_field}}
+                            </div>
+                            <div class="col">
+                                {{form2.cbi|as_crispy_field}}
+                            </div>
+                        </div>
+
+                        <br>
+                    </form>
+                    
+                  
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Calcular</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Resultado Antropométrico</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if form2.peso %}
+                        {{ imc = (form2.peso/(form2.talla**2)) }}
+                    {% endif %}
+
+                    <!-- {% if imc %} -->
+                      <div>
+                        <h3> Resultado: </h3>
+                        <p> Su IMC = {{imc}} Kg/m² | Diagnóstico: {{diagnostico}}</p>
+                      <div>
+                    <!-- {% endif %} -->
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                    <button type="button" class="btn btn-primary">Agregar Registro</button>
+
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+>>>>>>> db2a84bdfdce1dfdeee5d4400d7966535ab3dc19
     </div>
     <hr>
     <br>

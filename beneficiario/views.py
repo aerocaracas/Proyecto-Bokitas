@@ -278,6 +278,14 @@ def antrop_benef_crear(request,pk):
 
         context = {}
 
+<<<<<<< HEAD
+=======
+                   
+        imc = (new_antrop.peso/(new_antrop.talla**2))
+        new_antrop.save()
+        
+        
+>>>>>>> db2a84bdfdce1dfdeee5d4400d7966535ab3dc19
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         
         cedula = beneficiarios.cedula
