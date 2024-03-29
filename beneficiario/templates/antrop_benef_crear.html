@@ -17,13 +17,12 @@
             
     <form action=" " method="POST">
         {% csrf_token %}
-
         <div class="row">
             <div class="col-6">
                 {{form.fecha|as_crispy_field}}
             </div>
         </div>
-        
+            
         <div class="row">
             <div class="col">
                 {{form.embarazo_lactando|as_crispy_field}}
@@ -32,28 +31,40 @@
                 {{form.tiempo_gestacion|as_crispy_field}}
             </div>
         </div> 
-
+    
         <div class="row">
             <div class="col">
-                <label for="">Peso:</label>
-                <input type="text" name="peso" class="form-control" required placeholder="Kg">
+                {{form.peso|as_crispy_field}}
             </div>
             <div class="col">
-                <label for="">Talla:</label>
-                <input type="text" name="talla" class="form-control" required placeholder="m">
-            </div>
-            <div class="col">
+                {{form.talla|as_crispy_field}}
+             </div>
+             <div class="col">
                 {{form.cbi|as_crispy_field}}
             </div>
         </div> 
-
+                        
         <br>
+        <hr>
+            
         <div class="row justify-content-center">
             <div class="col-3">
-                <a class="btn btn-secondary" href="{% url 'antrop_calculo' peso talla pk %}"> Calcular </a>
+                <a class="btn btn-secondary" href="{% url 'antrop_calculo' pk %}"> Calcular </a>
             </div>
         </div> 
+         <br>
+                    
+        <button class="btn btn-primary"> Calcular NO </button>
+    </form>
+
+    <form action=" " method="POST">
+        {% csrf_token %}      
+    
         <br>
+
+
+        <P> <strong> peso: </strong>{{peso}}</p>
+
 
         <div class="row justify-content-center">
             <div class="col-3">

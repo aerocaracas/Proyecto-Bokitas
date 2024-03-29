@@ -277,15 +277,6 @@ def antrop_benef_crear(request,pk):
     else:
 
         context = {}
-
-<<<<<<< HEAD
-=======
-                   
-        imc = (new_antrop.peso/(new_antrop.talla**2))
-        new_antrop.save()
-        
-        
->>>>>>> db2a84bdfdce1dfdeee5d4400d7966535ab3dc19
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         
         cedula = beneficiarios.cedula
@@ -297,63 +288,51 @@ def antrop_benef_crear(request,pk):
         talla = float(request.POST.get("talla"))
         cbi = request.POST.get("cbi")
 
-        imc = (peso / (talla**2))
-
-        # new_antrop.cedula = beneficiario.cedula
-
-        imc = round(imc)
-         
-        if imc < 18.5:
-            diagnostico = "Bajo Peso"
-        elif imc > 18.5 and imc < 25:
-            diagnostico = "Peso Adecuado"
-        elif imc > 25 and imc < 30:
-            diagnostico = "Sobrepeso"
-        elif imc > 30 and imc < 40:
-            diagnostico = "Obesidad"
-        elif imc > 40:
-            diagnostico = "Obesidad Severa"
-
- 
         save = request.POST.get("save")
 
         if save == "on":
-            Antropometrico.objects.create(cedula_bef = cedula, proyecto= proyecto,fecha=fecha,embarazo_lactando=embarazo_lactando,tiempo_gestacion=tiempo_gestacion,peso=peso,talla=talla,cbi=cbi,diagnostico=diagnostico)
+            Antropometrico.objects.create(cedula_bef = cedula, proyecto= proyecto,fecha=fecha,embarazo_lactando=embarazo_lactando,tiempo_gestacion=tiempo_gestacion,peso=peso,talla=talla,cbi=cbi)
 
 
-        context["imc"] = imc
-        context["diagnostico"] = diagnostico
         context["pk"] = pk
         return render(request,'antrop_benef_crear.html', context)
 
 
 @login_required  
-def antrop_calculo(request,peso,talla,pk):
+def antrop_calculo(request,pk):
+
     context = {}
 
-    if context:
-        imc = (peso / (talla**2))
+    print('datos del post:', request.POST)
+
+    peso = request.GET.get("peso")
+    talla = request.GET.get("talla")
+        
+    print(peso)
+    print(talla)
+
+    imc = (peso / (talla**2))
 
         # new_antrop.cedula = beneficiario.cedula
 
-        imc = round(imc)
+    imc = round(imc)
          
-        if imc < 18.5:
+    if imc < 18.5:
             diagnostico = "Bajo Peso"
-        elif imc > 18.5 and imc < 25:
+    elif imc > 18.5 and imc < 25:
             diagnostico = "Peso Adecuado"
-        elif imc > 25 and imc < 30:
+    elif imc > 25 and imc < 30:
             diagnostico = "Sobrepeso"
-        elif imc > 30 and imc < 40:
+    elif imc > 30 and imc < 40:
             diagnostico = "Obesidad"
-        elif imc > 40:
+    elif imc > 40:
             diagnostico = "Obesidad Severa"
         
-        context["imc"] = imc
-        context["diagnostico"] = diagnostico
-        context["pk"] = pk
+    context["imc"] = imc
+    context["diagnostico"] = diagnostico
+    context["pk"] = pk
         
-        return render(request,'antrop_benef_crear.html', context)
+    return render(request,'antrop_benef_crear.html', context)
 
 # Sesion de Medicamento 
 

@@ -155,14 +155,13 @@
 
         <!-- ########  boton agregar Antropometrico  ##########-->
 
-<<<<<<< HEAD
         <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
 
             Nuevo Control Antropométrico
     
         </a>
       
-=======
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
             Nuevo Control Antropométrico
@@ -225,16 +224,9 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {% if form2.peso %}
-                        {{ imc = (form2.peso/(form2.talla**2)) }}
-                    {% endif %}
 
-                    <!-- {% if imc %} -->
-                      <div>
-                        <h3> Resultado: </h3>
-                        <p> Su IMC = {{imc}} Kg/m² | Diagnóstico: {{diagnostico}}</p>
-                      <div>
-                    <!-- {% endif %} -->
+                    <!--         #########################         --> 
+
                 </div>
                 <div class="modal-footer">
 
@@ -250,7 +242,6 @@
 
 
 
->>>>>>> db2a84bdfdce1dfdeee5d4400d7966535ab3dc19
     </div>
     <hr>
     <br>
