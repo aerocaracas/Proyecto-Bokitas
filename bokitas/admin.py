@@ -3,7 +3,8 @@ from .models import Proyecto
 from .models import Beneficiario
 from .models import Familia
 from .models import Menor
-from .models import Antropometrico
+from .models import AntropMenor
+from .models import AntropBef
 from .models import Medica
 from .models import Medicamento
 from .models import Nutricional
@@ -25,7 +26,8 @@ admin.site.register(Proyecto)
 admin.site.register(Beneficiario)
 admin.site.register(Familia)
 admin.site.register(Menor)
-admin.site.register(Antropometrico)
+admin.site.register(AntropMenor)
+admin.site.register(AntropBef)
 admin.site.register(Medica)
 admin.site.register(Medicamento)
 admin.site.register(Nutricional)

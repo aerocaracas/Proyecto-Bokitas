@@ -11,15 +11,20 @@
     <h1 class="text-center">Registro Antropométrico</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
-    <br>
+
 
     {{error}}
+    <br>
+    <br>
             
-    <form action=" " method="POST">
+    <form action="" method="POST">
         {% csrf_token %}
         <div class="row">
             <div class="col-6">
                 {{form.fecha|as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.cedula_bef|as_crispy_field}}
             </div>
         </div>
             
@@ -43,39 +48,17 @@
                 {{form.cbi|as_crispy_field}}
             </div>
         </div> 
-                        
-        <br>
         <hr>
-            
-        <div class="row justify-content-center">
-            <div class="col-3">
-                <a class="btn btn-secondary" href="{% url 'antrop_calculo' pk %}"> Calcular </a>
-            </div>
-        </div> 
-         <br>
-                    
-        <button class="btn btn-primary"> Calcular NO </button>
-    </form>
-
-    <form action=" " method="POST">
-        {% csrf_token %}      
-    
-        <br>
-
-
-        <P> <strong> peso: </strong>{{peso}}</p>
-
 
         <div class="row justify-content-center">
-            <div class="col-3">
-                <P> <strong> IMC: </strong>{{imc}}</p>
+            <div class="col-4">
+                <P class="text-center"> <strong> IMC: </strong><h4 class="text-center">{{imc}}</h4></p>
             </div>
-            <div class="col-6">
-                <P> <strong> Diagnóstico: </strong>{{diagnostico}}</p>
+            <div class="col-8">
+                <P class="text-center"> <strong> Diagnóstico: </strong><h4 class="text-center">{{diagnostico}}</h4></p>
             </div>
         </div> 
-        <br>
-        <br>
+        <hr>
 
         <div class="row justify-content-center">
             <div class="col-5">

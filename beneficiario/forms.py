@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from bokitas.models import Beneficiario, Familia, Menor, Antropometrico, Medicamento
+from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medicamento
 
 class BeneficiarioForm(ModelForm):
     class Meta:
@@ -12,11 +12,11 @@ class BeneficiarioForm(ModelForm):
 
 class AntropBenefForm(ModelForm):
     class Meta:
-        model = Antropometrico 
-        fields = ['fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi','riesgo','servicio','centro_hospital','observacion'
+        model = AntropBef 
+        fields = ['cedula_bef','fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi','riesgo','servicio','centro_hospital','observacion'
         ]
 
-        labels = {'fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI','riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospitalario':'Centro Hospitalario','observacion':'Observaciones'
+        labels = {'cedula_bef':'Cedula','fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI','riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospitalario':'Centro Hospitalario','observacion':'Observaciones'
         }
 
 

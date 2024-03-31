@@ -115,19 +115,21 @@
                     <th scope="col">FECHA</th>
                     <th scope="col">PESO</th>
                     <th scope="col">TALLA</th>
+                    <th scope="col">CBI</th>
                     <th scope="col">IMC</th>
                     <th scope="col">DIAGNOSTICO</th>
                     <th scope="col">DETALLE</th>
                 </tr>
             </thead>
             <tbody>
-                {% if antropometricos %}
-                    {% for antrop in antropometricos %}
+                {% if antropBefs %}
+                    {% for antrop in antropBefs %}
                         <tr>
                             <td>{{antrop.embarazo_lactando}}</td>
                             <td>{{antrop.fecha}}</td>
                             <td>{{antrop.peso}}</td>
                             <td>{{antrop.talla}}</td>
+                            <td>{{antrop.cbi}}</td>
                             <td>{{antrop.imc}}</td>
                             <td>{{antrop.diagnostico}}</td>
                             <td> <a href="#">Editar</a> </td>
@@ -141,13 +143,13 @@
         <div class="d-flex justify-content-center">
             <ul class="pagination">
                 <li class="page-item d-none d-sm-block">
-                    {% if antropometricos.has_previous %}
-                        <a class="page-link" href="?page={{ antropometricos.previous_page_number }}#pagtable">Anterior</a>
+                    {% if antropBefs.has_previous %}
+                        <a class="page-link" href="?page={{ antropBefs.previous_page_number }}#pagtable">Anterior</a>
                     {% endif%}
                 </li>
                 <li class="page-item d-none d-sm-block">
-                    {% if menores.has_next %}
-                        <a class="page-link" href="?page={{antropometricos.next_page_number }}#pagtable">Siguiente</a>
+                    {% if antropBefs.has_next %}
+                        <a class="page-link" href="?page={{antropBefs.next_page_number }}#pagtable">Siguiente</a>
                     {% endif%}
                 </li>
             </ul>
@@ -160,87 +162,6 @@
             Nuevo Control Antropométrico
     
         </a>
-      
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-            Nuevo Control Antropométrico
-        </button>
-        
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">CONTROL ANTROPOMETRICO</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h2 class="fs-5">Introduzca los datos:</h2>
-                    <br>
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-5">
-                                {{form2.fecha|as_crispy_field}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {{form2.embarazo_lactando|as_crispy_field}}
-                            </div>
-                            <div class="col">
-                                {{form2.tiempo_gestacion|as_crispy_field}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-5">
-                                {{form2.peso|as_crispy_field}}
-                            </div>
-                            <div class="col">
-                                {{form2.talla|as_crispy_field}}
-                            </div>
-                            <div class="col">
-                                {{form2.cbi|as_crispy_field}}
-                            </div>
-                        </div>
-
-                        <br>
-                    </form>
-                    
-                  
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Calcular</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Resultado Antropométrico</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <!--         #########################         --> 
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-primary">Agregar Registro</button>
-
-
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-
-
 
     </div>
     <hr>

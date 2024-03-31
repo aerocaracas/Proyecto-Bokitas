@@ -177,15 +177,13 @@ class Familia(models.Model):
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
-class Antropometrico(models.Model):
+class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE)
+    proyecto = models.CharField(max_length=100, blank=False)
     fecha = models.DateField()
-    embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
-    tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
-    edad = models.PositiveIntegerField(default=0)
-    meses = models.PositiveIntegerField(default=0)
+    edad = models.PositiveIntegerField(default=0,blank=True,null=True)
+    meses = models.PositiveIntegerField(default=0,blank=True,null=True)
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -202,6 +200,26 @@ class Antropometrico(models.Model):
 
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"
+
+class AntropBef(models.Model):
+    cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
+    tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
+    edad = models.PositiveIntegerField(default=0,blank=True,null=True)
+    meses = models.PositiveIntegerField(default=0,blank=True,null=True)
+    peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    diagnostico = models.CharField(max_length=50, blank=False)
+    riesgo = models.CharField(max_length=3,choices=SI_NO,default="NO")
+    servicio = models.TextField(max_length=200, blank=True)
+    centro_hospital = models.TextField(max_length=200, blank=True)
+    observacion = models.TextField(max_length=200, blank=True)
+
+    def __str__(self):
+        return f"{self.cedula_bef}"
 
 class Medicamento(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)

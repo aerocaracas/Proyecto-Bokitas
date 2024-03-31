@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from beneficiario.forms import BeneficiarioForm, MenorForm, FamiliarForm, AntropBenefForm, MedicamentoForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, Antropometrico, Medicamento
+from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -48,7 +48,7 @@ def beneficiario_detalle(request, pk):
     if request.method == 'GET':
      
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
         menores = Menor.objects.filter(cedula_bef=pk)
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
@@ -57,25 +57,24 @@ def beneficiario_detalle(request, pk):
 
         page = request.GET.get('page',1)
         try:
-            paginator1 = Paginator(antropometricos, 5)
-            antropometricos = paginator1.page(page)
-            paginator2 = Paginator(menores, 5)
+            paginator1 = Paginator(antropBefs, 8)
+            antropBefs = paginator1.page(page)
+            paginator2 = Paginator(menores, 8)
             menores = paginator2.page(page)
-            paginator3 = Paginator(familias, 5)
+            paginator3 = Paginator(familias, 8)
             familias = paginator3.page(page)
-            paginator4 = Paginator(medicamentos, 5)
+            paginator4 = Paginator(medicamentos, 8)
             medicamentos= paginator4.page(page)
         except:
             raise Http404
     
         return render(request, 'beneficiario_detalle.html',{
             'beneficiarios':beneficiarios,
-            'antropometricos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
             'form': form,
-            'form2': AntropBenefForm,
             'pk': pk,
             'paginator1': paginator1,
             'paginator2': paginator2,
@@ -101,14 +100,14 @@ def beneficiario_actualizar(request, pk):
             form.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
    
             return render(request, 'beneficiario_detalle.html', {
             'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
@@ -118,11 +117,6 @@ def beneficiario_actualizar(request, pk):
             return render(request, 'beneficiario_actualizar.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
             'pk': pk
             })
 
@@ -152,14 +146,14 @@ def menor_crear(request,pk):
             new_menor.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
    
             return render(request, 'beneficiario_detalle.html', {
             'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
@@ -169,11 +163,6 @@ def menor_crear(request,pk):
             return render(request, 'menor_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
             'pk': pk
             })
 
@@ -185,7 +174,7 @@ def menor_detalle(request, pk):
         menor_detalles = get_object_or_404(Menor, id=pk)
         print(pk)
         beneficiarios = Beneficiario.objects.filter(id=pk)
-        antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
         menores = Menor.objects.filter(cedula_bef=pk)
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
@@ -193,8 +182,8 @@ def menor_detalle(request, pk):
         form = MenorForm(instance=menor_detalles)
         page = request.GET.get('page',1)
         try:
-            paginator1 = Paginator(antropometricos, 5)
-            antropometricos = paginator1.page(page)
+            paginator1 = Paginator(antropBefs, 5)
+            antropBefs = paginator1.page(page)
             paginator2 = Paginator(menores, 5)
             menores = paginator2.page(page)
             paginator3 = Paginator(familias, 5)
@@ -207,7 +196,7 @@ def menor_detalle(request, pk):
         return render(request, 'menor_detalle.html',{
             'menor_detalles': menor_detalles,
             'beneficiarios': beneficiarios,
-            'antropometricos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
@@ -218,8 +207,6 @@ def menor_detalle(request, pk):
             'paginator3': paginator3,
             'paginator4': paginator4,
         })
-
-
 
 
 # Sesion del Familiar
@@ -239,14 +226,14 @@ def familiar_crear(request,pk):
             new_familiar.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
 
             return render(request, 'beneficiario_detalle.html', {
             'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
@@ -256,46 +243,68 @@ def familiar_crear(request,pk):
             return render(request, 'familiar_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
             'pk': pk
             })
 
 
-# Sesion Antropometrico de Beneficiario
+# Sesion Antropometrico del Beneficiario
 
 @login_required  
 def antrop_benef_crear(request,pk):
     if request.method == 'GET':
+        
         return render(request, 'antrop_benef_crear.html', {
             'form': AntropBenefForm,
             'pk':pk
         })
     else:
-
-        context = {}
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
         
-        cedula = beneficiarios.cedula
-        proyecto = beneficiarios.proyecto
-        fecha = request.POST.get("fecha")
-        embarazo_lactando = request.POST.get("embarazo_lactando")
-        tiempo_gestacion = request.POST.get("tiempo_gestacion")
-        peso = float(request.POST.get("peso"))
-        talla = float(request.POST.get("talla"))
-        cbi = request.POST.get("cbi")
+        try:
+            form = AntropBenefForm(request.POST)
+            
+            new_antrop = form.save(commit=False)
 
-        save = request.POST.get("save")
+            peso = new_antrop.peso
+            talla = new_antrop.talla
+            imc = peso / (talla ** 2)
+            imc = round(imc)
+        
+            if imc < 18.5:
+                diagnostico = "Bajo Peso"
+            elif imc > 18.5 and imc < 25:
+                diagnostico = "Peso Adecuado"
+            elif imc > 25 and imc < 30:
+                diagnostico = "Sobrepeso"
+            elif imc > 30 and imc < 40:
+                diagnostico = "Obesidad"
+            elif imc > 40:
+                diagnostico = "Obesidad Severa"
+                
+            new_antrop.imc = imc
+            new_antrop.diagnostico = diagnostico
+            new_antrop.save()
 
-        if save == "on":
-            Antropometrico.objects.create(cedula_bef = cedula, proyecto= proyecto,fecha=fecha,embarazo_lactando=embarazo_lactando,tiempo_gestacion=tiempo_gestacion,peso=peso,talla=talla,cbi=cbi)
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+   
+            return render(request, 'beneficiario_detalle.html', {
+            'beneficiarios': beneficiarios,
+            'antropBefs': antropBefs,
+            'menores': menores,
+            'familias': familias,
+            'medicamentos': medicamentos,
+            'pk': pk
+                })
+        except ValueError:
+            return render(request, 'antrop_benef_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk
+            })
 
-
-        context["pk"] = pk
-        return render(request,'antrop_benef_crear.html', context)
 
 
 @login_required  
@@ -311,7 +320,7 @@ def antrop_calculo(request,pk):
     print(peso)
     print(talla)
 
-    imc = (peso / (talla**2))
+    imc = (peso / (talla ** 2))
 
         # new_antrop.cedula = beneficiario.cedula
 
@@ -350,14 +359,14 @@ def medicamento_crear(request,pk):
             new_medicamento.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropometricos = Antropometrico.objects.filter(cedula_bef = pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
    
             return render(request, 'beneficiario_detalle.html', {
             'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
+            'antropBefs': antropBefs,
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
@@ -367,10 +376,5 @@ def medicamento_crear(request,pk):
             return render(request, 'menor_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
-            'beneficiarios': beneficiarios,
-            'antropometicos': antropometricos,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
             'pk': pk
             })
