@@ -310,38 +310,49 @@ def antrop_benef_crear(request,pk):
 @login_required  
 def antrop_calculo(request,pk):
 
-    context = {}
+    try:
+        form = AntropBenefForm(request.POST)
 
-    print('datos del post:', request.POST)
+        print(form)
 
-    peso = request.GET.get("peso")
-    talla = request.GET.get("talla")
-        
-    print(peso)
-    print(talla)
+        #peso = form.peso
+        #talla = form.talla
 
-    imc = (peso / (talla ** 2))
+        #print(peso)
+        #print(talla)
 
-        # new_antrop.cedula = beneficiario.cedula
+        #imc = (peso / (talla ** 2))
 
-    imc = round(imc)
-         
-    if imc < 18.5:
-            diagnostico = "Bajo Peso"
-    elif imc > 18.5 and imc < 25:
-            diagnostico = "Peso Adecuado"
-    elif imc > 25 and imc < 30:
-            diagnostico = "Sobrepeso"
-    elif imc > 30 and imc < 40:
-            diagnostico = "Obesidad"
-    elif imc > 40:
-            diagnostico = "Obesidad Severa"
-        
-    context["imc"] = imc
-    context["diagnostico"] = diagnostico
-    context["pk"] = pk
-        
-    return render(request,'antrop_benef_crear.html', context)
+            # new_antrop.cedula = beneficiario.cedula
+
+        imc = round(imc)
+
+
+        print(imc)
+            
+        if imc < 18.5:
+                diagnostico = "Bajo Peso"
+        elif imc > 18.5 and imc < 25:
+                diagnostico = "Peso Adecuado"
+        elif imc > 25 and imc < 30:
+                diagnostico = "Sobrepeso"
+        elif imc > 30 and imc < 40:
+                diagnostico = "Obesidad"
+        elif imc > 40:
+                diagnostico = "Obesidad Severa"
+                   
+        return render(request, 'antrop_benef_crear.html', {
+                'form': form,
+                'imc': imc,
+                'diagnostico': diagnostico,
+                'pk': pk
+                })
+    except ValueError:
+        return render(request, 'antrop_benef_crear.html', {
+        'form': form,
+        'error': 'Datos incorectos......., Favor verificar la información',
+        'pk': pk
+        })
 
 # Sesion de Medicamento 
 
