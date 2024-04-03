@@ -213,7 +213,7 @@ class AntropBef(models.Model):
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     diagnostico = models.CharField(max_length=50, blank=False)
-    riesgo = models.CharField(max_length=3,choices=SI_NO,default="NO")
+    riesgo = models.CharField(max_length=3,choices=SI_NO,default="NO",blank=True,null=True)
     servicio = models.TextField(max_length=200, blank=True)
     centro_hospital = models.TextField(max_length=200, blank=True)
     observacion = models.TextField(max_length=200, blank=True)

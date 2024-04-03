@@ -52,18 +52,14 @@
 
         <!--   #############################  OJO ###############  -->
 
-
-        <a class="btn btn-secondary" href="{% url 'antrop_calculo' pk %}"> Calcxulo </a>
-
+        <button type="submit" class="btn btn-primary" action="{% url 'antrop_benef_crear' pk %}">Calculo 1</button>
 
 
+        <a class="btn btn-secondary" href="{% url 'antrop_benef_crear' pk %}"> Calculo 2222</a>
 
 
 
-    </form>
 
-
-    <form action="" method="POST"></form>
         <hr>
         <div class="row justify-content-center">
             <div class="col-4">
@@ -92,6 +88,9 @@
                 {{form.observacion|as_crispy_field}}
             </div>
         </div> 
+
+
+
 
                             
         <br>

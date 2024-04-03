@@ -308,51 +308,50 @@ def antrop_benef_crear(request,pk):
 
 
 @login_required  
-def antrop_calculo(request,pk):
-
-    try:
-        form = AntropBenefForm(request.POST)
-
-        print(form)
-
-        #peso = form.peso
-        #talla = form.talla
-
-        #print(peso)
-        #print(talla)
-
-        #imc = (peso / (talla ** 2))
-
-            # new_antrop.cedula = beneficiario.cedula
-
-        imc = round(imc)
-
-
-        print(imc)
-            
-        if imc < 18.5:
-                diagnostico = "Bajo Peso"
-        elif imc > 18.5 and imc < 25:
-                diagnostico = "Peso Adecuado"
-        elif imc > 25 and imc < 30:
-                diagnostico = "Sobrepeso"
-        elif imc > 30 and imc < 40:
-                diagnostico = "Obesidad"
-        elif imc > 40:
-                diagnostico = "Obesidad Severa"
-                   
+def antrop_calcular(request,pk):
+    if request.method == 'GET':
+        
         return render(request, 'antrop_benef_crear.html', {
-                'form': form,
-                'imc': imc,
-                'diagnostico': diagnostico,
-                'pk': pk
-                })
-    except ValueError:
-        return render(request, 'antrop_benef_crear.html', {
-        'form': form,
-        'error': 'Datos incorectos......., Favor verificar la información',
-        'pk': pk
+            'form': AntropBenefForm,
+            'pk':pk
         })
+    else:
+        
+        try:
+            form = AntropBenefForm(request.POST)
+            
+            new_antrop = form.save(commit=False)
+
+            peso = new_antrop.peso
+            talla = new_antrop.talla
+            imc = peso / (talla ** 2)
+            imc = round(imc)
+        
+            if imc < 18.5:
+                diagnostico = "Bajo Peso"
+            elif imc > 18.5 and imc < 25:
+                diagnostico = "Peso Adecuado"
+            elif imc > 25 and imc < 30:
+                diagnostico = "Sobrepeso"
+            elif imc > 30 and imc < 40:
+                diagnostico = "Obesidad"
+            elif imc > 40:
+                diagnostico = "Obesidad Severa"
+                
+ 
+            return render(request, 'beneficiario_detalle.html', {
+            'pk': pk
+                })
+        except ValueError:
+            return render(request, 'antrop_benef_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk
+            })
+
+
+
+
 
 # Sesion de Medicamento 
 
