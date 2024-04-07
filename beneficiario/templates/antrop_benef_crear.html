@@ -50,49 +50,54 @@
         </div> 
 
 
-        <!--   #############################  OJO ###############  -->
-
-        <button type="submit" class="btn btn-primary" action="{% url 'antrop_benef_crear' pk %}">Calculo 1</button>
 
 
-        <a class="btn btn-secondary" href="{% url 'antrop_benef_crear' pk %}"> Calculo 2222</a>
+        <button type="submit" action="{% url 'antrop_benef_crear' pk %}"  class="btn btn-primary">
+            Calcular Resultado
+        </button>
+        
 
 
 
+    </form>
 
-        <hr>
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <P class="text-center"> <strong> IMC: </strong><h4 class="text-center">{{imc}}</h4></p>
-            </div>
-            <div class="col-8">
-                <P class="text-center"> <strong> Diagnóstico: </strong><h4 class="text-center">{{diagnostico}}</h4></p>
-            </div>
-        </div> 
-        <hr>
+
+
+            <!--   ##################### Muestra los resultado  ###############  -->
+    <hr>
+    <div class="row justify-content-center">
+       <div class="col-4">
+            <P class="text-center"> <strong> IMC: </strong><h4 class="text-center">{{imc}}</h4></p>
+        </div>
+        <div class="col-8">
+            <P class="text-center"> <strong> Diagnóstico: </strong><h4 class="text-center">{{diagnostico}}</h4></p>
+        </div>
+    </div> 
+    <hr>
+
+
+                <!--   ###################### Formulario Riesgo ###############  -->
+    <form action="" method="POST">
+        {% csrf_token %}
 
         <div class="row justify-content-center">
             <div class="col-5">
-                {{form.riesgo|as_crispy_field}}
+                {{form2.riesgo|as_crispy_field}}
             </div>
         </div> 
 
         <div class="row">
             <div class="col">
-                {{form.servicio|as_crispy_field}}
+                {{form2.servicio|as_crispy_field}}
             </div>
             <div class="col">
-                {{form.centro_hospital|as_crispy_field}}
+                {{form2.centro_hospital|as_crispy_field}}
             </div>
             <div class="col">
-                {{form.observacion|as_crispy_field}}
+                {{form2.observacion|as_crispy_field}}
             </div>
         </div> 
-
-
-
-
-                            
+                
         <br>
         <hr>
         <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>

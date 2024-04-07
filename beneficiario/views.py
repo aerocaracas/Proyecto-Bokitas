@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, MenorForm, FamiliarForm, AntropBenefForm, MedicamentoForm
+from beneficiario.forms import BeneficiarioForm, AntropBenefForm, AntropBenefRiesgoForm
+from beneficiario.forms import MenorForm, FamiliarForm, MedicamentoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento
 from django.contrib.auth.models import User
@@ -255,13 +256,13 @@ def antrop_benef_crear(request,pk):
         
         return render(request, 'antrop_benef_crear.html', {
             'form': AntropBenefForm,
+            'form2': AntropBenefRiesgoForm,
             'pk':pk
         })
     else:
         
         try:
             form = AntropBenefForm(request.POST)
-            
             new_antrop = form.save(commit=False)
 
             peso = new_antrop.peso
@@ -282,7 +283,16 @@ def antrop_benef_crear(request,pk):
                 
             new_antrop.imc = imc
             new_antrop.diagnostico = diagnostico
+
+            form2 = AntropBenefRiesgoForm(request.POST)
+            new_antrop_Riesgo = form2.save(commit=False)
+
+            new_antrop_Riesgo.riesgo = new_antrop.riesgo
+            new_antrop_Riesgo.servicio = new_antrop.servicio
+            new_antrop_Riesgo.centro_hospital = new_antrop.centro_hospital
+            new_antrop_Riesgo.observacion = new_antrop.observacion
             new_antrop.save()
+
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
@@ -301,56 +311,10 @@ def antrop_benef_crear(request,pk):
         except ValueError:
             return render(request, 'antrop_benef_crear.html', {
             'form': form,
+            'form2': form2,
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
-
-
-
-@login_required  
-def antrop_calcular(request,pk):
-    if request.method == 'GET':
-        
-        return render(request, 'antrop_benef_crear.html', {
-            'form': AntropBenefForm,
-            'pk':pk
-        })
-    else:
-        
-        try:
-            form = AntropBenefForm(request.POST)
-            
-            new_antrop = form.save(commit=False)
-
-            peso = new_antrop.peso
-            talla = new_antrop.talla
-            imc = peso / (talla ** 2)
-            imc = round(imc)
-        
-            if imc < 18.5:
-                diagnostico = "Bajo Peso"
-            elif imc > 18.5 and imc < 25:
-                diagnostico = "Peso Adecuado"
-            elif imc > 25 and imc < 30:
-                diagnostico = "Sobrepeso"
-            elif imc > 30 and imc < 40:
-                diagnostico = "Obesidad"
-            elif imc > 40:
-                diagnostico = "Obesidad Severa"
-                
- 
-            return render(request, 'beneficiario_detalle.html', {
-            'pk': pk
-                })
-        except ValueError:
-            return render(request, 'antrop_benef_crear.html', {
-            'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
-            'pk': pk
-            })
-
-
-
 
 
 # Sesion de Medicamento 
