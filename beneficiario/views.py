@@ -6,6 +6,7 @@ from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor,
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
+from datetime import datetime
 
 # Create your views here.
 @login_required      
@@ -56,19 +57,6 @@ def beneficiario_detalle(request, pk):
         
         form = BeneficiarioForm(instance=beneficiarios)
 
-        page = request.GET.get('page',1)
-        try:
-            paginator1 = Paginator(antropBefs, 8)
-            antropBefs = paginator1.page(page)
-            paginator2 = Paginator(menores, 8)
-            menores = paginator2.page(page)
-            paginator3 = Paginator(familias, 8)
-            familias = paginator3.page(page)
-            paginator4 = Paginator(medicamentos, 8)
-            medicamentos= paginator4.page(page)
-        except:
-            raise Http404
-    
         return render(request, 'beneficiario_detalle.html',{
             'beneficiarios':beneficiarios,
             'antropBefs': antropBefs,
@@ -76,11 +64,8 @@ def beneficiario_detalle(request, pk):
             'familias': familias,
             'medicamentos': medicamentos,
             'form': form,
-            'pk': pk,
-            'paginator1': paginator1,
-            'paginator2': paginator2,
-            'paginator3': paginator3,
-            'paginator4': paginator4,
+            'pk': pk
+
         })
   
 
@@ -252,11 +237,15 @@ def familiar_crear(request,pk):
 
 @login_required  
 def antrop_benef_crear(request,pk):
+
     if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
         
         return render(request, 'antrop_benef_crear.html', {
             'form': AntropBenefForm,
             'form2': AntropBenefRiesgoForm,
+            'beneficiarios': beneficiarios,
             'pk':pk
         })
     else:
@@ -287,12 +276,11 @@ def antrop_benef_crear(request,pk):
             form2 = AntropBenefRiesgoForm(request.POST)
             new_antrop_Riesgo = form2.save(commit=False)
 
-            new_antrop_Riesgo.riesgo = new_antrop.riesgo
-            new_antrop_Riesgo.servicio = new_antrop.servicio
-            new_antrop_Riesgo.centro_hospital = new_antrop.centro_hospital
-            new_antrop_Riesgo.observacion = new_antrop.observacion
+            new_antrop.riesgo =new_antrop_Riesgo.riesgo
+            new_antrop.servicio = new_antrop_Riesgo.servicio
+            new_antrop.centro_hospital = new_antrop_Riesgo.centro_hospital
+            new_antrop.observacion = new_antrop_Riesgo.observacion
             new_antrop.save()
-
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)

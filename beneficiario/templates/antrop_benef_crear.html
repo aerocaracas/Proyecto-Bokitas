@@ -19,6 +19,14 @@
             
     <form action="" method="POST">
         {% csrf_token %}
+
+        <div class="mb-3 row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Fecha</label>
+            <div class="col-sm-10">
+              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value=datetime.now>
+            </div>
+          </div>
+
         <div class="row">
             <div class="col-6">
                 {{form.fecha|as_crispy_field}}
@@ -102,7 +110,7 @@
         <hr>
         <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
         
-        <button class="btn btn-primary">
+        <button type="submit" action="{% url 'beneficiario_detalle' pk %}"  class="btn btn-primary">
             Aceptar
         </button>
     </form>

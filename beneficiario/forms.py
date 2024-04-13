@@ -26,7 +26,7 @@ class AntropBenefRiesgoForm(ModelForm):
         fields = ['riesgo','servicio','centro_hospital','observacion'
         ]
 
-        labels = {'riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospitalario':'Centro Hospitalario','observacion':'Observaciones'
+        labels = {'riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospital':'Centro','observacion':'Observaciones'
         }
 
 
