@@ -20,17 +20,11 @@
     <form action="" method="POST">
         {% csrf_token %}
 
-        <div class="mb-3 row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Fecha</label>
-            <div class="col-sm-10">
-              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value=datetime.now>
-            </div>
-          </div>
-
         <div class="row">
             <div class="col-6">
                 {{form.fecha|as_crispy_field}}
             </div>
+
             <div class="col">
                 {{form.cedula_bef|as_crispy_field}}
             </div>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Specifying the choices
 SEXOS = (
@@ -203,20 +204,20 @@ class AntropMenor(models.Model):
 
 class AntropBef(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    fecha = models.DateField()
+    fecha = models.DateField(default=timezone.now)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     edad = models.PositiveIntegerField(default=0,blank=True,null=True)
     meses = models.PositiveIntegerField(default=0,blank=True,null=True)
-    peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    diagnostico = models.CharField(max_length=50, blank=False)
+    peso = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
+    talla = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
+    cbi = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,blank=True,null=True)
+    imc = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
+    diagnostico = models.CharField(max_length=50,blank=False)
     riesgo = models.CharField(max_length=3,choices=SI_NO,default="NO",blank=True,null=True)
-    servicio = models.TextField(max_length=200, blank=True)
-    centro_hospital = models.TextField(max_length=200, blank=True)
-    observacion = models.TextField(max_length=200, blank=True)
+    servicio = models.TextField(max_length=200,blank=True)
+    centro_hospital = models.TextField(max_length=200,blank=True)
+    observacion = models.TextField(max_length=200,blank=True)
 
     def __str__(self):
         return f"{self.cedula_bef}"
