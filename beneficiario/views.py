@@ -237,72 +237,15 @@ def familiar_crear(request,pk):
 
 @login_required  
 def antrop_benef_crear(request,pk):
+    context = {}
+    if request.method=="POST":
+        peso = float(request.POST.get("peso"))
+        altura = float(request.POST.get("altura"))
 
-    if request.method == 'GET':
+    imc = (peso/(altura**2))
+    save = request.POST.get("save")
 
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        
-        return render(request, 'antrop_benef_crear.html', {
-            'form': AntropBenefForm,
-            'form2': AntropBenefRiesgoForm,
-            'beneficiarios': beneficiarios,
-            'pk':pk
-        })
-    else:
-        
-        try:
-            form = AntropBenefForm(request.POST)
-            new_antrop = form.save(commit=False)
-
-            peso = new_antrop.peso
-            talla = new_antrop.talla
-            imc = peso / (talla ** 2)
-            imc = round(imc)
-        
-            if imc < 18.5:
-                diagnostico = "Bajo Peso"
-            elif imc > 18.5 and imc < 25:
-                diagnostico = "Peso Adecuado"
-            elif imc > 25 and imc < 30:
-                diagnostico = "Sobrepeso"
-            elif imc > 30 and imc < 40:
-                diagnostico = "Obesidad"
-            elif imc > 40:
-                diagnostico = "Obesidad Severa"
-                
-            new_antrop.imc = imc
-            new_antrop.diagnostico = diagnostico
-
-            form2 = AntropBenefRiesgoForm(request.POST)
-            new_antrop_Riesgo = form2.save(commit=False)
-
-            new_antrop.riesgo =new_antrop_Riesgo.riesgo
-            new_antrop.servicio = new_antrop_Riesgo.servicio
-            new_antrop.centro_hospital = new_antrop_Riesgo.centro_hospital
-            new_antrop.observacion = new_antrop_Riesgo.observacion
-            new_antrop.save()
-
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-   
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-                })
-        except ValueError:
-            return render(request, 'antrop_benef_crear.html', {
-            'form': form,
-            'form2': form2,
-            'error': 'Datos incorectos, Favor verificar la información',
-            'pk': pk
-            })
+    return
 
 
 # Sesion de Medicamento 
