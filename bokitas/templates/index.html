@@ -12,59 +12,82 @@
             <br>
 
             {% if user.is_authenticated %}
-                <div class="container">
-                    <h2 class="text-center"> COMO TRABAJAMOS </h2>
-                    <br>
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <div class="col">
-                            <div class="card h-100 card border-white">
-                                <img src="/static/img/cuchilleria.png" class="mx-auto d-block" alt="Suplementos nutricionales" height="250">
-                                <div class="card-body">
-                                    <h5 class="card-title">NUTRICIONAL</h5>
-                                    <p class="card-text">Bokitas facilitan el acceso a suplementos nutricionales y educación nutricional.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100 card border-white">
-                                <img src="/static/img/medicion.png" class="mx-auto d-block" alt="Pesan y miden a menores" height="250">
-                                <div class="card-body">
-                                    <h5 class="card-title">CONTROL</h5>
-                                    <p class="card-text">Especialistas pesan y miden a menores e identifican a los desnutridos.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100 card border-white">
-                                <img src="/static/img/estetoscopio.png" class="mx-auto d-block" alt="Pediatria" height="250">
-                                <div class="card-body">
-                                    <h5 class="card-title">PEDIATRIA</h5>
-                                    <p class="card-text">El pediatra examina a los niños y solicita pruebas de laboratorio y medicamentos.</p>
-                                </div>
+                <!--  CARRUSEL DE BOKITAS    -->
+            <div class="container">
+                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="/static/img/bokitas1.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/bokitas2.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/bokitas3.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/bokitas4.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/bokitas5.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="/static/img/bokitas6.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+
+            {% else %}
+                <a class="btn btn-primary w-25 d-block mx-auto p-2" type="button" href="{% url 'signin' %}"> Ingresar al Sistema </a>
+                <br>
+                <br>
+                <br>
+            {% endif %}
+
+            <div class="container">
+                <h2 class="text-center"> COMO TRABAJAMOS </h2>
+                <br>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card h-100 card border-white">
+                            <img src="/static/img/cuchilleria.png" class="mx-auto d-block" alt="Suplementos nutricionales" height="250">
+                            <div class="card-body">
+                                <h5 class="card-title">NUTRICIONAL</h5>
+                                <p class="card-text">Bokitas facilitan el acceso a suplementos nutricionales y educación nutricional.</p>
                             </div>
                         </div>
                     </div>
-
-                    <br>
-
-                    <div class="row">
-                        <div class="col-12 col-md-6 offset-md-3 text-bg-primary">
+                    <div class="col">
+                        <div class="card h-100 card border-white">
+                            <img src="/static/img/medicion.png" class="mx-auto d-block" alt="Pesan y miden a menores" height="250">
                             <div class="card-body">
-                                <br>
-                                <P>Bienaventurados aquellos cuya fuerza está en ti,
-                                    cuyos corazones están decididos a peregrinar.
-                                Al pasar por el valle de Baka, las lluvias de otoño también lo cubren de charcos.
-                                Van viento en popa, hasta que cada uno se presenta ante Dios en Sión.
-                                </P>
-                                <p>Salmo 84:5-7 NVI</P>
-
+                                <h5 class="card-title">CONTROL</h5>
+                                <p class="card-text">Especialistas pesan y miden a menores e identifican a los desnutridos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 card border-white">
+                            <img src="/static/img/estetoscopio.png" class="mx-auto d-block" alt="Pediatria" height="250">
+                            <div class="card-body">
+                                <h5 class="card-title">PEDIATRIA</h5>
+                                <p class="card-text">El pediatra examina a los niños y solicita pruebas de laboratorio y medicamentos.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            {% else %}
-                <a class="btn btn-primary w-25 d-block mx-auto p-2" type="button" href="{% url 'signin' %}"> Ingresar al Sistema </a>
-            {% endif %}
+
+            </div>
+
         </div>
 
     </body>
