@@ -13,26 +13,23 @@
 
             {% if user.is_authenticated %}
                 <!--  CARRUSEL DE BOKITAS    -->
-            <div class="container">
+              <div class="col-lg-6" style="float:none;margin:auto;">
                 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                       <div class="carousel-item active">
-                        <img src="/static/img/bokitas1.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                        <img src="static\img\bokitas1.jpg" class="d-block w-100" alt="bokitas1.jpg" height="300" width="400">
                       </div>
                       <div class="carousel-item">
-                        <img src="/static/img/bokitas2.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                        <img src="static\img\bokitas2.jpg" class="d-block w-100" alt="bokitas2.jpg" height="300" width="400">
                       </div>
                       <div class="carousel-item">
-                        <img src="/static/img/bokitas3.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                        <img src="static\img\bokitas3.jpg" class="d-block w-100" alt="bokitas3.jpg" height="300" width="400">
                       </div>
                       <div class="carousel-item">
-                        <img src="/static/img/bokitas4.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                        <img src="static\img\bokitas4.jpg" class="d-block w-100" alt="bokitas4.jpg" height="300" width="400">
                       </div>
                       <div class="carousel-item">
-                        <img src="/static/img/bokitas5.jpg" class="d-block w-100" alt="..." height="500" width="500">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="/static/img/bokitas6.jpg" class="d-block w-100" alt="..." height="500" width="500">
+                        <img src="static\img\bokitas5.jpg" class="d-block w-100" alt="bokitas5.jpg" height="300" width="400">
                       </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -44,7 +41,8 @@
                       <span class="visually-hidden">Next</span>
                     </button>
                   </div>
-            </div>
+              </div>
+            <br>
 
             {% else %}
                 <a class="btn btn-primary w-25 d-block mx-auto p-2" type="button" href="{% url 'signin' %}"> Ingresar al Sistema </a>
@@ -89,6 +87,9 @@
             </div>
 
         </div>
+        <br>
+        <br>
+        <br>
 
     </body>
 

@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from datetime import datetime
 
-# Create your views here.
+# Sesion del Beneficiario.
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all()
@@ -112,7 +112,6 @@ def beneficiario_eliminar(request, pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
     beneficiarios.delete()
     return redirect('beneficiario')
-
 
 
 # Sesion de Menores 
@@ -237,16 +236,63 @@ def familiar_crear(request,pk):
 
 @login_required  
 def antrop_benef_crear(request,pk):
-    context = {}
-    if request.method=="POST":
-        peso = float(request.POST.get("peso"))
-        altura = float(request.POST.get("altura"))
+    if request.method == 'GET':
+        return render(request, 'antrop_benef_crear.html', {
+            'form': AntropBenefForm,
+            'pk':pk
+        })
+    else:
+        try:
+            form = AntropBenefForm(request.POST)
+            new_antropBenef = form.save(commit=False)
+            new_antropBenef.save()
+            return redirect('antrop_benef_actualizar')
+        except ValueError:
+            return render(request, 'antrop_benef_crear.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
 
-    imc = (peso/(altura**2))
-    save = request.POST.get("save")
 
-    return
+@login_required  
+def antrop_benef_actualizar(request,pk):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+        form = AntropBenefForm(instance=beneficiarios)
+        return render(request, 'beneficiario_actualizar.html',{
+            'beneficiarios':beneficiarios,
+            'form': form,
+            'pk': pk
+      })
+    else:
+        try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            form = AntropBenefForm(request.POST, instance=beneficiarios)
+            form2 = AntropBenefRiesgoForm(request.POST) 
+            form.save()
 
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+   
+            return render(request, 'beneficiario_detalle.html', {
+            'beneficiarios': beneficiarios,
+            'antropBefs': antropBefs,
+            'menores': menores,
+            'familias': familias,
+            'medicamentos': medicamentos,
+            'pk': pk
+
+                })
+        except ValueError:
+            return render(request, 'antrop_benef_actualizar.html', {
+            'form': form,
+            'form2': form2,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk
+            })
 
 # Sesion de Medicamento 
 
