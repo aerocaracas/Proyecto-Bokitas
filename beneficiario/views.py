@@ -255,7 +255,7 @@ def antrop_benef_crear(request,pk):
 
 
 @login_required  
-def antrop_benef_actualizar(request,pk):
+def antrop_benef_calcular(request,pk):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
         form = AntropBenefForm(instance=beneficiarios)
