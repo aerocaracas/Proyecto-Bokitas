@@ -246,7 +246,9 @@ def antrop_benef_crear(request,pk):
             form = AntropBenefForm(request.POST)
             new_antropBenef = form.save(commit=False)
             new_antropBenef.save()
-            return redirect('antrop_benef_actualizar')
+            return redirect('antrop_benef_calcular', {
+                'pk': pk
+            })
         except ValueError:
             return render(request, 'antrop_benef_crear.html', {
             'form': form,
@@ -257,18 +259,19 @@ def antrop_benef_crear(request,pk):
 @login_required  
 def antrop_benef_calcular(request,pk):
     if request.method == 'GET':
-        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
-        form = AntropBenefForm(instance=beneficiarios)
-        return render(request, 'beneficiario_actualizar.html',{
-            'beneficiarios':beneficiarios,
+
+        antropBenefs = get_object_or_404(AntropBef, id=pk)
+        form = AntropBenefRiesgoForm
+        
+        return render(request, 'antrop_benef_calcular.html', {
+            'antropBenefs':antropBenefs,
             'form': form,
             'pk': pk
       })
     else:
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            form = AntropBenefForm(request.POST, instance=beneficiarios)
-            form2 = AntropBenefRiesgoForm(request.POST) 
+            form = AntropBenefRiesgoForm(request.POST) 
             form.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)

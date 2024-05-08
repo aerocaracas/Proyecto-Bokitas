@@ -15,99 +15,52 @@
 
     {{error}}
     <br>
-    <br>
+
+    <div class="row">
+
+        <div class="col">
+            <P> <strong> Fecha: </strong> {{antropBenefs.fecha}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Cédula: </strong>{{antropBenefs.decula_bef}}</p> 
+        </div>
+        <div class="col">
+            <P> <strong> IMC: </strong> {{antropBenefs.imc}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Diagnóstico: </strong>{{antropBenefs.diagnostico}}</p>
+        </div>
+    </div>
             
-    <form action="" method="POST">
-        {% csrf_token %}
-
-        <div class="row">
-            <div class="col-6">
-                {{form.fecha|as_crispy_field}}
-            </div>
-
-            <div class="col">
-                {{form.cedula_bef|as_crispy_field}}
-            </div>
-        </div>
-            
-        <div class="row">
-            <div class="col">
-                {{form.embarazo_lactando|as_crispy_field}}
-            </div>
-            <div class="col">
-                {{form.tiempo_gestacion|as_crispy_field}}
-            </div>
-        </div> 
-    
-        <div class="row">
-            <div class="col">
-                {{form.peso|as_crispy_field}}
-            </div>
-            <div class="col">
-                {{form.talla|as_crispy_field}}
-             </div>
-             <div class="col">
-                {{form.cbi|as_crispy_field}}
-            </div>
-        </div> 
-
-
-
-
-        <button type="submit" action="{% url 'antrop_benef_crear' pk %}"  class="btn btn-primary">
-            Calcular Resultado
-        </button>
-        
-
-
-
-    </form>
-
-
-
-            <!--   ##################### Muestra los resultado  ###############  -->
-    <hr>
-    <div class="row justify-content-center">
-       <div class="col-4">
-            <P class="text-center"> <strong> IMC: </strong><h4 class="text-center">{{imc}}</h4></p>
-        </div>
-        <div class="col-8">
-            <P class="text-center"> <strong> Diagnóstico: </strong><h4 class="text-center">{{diagnostico}}</h4></p>
-        </div>
-    </div> 
-    <hr>
-
-
-                <!--   ###################### Formulario Riesgo ###############  -->
     <form action="" method="POST">
         {% csrf_token %}
 
         <div class="row justify-content-center">
             <div class="col-5">
-                {{form2.riesgo|as_crispy_field}}
+                {{form.riesgo|as_crispy_field}}
             </div>
         </div> 
 
         <div class="row">
             <div class="col">
-                {{form2.servicio|as_crispy_field}}
+                {{form.servicio|as_crispy_field}}
             </div>
             <div class="col">
-                {{form2.centro_hospital|as_crispy_field}}
+                {{form.centro_hospital|as_crispy_field}}
             </div>
             <div class="col">
-                {{form2.observacion|as_crispy_field}}
+                {{form.observacion|as_crispy_field}}
             </div>
         </div> 
-                
-        <br>
-        <hr>
+
         <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
         
         <button type="submit" action="{% url 'beneficiario_detalle' pk %}"  class="btn btn-primary">
             Aceptar
         </button>
+        
     </form>
+
 
 </div>
 
