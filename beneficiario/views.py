@@ -234,6 +234,39 @@ def familiar_crear(request,pk):
 
 # Sesion Antropometrico del Beneficiario
 
+
+def imc(request,pk):
+    context = {}
+    if request.method=="POST":
+        peso_metric = request.POST.get("peso")
+        if peso_metric:
+            peso = float(request.POST.get("peso"))
+            altura = float(request.POST.get("altura"))
+
+        imc = (peso/(altura**2))
+
+        if imc < 18.5:
+            diagnostico = "PESO BAJO"
+        elif imc >= 18.5 and imc < 25:
+            diagnostico = "ADECUADO"
+        elif imc >= 25 and imc < 30:
+            diagnostico = "SOBREPESO"
+        elif imc >= 30:
+            diagnostico = "OBESIDAD"
+        
+        save = request.POST.get("save")
+        if save=="on":
+            AntropBef.objects.create(peso=peso, altura=altura, imc=round(imc), diagnostico=diagnostico)
+        
+        context["imc"] = round(imc)
+        context["diagnostico"] = diagnostico
+
+    
+
+    return render(request, "imc.html", context)
+ 
+
+
 @login_required  
 def antrop_benef_crear(request,pk):
     if request.method == 'GET':
@@ -292,7 +325,6 @@ def antrop_benef_calcular(request,pk):
         except ValueError:
             return render(request, 'antrop_benef_actualizar.html', {
             'form': form,
-            'form2': form2,
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
