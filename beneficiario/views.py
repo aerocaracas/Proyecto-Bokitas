@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from beneficiario.forms import BeneficiarioForm, AntropBenefForm, AntropBenefRiesgoForm
-from beneficiario.forms import MenorForm, FamiliarForm, MedicamentoForm
+from beneficiario.forms import MenorForm, FamiliarForm, MedicamentoForm, MedicaForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento
+from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -165,18 +165,6 @@ def menor_detalle(request, pk):
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
         
         form = MenorForm(instance=menor_detalles)
-        page = request.GET.get('page',1)
-        try:
-            paginator1 = Paginator(antropBefs, 5)
-            antropBefs = paginator1.page(page)
-            paginator2 = Paginator(menores, 5)
-            menores = paginator2.page(page)
-            paginator3 = Paginator(familias, 5)
-            familias = paginator3.page(page)
-            paginator4 = Paginator(medicamentos, 5)
-            medicamentos= paginator4.page(page)
-        except:
-            raise Http404
     
         return render(request, 'menor_detalle.html',{
             'menor_detalles': menor_detalles,
@@ -187,10 +175,6 @@ def menor_detalle(request, pk):
             'medicamentos': medicamentos,
             'form': form,
             'pk': pk,
-            'paginator1': paginator1,
-            'paginator2': paginator2,
-            'paginator3': paginator3,
-            'paginator4': paginator4,
         })
 
 
@@ -364,3 +348,53 @@ def medicamento_crear(request,pk):
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
+
+
+@login_required  
+def medica_crear(request):
+    if request.method == 'GET':
+        return render(request, 'medica_crear.html', {
+            'form': MedicaForm
+        })
+    else:
+        try:
+            form = MedicaForm(request.POST)
+            new_medica = form.save(commit=False)
+            new_medica.user = request.user
+            new_medica.save()
+            return redirect('medica')
+        except ValueError:
+            return render(request, 'medica_crear.html', {
+            'form': MedicaForm,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
+
+@login_required      
+def medica_detalle(request, pk):
+    if request.method == 'GET':
+        medicas = get_object_or_404(Medica, id=pk, user=request.user)
+        form = MedicaForm(instance=medicas)
+        return render(request, 'medica_detalle.html',{
+            'medicas':medicas,
+            'form': form
+        })
+    else:
+        try:
+            medicas = get_object_or_404(Medica, id=pk, user=request.user)
+            form = MedicaForm(request.POST, instance=medicas)
+            form.save()
+            return redirect('medica')
+        except ValueError:
+            return render(request, 'medica_detalle.html',{
+            'medicas':medicas,
+            'form': form,
+            'error': "Error al actualizar el formulario"
+        })
+
+@login_required   
+def medica_eliminar(request, pk):
+    medicas = get_object_or_404(Medica, id=pk, user=request.user)
+    if request.method == 'POST':
+        medicas.delete()
+        return redirect('medica')
+

@@ -103,54 +103,7 @@
         </div>
     </div>
     <hr>
-    <br>
     
-    <!-- ########  Tabla Antropometricos  ##########-->
-    <h4 class="text-center">CONSULTAS ANTROPOMETRICAS</h4>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-primary">
-                <tr>
-                    <th scope="col">ESTADO</th>
-                    <th scope="col">FECHA</th>
-                    <th scope="col">PESO</th>
-                    <th scope="col">TALLA</th>
-                    <th scope="col">CBI</th>
-                    <th scope="col">IMC</th>
-                    <th scope="col">DIAGNOSTICO</th>
-                    <th scope="col">DETALLE</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if antropBefs %}
-                    {% for antrop in antropBefs %}
-                        <tr>
-                            <td>{{antrop.embarazo_lactando}}</td>
-                            <td>{{antrop.fecha}}</td>
-                            <td>{{antrop.peso}}</td>
-                            <td>{{antrop.talla}}</td>
-                            <td>{{antrop.cbi}}</td>
-                            <td>{{antrop.imc}}</td>
-                            <td>{{antrop.diagnostico}}</td>
-                            <td> <a href="#">Editar</a> </td>
-                        </tr>
-                    {% endfor %}
-                {% endif%}
-            </tbody>
-        </table>
-
-        <!-- ########  boton agregar Antropometrico  ##########-->
-
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
-
-            Nuevo Control Antropométrico
-    
-        </a>
-
-    </div>
-    <hr>
-    <br>
-
     <!-- ########  Tabla Hijos  ##########-->
     <h4 class="text-center">HIJOS DEL BENEFICIARIO</h4>
     <div class="table-responsive">
@@ -192,7 +145,6 @@
 
     </div>
     <hr>
-    <br>
 
     <!-- ########  Tabla Familiares  ##########-->
     <h4 class="text-center">GRUPO FAMILIAR</h4>
@@ -235,7 +187,51 @@
           </a>
     </div>
     <hr>
-    <br>
+
+    <!-- ########  Tabla Antropometricos  ##########-->
+    <h4 class="text-center">CONSULTAS ANTROPOMÉTRICAS</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">ESTADO</th>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">PESO</th>
+                    <th scope="col">TALLA</th>
+                    <th scope="col">CBI</th>
+                    <th scope="col">IMC</th>
+                    <th scope="col">DIAGNOSTICO</th>
+                    <th scope="col">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if antropBefs %}
+                    {% for antrop in antropBefs %}
+                        <tr>
+                            <td>{{antrop.embarazo_lactando}}</td>
+                            <td>{{antrop.fecha}}</td>
+                            <td>{{antrop.peso}}</td>
+                            <td>{{antrop.talla}}</td>
+                            <td>{{antrop.cbi}}</td>
+                            <td>{{antrop.imc}}</td>
+                            <td>{{antrop.diagnostico}}</td>
+                            <td> <a href="#">Editar</a> </td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
+            </tbody>
+        </table>
+    
+        <!-- ########  boton agregar Antropometrico  ##########-->
+
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'antrop_benef_crear' pk %}">
+    
+            Nuevo Control Antropométrico
+        
+        </a>
+    
+    </div>
+    <hr>
 
     <!-- ########  Tabla Medicamentro  ##########-->
     <h4 class="text-center">ENTREGA DE MEDICAMENTOS / PRODUCTOs</h4>

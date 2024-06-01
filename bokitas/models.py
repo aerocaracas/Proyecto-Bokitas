@@ -10,9 +10,13 @@ SEXOS = (
 
 ESTADO_CIVIL = (
     ("SOLTERA", "SOLTERA"),
+    ("SOLTERO", "SOLTERO"),
     ("CASADA", "CASADA"),
+    ("CASADO", "CASADO"),
     ("DIVORCIADA", "DIVORCIADA"),
+    ("DIVORCIADO", "DIVORCIADO"),
     ("VIUDA", "VIUDA"),
+    ("VIUDO", "VIUDO"),
     ("CONCUBINATO", "CONCUBINATO"),
 )
 
@@ -23,6 +27,7 @@ SI_NO = (
 
 EDUCACION = (
     ("ANALFABETA", "ANALFABETA"),
+    ("ANALFABETO", "ANALFABETO"),
     ("PRIMARIA", "PRIMARIA"),
     ("SECUNDARIA", "SECUNDARIA"),
     ("TECNICO MEDIO", "TECNICO MEDIO"),
@@ -32,7 +37,9 @@ EDUCACION = (
 
 LABORAL = (
     ("DESEMPLEADA", "DESEMPLEADA"),
+    ("DESEMPLEADO", "DESEMPLEADO"),
     ("EMPLEADA", "EMPLEADA"),
+    ("EMPLEADO", "EMPLEADO"),
     ("OCACIONAL", "OCACIONAL"),
     ("INDEPENDIENTE", "INDEPENDIENTE"),
 )
@@ -50,10 +57,16 @@ EMBARAZO_LACTANDO = (
 PARENTESCO = (
     ("CONYUGUE", "CONYUGUE"),
     ("SOBRINO", "SOBRINO"),
+    ("SOBRINA", "SOBRINA"),
     ("NIETO", "NIETO"),
+    ("NIETA", "NIETA"),
     ("ASISTIDO", "ASISTIDO"),
+    ("ASISTIDA", "ASISTIDA"),
     ("HERMANO", "HERMANO"),
+    ("HERMANA", "HERMANA"),
+    ("TIO", "TIO"),
     ("TIA", "TIA"),
+    ("ABUELO", "ABUELO"),
     ("ABUELA", "ABUELA"),
 )
 
@@ -182,7 +195,7 @@ class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE)
     proyecto = models.CharField(max_length=100, blank=False)
-    fecha = models.DateField()
+    fecha = models.DateTimeField(default=timezone.now)
     edad = models.PositiveIntegerField(default=0,blank=True,null=True)
     meses = models.PositiveIntegerField(default=0,blank=True,null=True)
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -204,7 +217,7 @@ class AntropMenor(models.Model):
 
 class AntropBef(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    fecha = models.DateField(default=timezone.now)
+    fecha = models.DateTimeField(default=timezone.now)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     edad = models.PositiveIntegerField(default=0,blank=True,null=True)
