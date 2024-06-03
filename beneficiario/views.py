@@ -244,6 +244,7 @@ def imc(request,pk):
         
         context["imc"] = round(imc)
         context["diagnostico"] = diagnostico
+        context["pk"] = pk
 
     
 

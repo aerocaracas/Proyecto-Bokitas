@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+
+<div class="tabcontent" id="metric">
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-12">
+            <label for="">Peso: </label>
+            <input type="text" name="peso" class="form-control" required placeholder="kg">
+        </div>
+
+        <div class="col-12">
+            <label for="">Altura: </label>
+            <input type="text" name="altura" class="form-control" required placeholder="m">
+        </div>
+
+        <button type="submit" class="btn btn-primary" action="{% url 'imc' pk %}">Calcular </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
