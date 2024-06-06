@@ -10,6 +10,7 @@
 <div class="tabcontent" id="metric">
     <form method="post">
         {% csrf_token %}
+
         <div class="col-12">
             <label for="">Peso: </label>
             <input type="text" name="peso" class="form-control" required placeholder="kg">
@@ -20,18 +21,21 @@
             <input type="text" name="altura" class="form-control" required placeholder="m">
         </div>
 
-        <button type="submit" class="btn btn-primary" action="{% url 'imc' %}">Calcular </button>
+        <button type="submit" class="btn btn-primary" action="{% url 'imc' pk %}">Calcular </button>
 
-        <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
+        <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
 
     </form>
 
 </div>
+<br>
+<br>
 
 {% if imc %}
     <div class="col-md-6 col-sm-12 col-xa-12">
         <h2>Resultado</h2>
         <p> Su IMC = {{imc}} Kg/m² </p>
+
         {% if diagnostico == "PESO BAJO" %}
             <div class="progress-bar bg-danger" style="width:20%"><strong>PESO BAJO</strong></div>
         {%elif diagnostico == "ADECUADO" %}
