@@ -20,10 +20,28 @@
             <input type="text" name="altura" class="form-control" required placeholder="m">
         </div>
 
-        <button type="submit" class="btn btn-primary" action="{% url 'imc' pk %}">Calcular </button>
+        <button type="submit" class="btn btn-primary" action="{% url 'imc' %}">Calcular </button>
+
+        <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
 
     </form>
 
 </div>
+
+{% if imc %}
+    <div class="col-md-6 col-sm-12 col-xa-12">
+        <h2>Resultado</h2>
+        <p> Su IMC = {{imc}} Kg/m² </p>
+        {% if diagnostico == "PESO BAJO" %}
+            <div class="progress-bar bg-danger" style="width:20%"><strong>PESO BAJO</strong></div>
+        {%elif diagnostico == "ADECUADO" %}
+        <div class="progress-bar bg-success" style="width:20%"><strong>ADECUADO</strong></div>
+        {%elif diagnostico == "SOBREPESO" %}
+        <div class="progress-bar bg-warning" style="width:20%"><strong>SOBREPESO</strong></div>
+        {%elif diagnostico == "OBESIDAD" %}
+        <div class="progress-bar bg-danger" style="width:20%"><strong>OBESIDAD</strong></div>
+        {% endif %}
+    </div>
+{% endif %}
 
 {% endblock %}

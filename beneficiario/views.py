@@ -219,7 +219,7 @@ def familiar_crear(request,pk):
 # Sesion Antropometrico del Beneficiario
 
 
-def imc(request,pk):
+def imc(request):
     context = {}
     if request.method=="POST":
         peso_metric = request.POST.get("peso")
@@ -244,9 +244,7 @@ def imc(request,pk):
         
         context["imc"] = round(imc)
         context["diagnostico"] = diagnostico
-        context["pk"] = pk
-
-    
+       
 
     return render(request, "imc.html", context)
  
