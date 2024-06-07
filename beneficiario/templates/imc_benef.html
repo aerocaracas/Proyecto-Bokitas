@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+                
+    <h1 class="text-center">Registro Antropométrico</h1>
+    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    <hr>
+
+
+    {{error}}
+    <br>
+
+    <div class="tabcontent" id="metric">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col">
+                    <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p>
+                </div>
+                <div class="col">
+                    <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+                </div>
+                <div class="col">
+                    <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+                </div>
+            </div>
+
+            {% if beneficiarios.embarazada == "SI" %}
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Tiempo del Embarazo: </label>
+                        <input type="text" name="tiempo" class="form-control" required placeholder="Semanas">
+                     </div>
+                </div> 
+         
+            {% elif beneficiarios.lactando == "SI" %}
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Tiempo Lactando: </label>
+                        <input type="text" name="tiempo" class="form-control" required placeholder="Meses">
+                    </div>
+                </div> 
+
+            {% endif %}
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Peso: </label>
+                    <input type="text" name="peso" class="form-control" required placeholder="kg">
+                </div>
+
+                <div class="col-4">
+                    <label for="">Altura: </label>
+                    <input type="text" name="altura" class="form-control" required placeholder="Metros">
+                </div>
+
+                <div class="col-4">
+                    <label for="">CBI: </label>
+                    <input type="text" name="cbi" class="form-control" placeholder="cm">
+                </div>
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-primary" action="{% url 'imc_benef' pk %}">Calcular </button>
+
+            <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
+
+        </form>
+
+    </div>
+    <br>
+    <br>
+
+    {% if imc %}
+        <div class="row">
+            <div  class="text-center" >
+                <h2>Resultado</h2>
+                <p> Su IMC = {{imc}} Kg/m² </p>
+
+                {% if diagnostico == "PESO BAJO" %}
+                    <div class="text-bg-danger p-2">PESO BAJO</div>  
+                {%elif diagnostico == "ADECUADO" %}
+                    <div class="text-bg-success p-2">ADECUADO</div>
+                {%elif diagnostico == "SOBREPESO" %}
+                    <div class="text-bg-warning p-2">SOBREPESO</div>
+                {%elif diagnostico == "OBESIDAD" %}
+                    <div class="text-bg-danger p-2">OBESIDAD</div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
