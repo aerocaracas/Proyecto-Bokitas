@@ -227,24 +227,36 @@ def imc_benef(request,pk):
 
     if request.method=="POST":
         
-        peso_metric = request.POST.get("peso")
-        if peso_metric:
-            peso = float(request.POST.get("peso"))
-            altura = float(request.POST.get("altura"))
+        peso = float(request.POST.get("peso"))
+        altura = float(request.POST.get("altura"))
+
+        altura = altura/100
 
         imc = (peso/(altura**2))
 
         if imc < 18.5:
             diagnostico = "PESO BAJO"
-        elif imc >= 18.5 and imc < 25:
+        elif imc >= 18.5 and imc < 23:
             diagnostico = "ADECUADO"
+        elif imc >= 23 and imc < 25:
+            diagnostico = "RIESGO DE SOBREPESO"
         elif imc >= 25 and imc < 30:
             diagnostico = "SOBREPESO"
         elif imc >= 30:
             diagnostico = "OBESIDAD"
         
+        tiempo = request.POST.get("tiempo")
+        cbi = request.POST.get("cbi")
+        fecha = datetime.now()
+        if beneficiarios.embarazada == "SI":
+            estado = "EMBARAZADA"
+        if beneficiarios.lactando == "SI":
+            estado = "LACTANDO"
+
+                
         save = request.POST.get("save")
-        if save=="on":
+        if save == "on":
+            print(fecha)
             AntropBef.objects.create(peso=peso, altura=altura, imc=round(imc), diagnostico=diagnostico)
         
         context["imc"] = round(imc)

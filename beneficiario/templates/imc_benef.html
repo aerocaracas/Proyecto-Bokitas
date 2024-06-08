@@ -38,7 +38,7 @@
                     <div class="col-6">
                         <label for="">Tiempo del Embarazo: </label>
                         <input type="text" name="tiempo" class="form-control" required placeholder="Semanas">
-                     </div>
+                    </div>
                 </div> 
          
             {% elif beneficiarios.lactando == "SI" %}
@@ -58,7 +58,7 @@
 
                 <div class="col-4">
                     <label for="">Altura: </label>
-                    <input type="text" name="altura" class="form-control" required placeholder="Metros">
+                    <input type="text" name="altura" class="form-control" required placeholder="cm">
                 </div>
 
                 <div class="col-4">
@@ -88,8 +88,10 @@
                     <div class="text-bg-danger p-2">PESO BAJO</div>  
                 {%elif diagnostico == "ADECUADO" %}
                     <div class="text-bg-success p-2">ADECUADO</div>
+                {%elif diagnostico == "RIESGO DE SOBREPESO" %}
+                    <div class="text-bg-warning p-2">RIESGO DE SOBREPESO</div>
                 {%elif diagnostico == "SOBREPESO" %}
-                    <div class="text-bg-warning p-2">SOBREPESO</div>
+                    <div class="text-bg-danger p-2" style="--bs-bg-opacity: .7;">SOBREPESO</div>
                 {%elif diagnostico == "OBESIDAD" %}
                     <div class="text-bg-danger p-2">OBESIDAD</div>
                 {% endif %}

@@ -194,8 +194,9 @@
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
-                    <th scope="col">ESTADO</th>
                     <th scope="col">FECHA</th>
+                    <th scope="col">ESTADO</th>
+                    <th scope="col">TIEMPO</th>
                     <th scope="col">PESO</th>
                     <th scope="col">TALLA</th>
                     <th scope="col">CBI</th>
@@ -208,8 +209,9 @@
                 {% if antropBefs %}
                     {% for antrop in antropBefs %}
                         <tr>
-                            <td>{{antrop.embarazo_lactando}}</td>
                             <td>{{antrop.fecha}}</td>
+                            <td>{{antrop.embarazo_lactando}}</td>
+                            <td>{{antrop.tiempo_gestacion}}</td>
                             <td>{{antrop.peso}}</td>
                             <td>{{antrop.talla}}</td>
                             <td>{{antrop.cbi}}</td>
