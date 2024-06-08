@@ -14,7 +14,7 @@
 
 
     {{error}}
-    <br>
+
 
     <div class="tabcontent" id="metric">
         <form method="post">
@@ -53,12 +53,12 @@
             <div class="row">
                 <div class="col-4">
                     <label for="">Peso: </label>
-                    <input type="text" name="peso" class="form-control" required placeholder="kg">
+                    <input type="text" name="peso" class="form-control" required placeholder="cm">
                 </div>
 
                 <div class="col-4">
-                    <label for="">Altura: </label>
-                    <input type="text" name="altura" class="form-control" required placeholder="cm">
+                    <label for="">Talla: </label>
+                    <input type="text" name="talla" class="form-control" required placeholder="cm">
                 </div>
 
                 <div class="col-4">
@@ -71,11 +71,11 @@
             <button type="submit" class="btn btn-primary" action="{% url 'imc_benef' pk %}">Calcular </button>
 
             <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
+            
 
         </form>
 
     </div>
-    <br>
     <br>
 
     {% if imc %}
@@ -97,6 +97,33 @@
                 {% endif %}
             </div>
         </div>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+    
+            <div class="row justify-content-center">
+                <div class="col-5">
+                    {{form.riesgo|as_crispy_field}}
+                </div>
+            </div> 
+    
+            <div class="row">
+                <div class="col">
+                    {{form.servicio|as_crispy_field}}
+                </div>
+                <div class="col">
+                    {{form.centro_hospital|as_crispy_field}}
+                </div>
+                <div class="col">
+                    {{form.observacion|as_crispy_field}}
+                </div>
+            </div> 
+            
+            <button type="submit" class="btn btn-primary" action="{% url 'beneficiario_detalle' pk %}">Aceptar </button>
+
+        </form>
+
+
     {% endif %}
 
 </div>

@@ -14,10 +14,10 @@ class BeneficiarioForm(ModelForm):
 class AntropBenefForm(ModelForm):
     class Meta:
         model = AntropBef 
-        fields = ['cedula_bef','fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi'
+        fields = ['cedula_bef','fecha','embarazo_lactando','tiempo_gestacion','peso','talla','cbi','riesgo','servicio','centro_hospital','observacion'
         ]
 
-        labels = {'cedula_bef':'Cedula','fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI'
+        labels = {'cedula_bef':'Cedula','fecha':'Fecha','embarazo_lactando':'Embarazada / Lactando','tiempo_gestacion':'Tiempo','peso':'Peso','talla':'Talla','cbi':'CBI','riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospital':'Centro','observacion':'Observaciones'
         }
 
 

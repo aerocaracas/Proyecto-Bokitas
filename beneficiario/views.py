@@ -221,18 +221,20 @@ def familiar_crear(request,pk):
 
 def imc_benef(request,pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
+    form = AntropBenefForm
     context = {}
     context["pk"] = pk
     context["beneficiarios"] = beneficiarios
+    context["form"] = form
 
     if request.method=="POST":
         
         peso = float(request.POST.get("peso"))
-        altura = float(request.POST.get("altura"))
+        talla = float(request.POST.get("talla"))
 
-        altura = altura/100
+        talla = talla/100
 
-        imc = (peso/(altura**2))
+        imc = (peso/(talla**2))
 
         if imc < 18.5:
             diagnostico = "PESO BAJO"
@@ -244,20 +246,23 @@ def imc_benef(request,pk):
             diagnostico = "SOBREPESO"
         elif imc >= 30:
             diagnostico = "OBESIDAD"
-        
+
+
         tiempo = request.POST.get("tiempo")
         cbi = request.POST.get("cbi")
         fecha = datetime.now()
         if beneficiarios.embarazada == "SI":
             estado = "EMBARAZADA"
-        if beneficiarios.lactando == "SI":
+        elif beneficiarios.lactando == "SI":
             estado = "LACTANDO"
+        else:
+            estado = "ESTUDIO"
 
-                
+         
         save = request.POST.get("save")
         if save == "on":
             print(fecha)
-            AntropBef.objects.create(peso=peso, altura=altura, imc=round(imc), diagnostico=diagnostico)
+            AntropBef.objects.create(peso=peso, talla=talla, imc=round(imc), diagnostico=diagnostico)
         
         context["imc"] = round(imc)
         context["diagnostico"] = diagnostico

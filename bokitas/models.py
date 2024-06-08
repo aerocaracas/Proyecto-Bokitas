@@ -222,7 +222,7 @@ class AntropBef(models.Model):
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     edad = models.PositiveIntegerField(default=0,blank=True,null=True)
     meses = models.PositiveIntegerField(default=0,blank=True,null=True)
-    peso = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
+    peso = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,help_text="Kg")
     talla = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
     cbi = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,blank=True,null=True)
     imc = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
