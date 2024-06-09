@@ -221,16 +221,16 @@ def familiar_crear(request,pk):
 
 def imc_benef(request,pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
-    form = AntropBenefForm
     context = {}
     context["pk"] = pk
     context["beneficiarios"] = beneficiarios
-    context["form"] = form
 
     if request.method=="POST":
         
         peso = float(request.POST.get("peso"))
         talla = float(request.POST.get("talla"))
+        cbi = float(request.POST.get("cbi"))
+        tiempo = request.POST.get("tiempo")
 
         talla = talla/100
 
@@ -248,8 +248,6 @@ def imc_benef(request,pk):
             diagnostico = "OBESIDAD"
 
 
-        tiempo = request.POST.get("tiempo")
-        cbi = request.POST.get("cbi")
         fecha = datetime.now()
         if beneficiarios.embarazada == "SI":
             estado = "EMBARAZADA"
@@ -257,17 +255,39 @@ def imc_benef(request,pk):
             estado = "LACTANDO"
         else:
             estado = "ESTUDIO"
-
-         
-        save = request.POST.get("save")
-        if save == "on":
-            print(fecha)
-            AntropBef.objects.create(peso=peso, talla=talla, imc=round(imc), diagnostico=diagnostico)
         
         context["imc"] = round(imc)
+        context["peso"] = peso
+        context["talla"] = talla
+        context["cbi"] = cbi
+        context["tiempo"] = tiempo
+        context["estado"] = estado
         context["diagnostico"] = diagnostico
+        context["fecha"] = fecha
+        return render(request, "imc_benef_resul.html", context)
    
     return render(request, "imc_benef.html", context)
+
+
+
+def imc_benef_resul(request,pk):
+    beneficiarios = get_object_or_404(Beneficiario, id=pk)
+    form = AntropBenefForm
+    context = {}
+    context["pk"] = pk
+    context["beneficiarios"] = beneficiarios
+    context["form"] = form
+
+    if request.method=="POST":
+
+        riesgo = request.POST.get("riesgo")
+        servicio = request.POST.get("servicio")
+        centro_hospital = request.POST.get("centro_hospital")
+        observacion = request.POST.get("observacion")
+
+        
+  
+    return render(request, "beneficiario_detalle.html", pk)
  
 
 

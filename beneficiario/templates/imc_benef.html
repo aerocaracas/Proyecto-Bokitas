@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="">Tiempo del Embarazo: </label>
-                        <input type="text" name="tiempo" class="form-control" required placeholder="Semanas">
+                        <input type="number" name="tiempo" class="form-control" required min="4" max="38" placeholder="Semanas">
                     </div>
                 </div> 
          
@@ -45,25 +45,25 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="">Tiempo Lactando: </label>
-                        <input type="text" name="tiempo" class="form-control" required placeholder="Meses">
+                        <input type="number" name="tiempo" class="form-control" required min="0" max="50"placeholder="Meses">
                     </div>
                 </div> 
 
             {% endif %}
             <div class="row">
                 <div class="col-4">
-                    <label for="">Peso: </label>
-                    <input type="text" name="peso" class="form-control" required placeholder="cm">
+                    <label for="">Peso:* </label>
+                    <input type="number" name="peso" class="form-control" required min="3" max="180" step="0.1" placeholder="Kg">
                 </div>
 
                 <div class="col-4">
-                    <label for="">Talla: </label>
-                    <input type="text" name="talla" class="form-control" required placeholder="cm">
+                    <label for="">Talla:* </label>
+                    <input type="number" name="talla" class="form-control" required min="0" max="220" step="0.1" placeholder="cm">
                 </div>
 
                 <div class="col-4">
                     <label for="">CBI: </label>
-                    <input type="text" name="cbi" class="form-control" placeholder="cm">
+                    <input type="number" name="cbi" class="form-control" min="5" max="40" step="0.1" placeholder="cm">
                 </div>
             </div>
             <br>
@@ -71,60 +71,10 @@
             <button type="submit" class="btn btn-primary" action="{% url 'imc_benef' pk %}">Calcular </button>
 
             <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
-            
 
         </form>
 
     </div>
-    <br>
-
-    {% if imc %}
-        <div class="row">
-            <div  class="text-center" >
-                <h2>Resultado</h2>
-                <p> Su IMC = {{imc}} Kg/m² </p>
-
-                {% if diagnostico == "PESO BAJO" %}
-                    <div class="text-bg-danger p-2">PESO BAJO</div>  
-                {%elif diagnostico == "ADECUADO" %}
-                    <div class="text-bg-success p-2">ADECUADO</div>
-                {%elif diagnostico == "RIESGO DE SOBREPESO" %}
-                    <div class="text-bg-warning p-2">RIESGO DE SOBREPESO</div>
-                {%elif diagnostico == "SOBREPESO" %}
-                    <div class="text-bg-danger p-2" style="--bs-bg-opacity: .7;">SOBREPESO</div>
-                {%elif diagnostico == "OBESIDAD" %}
-                    <div class="text-bg-danger p-2">OBESIDAD</div>
-                {% endif %}
-            </div>
-        </div>
-
-        <form action="" method="POST">
-            {% csrf_token %}
-    
-            <div class="row justify-content-center">
-                <div class="col-5">
-                    {{form.riesgo|as_crispy_field}}
-                </div>
-            </div> 
-    
-            <div class="row">
-                <div class="col">
-                    {{form.servicio|as_crispy_field}}
-                </div>
-                <div class="col">
-                    {{form.centro_hospital|as_crispy_field}}
-                </div>
-                <div class="col">
-                    {{form.observacion|as_crispy_field}}
-                </div>
-            </div> 
-            
-            <button type="submit" class="btn btn-primary" action="{% url 'beneficiario_detalle' pk %}">Aceptar </button>
-
-        </form>
-
-
-    {% endif %}
 
 </div>
 
