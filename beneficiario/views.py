@@ -220,16 +220,23 @@ def familiar_crear(request,pk):
 
 
 def imc_benef(request,pk):
-    beneficiarios = get_object_or_404(Beneficiario, id=pk)
-    context = {}
-    context["pk"] = pk
-    context["beneficiarios"] = beneficiarios
+    if request.method == 'GET':
 
-    if request.method=="POST":
-        
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        context = {}
+        context["pk"] = pk
+        context["beneficiarios"] = beneficiarios
+    
+        return render(request, "imc_benef.html", context)
+
+    else:
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        context = {}
+        context["pk"] = pk
+        context["beneficiarios"] = beneficiarios
         peso = float(request.POST.get("peso"))
         talla = float(request.POST.get("talla"))
-        cbi = float(request.POST.get("cbi"))
+        cbi = request.POST.get("cbi")
         tiempo = request.POST.get("tiempo")
 
         talla = talla/100
@@ -247,7 +254,6 @@ def imc_benef(request,pk):
         elif imc >= 30:
             diagnostico = "OBESIDAD"
 
-
         fecha = datetime.now()
         if beneficiarios.embarazada == "SI":
             estado = "EMBARAZADA"
@@ -264,19 +270,15 @@ def imc_benef(request,pk):
         context["estado"] = estado
         context["diagnostico"] = diagnostico
         context["fecha"] = fecha
-        return render(request, "imc_benef_resul.html", context)
+        
+        print(imc)
+        
+        return redirect("imc_benef_resul", pk)
    
-    return render(request, "imc_benef.html", context)
-
-
-
+    
 def imc_benef_resul(request,pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
-    form = AntropBenefForm
-    context = {}
-    context["pk"] = pk
-    context["beneficiarios"] = beneficiarios
-    context["form"] = form
+    print(peso)
 
     if request.method=="POST":
 
@@ -286,8 +288,9 @@ def imc_benef_resul(request,pk):
         observacion = request.POST.get("observacion")
 
         
+        
   
-    return render(request, "beneficiario_detalle.html", pk)
+    return render(request, "imc_benef_resul.html")
  
 
 
