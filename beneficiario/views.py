@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, AntropBenefForm, AntropBenefRiesgoForm
+from beneficiario.forms import BeneficiarioForm, AntropBenefForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicamentoForm, MedicaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
@@ -231,9 +231,7 @@ def imc_benef(request,pk):
 
     else:
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        context = {}
-        context["pk"] = pk
-        context["beneficiarios"] = beneficiarios
+
         peso = float(request.POST.get("peso"))
         talla = float(request.POST.get("talla"))
         cbi = request.POST.get("cbi")
@@ -261,24 +259,22 @@ def imc_benef(request,pk):
             estado = "LACTANDO"
         else:
             estado = "ESTUDIO"
+
+        antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=cbi, imc=round(imc), diagnostico=diagnostico)
         
-        context["imc"] = round(imc)
-        context["peso"] = peso
-        context["talla"] = talla
-        context["cbi"] = cbi
-        context["tiempo"] = tiempo
-        context["estado"] = estado
-        context["diagnostico"] = diagnostico
-        context["fecha"] = fecha
-        
-        print(imc)
-        
+        antropometrico.save()
+        idimc=antropometrico.id
+
+        context={}
+        context["pk"]= pk
+        context["idimc"]=idimc
+
         return redirect("imc_benef_resul", pk)
    
     
 def imc_benef_resul(request,pk):
+    
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
-    print(peso)
 
     if request.method=="POST":
 
@@ -292,69 +288,6 @@ def imc_benef_resul(request,pk):
   
     return render(request, "imc_benef_resul.html")
  
-
-
-@login_required  
-def antrop_benef_crear(request,pk):
-    if request.method == 'GET':
-        return render(request, 'antrop_benef_crear.html', {
-            'form': AntropBenefForm,
-            'pk':pk
-        })
-    else:
-        try:
-            form = AntropBenefForm(request.POST)
-            new_antropBenef = form.save(commit=False)
-            new_antropBenef.save()
-            return redirect('antrop_benef_calcular', {
-                'pk': pk
-            })
-        except ValueError:
-            return render(request, 'antrop_benef_crear.html', {
-            'form': form,
-            'error': 'Datos incorectos, Favor verificar la información'
-            })
-
-
-@login_required  
-def antrop_benef_calcular(request,pk):
-    if request.method == 'GET':
-
-        antropBenefs = get_object_or_404(AntropBef, id=pk)
-        form = AntropBenefRiesgoForm
-        
-        return render(request, 'antrop_benef_calcular.html', {
-            'antropBenefs':antropBenefs,
-            'form': form,
-            'pk': pk
-      })
-    else:
-        try:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            form = AntropBenefRiesgoForm(request.POST) 
-            form.save()
-
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-   
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-
-                })
-        except ValueError:
-            return render(request, 'antrop_benef_actualizar.html', {
-            'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
-            'pk': pk
-            })
 
 # Sesion de Medicamento 
 

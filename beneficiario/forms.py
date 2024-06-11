@@ -21,16 +21,6 @@ class AntropBenefForm(ModelForm):
         }
 
 
-class AntropBenefRiesgoForm(ModelForm):
-    class Meta:
-        model = AntropBef 
-        fields = ['riesgo','servicio','centro_hospital','observacion'
-        ]
-
-        labels = {'riesgo':'Presenta Riesgo','servicio':'Servicio','centro_hospital':'Centro','observacion':'Observaciones'
-        }
-
-
 class MenorForm(ModelForm):
     class Meta:
         model = Menor 
