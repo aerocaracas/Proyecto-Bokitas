@@ -218,6 +218,43 @@ def familiar_crear(request,pk):
 
 # Sesion Antropometrico del Beneficiario
 
+
+@login_required     
+def imc_benef_riesgo(request, pk, context):
+    if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        context = {}
+        context["pk"] = pk
+        context["beneficiarios"] = beneficiarios
+    
+        return render(request, "imc_benef_riesgo.html", context)   
+
+    if request.method=="POST":
+
+        riesgo = request.POST.get("riesgo")
+        servicio = request.POST.get("servicio")
+        centro_hospital = request.POST.get("centro_hospital")
+        observacion = request.POST.get("observacion")
+        print(riesgo)
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+        menores = Menor.objects.filter(cedula_bef=pk)
+        familias = Familia.objects.filter(cedula_bef = pk)
+        medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+        context={}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["antropBefs"]=antropBefs
+        context["menores"]=menores
+        context["familias"]=familias
+        context["medicamentos"]=medicamentos
+
+    return render(request, "beneficiario_detalle.html", context)
+ 
+
+
 @login_required 
 def imc_benef(request,pk):
     if request.method == 'GET':
@@ -240,7 +277,7 @@ def imc_benef(request,pk):
 
             talla = talla/100
 
-            imc = (peso/(talla**2))
+            imc = round(peso/(talla**2))
 
             if imc < 18.5:
                 diagnostico = "PESO BAJO"
@@ -261,13 +298,14 @@ def imc_benef(request,pk):
             else:
                 estado = "ESTUDIO"
 
-            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=cbi, imc=round(imc), diagnostico=diagnostico)
+            print(cbi)
+            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
             
             antropometrico.save()
             idimc=antropometrico.id
 
             context={}
-            context["pk"]= pk
+            
             context["idimc"]=idimc
             context["beneficiarios"] = beneficiarios
             context["peso"]=peso
@@ -276,7 +314,7 @@ def imc_benef(request,pk):
             context["imc"]=imc
             context["diagnostico"]=diagnostico
 
-            return render(request, "imc_benef_resul.html", context)
+            return redirect(imc_benef_riesgo, pk, context)
         
         except ValueError:
             return render(request, 'imc_benef.html', {
@@ -285,32 +323,7 @@ def imc_benef(request,pk):
             })
     
 
-@login_required     
-def imc_benef_resul(request,pk):   
 
-    if request.method=="POST":
-
-        riesgo = request.POST.get("riesgo")
-        servicio = request.POST.get("servicio")
-        centro_hospital = request.POST.get("centro_hospital")
-        observacion = request.POST.get("observacion")
-        
-
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-        menores = Menor.objects.filter(cedula_bef=pk)
-        familias = Familia.objects.filter(cedula_bef = pk)
-        medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-        context={}
-        context["pk"]=pk
-        context["beneficiarios"]=beneficiarios
-        context["antropBefs"]=antropBefs
-        context["menores"]=menores
-        context["familias"]=familias
-        context["medicamentos"]=medicamentos
-
-    return render(request, "beneficiario_detalle.html", context)
- 
 
 # Sesion de Medicamento 
 
