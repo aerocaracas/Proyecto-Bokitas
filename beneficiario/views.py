@@ -220,14 +220,18 @@ def familiar_crear(request,pk):
 
 
 @login_required     
-def imc_benef_riesgo(request, pk, context):
+def imc_benef_riesgo(request, pk, idimc):
+        
     if request.method == 'GET':
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
         context = {}
-        context["pk"] = pk
-        context["beneficiarios"] = beneficiarios
-    
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["idimc"]=idimc
+        context["imc_beneficiarios"]=imc_beneficiarios
+
         return render(request, "imc_benef_riesgo.html", context)   
 
     if request.method=="POST":
@@ -236,7 +240,9 @@ def imc_benef_riesgo(request, pk, context):
         servicio = request.POST.get("servicio")
         centro_hospital = request.POST.get("centro_hospital")
         observacion = request.POST.get("observacion")
+        
         print(riesgo)
+        
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         antropBefs = AntropBef.objects.filter(cedula_bef = pk)
@@ -298,23 +304,12 @@ def imc_benef(request,pk):
             else:
                 estado = "ESTUDIO"
 
-            print(cbi)
             antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
             
             antropometrico.save()
             idimc=antropometrico.id
 
-            context={}
-            
-            context["idimc"]=idimc
-            context["beneficiarios"] = beneficiarios
-            context["peso"]=peso
-            context["talla"]=talla
-            context["cbi"]=cbi
-            context["imc"]=imc
-            context["diagnostico"]=diagnostico
-
-            return redirect(imc_benef_riesgo, pk, context)
+            return redirect("imc_benef_riesgo", pk, idimc)
         
         except ValueError:
             return render(request, 'imc_benef.html', {
