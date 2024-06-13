@@ -154,6 +154,9 @@ def menor_crear(request,pk):
 
 @login_required      
 def menor_detalle(request, pk):
+
+    print(pk)
+    
     if request.method == 'GET':
      
         menor_detalles = get_object_or_404(Menor, id=pk)
@@ -235,30 +238,45 @@ def imc_benef_riesgo(request, pk, idimc):
         return render(request, "imc_benef_riesgo.html", context)   
 
     if request.method=="POST":
-
-        riesgo = request.POST.get("riesgo")
-        servicio = request.POST.get("servicio")
-        centro_hospital = request.POST.get("centro_hospital")
-        observacion = request.POST.get("observacion")
+        try:
+            riesgo = request.POST.get("riesgo")
+            servicio = request.POST.get("servicio")
+            centro_hospital = request.POST.get("centro_hospital")
+            observacion = request.POST.get("observacion")
         
-        print(riesgo)
+            riesgos = get_object_or_404(AntropBef, id=idimc)
+            riesgos.riesgo=riesgo
+            riesgos.servicio=servicio
+            riesgos.centro_hospital=centro_hospital
+            riesgos.observacion=observacion          
+            riesgos.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+
+            return render(request, "beneficiario_detalle.html", context)
         
-
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-        menores = Menor.objects.filter(cedula_bef=pk)
-        familias = Familia.objects.filter(cedula_bef = pk)
-        medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-        context={}
-        context["pk"]=pk
-        context["beneficiarios"]=beneficiarios
-        context["antropBefs"]=antropBefs
-        context["menores"]=menores
-        context["familias"]=familias
-        context["medicamentos"]=medicamentos
-
-    return render(request, "beneficiario_detalle.html", context)
- 
+        except ValueError:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
+            context = {}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["idimc"]=idimc
+            context["imc_beneficiarios"]=imc_beneficiarios
+            context["error"]='Datos incorectos, Favor verificar la información'
+            return render(request, 'imc_benef_riesgo.html', context)
+    
 
 
 @login_required 
