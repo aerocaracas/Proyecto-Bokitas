@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+                
+    <h1 class="text-center">Registro Antropométrico</h1>
+    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    <hr>
+
+
+    {{error}}
+
+
+    <div class="tabcontent" id="metric">
+
+            <div class="row">
+
+                <div class="col">
+                    <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p>
+                </div>
+                <div class="col">
+                    <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+                </div>
+                <div class="col">
+                    <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+                </div>
+            </div>
+
+            {% if beneficiarios.embarazada == "SI" %}
+                <div class="row">
+                    <div class="col-8">
+                        <P> <strong> Tiempo del Embarazo: </strong> {{imc_beneficiarios.tiempo_gestacion}} Semanas </p>
+                    </div>
+                </div> 
+         
+            {% elif beneficiarios.lactando == "SI" %}
+                <div class="row">
+                    <div class="col-8">
+                        <P> <strong> Tiempo Lactando: </strong> {{imc_beneficiarios.tiempo_gestacion}} Meses</p>
+                    </div>
+                </div> 
+
+            {% endif %}
+            <div class="row">
+                <div class="col-4">
+                    <P> <strong> Peso: </strong> {{imc_beneficiarios.peso}} </p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> Talla: </strong> {{imc_beneficiarios.talla}} </p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> CBI: </strong> {{imc_beneficiarios.cbi}} </p>
+                </div>
+            </div>
+
+    </div>
+
+    {% if imc_beneficiarios.imc %}
+        <div class="row">
+            <div  class="text-center" >
+                <h2>Resultado</h2>
+                <p> Su IMC = {{imc_beneficiarios.imc}} Kg/m² </p>
+
+                {% if imc_beneficiarios.diagnostico == "PESO BAJO" %}
+                    <div class="text-bg-danger p-2">PESO BAJO</div>  
+                {%elif imc_beneficiarios.diagnostico == "ADECUADO" %}
+                    <div class="text-bg-success p-2">ADECUADO</div>
+                {%elif imc_beneficiarios.diagnostico == "RIESGO DE SOBREPESO" %}
+                    <div class="text-bg-warning p-2">RIESGO DE SOBREPESO</div>
+                {%elif imc_beneficiarios.diagnostico == "SOBREPESO" %}
+                    <div class="text-white p-2"style="background-color:#FF7F50">SOBREPESO</div>
+                {%elif imc_beneficiarios.diagnostico == "OBESIDAD" %}
+                    <div class="text-bg-danger p-2">OBESIDAD</div>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-12">
+                <P class="text-center"> <strong> Presenta Riesgo: </strong> {{imc_beneficiarios.riesgo}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Servicio: </strong> {{imc_beneficiarios.servicio}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Centro: </strong> {{imc_beneficiarios.centro_hospital}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Observación: </strong> {{imc_beneficiarios.observacion}} </p>
+            </div>
+        </div>
+
+
+
+            <!-- ########  Menu de opciones  ##########-->
+        <br>
+        <hr>
+        <div class="container">
+            <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
+            
+            &nbsp
+            <a href="{% url 'imc_benef_eliminar' pk imc_beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+            
+        </div>
+
+        
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

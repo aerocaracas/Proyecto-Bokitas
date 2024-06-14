@@ -8,26 +8,58 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
                 
-    <h1 class="text-center">Registro de Medicamento / Producto</h1>
+    <h1 class="text-center">Registro de Medicamentos / Productos</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
-    <br>
 
     {{error}}
             
-    <form action=" " method="POST">
-        {% csrf_token %}
+    <div class="tabcontent">
+        <form action=" " method="POST">
+            {% csrf_token %}
 
-        {{form | crispy }}
-                    
-        <br>
-        <hr>
-        <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
-        
-        <button class="btn btn-primary">
-            Aceptar
-        </button>
-    </form>
+            <div class="row">
+
+                <div class="col">
+                    <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p>
+                </div>
+                <div class="col">
+                    <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+                </div>
+                <div class="col">
+                    <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label for="">Nombre del Medicamento/Producto:* </label>
+                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="medicamento" class="form-control" required placeholder="Nombre del Medicamento/Producto">
+                    <br>
+                </div>
+                
+                <div class="co-12">
+                    <label for="">Descripción:* </label>
+                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="descripcion" class="form-control" required placeholder="Descripción">
+                    <br>
+                </div>
+                
+                <div class="col-12">
+                    <label for="">Cantidad:* </label>
+                    <input type="number" name="cantidad" class="form-control" required min="1" max="40" step="1" placeholder="Cantidad">
+                    <br>
+                </div>
+            </div>
+            <hr>
+            <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
+            
+            <button class="btn btn-primary">
+                Aceptar
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 

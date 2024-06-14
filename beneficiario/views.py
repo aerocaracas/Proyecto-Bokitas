@@ -117,7 +117,7 @@ def beneficiario_eliminar(request, pk):
 # Sesion de Menores 
 
 @login_required  
-def menor_crear(request,pk):
+def menor_crear(request, pk):
     if request.method == 'GET':
         return render(request, 'menor_crear.html', {
             'form': MenorForm,
@@ -153,14 +153,15 @@ def menor_crear(request,pk):
 
 
 @login_required      
-def menor_detalle(request, pk):
+def menor_detalle(request, pk, id):
 
     print(pk)
+    print(id)
     
     if request.method == 'GET':
      
         menor_detalles = get_object_or_404(Menor, id=pk)
-        print(pk)
+
         beneficiarios = Beneficiario.objects.filter(id=pk)
         antropBefs = AntropBef.objects.filter(cedula_bef = pk)
         menores = Menor.objects.filter(cedula_bef=pk)
@@ -184,7 +185,7 @@ def menor_detalle(request, pk):
 # Sesion del Familiar
 
 @login_required  
-def familiar_crear(request,pk):
+def familiar_crear(request, pk):
     if request.method == 'GET':
         return render(request, 'familiar_crear.html', {
             'form': FamiliarForm,
@@ -220,7 +221,6 @@ def familiar_crear(request,pk):
 
 
 # Sesion Antropometrico del Beneficiario
-
 
 @login_required     
 def imc_benef_riesgo(request, pk, idimc):
@@ -278,9 +278,8 @@ def imc_benef_riesgo(request, pk, idimc):
             return render(request, 'imc_benef_riesgo.html', context)
     
 
-
 @login_required 
-def imc_benef(request,pk):
+def imc_benef(request, pk):
     if request.method == 'GET':
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
@@ -334,46 +333,87 @@ def imc_benef(request,pk):
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
-    
+
+
+@login_required 
+def imc_benef_detalle(request, pk, id):
+
+    if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+        context = {}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["idimc"]=id
+        context["imc_beneficiarios"]=imc_beneficiarios
+
+        return render(request, "imc_benef_detalle.html", context)   
+
+
+@login_required   
+def imc_benef_eliminar(request, pk, id):
+    imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+    imc_beneficiarios.delete()
+    return redirect('beneficiario_detalle', pk)
 
 
 
 # Sesion de Medicamento 
 
 @login_required  
-def medicamento_crear(request,pk):
+def medicamento_crear(request, pk):
     if request.method == 'GET':
-        return render(request, 'medicamento_crear.html', {
-            'form': MedicamentoForm,
-            'pk':pk
-        })
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        context={}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+
+        return render(request, 'medicamento_crear.html', context)
     else:
         try:
-            form = MedicamentoForm(request.POST)
-            new_medicamento = form.save(commit=False)
-            new_medicamento.save()
+            medicamento = request.POST.get("medicamento")
+            descripcion = request.POST.get("descripcion")
+            cantidad = request.POST.get("cantidad")
+            fecha = datetime.now()
+            
+            medicamentos = Medicamento(cedula_bef_id=pk, fecha = fecha, nombre=medicamento, descripcion=descripcion, cantidad=cantidad)
+            medicamentos.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-   
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-            })
+
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+            
+            return render(request, 'beneficiario_detalle.html', context)
+        
         except ValueError:
             return render(request, 'menor_crear.html', {
-            'form': form,
+            'beneficiarios': beneficiarios,
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
+
+@login_required 
+def medicamento_eliminar(request, pk, id):
+
+    medicamentos = get_object_or_404(Medicamento, id=id)
+    medicamentos.delete()
+    return redirect('beneficiario_detalle', pk)
+
+
+
+# Sesion de Medica 
 
 @login_required  
 def medica_crear(request):
