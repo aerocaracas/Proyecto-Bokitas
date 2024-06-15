@@ -34,7 +34,7 @@ class MenorForm(ModelForm):
 class FamiliarForm(ModelForm):
     class Meta:
         model = Familia 
-        fields = ['cedula_bef','parentesco','cedula','nombre','apellido','sexo','fecha_nac','edad','meses','estado_civil','educacion','profesion','laboral','observacion'
+        fields = ['parentesco','cedula','nombre','apellido','sexo','fecha_nac','estado_civil','educacion','profesion','laboral','observacion'
         ]
 
         labels = {'cedula_bef':'Cédula Beneficiario','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','edad':'Edad','meses':'Meses','estado_civil':'Estado Civil','educacion':'Eduación','profesion':'Profesión','laboral':'Situación Laboral','observacion':'Observación'

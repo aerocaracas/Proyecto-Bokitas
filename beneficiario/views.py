@@ -197,9 +197,14 @@ def familiar_crear(request, pk):
         return render(request, 'familiar_crear.html', context)
     else:
         try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
             form = FamiliarForm(request.POST)
             new_familiar = form.save(commit=False)
-            new_familiar.user = request.user
+            
+            new_familiar.user = request.user 
+            new_familiar.edad = 25
+            new_familiar.meses = 3
+            new_familiar.cedula_bef_id = pk
             new_familiar.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
@@ -218,6 +223,7 @@ def familiar_crear(request, pk):
 
             return render(request, 'beneficiario_detalle.html', context)
         except ValueError:
+            print(form)
             return render(request, 'familiar_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información',
