@@ -187,10 +187,14 @@ def menor_detalle(request, pk, id):
 @login_required  
 def familiar_crear(request, pk):
     if request.method == 'GET':
-        return render(request, 'familiar_crear.html', {
-            'form': FamiliarForm,
-            'pk':pk
-        })
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        fechaActual = datetime.now()
+        context={}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["form"]=FamiliarForm
+        context["fechaActual"]=fechaActual
+        return render(request, 'familiar_crear.html', context)
     else:
         try:
             form = FamiliarForm(request.POST)
@@ -204,14 +208,15 @@ def familiar_crear(request, pk):
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
 
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-                })
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            #context["antropBefs"]=antropBefs
+            #context["menores"]=menores
+            #context["familias"]=familias
+            #context["medicamentos"]=medicamentos
+
+            return render(request, 'beneficiario_detalle.html', context)
         except ValueError:
             return render(request, 'familiar_crear.html', {
             'form': form,
