@@ -216,16 +216,16 @@ def familiar_crear(request, pk):
             context={}
             context["pk"]=pk
             context["beneficiarios"]=beneficiarios
-            #context["antropBefs"]=antropBefs
-            #context["menores"]=menores
-            #context["familias"]=familias
-            #context["medicamentos"]=medicamentos
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
 
             return render(request, 'beneficiario_detalle.html', context)
         except ValueError:
-            print(form)
             return render(request, 'familiar_crear.html', {
             'form': form,
+            'beneficiarios':beneficiarios,
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })

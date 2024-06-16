@@ -30,122 +30,27 @@
                     <strong> FAMILIAR </strong>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-12 text-center">
-                    <label for="parentesco">Parentesco:*</label>
-                    <select id="parentesco" name="parentesco">
-                        <option value="" selected>---------</option>
-                        <option value="CONYUGUE">CONYUGUE</option>
-                        <option value="SOBRINO">SOBRINO</option>
-                        <option value="SOBRINA">SOBRINA</option>
-                        <option value="NIETO">NIETO</option>
-                        <option value="NIETA">NIETA</option>
-                        <option value="ASISTIDO">ASISTIDO</option>
-                        <option value="ASISTIDA">ASISTIDA</option>
-                        <option value="HERMANO">HERMANO</option>
-                        <option value="HERMANA">HERMANA</option>
-                        <option value="TIO">TIO</option>
-                        <option value="TIA">TIA</option>
-                        <option value="ABUELO">ABUELO</option>
-                        <option value="ABUELA">ABUELA</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="row">
+            <div class="col">
+                {{ form.parentesco | as_crispy_field }}  
+                {{ form.cedula | as_crispy_field }} 
+                {{ form.nombre | as_crispy_field }} 
+                {{ form.apellido | as_crispy_field }} 
+                {{ form.sexo | as_crispy_field }} 
                 <div class="col-12">
-                    <label for="">Cédula:* </label>
-                    <input type="number" name="cedula" class="form-control" required min="999999" placeholder="Cédula del Familiar">
-                    <br>
-                </div>
-
-                <div class="col-12">
-                    <label for="">Nombre:* </label>
-                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="nombre" class="form-control" required placeholder="Nombre del familiar">
-                    <br>
-                </div>
-                
-                <div class="co-12">
-                    <label for="">Apellido:* </label>
-                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="apellido" class="form-control" required placeholder="Apellido del Familiar">
-                    <br>
-                </div>
-
-                <div class="col-12">
-                    <label for="sexo">Sexo:*</label>
-                    <select id="sexo" name="sexo" required>
-                        <option value="" selected>---------</option>
-                        <option value="MASCULINO">MASCULINO</option>
-                        <option value="FEMENINO">FEMENINO</option>
-                    </select>
-                </div>
-
-                <div class="col-12">
-                    <br>
-                    <label for="">Fecha de Nacimiento:* </label>
+                    <label for="">Fecha de Nacimiento* </label>
                     <input type="date" name="fecha_nac" class="form-control" required placeholder="Fecha de Nacimmiento">
                     <br>
                 </div>
-
-                <div class="col-12">
-                    <label for="estado_civil">Estado Civil:*</label>
-                    <select id="estado_civil" name="estado_civil" required>
-                        <option value="" selected>---------</option>
-                        <option value="SOLTERA">SOLTERA</option>
-                        <option value="SOLTERO">SOLTERO</option>
-                        <option value="CASADA">CASADA</option>
-                        <option value="CASADO">CASADO</option>
-                        <option value="DIVORCIADA">DIVORCIADA</option>
-                        <option value="DIVORCIADO">DIVORCIADO</option>
-                        <option value="VIUDA">VIUDA</option>
-                        <option value="VIUDO">VIUDO</option>
-                        <option value="CONCUBINATO">CONCUBINATO</option>
-                    </select>
-                </div>
-                <br>
-                <br>
-                <div class="col-12">
-                    <label for="educacion">Educación:</label>
-                    <select id="educacion" name="educacion" required>
-                        <option value="" selected>---------</option>
-                        <option value="ANALFABETA">ANALFABETA</option>
-                        <option value="PRIMARIA">PRIMARIA</option>
-                        <option value="SECUNDARIA">SECUNDARIA</option>
-                        <option value="TECNICO MEDIO">TECNICO MEDIO</option>
-                        <option value="TECNICO SUPERIOR">TECNICO SUPERIOR</option>
-                        <option value="UNIVERSITARIO">UNIVERSITARIO</option>
-                    </select>
-                </div>
-                <br>
-                <br>
-                <div class="co-12">
-                    <label for="">Profesión: </label>
-                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="profesion" class="form-control" placeholder="Profesión">
-                    <br>
-                </div>
-
-                <div class="col-12">
-                    <label for="laboral">Situación Laboral:</label>
-                    <select id="laboral" name="laboral" required>
-                        <option value="" selected>---------</option>
-                        <option value="DESEMPLEADA">DESEMPLEADA</option>
-                        <option value="DESEMPLEADO">DESEMPLEADO</option>
-                        <option value="EMPLEADA">EMPLEADA</option>
-                        <option value="EMPLEADO">EMPLEADO</option>
-                        <option value="OCACIONAL">OCACIONAL</option>
-                        <option value="INDEPENDIENTE">INDEPENDIENTE</option>
-                    </select>
-                </div>
-                <br>
-                <br>
-                <label for="observacion">Observación:</label>
-                <div class="col-12">
-                    
-                    <textarea name="observacion" rows="6" cols="50" placeholder="Observación"></textarea>
-                </div>
-
+                {{ form.fecha_nac | as_crispy_DateField }}
+                {{ form.estado_civil | as_crispy_field }} 
+                {{ form.educacion | as_crispy_field }} 
+                {{ form.profesion | as_crispy_field }} 
+                {{ form.laboral | as_crispy_field }} 
+                {{ form.observacion | as_crispy_field }} 
+                      
             </div>
-                        
+
             <br>
             <hr>
             <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
