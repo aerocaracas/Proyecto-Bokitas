@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
 # Specifying the choices
 SEXOS = (
     ("MASCULINO", "MASCULINO"),
@@ -53,6 +54,11 @@ EMBARAZO_LACTANDO = (
     ("LACTANDO", "LACTANDO"),
 )
 
+HIJOS = (
+    ("HIJO", "HIJO"),
+    ("HIJA", "HIJA"),
+)
+
 PARENTESCO = (
     ("CONYUGUE", "CONYUGUE"),
     ("SOBRINO", "SOBRINO"),
@@ -98,6 +104,12 @@ class Proyecto(models.Model):
     class Meta:
         ordering = ('estatus',)
 
+    def save(self, *args, **kwargs):
+        self.proyecto = self.proyecto.upper()
+        self.nombre_centro = self.nombre_centro.upper()
+        self.representante = self.representante.upper()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.proyecto}"
 
@@ -131,6 +143,12 @@ class Beneficiario(models.Model):
     class Meta:
         ordering = ('-cedula',)
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        self.apellido = self.apellido.upper()
+        self.profesion = self.profesion.upper()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
@@ -138,10 +156,10 @@ class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     cedula = models.CharField(max_length=15, unique=True, blank=False)
-    parentesco = models.CharField(max_length=15, default='HIJO')
+    parentesco = models.CharField(max_length=15,blank=False, choices=HIJOS)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
-    sexo = models.CharField(max_length=20,null=False, blank=False, choices=SEXOS)
+    sexo = models.CharField(max_length=15,blank=False, choices=SEXOS)
     fecha_nac = models.DateField(null=False, blank=False)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
@@ -165,6 +183,15 @@ class Menor(models.Model):
     class Meta:
         ordering = ('-cedula_bef',)
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        self.apellido = self.apellido.upper()
+        self.profesion = self.profesion.upper()
+        self.diagnostico_actual = self.diagnostico_actual.upper()
+        self.diagnostico_talla_actual = self.diagnostico_talla_actual.upper()
+        self.estado_nutri_actual = self.estado_nutri_actual.upper()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
@@ -187,9 +214,16 @@ class Familia(models.Model):
     fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        self.apellido = self.apellido.upper()
+        self.profesion = self.profesion.upper()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
-
+    
+    
 class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE)
@@ -240,6 +274,11 @@ class Medicamento(models.Model):
     nombre = models.CharField(max_length=50, blank=False)
     descripcion = models.CharField(max_length=100, blank=False)
     cantidad = models.CharField(max_length=50, blank=False)
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        self.descripcion = self.descripcion.upper()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.cedula_bef}"

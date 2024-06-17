@@ -34,15 +34,14 @@
             <div class="col">
                 {{ form.parentesco | as_crispy_field }}  
                 {{ form.cedula | as_crispy_field }} 
-                {{ form.nombre | as_crispy_field }} 
+                {{ form.nombre | as_crispy_field }}
                 {{ form.apellido | as_crispy_field }} 
                 {{ form.sexo | as_crispy_field }} 
-                <div class="col-12">
-                    <label for="">Fecha de Nacimiento* </label>
-                    <input type="date" name="fecha_nac" class="form-control" required placeholder="Fecha de Nacimmiento">
+                <div id="div_id_fecha_nac" class="mb-3">
+                    <label for="id_fecha_nac" class="form-label requiredField">Fecha de Nacimiento <span class="asteriskField">*</span></label>
+                    <input type="date" name="fecha_nac" class="dateinput form-control" required="" id="id_fecha_nac">
                     <br>
                 </div>
-                {{ form.fecha_nac | as_crispy_DateField }}
                 {{ form.estado_civil | as_crispy_field }} 
                 {{ form.educacion | as_crispy_field }} 
                 {{ form.profesion | as_crispy_field }} 
