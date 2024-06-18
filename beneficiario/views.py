@@ -6,7 +6,8 @@ from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor,
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
-from datetime import datetime
+from datetime import datetime, date
+from dateutil import relativedelta
 
 # Sesion del Beneficiario.
 @login_required      
@@ -200,12 +201,21 @@ def familiar_crear(request, pk):
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             form = FamiliarForm(request.POST)
             new_familiar = form.save(commit=False)
-            
+
+            fecha_inicial = new_familiar.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
             new_familiar.user = request.user 
-            new_familiar.edad = 25
-            new_familiar.meses = 3
+            new_familiar.edad = tiempo_transc.years
+            new_familiar.meses = tiempo_transc.months
             new_familiar.cedula_bef_id = pk
             new_familiar.save()
+
+            print(tiempo_transc.years)
+            print(tiempo_transc.months)
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)

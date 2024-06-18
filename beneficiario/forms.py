@@ -40,6 +40,10 @@ class FamiliarForm(ModelForm):
         labels = {'cedula_bef':'Cédula Beneficiario','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','edad':'Edad','meses':'Meses','estado_civil':'Estado Civil','educacion':'Eduación','profesion':'Profesión','laboral':'Situación Laboral','observacion':'Observación'
         }
 
+        help_texts = {
+            "fecha_nac":'dd/mm/aaaa'
+        }
+
 
 class MedicamentoForm(ModelForm):
     class Meta:
