@@ -248,7 +248,7 @@ def familiar_actualizar(request, pk, id):
         context["beneficiarios"]=beneficiarios
         context["familias"]=familias
         context["form"]=form
-        return render(request, 'familia_actualizar.html', context)
+        return render(request, 'familiar_actualizar.html', context)
     else:
         try:
             familias = get_object_or_404(Familia, id=id, user=request.user)
@@ -283,7 +283,7 @@ def familiar_actualizar(request, pk, id):
 def familiar_eliminar(request, pk, id):
     familias = get_object_or_404(Familia, id=id)
     familias.delete()
-    return redirect('beneficiario')
+    return redirect('beneficiario_detalle', pk)
 
 
 

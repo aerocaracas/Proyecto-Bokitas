@@ -171,13 +171,12 @@
                             <td>{{familia.apellido}}</td>
                             <td>{{familia.sexo}}</td>
                             <td class="text-center">{{familia.fecha_nac | date:"d-m-Y"}}</td>
-                            <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familias.id %}">Editar</a> </td>
+                            <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familia.id %}">Editar</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
             </tbody>
         </table>
-
 
         <!-- ########  Boton agregar Familiar  ##########-->
         <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' pk %}">
@@ -292,7 +291,7 @@
         <a href="{% url 'beneficiario' %}" class="btn btn-secondary"> Regresar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_actualizar' pk %}" class="btn btn-primary"> Actualizar </a>
+        <a href="{% url 'beneficiario_actualizar' pk %}" class="btn btn-info"> Actualizar </a>
            
         &nbsp
         <a href="{% url 'beneficiario_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
