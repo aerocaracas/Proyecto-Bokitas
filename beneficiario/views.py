@@ -189,12 +189,11 @@ def menor_detalle(request, pk, id):
 def familiar_crear(request, pk):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        fechaActual = datetime.now()
         context={}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
         context["form"]=FamiliarForm
-        context["fechaActual"]=fechaActual
+        
         return render(request, 'familiar_crear.html', context)
     else:
         try:
@@ -213,9 +212,6 @@ def familiar_crear(request, pk):
             new_familiar.meses = tiempo_transc.months
             new_familiar.cedula_bef_id = pk
             new_familiar.save()
-
-            print(tiempo_transc.years)
-            print(tiempo_transc.months)
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
@@ -239,6 +235,56 @@ def familiar_crear(request, pk):
             'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
+
+@login_required      
+def familiar_actualizar(request, pk, id):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        familias = get_object_or_404(Familia, id=id)
+        form = FamiliarForm(instance=familias)
+        context={}
+        context["pk"]=pk
+        context["idfam"]=id
+        context["beneficiarios"]=beneficiarios
+        context["familias"]=familias
+        context["form"]=form
+        return render(request, 'familia_actualizar.html', context)
+    else:
+        try:
+            familias = get_object_or_404(Familia, id=id, user=request.user)
+            form = FamiliarForm(request.POST, instance=familias)
+            form.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+   
+            return render(request, 'beneficiario_detalle.html', context)
+        except ValueError:
+            return render(request, 'familia_actualizar.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk,
+            'id': id
+            })
+
+
+@login_required   
+def familiar_eliminar(request, pk, id):
+    familias = get_object_or_404(Familia, id=id)
+    familias.delete()
+    return redirect('beneficiario')
+
 
 
 # Sesion Antropometrico del Beneficiario
