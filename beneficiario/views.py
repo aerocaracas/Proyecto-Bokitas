@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, AntropBenefForm
-from beneficiario.forms import MenorForm, FamiliarForm, MedicamentoForm, MedicaForm
+from beneficiario.forms import BeneficiarioForm
+from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
 from django.contrib.auth.models import User
@@ -37,8 +37,18 @@ def beneficiario_crear(request):
         try:
             form = BeneficiarioForm(request.POST)
             new_beneficiario = form.save(commit=False)
+
+            fecha_inicial = new_beneficiario.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+            
+            new_beneficiario.edad = tiempo_transc.years
+            new_beneficiario.meses = tiempo_transc.months
             new_beneficiario.user = request.user
             new_beneficiario.save()
+
             return redirect('beneficiario')
         except ValueError:
             return render(request, 'beneficiario_crear.html', {
@@ -84,9 +94,19 @@ def beneficiario_actualizar(request, pk):
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
             form = BeneficiarioForm(request.POST, instance=beneficiarios)
-            form.save()
+            act_beneficiario = form.save(commit=False)
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            fecha_inicial = act_beneficiario.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+            
+            act_beneficiario.edad = tiempo_transc.years
+            act_beneficiario.meses = tiempo_transc.months
+            act_beneficiario.user = request.user
+            act_beneficiario.save()
+
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
@@ -120,31 +140,44 @@ def beneficiario_eliminar(request, pk):
 @login_required  
 def menor_crear(request, pk):
     if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
         return render(request, 'menor_crear.html', {
             'form': MenorForm,
+            'beneficiarios': beneficiarios,
             'pk':pk
         })
     else:
         try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
             form = MenorForm(request.POST)
             new_menor = form.save(commit=False)
+
+            fecha_inicial = new_menor.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
+            new_menor.edad = tiempo_transc.years
+            new_menor.meses = tiempo_transc.months
+            new_menor.cedula_bef_id = pk
             new_menor.user = request.user
             new_menor.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
    
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-                })
+            return render(request, 'beneficiario_detalle.html', context)
         except ValueError:
             return render(request, 'menor_crear.html', {
             'form': form,
@@ -155,32 +188,91 @@ def menor_crear(request, pk):
 
 @login_required      
 def menor_detalle(request, pk, id):
-
-    print(pk)
-    print(id)
     
     if request.method == 'GET':
      
-        menor_detalles = get_object_or_404(Menor, id=pk)
-
+        menor_detalles = get_object_or_404(Menor, id=id)
         beneficiarios = Beneficiario.objects.filter(id=pk)
         antropBefs = AntropBef.objects.filter(cedula_bef = pk)
         menores = Menor.objects.filter(cedula_bef=pk)
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-        
         form = MenorForm(instance=menor_detalles)
+
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["form"]=form
+        context["menor_detalles"]=menor_detalles
+        context["beneficiarios"]=beneficiarios
+        context["antropBefs"]=antropBefs
+        context["menores"]=menores
+        context["familias"]=familias
+        context["medicamentos"]=medicamentos
     
-        return render(request, 'menor_detalle.html',{
-            'menor_detalles': menor_detalles,
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
+        return render(request, 'menor_detalle.html', context)
+
+@login_required      
+def menor_actualizar(request, pk, id):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        menor_detalles = get_object_or_404(Menor, id=id)
+        form = MenorForm(instance=menor_detalles)
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["menor_detalles"]=menor_detalles
+        context["beneficiarios"]=beneficiarios
+        context["form"]=form
+        return render(request, 'menor_actualizar.html', context)
+    else:
+        try:
+            menor_detalles = get_object_or_404(Menor, id=id, user=request.user)
+            form = MenorForm(request.POST, instance=menor_detalles)
+            act_menor = form.save(commit=False)
+
+            fecha_inicial = act_menor.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+            
+            act_menor.edad = tiempo_transc.years
+            act_menor.meses = tiempo_transc.months
+            act_menor.user = request.user
+            act_menor.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+
+            context={}
+            context["pk"]=pk
+            context["id"]=id
+            context["menor_detalles"]=menor_detalles
+            context["menores"]=menores
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+   
+            return render(request, 'menor_detalle.html', context)
+        except ValueError:
+            return render(request, 'menor_actualizar.html', {
             'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk,
-        })
+            'id': id
+            })
+
+
+@login_required   
+def menor_eliminar(request, pk, id):
+    menores = get_object_or_404(Menor, id=id)
+    menores.delete()
+    return redirect('beneficiario_detalle', pk)
 
 
 # Sesion del Familiar
@@ -213,7 +305,6 @@ def familiar_crear(request, pk):
             new_familiar.cedula_bef_id = pk
             new_familiar.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
@@ -483,11 +574,17 @@ def medicamento_eliminar(request, pk, id):
 # Sesion de Medica 
 
 @login_required  
-def medica_crear(request):
+def medica_crear(request, pk, id):
     if request.method == 'GET':
-        return render(request, 'medica_crear.html', {
-            'form': MedicaForm
-        })
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        menor_detalles = get_object_or_404(Menor, id=id)
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
+        context["form"]=MedicaForm
+        return render(request, 'medica_crear.html', context)
     else:
         try:
             form = MedicaForm(request.POST)
@@ -500,6 +597,12 @@ def medica_crear(request):
             'form': MedicaForm,
             'error': 'Datos incorectos, Favor verificar la información'
             })
+
+
+
+
+
+
 
 @login_required      
 def medica_detalle(request, pk):

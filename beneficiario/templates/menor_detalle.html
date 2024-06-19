@@ -15,7 +15,7 @@
     <hr>
 
     {{error}}
-    <br>
+
     <div class="row">
         <div class="col">
             <P> <strong> Proyecto: </strong> {{menor_detalles.proyecto}} </p>
@@ -91,7 +91,7 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <P> <strong> IMC: </strong>{{menor_detalles.observacion}}</p>
         </div>
         <div class="col">
@@ -127,7 +127,7 @@
                     {% for antrop in antropometricos %}
                         <tr>
                             <td>{{antrop.embarazo_lactando}}</td>
-                            <td>{{antrop.fecha}}</td>
+                            <td class="text-center">{{antrop.fecha | date:"d/m/Y"}}</td>
                             <td>{{antrop.peso}}</td>
                             <td>{{antrop.talla}}</td>
                             <td>{{antrop.imc}}</td>
@@ -139,24 +139,8 @@
             </tbody>
         </table>
 
-        <!-- ########  paginador Antropometrico ##########-->
-        <div class="d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item d-none d-sm-block">
-                    {% if antropometricos.has_previous %}
-                        <a class="page-link" href="?page={{ antropometricos.previous_page_number }}#pagtable">Anterior</a>
-                    {% endif%}
-                </li>
-                <li class="page-item d-none d-sm-block">
-                    {% if menores.has_next %}
-                        <a class="page-link" href="?page={{antropometricos.next_page_number }}#pagtable">Siguiente</a>
-                    {% endif%}
-                </li>
-            </ul>
-        </div>
-
         <!-- ########  boton agregar Antropometrico  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_benef' pk %}">
+        <a class="btn btn-outline-primary btn-sm" href="#">
 
             Nuevo Control Antropométrico
     
@@ -197,24 +181,8 @@
             </tbody>
         </table>
 
-        <!-- ########  paginador Medico ##########-->
-        <div class="d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item d-none d-sm-block">
-                    {% if menores.has_previous %}
-                        <a class="page-link" href="?page={{ menores.previous_page_number }}#pagtable">Anterior</a>
-                    {% endif%}
-                </li>
-                <li class="page-item d-none d-sm-block">
-                    {% if menores.has_next %}
-                        <a class="page-link" href="?page={{ menores.next_page_number }}#pagtable">Siguiente</a>
-                    {% endif%}
-                </li>
-            </ul>
-        </div>
-
         <!-- ########  Boton Agregar Control Medico ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk %}">
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}">
 
             Nuevo Control Pediatrico
     
@@ -231,10 +199,10 @@
         <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_actualizar' pk %}" class="btn btn-primary"> Actualizar </a>
+        <a href="{% url 'menor_actualizar' pk id %}" class="btn btn-info"> Actualizar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
+        <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
         
     </div>
   

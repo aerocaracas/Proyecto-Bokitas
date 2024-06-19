@@ -131,10 +131,10 @@ class Beneficiario(models.Model):
     laboral = models.CharField(max_length=20, choices=LABORAL,blank=True)
     telefono = models.CharField(max_length=15)
     correo = models.EmailField(blank=True)
-    embarazada = models.CharField(max_length=10, default=0, choices=SI_NO)
-    lactando = models.CharField(max_length=10, default=0, choices=SI_NO)
+    embarazada = models.CharField(max_length=10, default="NO", choices=SI_NO)
+    lactando = models.CharField(max_length=10, default="NO", choices=SI_NO)
     observacion = models.TextField(max_length=200, blank=True)
-    estatus = models.CharField(max_length=10, default=1, choices=ESTATUS)
+    estatus = models.CharField(max_length=10, default="ACTIVO", choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(auto_now_add=True)
@@ -186,7 +186,6 @@ class Menor(models.Model):
     def save(self, *args, **kwargs):
         self.nombre = self.nombre.upper()
         self.apellido = self.apellido.upper()
-        self.profesion = self.profesion.upper()
         self.diagnostico_actual = self.diagnostico_actual.upper()
         self.diagnostico_talla_actual = self.diagnostico_talla_actual.upper()
         self.estado_nutri_actual = self.estado_nutri_actual.upper()
@@ -392,7 +391,7 @@ class Nutricional(models.Model):
 
 class Medica(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE, blank=True)
+    cedula = models.ForeignKey(Menor, on_delete=models.CASCADE, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateField(auto_now_add=True)
     medico_tratante = models.CharField(max_length=50, blank=False)

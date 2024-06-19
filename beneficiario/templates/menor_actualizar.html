@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+                
+    <h1 class="text-center">Actualización de Datos</h1>
+    <h5 class="text-center">Actualice los datos del Menor</h5>
+    <hr>
+    <br>
+
+    {{error}}
+            
+    <div class="container">
+        <form action=" " method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <strong> BENEFICIARIO </strong>
+                </div>
+                <div class="col-12 text-center">
+                    {{beneficiarios}}
+                </div>
+                <div class="col-12 text-center">
+                    <br>
+                    <strong> MENOR </strong>
+                </div>
+            </div>
+
+            <div class="col">
+                {{form | crispy }}
+                      
+            </div>
+
+            <br>
+            <hr>
+            <a class="btn btn-secondary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
+
+            <button class="btn btn-info">
+                Actualizar
+            </button>
+
+            <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
+            
+        </form>
+    </div>
+
+</div>
+
+   
+{% endblock %}

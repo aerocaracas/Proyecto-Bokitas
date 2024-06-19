@@ -11,12 +11,25 @@
     <h1 class="text-center">Registro de Menores</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
-    <br>
 
     {{error}}
             
     <form action=" " method="POST">
         {% csrf_token %}
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <strong> BENEFICIARIO </strong>
+            </div>
+            <div class="col-12 text-center">
+                {{beneficiarios}}
+            </div>
+            <div class="col-12 text-center">
+                <br>
+                <strong> FAMILIAR </strong>
+            </div>
+        </div>
+
 
         {{form | crispy }}
                     

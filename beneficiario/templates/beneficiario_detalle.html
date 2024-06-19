@@ -49,27 +49,12 @@
         </div>
         <div class="col">
             <P> <strong> Meses: </strong>{{beneficiarios.meses}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
-        </div>
+        </div>     
     </div>
-         
-    <div class="row">
-        <div class="col">
-            <P> <strong> Grado de Instrucción: </strong>{{beneficiarios.educacion}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> Profesión: </strong>{{beneficiarios.profesion}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
-        </div>
-    </div>       
 
     <div class="row">
-        <div class="col-5">
-            <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
+        <div class="col">
+            <P> <strong> Estado Civil: </strong>{{beneficiarios.estado_civil}}</p>
         </div>
         <div class="col">
             <P> <strong> Se encuentar Embarazada: </strong>{{beneficiarios.embarazada}}</p>
@@ -78,6 +63,21 @@
             <P> <strong> Se encuentra Lactando: </strong>{{beneficiarios.lactando}}</p>
         </div>
     </div>
+         
+    <div class="row">
+        <div class="col">
+            <P> <strong> Correo: </strong>{{beneficiarios.correo}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Grado Instrucción: </strong>{{beneficiarios.educacion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Profesión: </strong>{{beneficiarios.profesion}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Situación Laboral: </strong>{{beneficiarios.laboral}}</p>
+        </div>
+    </div>       
 
     <div class="row">
         <div class="col-5">
@@ -170,7 +170,7 @@
                             <td>{{familia.nombre}}</td>
                             <td>{{familia.apellido}}</td>
                             <td>{{familia.sexo}}</td>
-                            <td class="text-center">{{familia.fecha_nac | date:"d-m-Y"}}</td>
+                            <td class="text-center">{{familia.fecha_nac | date:"d/m/Y"}}</td>
                             <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familia.id %}">Editar</a> </td>
                         </tr>
                     {% endfor %}
@@ -209,7 +209,7 @@
                 {% if antropBefs %}
                     {% for antrop in antropBefs %}
                         <tr>
-                            <td>{{antrop.fecha | date:"d-m-Y H:m"}}</td>
+                            <td>{{antrop.fecha | date:"d/m/Y H:m"}}</td>
                             <td>{{antrop.embarazo_lactando}}</td>
                             <td class="text-center">{{antrop.tiempo_gestacion}}</td>
                             <td>{{antrop.peso}}</td>
@@ -264,7 +264,7 @@
                 {% if medicamentos %}
                     {% for medicamento in medicamentos %}
                         <tr>
-                            <td>{{medicamento.fecha | date:"d-m-Y"}}</td>
+                            <td>{{medicamento.fecha | date:"d/m/Y"}}</td>
                             <td>{{medicamento.nombre}}</td>
                             <td>{{medicamento.descripcion}}</td>
                             <td class="text-center">{{medicamento.cantidad}}</td>
