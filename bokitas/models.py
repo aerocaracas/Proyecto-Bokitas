@@ -192,7 +192,7 @@ class Menor(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.cedula}, {self.nombre} {self.apellido}"
+        return f"{self.cedula}, {self.nombre} {self.apellido},     {self.proyecto}"
 
 class Familia(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
@@ -430,6 +430,10 @@ class Medica(models.Model):
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.medico_tratante = self.medico_tratante.upper()
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.cedula_bef}, {self.proyecto} {self.fecha}"
