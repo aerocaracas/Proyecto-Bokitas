@@ -86,6 +86,31 @@ EXAMEN_FISICO = (
     ("ANORMAL", "ANORMAL"),
 )
 
+DIAGNOSTICO = (
+    ("Niño Sano", "Niño Sano"),
+    ("Traumatismos varios", "Traumatismos varios"),
+    ("Alérgia", "Alérgia"),
+    ("Cefalea", "Cefalea"),
+    ("Hiperreactividad bronquial y rinitis", "Hiperreactividad bronquial y rinitis"),
+    ("Infección respiratoria inferior", "Infección respiratoria inferior"),
+    ("Faringoamigdalitis", "Faringoamigdalitis"),
+    ("Sinusitis", "Sinusitis"),
+    ("Parasitosis Intestinal", "Parasitosis Intestinal"),
+    ("Diarreas", "Diarreas"),
+    ("Dermatitis y otras afecciones de piel", "Dermatitis y otras afecciones de piel"),
+    ("Otitis", "Otitis"),
+    ("Caries dentales", "Caries dentales"),
+    ("Abscesos dentales", "Abscesos dentales"),
+)
+
+ANEMICO = (
+    ("Suplementación de Acido Folico", "Suplementación de Acido Folico"),
+    ("Suplementación de Hierro", "Suplementación de Hierro"),
+    ("Suplementación de Minerales y Vitaminas", "Suplementación de Minerales y Vitaminas"),
+)
+
+
+
 # Create your models here.
 class Proyecto(models.Model):
     proyecto = models.CharField(max_length=100, unique=True, blank=False)
@@ -397,36 +422,11 @@ class Medica(models.Model):
     medico_tratante = models.CharField(max_length=50, blank=False)
     tipo_consulta = models.CharField(max_length=20, choices=TIPO_CONSULTA, blank=False)
     examen_fisico = models.CharField(max_length=10, choices=EXAMEN_FISICO, blank=False)
-    sano = models.BooleanField(choices=SI_NO, blank=True)
-    traumatismo = models.BooleanField(choices=SI_NO, blank=True)
-    alergia = models.BooleanField(choices=SI_NO, blank=True)
-    cefalea = models.BooleanField(choices=SI_NO, blank=True)
-    hiperactividad = models.BooleanField(choices=SI_NO, blank=True)
-    infeccion = models.BooleanField(choices=SI_NO, blank=True)
-    faringoamigdalitis = models.BooleanField(choices=SI_NO, blank=True)
-    sinusitis = models.BooleanField(choices=SI_NO, blank=True)
-    parasitosis = models.BooleanField(choices=SI_NO, blank=True)
-    diarreas = models.BooleanField(choices=SI_NO, blank=True)
-    dermatitis = models.BooleanField(choices=SI_NO, blank=True)
-    otitis = models.BooleanField(choices=SI_NO, blank=True)
-    caries = models.BooleanField(choices=SI_NO, blank=True)
-    abcesos = models.BooleanField(choices=SI_NO, blank=True)
-    otros = models.BooleanField(choices=SI_NO, blank=True)
+    diagnostico = models.CharField(max_length=50, blank=True, choices=DIAGNOSTICO)
     otros_varios = models.TextField(max_length=200, blank=True)
     desp_menor = models.BooleanField(choices=SI_NO, blank=True)
     desp_familia = models.BooleanField(default=False, choices=SI_NO, blank=True)
-    folico = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_folico = models.PositiveIntegerField()
-    hierro = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_hierro = models.PositiveIntegerField()
-    minerales = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_minerales = models.PositiveIntegerField()
-    vitamina = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_vitamina = models.PositiveIntegerField()
-    leche = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_leche = models.PositiveIntegerField()
-    antiviotico = models.BooleanField(choices=SI_NO, blank=True)
-    cantidad_antiviotico = models.PositiveIntegerField()
+    anemico = models.CharField(max_length=50, blank=True, choices=ANEMICO)
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)
