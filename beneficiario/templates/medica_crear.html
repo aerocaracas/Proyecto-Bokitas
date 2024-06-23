@@ -47,25 +47,38 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center">
-                    {{form.diagnostico | as_crispy_field}}
+                <div class="col-12 text-center">
+                    <br>
+                    <strong> DIAGNÓSTICO DEL EXAMEN</strong>
+                </div>
+                <div class="col" >
+                    <br>
+                    {{form.diagnostico1 | as_crispy_field}}
+                </div>
+                <div class="col" >
+                    <br>
+                    {{form.diagnostico2 | as_crispy_field}}
+                </div>
+                <div class="col" >
+                    <br>
+                    {{form.diagnostico3 | as_crispy_field}}
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center">
+                <div class="col-4 text-center" rows="6">
                     {{form.otros_varios | as_crispy_field}}
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center">
+                <div class="col">
                     {{form.desp_menor | as_crispy_field}}
                 </div>
-                <div class="col-4 text-center">
+                <div class="col">
                     {{form.desp_familia | as_crispy_field}}
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center">
+                <div class="col">
                     {{form.anemico | as_crispy_field}}
                 </div>
             </div>

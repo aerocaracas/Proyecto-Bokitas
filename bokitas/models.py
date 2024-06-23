@@ -86,17 +86,21 @@ EXAMEN_FISICO = (
     ("ANORMAL", "ANORMAL"),
 )
 
-DIAGNOSTICO = (
+DIAGNOSTICO1 = (
     ("Niño Sano", "Niño Sano"),
     ("Traumatismos varios", "Traumatismos varios"),
     ("Alérgia", "Alérgia"),
     ("Cefalea", "Cefalea"),
     ("Hiperreactividad bronquial y rinitis", "Hiperreactividad bronquial y rinitis"),
+    )
+DIAGNOSTICO2 = (    
     ("Infección respiratoria inferior", "Infección respiratoria inferior"),
     ("Faringoamigdalitis", "Faringoamigdalitis"),
     ("Sinusitis", "Sinusitis"),
     ("Parasitosis Intestinal", "Parasitosis Intestinal"),
     ("Diarreas", "Diarreas"),
+    )
+DIAGNOSTICO3 = (
     ("Dermatitis y otras afecciones de piel", "Dermatitis y otras afecciones de piel"),
     ("Otitis", "Otitis"),
     ("Caries dentales", "Caries dentales"),
@@ -422,7 +426,9 @@ class Medica(models.Model):
     medico_tratante = models.CharField(max_length=50, blank=False)
     tipo_consulta = models.CharField(max_length=20, choices=TIPO_CONSULTA, blank=False)
     examen_fisico = models.CharField(max_length=10, choices=EXAMEN_FISICO, blank=False)
-    diagnostico = models.CharField(max_length=50, blank=True, choices=DIAGNOSTICO)
+    diagnostico1 = models.CharField(max_length=50, blank=True, choices=DIAGNOSTICO1)
+    diagnostico2 = models.CharField(max_length=50, blank=True, choices=DIAGNOSTICO2)
+    diagnostico3 = models.CharField(max_length=50, blank=True, choices=DIAGNOSTICO3)
     otros_varios = models.TextField(max_length=200, blank=True)
     desp_menor = models.BooleanField(choices=SI_NO, blank=True)
     desp_familia = models.BooleanField(default=False, choices=SI_NO, blank=True)
