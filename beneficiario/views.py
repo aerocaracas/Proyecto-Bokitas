@@ -587,14 +587,31 @@ def medica_crear(request, pk, id):
         return render(request, 'medica_crear.html', context)
     else:
         try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            menor_detalles = get_object_or_404(Menor, id=id)
             form = MedicaForm(request.POST)
             new_medica = form.save(commit=False)
-            new_medica.user = request.user
+            print(pk)
+            new_medica.cedula_bef_id = pk
+            new_medica.cedula_id = id
+            new_medica.proyecto_id = beneficiarios.proyecto_id
+            new_medica.fecha = date.today()
             new_medica.save()
-            return redirect('medica')
+
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+
+
+            return render(request, 'menor_detalle.html', pk, id)
         except ValueError:
             return render(request, 'medica_crear.html', {
-            'form': MedicaForm,
+            'pk': pk,
+            'id':id,
+            'form': form,
+            'bemeficiarios':beneficiarios,
+            'menor_detalles':menor_detalles,
             'error': 'Datos incorectos, Favor verificar la información'
             })
 

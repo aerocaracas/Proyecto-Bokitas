@@ -119,7 +119,7 @@
                     <th scope="col">TALLA</th>
                     <th scope="col">IMC</th>
                     <th scope="col">DIAGNOSTICO</th>
-                    <th scope="col">DETALLE</th>
+                    <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,7 +132,7 @@
                             <td>{{antrop.talla}}</td>
                             <td>{{antrop.imc}}</td>
                             <td>{{antrop.diagnostico}}</td>
-                            <td> <a href="#">Editar</a> </td>
+                            <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -161,7 +161,7 @@
                     <th scope="col">APELLIDO</th>
                     <th scope="col">EDAD</th>
                     <th scope="col">MESES</th>
-                    <th scope="col">DETALLE</th>
+                    <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
             <tbody>
@@ -174,7 +174,7 @@
                             <td>{{menor.apellido}}</td>
                             <td>{{menor.edad}}</td>
                             <td>{{menor.meses}}</td>
-                            <td> <a href="#">Editar</a> </td>
+                            <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}

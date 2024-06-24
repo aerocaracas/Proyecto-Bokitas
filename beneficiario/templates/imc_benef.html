@@ -66,9 +66,11 @@
             </div>
             <br>
 
+            <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
+            &nbsp
             <button type="submit" class="btn btn-primary" action="{% url 'imc_benef' pk %}">Calcular </button>
 
-            <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-secondary"> Regresar </a>
+            
 
         </form>
 

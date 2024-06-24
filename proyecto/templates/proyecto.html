@@ -23,7 +23,7 @@
             <th scope="col">CENTRO</th>
             <th scope="col">RESPONSABLE</th>
             <th scope="col">TELEFONO</th>
-            <th scope="col">DETALLE</th>
+            <th scope="col" class="text-center">DETALLE</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
                         <td>{{proyecto.nombre_centro}}</td>
                         <td>{{proyecto.representante}}</td>
                         <td>{{proyecto.telefono}}</td>
-                        <td> <a href="{% url 'proyecto_detalle' proyecto.id %}">Editar</a> </td>
+                        <td class="text-center"> <a href="{% url 'proyecto_detalle' proyecto.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                     </tr>
                 {% endfor %}
             {% endif%}

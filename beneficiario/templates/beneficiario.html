@@ -22,7 +22,7 @@
               <th scope="col">NOMBRE</th>
               <th scope="col">APELLIDO</th>
               <th scope="col">TELEFONO</th>
-              <th scope="col">DETALLE</th>
+              <th scope="col"class="text-center">DETALLE</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +34,7 @@
                           <td>{{beneficiario.nombre}}</td>
                           <td>{{beneficiario.apellido}}</td>
                           <td>{{beneficiario.telefono}}</td>
-                          <td> <a href="{% url 'beneficiario_detalle' beneficiario.id %}">Editar</a> </td>
+                          <td class="text-center"> <a href="{% url 'beneficiario_detalle' beneficiario.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                       </tr>
                   {% endfor %}
               {% endif%}

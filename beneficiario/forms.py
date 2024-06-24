@@ -47,9 +47,6 @@ class BeneficiarioForm(ModelForm):
 
         labels = {'proyecto':'Proyecto','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo', 'fecha_nac':'Fecha de Nacimiento','embarazada':'Se encuentra Embarazada','lactando':'Se encuentra Lactando','estado_civil':'Estado Civil','educacion':'Educación','profesion':'Profesión','laboral':'Situación Laboral','telefono':'Teléfono','correo':'Correo Electrónico','direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','observacion':'Observación','estatus':'Estatus','numero_cuenta':'Número de Cuenta'}
 
-        help_texts = {
-            "fecha_nac":'dd/mm/aaaa'
-        }
 
 class MenorForm(ModelForm):
     class Meta:
@@ -58,10 +55,6 @@ class MenorForm(ModelForm):
         ]
 
         labels = {'proyecto':'Proyecto','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','fecha_ing_proyecto':'Fecha Ingreso','observacion':'Observación','estatus':'Estatus'
-        }
-
-        help_texts = {
-            "fecha_nac":'dd/mm/aaaa',"fecha_ing_proyecto":'dd/mm/aaaa'
         }
 
 
@@ -75,24 +68,20 @@ class FamiliarForm(ModelForm):
         labels = {'cedula_bef':'Cédula Beneficiario','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','edad':'Edad','meses':'Meses','estado_civil':'Estado Civil','educacion':'Eduación','profesion':'Profesión','laboral':'Situación Laboral','observacion':'Observación'
         }
 
-        help_texts = {
-            "fecha_nac":'dd/mm/aaaa'
-        }
-
-
 
 class MedicaForm(ModelForm):
-    diagnostico1 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO1, widget=forms.CheckboxSelectMultiple)
-    diagnostico2 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO2, widget=forms.CheckboxSelectMultiple)
-    diagnostico3 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO3, widget=forms.CheckboxSelectMultiple)
-    anemico = forms.MultipleChoiceField(label='Control Anemico', choices=ANEMICO, widget=forms.CheckboxSelectMultiple)
-    desp_familia = forms.ChoiceField(label='Se encuentra el Paciente Desparacitado', choices=SI_NO, widget=forms.RadioSelect)
-    desp_menor = forms.ChoiceField(label='Se encuentra el Grupo Familiar Desparacitado', choices=SI_NO, widget=forms.RadioSelect)
+    diagnostico1 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO1, required=False, widget=forms.CheckboxSelectMultiple)
+    diagnostico2 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO2, required=False, widget=forms.CheckboxSelectMultiple)
+    diagnostico3 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO3, required=False,widget=forms.CheckboxSelectMultiple)
+    anemico = forms.MultipleChoiceField(label='', choices=ANEMICO, required=False, widget=forms.CheckboxSelectMultiple)
+    desp_familia = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
+    desp_menor = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
+
     class Meta:
         model = Medica
         fields = ['medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','tratamiento','referencia','paraclinicos'
         ]
 
-        labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'Control Anemico','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
+        labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'Control Anémico','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
         }
 

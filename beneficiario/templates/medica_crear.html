@@ -16,7 +16,7 @@
     {{error}}
 
     <div class="tabcontent">  
-        <form action="/medica/crear/" method="POST">
+        <form action="" method="POST">
             {% csrf_token %}
 
             <div class="row">
@@ -53,51 +53,65 @@
                 </div>
                 <div class="col" >
                     <br>
-                    {{form.diagnostico1 | as_crispy_field}}
+                    <h6>{{form.diagnostico1 | as_crispy_field}}</h6>
                 </div>
                 <div class="col" >
                     <br>
-                    {{form.diagnostico2 | as_crispy_field}}
+                    <h6>{{form.diagnostico2 | as_crispy_field}}</h6>
                 </div>
                 <div class="col" >
                     <br>
-                    {{form.diagnostico3 | as_crispy_field}}
+                    <h6>{{form.diagnostico3 | as_crispy_field}}</h6>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center" rows="6">
-                    {{form.otros_varios | as_crispy_field}}
+                <div class="col text-center">
+                    <h6>{{form.otros_varios | as_crispy_field}}</h6>
                 </div>
             </div>
             <div class="row">
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> DESPARACITACIÓN</strong>
+                </div>
                 <div class="col">
+                    <h6>Se encuentra el Paciente Desparacitado*</h6>
                     {{form.desp_menor | as_crispy_field}}
                 </div>
                 <div class="col">
+                    <h6>Se encuentra el Grupo Familiar Desparacitado*</h6>
                     {{form.desp_familia | as_crispy_field}}
                 </div>
             </div>
             <div class="row">
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> CONTROL ANÉMICO</strong>
+                </div>
                 <div class="col">
-                    {{form.anemico | as_crispy_field}}
+                    <h6>{{form.anemico | as_crispy_field}}</h6>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 text-center">
-                    {{form.tratamiento | as_crispy_field}}
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> RECOMENDACIONES</strong>
                 </div>
                 <div class="col-4 text-center">
-                    {{form.referencia | as_crispy_field}}
+                    <h6>{{form.tratamiento | as_crispy_field}}</h6>
                 </div>
                 <div class="col-4 text-center">
-                    {{form.paraclinicos | as_crispy_field}}
+                    <h6>{{form.referencia | as_crispy_field}}</h6>
+                </div>
+                <div class="col-4 text-center">
+                    <h6>{{form.paraclinicos | as_crispy_field}}</h6>
                 </div>
             </div>
             <br>
             <hr>
                      
             <a class="btn btn-secondary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
-
+            &nbsp
             <button class="btn btn-primary">
                 Aceptar
             </button>

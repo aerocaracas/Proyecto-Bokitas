@@ -129,7 +129,7 @@
                             <td>{{menor.apellido}}</td>
                             <td class="text-center">{{menor.edad}}</td>
                             <td class="text-center">{{menor.meses}}</td>
-                            <td class="text-center"> <a href="{% url 'menor_detalle' pk menor.id %}">Editar</a> </td>
+                            <td class="text-center"> <a href="{% url 'menor_detalle' pk menor.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -171,7 +171,7 @@
                             <td>{{familia.apellido}}</td>
                             <td>{{familia.sexo}}</td>
                             <td class="text-center">{{familia.fecha_nac | date:"d/m/Y"}}</td>
-                            <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familia.id %}">Editar</a> </td>
+                            <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familia.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -228,7 +228,7 @@
                                 <td class="text-center"><div class="text-bg-danger">OBESIDAD</div></td>
                             {% endif %}
                             <td class="text-center">{{antrop.riesgo}}</td>
-                            <td class="text-center"> <a href="{% url 'imc_benef_detalle' pk antrop.id %}">Editar</a> </td>
+                            <td class="text-center"> <a href="{% url 'imc_benef_detalle' pk antrop.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
