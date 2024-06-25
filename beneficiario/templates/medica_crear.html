@@ -74,6 +74,8 @@
                     <hr>
                     <strong> DESPARACITACIÓN</strong>
                 </div>
+                <div class="col-1">
+                </div>
                 <div class="col">
                     <h6>Se encuentra el Paciente Desparacitado*</h6>
                     {{form.desp_menor | as_crispy_field}}
@@ -82,11 +84,15 @@
                     <h6>Se encuentra el Grupo Familiar Desparacitado*</h6>
                     {{form.desp_familia | as_crispy_field}}
                 </div>
+                <div class="col-1">
+                </div>
             </div>
             <div class="row">
                 <div class="col-12 text-center">
                     <hr>
                     <strong> CONTROL ANÉMICO</strong>
+                </div>
+                <div class="col-4">
                 </div>
                 <div class="col">
                     <h6>{{form.anemico | as_crispy_field}}</h6>

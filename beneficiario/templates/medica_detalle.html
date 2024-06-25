@@ -1,41 +1,132 @@
 {% extends 'base.html' %}
 
 {% block content %}   
+
+{% load crispy_forms_tags %}
+
 <br>
 <br>
-<div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
-            <div class="card-body bg-body-secondary">
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
-                <h1 class="text-center">Detalle Consulta Medica</h1>
+    <h1 class="text-center">Actualización de Datos</h1>
+    <h5 class="text-center">Actualice los datos del Familiar</h5>
+    <hr>
+    <br>
+                
+    <h1 class="text-center">Detalle Consulta Medica</h1>
 
-                {{error}}
+    {{error}}
 
-                <form method="POST">
-                    {% csrf_token %}
-                    {{form.as_p}}
-
-                    <a href="{% url 'medica' %}" class="btn btn-secondary"> Regresar </a>
-
-                    <button class="btn btn-info">
-                        Actualizar
-                    </button>
-                    
-                </form> 
-
-                <form action="{% url 'medica_eliminar' medicas.id %}" method="POST">
-                    {% csrf_token %}
-
-                    <button class="btn btn-danger">
-                        Eliminar
-                    </button>
-
-                </form>
+    <div class="tabcontent">  
+        <form action="" method="POST">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-12 text-center">
+                    <strong> BENEFICIARIO </strong>
+                </div>
+                    <div class="col-12 text-center">
+                    {{beneficiarios}}
+                </div>
+                <div class="col-12 text-center">
+                    <br>
+                    <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
+                    <div class="col-12 text-center">
+                        {{menor_detalles}}
+                    </div>
+                </div>
             </div>
-
-        </div>
-
+            <BR>
+            <div class="row">
+                <div class="col-4 text-center">
+                    {{form.medico_tratante | as_crispy_field}}
+                </div>
+                <div class="col-4 text-center">
+                    {{form.tipo_consulta | as_crispy_field}}
+                </div>
+                <div class="col-4 text-center">
+                    {{form.examen_fisico | as_crispy_field}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <br>
+                    <strong> DIAGNÓSTICO DEL EXAMEN</strong>
+                </div>
+                <div class="col" >
+                    <br>
+                    <h6>{{form.diagnostico1 | as_crispy_field}}</h6>
+                </div>
+                <div class="col" >
+                    <br>
+                    <h6>{{form.diagnostico2 | as_crispy_field}}</h6>
+                </div>
+                <div class="col" >
+                    <br>
+                    <h6>{{form.diagnostico3 | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <h6>{{form.otros_varios | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> DESPARACITACIÓN</strong>
+                </div>
+                <div class="col-1">
+                </div>
+                <div class="col">
+                    <h6>Se encuentra el Paciente Desparacitado*</h6>
+                    {{form.desp_menor | as_crispy_field}}
+                </div>
+                <div class="col">
+                    <h6>Se encuentra el Grupo Familiar Desparacitado*</h6>
+                    {{form.desp_familia | as_crispy_field}}
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> CONTROL ANÉMICO</strong>
+                </div>
+                <div class="col-4">
+                </div>
+                <div class="col">
+                    <h6>{{form.anemico | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <hr>
+                    <strong> RECOMENDACIONES</strong>
+                </div>
+                <div class="col-4 text-center">
+                    <h6>{{form.tratamiento | as_crispy_field}}</h6>
+                </div>
+                <div class="col-4 text-center">
+                    <h6>{{form.referencia | as_crispy_field}}</h6>
+                </div>
+                <div class="col-4 text-center">
+                        <h6>{{form.paraclinicos | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <br>
+            <hr>
+                                 
+            <a class="btn btn-secondary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
+            &nbsp
+            <button class="btn btn-info">
+                Actualizar
+            </button>
+            &nbsp
+            <a href="{% url 'menor_detalle' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                        
+        </form>
     </div>
 </div>
 

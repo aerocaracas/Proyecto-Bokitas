@@ -197,6 +197,7 @@ def menor_detalle(request, pk, id):
         menores = Menor.objects.filter(cedula_bef=pk)
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+        medicas = Medica.objects.filter(cedula_id=id)
         form = MenorForm(instance=menor_detalles)
 
         context={}
@@ -209,6 +210,7 @@ def menor_detalle(request, pk, id):
         context["menores"]=menores
         context["familias"]=familias
         context["medicamentos"]=medicamentos
+        context["medicas"]=medicas
     
         return render(request, 'menor_detalle.html', context)
 
@@ -591,20 +593,21 @@ def medica_crear(request, pk, id):
             menor_detalles = get_object_or_404(Menor, id=id)
             form = MedicaForm(request.POST)
             new_medica = form.save(commit=False)
-            print(pk)
             new_medica.cedula_bef_id = pk
             new_medica.cedula_id = id
             new_medica.proyecto_id = beneficiarios.proyecto_id
             new_medica.fecha = date.today()
             new_medica.save()
 
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+            medicas = Medica.objects.filter(cedula_id=id)
+            context={}
+            context["pk"]=pk
+            context["id"]=id
+            context["beneficiarios"]=beneficiarios
+            context["menor_detalles"]=menor_detalles
+            context["medicas"]=medicas
 
-
-            return render(request, 'menor_detalle.html', pk, id)
+            return render(request, 'menor_detalle.html', context)
         except ValueError:
             return render(request, 'medica_crear.html', {
             'pk': pk,
@@ -615,33 +618,26 @@ def medica_crear(request, pk, id):
             'error': 'Datos incorectos, Favor verificar la información'
             })
 
-
-
-
-
-
-
 @login_required      
-def medica_detalle(request, pk):
+def medica_detalle(request, pk, id, idmed):
     if request.method == 'GET':
-        medicas = get_object_or_404(Medica, id=pk, user=request.user)
+
+        medicas = get_object_or_404(Medica, id=idmed)
         form = MedicaForm(instance=medicas)
-        return render(request, 'medica_detalle.html',{
-            'medicas':medicas,
-            'form': form
-        })
-    else:
-        try:
-            medicas = get_object_or_404(Medica, id=pk, user=request.user)
-            form = MedicaForm(request.POST, instance=medicas)
-            form.save()
-            return redirect('medica')
-        except ValueError:
-            return render(request, 'medica_detalle.html',{
-            'medicas':medicas,
-            'form': form,
-            'error': "Error al actualizar el formulario"
-        })
+        print(form)
+        beneficiarios = get_object_or_404(Beneficiario,id=pk)
+        menor_detalles = get_object_or_404(Menor,id=id)
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["idmed"]=idmed
+        context["form"]=form
+        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
+        context["medicas"]=medicas
+    
+        return render(request, 'medica_detalle.html', context)
+
 
 @login_required   
 def medica_eliminar(request, pk):

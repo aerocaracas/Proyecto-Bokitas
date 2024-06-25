@@ -156,25 +156,25 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">PROYECTO</th>
-                    <th scope="col">CEDULA</th>
-                    <th scope="col">NOMBRE</th>
-                    <th scope="col">APELLIDO</th>
+                    <th scope="col">FECHA</th>
                     <th scope="col">EDAD</th>
                     <th scope="col">MESES</th>
+                    <th scope="col">TIPO CONSULTA</th>
+                    <th scope="col">EXAMEN FISICO</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
             <tbody>
-                {% if menores %}
-                    {% for menor in menores %}
+                {% if medicas %}
+                    {% for medica in medicas %}
                         <tr>
-                            <td>{{menor.proyecto}}</td>
-                            <td>{{menor.cedula}}</td>
-                            <td>{{menor.nombre}}</td>
-                            <td>{{menor.apellido}}</td>
-                            <td>{{menor.edad}}</td>
-                            <td>{{menor.meses}}</td>
-                            <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td>{{menor_detalles.proyecto}}</td>
+                            <td>{{medica.fecha}}</td>
+                            <td>{{menor_detalles.edad}}</td>
+                            <td>{{menor_detalles.meses}}</td>
+                            <td>{{medica.tipo_consulta}}</td>
+                            <td>{{medica.examen_fisico}}</td>
+                            <td class="text-center"> <a href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
