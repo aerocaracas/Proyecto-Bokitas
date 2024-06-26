@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, Medicamento, Medica
 
+
 SEXOS = (
     ("MASCULINO", "MASCULINO"),
     ("FEMENINO", "FEMENINO"),
@@ -70,10 +71,7 @@ class FamiliarForm(ModelForm):
 
 
 class MedicaForm(forms.ModelForm):
-    diagnostico1 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO1, required=False, widget=forms.CheckboxSelectMultiple)
-    diagnostico2 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO2, required=False, widget=forms.CheckboxSelectMultiple)
-    diagnostico3 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO3, required=False, widget=forms.CheckboxSelectMultiple)
-    anemico = forms.MultipleChoiceField(label='', choices=ANEMICO, required=False, widget=forms.CheckboxSelectMultiple)
+
     desp_familia = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
     desp_menor = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
 
@@ -82,6 +80,5 @@ class MedicaForm(forms.ModelForm):
         fields = ['medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','tratamiento','referencia','paraclinicos'
         ]
 
-        labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'Control Anémico','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
+        labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
         }
-

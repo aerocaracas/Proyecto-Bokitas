@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from multiselectfield import MultiSelectField
 
 
 # Specifying the choices
@@ -257,8 +258,8 @@ class AntropMenor(models.Model):
     cedula = models.ForeignKey(Familia, on_delete=models.CASCADE)
     proyecto = models.CharField(max_length=100, blank=False)
     fecha = models.DateTimeField(default=timezone.now)
-    edad = models.PositiveIntegerField(default=0,blank=True,null=True)
-    meses = models.PositiveIntegerField(default=0,blank=True,null=True)
+    edad = models.PositiveIntegerField(default=0)
+    meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -281,8 +282,8 @@ class AntropBef(models.Model):
     fecha = models.DateTimeField(default=timezone.now)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
-    edad = models.PositiveIntegerField(default=0,blank=True,null=True)
-    meses = models.PositiveIntegerField(default=0,blank=True,null=True)
+    edad = models.PositiveIntegerField(default=0) 
+    meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,help_text="Kg")
     talla = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
     cbi = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,blank=True,null=True)
@@ -423,16 +424,18 @@ class Medica(models.Model):
     cedula = models.ForeignKey(Menor, on_delete=models.CASCADE, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateField(auto_now_add=True)
+    edad = models.PositiveIntegerField(default=0) 
+    meses = models.PositiveIntegerField(default=0)
     medico_tratante = models.CharField(max_length=50, blank=False)
     tipo_consulta = models.CharField(max_length=20, choices=TIPO_CONSULTA, blank=False)
     examen_fisico = models.CharField(max_length=10, choices=EXAMEN_FISICO, blank=False)
-    diagnostico1 = models.CharField(max_length=200, blank=True,null=False)
-    diagnostico2 = models.CharField(max_length=200, blank=True,null=False)
-    diagnostico3 = models.CharField(max_length=200, blank=True,null=False)
+    diagnostico1 = MultiSelectField(max_length=200, choices=DIAGNOSTICO1, max_choices=3)
+    diagnostico2 = MultiSelectField(max_length=200, choices=DIAGNOSTICO2, max_choices=3)
+    diagnostico3 = MultiSelectField(max_length=200, choices=DIAGNOSTICO3, max_choices=3)
     otros_varios = models.TextField(max_length=200, blank=True)
     desp_menor = models.CharField(max_length=10,choices=SI_NO, blank=True)
     desp_familia = models.CharField(max_length=10,choices=SI_NO, blank=True)
-    anemico = models.CharField(max_length=200, blank=True,null=False)
+    anemico = MultiSelectField(max_length=200, choices=ANEMICO, blank=True,null=False)
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)

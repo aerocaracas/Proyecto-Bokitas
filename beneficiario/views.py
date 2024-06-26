@@ -346,7 +346,18 @@ def familiar_actualizar(request, pk, id):
         try:
             familias = get_object_or_404(Familia, id=id, user=request.user)
             form = FamiliarForm(request.POST, instance=familias)
-            form.save()
+            new_familiar = form.save(commit=False)
+
+            fecha_inicial = familias.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
+            new_familiar.edad = tiempo_transc.years
+            new_familiar.meses = tiempo_transc.months
+
+            new_familiar.save()
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             antropBefs = AntropBef.objects.filter(cedula_bef = pk)
@@ -624,7 +635,7 @@ def medica_detalle(request, pk, id, idmed):
 
         medicas = get_object_or_404(Medica, id=idmed)
         form = MedicaForm(instance=medicas)
-        print(form)
+
         beneficiarios = get_object_or_404(Beneficiario,id=pk)
         menor_detalles = get_object_or_404(Menor,id=id)
         context={}
