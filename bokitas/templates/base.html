@@ -19,16 +19,21 @@
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script>
 $( function() {
-    $( "#id_fecha_nac" ).datepicker({
-      format: 'DD.MM.YYYY',
+    
+    $('#id_fecha_nac').datepicker({
+      dateFormat: "dd/mm/yy",
+      startDate: '-3d',
       changeMonth: true,
-      changeYear: true
-    });
+      changeYear: true,
+  });
+
   } );
     </script>
   <script>
 $( function() {
   $( "#id_fecha_ing_proyecto" ).datepicker({
+    dateFormat: "dd/mm/yy",
+    startDate: '-3d',
     changeMonth: true,
     changeYear: true
   });
