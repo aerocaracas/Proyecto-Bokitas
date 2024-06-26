@@ -69,10 +69,10 @@ class FamiliarForm(ModelForm):
         }
 
 
-class MedicaForm(ModelForm):
+class MedicaForm(forms.ModelForm):
     diagnostico1 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO1, required=False, widget=forms.CheckboxSelectMultiple)
     diagnostico2 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO2, required=False, widget=forms.CheckboxSelectMultiple)
-    diagnostico3 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO3, required=False,widget=forms.CheckboxSelectMultiple)
+    diagnostico3 = forms.MultipleChoiceField(label='', choices=DIAGNOSTICO3, required=False, widget=forms.CheckboxSelectMultiple)
     anemico = forms.MultipleChoiceField(label='', choices=ANEMICO, required=False, widget=forms.CheckboxSelectMultiple)
     desp_familia = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
     desp_menor = forms.ChoiceField(label='', choices=SI_NO, widget=forms.RadioSelect)
