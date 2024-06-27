@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+
+    <h1 class="text-center">Registro Antropométrico</h1>
+    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    
+    <hr>             
+
+    {{error}}
+
+    <div class="tabcontent">  
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <strong> BENEFICIARIO </strong>
+                </div>
+                <div class="col-12 text-center">
+                    {{beneficiarios}}
+                </div>
+                <div class="col-12 text-center">
+                    <br>
+                    <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
+                    <div class="col-12 text-center">
+                        {{menor_detalles}}
+                    </div>
+                </div>
+            </div>
+            <BR>
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Peso:* </label>
+                    <input type="number" name="peso" class="form-control" required min="3" max="200" step="0.1" placeholder="Kg">
+                </div>
+
+                <div class="col-4">
+                    <label for="">Talla:* </label>
+                    <input type="number" name="talla" class="form-control" required min="30" max="210" step="0.1" placeholder="cm">
+                </div>
+
+                <div class="col-4">
+                    <label for="">CBI:* </label>
+                    <input type="number" name="cbi" class="form-control" required min="5" max="40" step="0.1" placeholder="cm">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label for="">PTR: </label>
+                    <input type="number" name="ptr" class="form-control" min="5" max="60" step="0.1" placeholder="cm">
+                </div>
+
+                <div class="col-4">
+                    <label for="">PSE: </label>
+                    <input type="number" name="pse" class="form-control" min="5" max="60" step="0.1" placeholder="cm">
+                </div>
+
+                <div class="col-4">
+                    <label for="">CC: </label>
+                    <input type="number" name="cc" class="form-control" min="5" max="40" step="0.1" placeholder="cm">
+                </div>
+            </div>
+            <br>
+
+            <a href="{% url 'menor_detalle' pk id %}" class="btn btn-secondary"> Regresar </a>
+            &nbsp
+            <button type="submit" class="btn btn-primary" action="{% url 'imc_menor_crear' pk id %}">Calcular </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

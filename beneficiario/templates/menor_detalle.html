@@ -42,7 +42,7 @@
             <P> <strong> Sexo: </strong>{{menor_detalles.sexo}}</p>
         </div>
         <div class="col-4">
-            <P> <strong> Fecha Nacimiento: </strong>{{menor_detalles.fecha_nac}}</p>
+            <P> <strong> Fecha Nacimiento: </strong>{{menor_detalles.fecha_nac | date:"d/m/Y"}}</p>
         </div>
         <div class="col">
             <P> <strong> Edad: </strong>{{menor_detalles.edad}}</p>
@@ -54,7 +54,7 @@
          
     <div class="row">
         <div class="col">
-            <P> <strong> Fecha Ingreso: </strong>{{menor_detalles.fecha_ing_proyecto}}</p>
+            <P> <strong> Fecha Ingreso: </strong>{{menor_detalles.fecha_ing_proyecto | date:"d/m/Y"}}</p>
         </div>
         <div class="col">
             <P> <strong> Observación: </strong>{{menor_detalles.observacion}}</p>
@@ -140,7 +140,7 @@
         </table>
 
         <!-- ########  boton agregar Antropometrico  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="#">
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}">
 
             Nuevo Control Antropométrico
     
@@ -168,10 +168,10 @@
                 {% if medicas %}
                     {% for medica in medicas %}
                         <tr>
-                            <td>{{menor_detalles.proyecto}}</td>
-                            <td>{{medica.fecha}}</td>
-                            <td>{{menor_detalles.edad}}</td>
-                            <td>{{menor_detalles.meses}}</td>
+                            <td>{{medica.proyecto}}</td>
+                            <td>{{medica.fecha | date:"d/m/Y"}}</td>
+                            <td>{{medica.edad}}</td>
+                            <td>{{medica.meses}}</td>
                             <td>{{medica.tipo_consulta}}</td>
                             <td>{{medica.examen_fisico}}</td>
                             <td class="text-center"> <a href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>

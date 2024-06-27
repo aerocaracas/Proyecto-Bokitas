@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+                
+    <h1 class="text-center">Registro Antropométrico</h1>
+    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    <hr>
+
+
+    {{error}}
+
+
+    <div class="tabcontent" id="metric">
+
+            <div class="row">
+
+                <div class="col">
+                    <P> <strong> Cédula: </strong> {{beneficiarios.cedula}} </p>
+                </div>
+                <div class="col">
+                    <P> <strong> Nombre: </strong>{{beneficiarios.nombre}}</p> 
+                </div>
+                <div class="col">
+                    <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
+                </div>
+            </div>
+
+            {% if beneficiarios.embarazada == "SI" %}
+                <div class="row">
+                    <div class="col-6">
+                        <P> <strong> Tiempo del Embarazo: </strong> {{imc_beneficiarios.tiempo}} </p>
+                    </div>
+                </div> 
+         
+            {% elif beneficiarios.lactando == "SI" %}
+                <div class="row">
+                    <div class="col-6">
+                        <P> <strong> Tiempo Lactando: </strong> {{imc_beneficiarios.tiempo}} </p>
+                    </div>
+                </div> 
+
+            {% endif %}
+            <div class="row">
+                <div class="col-4">
+                    <P> <strong> Peso: </strong> {{imc_beneficiarios.peso}} </p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> Talla: </strong> {{imc_beneficiarios.talla}} </p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> CBI: </strong> {{imc_beneficiarios.cbi}} </p>
+                </div>
+            </div>
+
+    </div>
+
+    {% if imc_beneficiarios.imc %}
+        <div class="row">
+            <div  class="text-center" >
+                <h2>Resultado</h2>
+                <p> Su IMC = {{imc_beneficiarios.imc}} Kg/m² </p>
+
+                {% if imc_beneficiarios.diagnostico == "PESO BAJO" %}
+                    <div class="text-bg-danger p-2">PESO BAJO</div>  
+                {%elif imc_beneficiarios.diagnostico == "ADECUADO" %}
+                    <div class="text-bg-success p-2">ADECUADO</div>
+                {%elif imc_beneficiarios.diagnostico == "RIESGO DE SOBREPESO" %}
+                    <div class="text-bg-warning p-2">RIESGO DE SOBREPESO</div>
+                {%elif imc_beneficiarios.diagnostico == "SOBREPESO" %}
+                    <div class="text-white p-2"style="background-color:#FF7F50">SOBREPESO</div>
+                {%elif imc_beneficiarios.diagnostico == "OBESIDAD" %}
+                    <div class="text-bg-danger p-2">OBESIDAD</div>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+
+        <form action="imc_benef_riesgo" method="POST">
+            {% csrf_token %}
+    
+            <div class="row justify-content-center">
+                <div class="col-5 text-center">
+                    <label for="riesgo">Presenta Riesgo:</label>
+                    <select id="riesgo" name="riesgo">
+                        <option value="NO" selected>NO</option>
+                        <option value="SI">SI</option>
+                    </select>
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col">
+                    <label for="servicio">Servicio:</label>
+                    <textarea name="servicio" rows="6" cols="12"></textarea>
+                </div>
+                <div class="col">
+                    <label for="centro_hospital">Centro:</label>
+                    <textarea name="centro_hospital" rows="6" cols="12"></textarea>
+                </div>
+                <div class="col">
+                    <label for="observacion">Observación:</label>
+                    <textarea name="observacion" rows="6" cols="12"></textarea>
+                </div>
+            </div> 
+            
+            <br>
+            <button type="submit" class="btn btn-primary" action="{% url 'beneficiario_detalle' pk %}">Aceptar </button>
+
+        </form>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

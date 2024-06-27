@@ -214,6 +214,7 @@ def menor_detalle(request, pk, id):
     
         return render(request, 'menor_detalle.html', context)
 
+
 @login_required      
 def menor_actualizar(request, pk, id):
     if request.method == 'GET':
@@ -275,6 +276,149 @@ def menor_eliminar(request, pk, id):
     menores = get_object_or_404(Menor, id=id)
     menores.delete()
     return redirect('beneficiario_detalle', pk)
+
+
+
+# Sesion IMC del Menor
+
+@login_required     
+def imc_menor_riesgo(request, pk, id, idimc):
+        
+    if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
+        context = {}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["idimc"]=idimc
+        context["imc_beneficiarios"]=imc_beneficiarios
+
+        return render(request, "imc_benef_riesgo.html", context)   
+
+    if request.method=="POST":
+        try:
+            riesgo = request.POST.get("riesgo")
+            servicio = request.POST.get("servicio")
+            centro_hospital = request.POST.get("centro_hospital")
+            observacion = request.POST.get("observacion")
+        
+            riesgos = get_object_or_404(AntropBef, id=idimc)
+            riesgos.riesgo=riesgo
+            riesgos.servicio=servicio
+            riesgos.centro_hospital=centro_hospital
+            riesgos.observacion=observacion          
+            riesgos.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+
+            return render(request, "beneficiario_detalle.html", context)
+        
+        except ValueError:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
+            context = {}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["idimc"]=idimc
+            context["imc_beneficiarios"]=imc_beneficiarios
+            context["error"]='Datos incorectos, Favor verificar la información'
+            return render(request, 'imc_benef_riesgo.html', context)
+    
+
+@login_required 
+def imc_menor_crear(request, pk, id):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        menor_detalles = get_object_or_404(Menor, id=id)
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
+
+        return render(request, 'imc_menor.html', context)
+
+    else:
+        try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+
+            peso = float(request.POST.get("peso"))
+            talla = float(request.POST.get("talla"))
+            cbi = request.POST.get("cbi")
+            tiempo = request.POST.get("tiempo")
+
+            talla = talla/100
+
+            imc = round(peso/(talla**2))
+
+            if imc < 18.5:
+                diagnostico = "PESO BAJO"
+            elif imc >= 18.5 and imc < 23:
+                diagnostico = "ADECUADO"
+            elif imc >= 23 and imc < 25:
+                diagnostico = "RIESGO DE SOBREPESO"
+            elif imc >= 25 and imc < 30:
+                diagnostico = "SOBREPESO"
+            elif imc >= 30:
+                diagnostico = "OBESIDAD"
+
+            fecha = datetime.now()
+            if beneficiarios.embarazada == "SI":
+                estado = "EMBARAZADA"
+            elif beneficiarios.lactando == "SI":
+                estado = "LACTANDO"
+            else:
+                estado = "ESTUDIO"
+
+            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
+            
+            antropometrico.save()
+            idimc=antropometrico.id
+
+            return redirect("imc_benef_riesgo", pk, idimc)
+        
+        except ValueError:
+            return render(request, 'imc_benef.html', {
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk
+            })
+
+
+@login_required 
+def imc_menor_detalle(request, pk, id, idimc):
+
+    if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+        context = {}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["idimc"]=id
+        context["imc_beneficiarios"]=imc_beneficiarios
+
+        return render(request, "imc_benef_detalle.html", context)   
+
+
+@login_required   
+def imc_menor_eliminar(request, pk, id, idimc):
+    imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+    imc_beneficiarios.delete()
+    return redirect('beneficiario_detalle', pk)
+
+
 
 
 # Sesion del Familiar
@@ -603,12 +747,22 @@ def medica_crear(request, pk, id):
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             menor_detalles = get_object_or_404(Menor, id=id)
             form = MedicaForm(request.POST)
+            fecha_inicial = menor_detalles.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
             new_medica = form.save(commit=False)
             new_medica.cedula_bef_id = pk
             new_medica.cedula_id = id
-            new_medica.proyecto_id = beneficiarios.proyecto_id
-            new_medica.fecha = date.today()
+            new_medica.proyecto = menor_detalles.proyecto
+            new_medica.fecha = dia_hoy
+            new_medica.edad = tiempo_transc.years
+            new_medica.meses = tiempo_transc.months
             new_medica.save()
+            menor_detalles.edad = tiempo_transc.years
+            menor_detalles.meses = tiempo_transc.months
+            menor_detalles.save()
 
             medicas = Medica.objects.filter(cedula_id=id)
             context={}
@@ -629,6 +783,7 @@ def medica_crear(request, pk, id):
             'error': 'Datos incorectos, Favor verificar la información'
             })
 
+
 @login_required      
 def medica_detalle(request, pk, id, idmed):
     if request.method == 'GET':
@@ -648,12 +803,61 @@ def medica_detalle(request, pk, id, idmed):
         context["medicas"]=medicas
     
         return render(request, 'medica_detalle.html', context)
+    else:
+        try:
+            medicas = get_object_or_404(Medica, id=idmed)
+            form = MedicaForm(request.POST, instance=medicas)
+            new_medica = form.save(commit=False)
+            menor_detalles = get_object_or_404(Menor, id=id)
+            fecha_inicial = menor_detalles.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
+            new_medica.edad = tiempo_transc.years
+            new_medica.meses = tiempo_transc.months
+            new_medica.save()
+
+            menor_detalles.edad = tiempo_transc.years
+            menor_detalles.meses = tiempo_transc.months
+            menor_detalles.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            medicas = Medica.objects.filter(cedula_id=id)
+
+            context={}
+            context["pk"]=pk
+            context["id"]=id
+            context["beneficiarios"]=beneficiarios
+            context["menor_detalles"]=menor_detalles
+            context["medicas"]=medicas
+
+            return render(request, 'menor_detalle.html', context)
+        except ValueError:
+            return render(request, 'medica_detalle.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk,
+            'id': id
+            })
 
 
 @login_required   
-def medica_eliminar(request, pk):
-    medicas = get_object_or_404(Medica, id=pk, user=request.user)
-    if request.method == 'POST':
-        medicas.delete()
-        return redirect('medica')
+def medica_eliminar(request, pk, id, idmed):
+    medicas = get_object_or_404(Medica, id=idmed)
+    medicas.delete()
+    beneficiarios = get_object_or_404(Beneficiario,id=pk)
+    menor_detalles = get_object_or_404(Menor,id=id)
+    medicas = Medica.objects.filter(cedula_id=id)
+    context={}
+    context["pk"]=pk
+    context["id"]=id
+    context["beneficiarios"]=beneficiarios
+    context["menor_detalles"]=menor_detalles
+    context["medicas"]=medicas
+
+    return render(request, 'menor_detalle.html', context)
+
+
 
