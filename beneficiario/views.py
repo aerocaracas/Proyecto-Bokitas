@@ -282,62 +282,6 @@ def menor_eliminar(request, pk, id):
 
 # Sesion IMC del Menor
 
-@login_required     
-def imc_menor_riesgo(request, pk, id, idimc):
-        
-    if request.method == 'GET':
-
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
-        context = {}
-        context["pk"]=pk
-        context["beneficiarios"]=beneficiarios
-        context["idimc"]=idimc
-        context["imc_beneficiarios"]=imc_beneficiarios
-
-        return render(request, "imc_benef_riesgo.html", context)   
-
-    if request.method=="POST":
-        try:
-            riesgo = request.POST.get("riesgo")
-            servicio = request.POST.get("servicio")
-            centro_hospital = request.POST.get("centro_hospital")
-            observacion = request.POST.get("observacion")
-        
-            riesgos = get_object_or_404(AntropBef, id=idimc)
-            riesgos.riesgo=riesgo
-            riesgos.servicio=servicio
-            riesgos.centro_hospital=centro_hospital
-            riesgos.observacion=observacion          
-            riesgos.save()
-
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-            context={}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-
-            return render(request, "beneficiario_detalle.html", context)
-        
-        except ValueError:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
-            context = {}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["idimc"]=idimc
-            context["imc_beneficiarios"]=imc_beneficiarios
-            context["error"]='Datos incorectos, Favor verificar la información'
-            return render(request, 'imc_benef_riesgo.html', context)
-    
-
 @login_required 
 def imc_menor_crear(request, pk, id):
     if request.method == 'GET':
@@ -358,13 +302,14 @@ def imc_menor_crear(request, pk, id):
 
             xTalla = float(request.POST.get("talla"))
             xPeso = float(request.POST.get("peso"))
-            cbi = request.POST.get("cbi")
-            ptr = request.POST.get("ptr")
-            pse = request.POST.get("pse")
-            cc = request.POST.get("cc")
+            xcbi = request.POST.get("cbi")
+            xptr = request.POST.get("ptr")
+            xpse = request.POST.get("pse")
+            xcc = request.POST.get("cc")
             fecha_inicial = menor_detalles.fecha_nac
             fecha = datetime.today()
             dia_hoy = date.today()
+            proyecto = menor_detalles.proyecto
             fecha_fin = dia_hoy.strftime('%d-%m-%Y')
             fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
             tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
@@ -378,8 +323,6 @@ def imc_menor_crear(request, pk, id):
             xMeses = tiempo_transc.months
             xTalla = xTalla/100
             imc = round(xPeso/(xTalla**2),2)
-
-
 
         #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
 
@@ -475,23 +418,80 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, fecha = fecha, peso=xPeso, talla=xTalla, cbi=float(cbi), imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla )
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla )
                 
             imc_menor.save()
             idimc=imc_menor.id
 
-
             menor_detalles.edad = tiempo_transc.years
             menor_detalles.meses = tiempo_transc.months
+            menor_detalles.save()
 
-            return redirect("imc_benef_riesgo", pk, idimc)
+            return redirect("imc_menor_riesgo", pk, idimc)
         
         except ValueError:
-            return render(request, 'imc_benef.html', {
+            return render(request, 'imc_menor.html', {
             'error': 'Datos incorectos, Favor verificar la información',
-            'pk': pk
+            'pk': pk,
+            'id': id
             })
 
+
+@login_required     
+def imc_menor_riesgo(request, pk, id, idimc):
+        
+    if request.method == 'GET':
+
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc_menores = get_object_or_404(AntropMenor, id=idimc)
+        context = {}
+        context["pk"]=pk
+        context["beneficiarios"]=beneficiarios
+        context["idimc"]=idimc
+        context["imc_menores"]=imc_menores
+
+        return render(request, "imc_menor_riesgo.html", context)   
+
+    if request.method=="POST":
+        try:
+            xriesgo = request.POST.get("riesgo")
+            xservicio = request.POST.get("servicio")
+            xcentro_hospital = request.POST.get("centro_hospital")
+            xobservacion = request.POST.get("observacion")
+        
+            riesgos = get_object_or_404(AntropMenor, id=idimc)
+            riesgos.riesgo=xriesgo
+            riesgos.servicio=xservicio
+            riesgos.centro_hospital=xcentro_hospital
+            riesgos.observacion=xobservacion          
+            riesgos.save()
+
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
+            menores = Menor.objects.filter(cedula_bef=pk)
+            familias = Familia.objects.filter(cedula_bef = pk)
+            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+            context={}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["antropBefs"]=antropBefs
+            context["menores"]=menores
+            context["familias"]=familias
+            context["medicamentos"]=medicamentos
+
+            return render(request, "menor_detalle.html", context)
+        
+        except ValueError:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            imc_menores = get_object_or_404(AntropMenor, id=idimc)
+            context = {}
+            context["pk"]=pk
+            context["beneficiarios"]=beneficiarios
+            context["idimc"]=idimc
+            context["imc_menores"]=imc_menores
+            context["error"]='Datos incorectos, Favor verificar la información'
+            return render(request, 'imc_benef_riesgo.html', context)
+    
 
 @login_required 
 def imc_menor_detalle(request, pk, id, idimc):
@@ -632,7 +632,7 @@ def familiar_eliminar(request, pk, id):
 
 
 
-# Sesion Antropometrico del Beneficiario
+# Sesion IMC del Beneficiario
 
 @login_required     
 def imc_benef_riesgo(request, pk, idimc):

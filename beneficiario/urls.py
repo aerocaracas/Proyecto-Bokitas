@@ -22,6 +22,7 @@ urlpatterns = [
     path('beneficiario/<int:pk>/imc_benef/<int:id>/detalle', views.imc_benef_detalle, name='imc_benef_detalle'),
     path('beneficiario/<int:pk>/imc_benef/<int:id>/eliminar', views.imc_benef_eliminar, name='imc_benef_eliminar'),
     path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/', views.imc_menor_crear, name='imc_menor_crear'),
+    path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/<int:idimc>/riesgo', views.imc_menor_riesgo, name='imc_menor_riesgo'),
     path('beneficiario/<int:pk>/medicamento/crear/', views.medicamento_crear, name='medicamento_crear'),
     path('beneficiario/<int:pk>/medicamento/<int:id>/eliminar', views.medicamento_eliminar, name='medicamento_eliminar'),
 
