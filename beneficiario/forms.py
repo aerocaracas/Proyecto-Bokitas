@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, Medicamento, Medica
+from bokitas.models import Beneficiario, Familia, Menor, Medica
 
 
 SEXOS = (

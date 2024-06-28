@@ -3,6 +3,7 @@ from beneficiario.forms import BeneficiarioForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
+from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, Diagnostico
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -353,39 +354,135 @@ def imc_menor_crear(request, pk, id):
     else:
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            menor_detalles = get_object_or_404(Menor, id=id)
 
-            peso = float(request.POST.get("peso"))
-            talla = float(request.POST.get("talla"))
+            xTalla = float(request.POST.get("talla"))
+            xPeso = float(request.POST.get("peso"))
             cbi = request.POST.get("cbi")
-            tiempo = request.POST.get("tiempo")
+            ptr = request.POST.get("ptr")
+            pse = request.POST.get("pse")
+            cc = request.POST.get("cc")
+            fecha_inicial = menor_detalles.fecha_nac
+            fecha = datetime.today()
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
 
-            talla = talla/100
-
-            imc = round(peso/(talla**2))
-
-            if imc < 18.5:
-                diagnostico = "PESO BAJO"
-            elif imc >= 18.5 and imc < 23:
-                diagnostico = "ADECUADO"
-            elif imc >= 23 and imc < 25:
-                diagnostico = "RIESGO DE SOBREPESO"
-            elif imc >= 25 and imc < 30:
-                diagnostico = "SOBREPESO"
-            elif imc >= 30:
-                diagnostico = "OBESIDAD"
-
-            fecha = datetime.now()
-            if beneficiarios.embarazada == "SI":
-                estado = "EMBARAZADA"
-            elif beneficiarios.lactando == "SI":
-                estado = "LACTANDO"
+            xSexo = menor_detalles.sexo
+            if xSexo == "MASCULINO":
+                xSexo = 1
             else:
-                estado = "ESTUDIO"
+                xSexo = 2
+            xEdad = tiempo_transc.years
+            xMeses = tiempo_transc.months
+            xTalla = xTalla/100
+            imc = round(xPeso/(xTalla**2),2)
 
-            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
-            
-            antropometrico.save()
-            idimc=antropometrico.id
+
+
+        #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
+
+            if xEdad <= 5:
+                VtallaI=int(xTalla) 
+                residuo = xTalla - VtallaI
+	
+                if residuo >= .5:
+                    xTallaCal=(VtallaI+.5)
+                else: 
+                    xTallaCal = VtallaI
+		
+                xImc = ImcPesoTalla_5x.objects.filter(sexo = xSexo, talla = xTallaCal)
+                if xImc:
+                    if xPeso <= xImc.ds3_T:
+                        xDiagnostico = 1
+                    elif xPeso > xImc.ds3_T and xPeso <= xImc.ds2_T:
+                        xDiagnostico = 2 
+                    elif xPeso > xImc.ds2_T and xPeso <= xImc.ds1_T:
+                        xDiagnostico = 3
+                    elif xPeso > xImc.ds1_T and xPeso <= xImc.ds1:
+                        xDiagnostico = 4
+                    elif xPeso > xImc.ds1 and xPeso <= xImc.ds2:
+                        xDiagnostico = 5
+                    elif xPeso > xImc.ds2 and xPeso <= xImc.ds3:
+                        xDiagnostico = 6
+                    elif xPeso >= xImc.ds3:
+                        xDiagnostico = 7
+                else:
+                    context["error"] = 'Datos incorectos, Favor verificar la información'
+                    return render(request, 'imc_menor.html', context)
+                
+
+        #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
+            elif xEdad > 5 and xEdad <= 19:
+                
+                xImc = ImcCla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses)
+                if xImc:
+                    if imc <= xImc.l3sd:
+                        xDiagnostico = 1
+                    elif imc > xImc.l3sd and imc <= xImc.l2sd:
+                        xDiagnostico = 2 
+                    elif imc > xImc.l2sd and imc <= xImc.l1sd:
+                        xDiagnostico = 3
+                    elif imc > xImc.l1sd and imc <= xImc.sd1:
+                        xDiagnostico = 4
+                    elif imc > xImc.sd1 and imc <= xImc.sd2:
+                        xDiagnostico = 5
+                    elif imc > xImc.sd2 and imc <= xImc.sd3:
+                        xDiagnostico = 6
+                    elif imc >= xImc.sd3:
+                        xDiagnostico = 7
+                else:
+                    context["error"] = 'Datos incorectos, Favor verificar la información'
+                    return render(request, 'imc_menor.html', context)
+
+        
+        #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 19 AÑOS ***
+            else:
+
+                if imc < 18.5:
+                    xDiagnostico = 10
+                elif imc >= 18.5 and imc < 23:
+                    xDiagnostico = 11
+                elif imc >= 23 and imc < 25:
+                    xDiagnostico = 12
+                elif imc >= 25 and imc < 30:
+                    xDiagnostico = 13
+                elif imc >= 30:
+                    xDiagnostico = 14
+
+            if xEdad <= 19:
+                xImcTalla = ImcTalla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses)
+                if xTalla <= xImcTalla.sd2_T:
+                    xDiagTalla = 21
+                elif xTalla > xImcTalla.sd2_T and xTalla <= xImcTalla.sd1_T:
+                    xDiagTalla = 22
+                elif xTalla > xImcTalla.sd1_T and xTalla <= xImcTalla.sd1:
+                    xDiagTalla = 23
+                elif xTalla > xImcTalla.sd1 and xTalla <= xImcTalla.sd2:
+                    xDiagTalla = 24
+                elif xTalla >= xImcTalla.sd2:
+                    xDiagTalla = 25
+
+
+        #********   DIAGNOSTICO   **********
+
+            xDiag = Diagnostico.objects.filter(codigo_diag = xDiagnostico)
+            diag_peso = xDiag.diagnostico
+
+            xDiagTallas = Diagnostico.objects.filter(codigo_diag = xDiagTalla)
+            diag_talla = xDiagTallas.diagnostico
+
+        #********   SALVAR   **********
+
+            imc_menor = AntropMenor(cedula_bef_id=pk, fecha = fecha, peso=xPeso, talla=xTalla, cbi=float(cbi), imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla )
+                
+            imc_menor.save()
+            idimc=imc_menor.id
+
+
+            menor_detalles.edad = tiempo_transc.years
+            menor_detalles.meses = tiempo_transc.months
 
             return redirect("imc_benef_riesgo", pk, idimc)
         
