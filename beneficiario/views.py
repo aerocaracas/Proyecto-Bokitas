@@ -306,6 +306,7 @@ def imc_menor_crear(request, pk, id):
             xptr = request.POST.get("ptr")
             xpse = request.POST.get("pse")
             xcc = request.POST.get("cc")
+
             fecha_inicial = menor_detalles.fecha_nac
             fecha = datetime.today()
             dia_hoy = date.today()
@@ -321,39 +322,65 @@ def imc_menor_crear(request, pk, id):
                 xSexo = 2
             xEdad = tiempo_transc.years
             xMeses = tiempo_transc.months
-            xTalla = xTalla/100
-            imc = round(xPeso/(xTalla**2),2)
+
+            xTallaz = xTalla/100
+            imc = round(xPeso/(xTallaz**2),2)        
+
+            print('****')
+            print(xPeso, type(xPeso))
+            print(xTallaz, type(xTallaz)) 
+            print(xTalla, type(xTalla))  
+            print(imc, type(imc))
+            print('****') 
 
         #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
 
             if xEdad <= 5:
                 VtallaI=int(xTalla) 
                 residuo = xTalla - VtallaI
-	
+
+
+                #print(VtallaI)
+ 	
                 if residuo >= .5:
-                    xTallaCal=(VtallaI+.5)
+                    xTallaCal=(VtallaI + .5)
                 else: 
                     xTallaCal = VtallaI
-		
+
+
+                print(xSexo)
+                print(xTallaCal)
                 xImc = ImcPesoTalla_5x.objects.filter(sexo = xSexo, talla = xTallaCal)
+
+                #print(xImc.talla)
+
                 if xImc:
-                    if xPeso <= xImc.ds3_T:
+                    print(xImc.edad)
+                    if imc <= xImc.ds3_T:
                         xDiagnostico = 1
-                    elif xPeso > xImc.ds3_T and xPeso <= xImc.ds2_T:
+                    elif imc > xImc.ds3_T and imc <= xImc.ds2_T:
                         xDiagnostico = 2 
-                    elif xPeso > xImc.ds2_T and xPeso <= xImc.ds1_T:
+                    elif imc > xImc.ds2_T and imc <= xImc.ds1_T:
                         xDiagnostico = 3
-                    elif xPeso > xImc.ds1_T and xPeso <= xImc.ds1:
+                    elif imc > xImc.ds1_T and imc <= xImc.ds1:
                         xDiagnostico = 4
-                    elif xPeso > xImc.ds1 and xPeso <= xImc.ds2:
+                    elif imc > xImc.ds1 and imc <= xImc.ds2:
                         xDiagnostico = 5
-                    elif xPeso > xImc.ds2 and xPeso <= xImc.ds3:
+                    elif imc > xImc.ds2 and imc <= xImc.ds3:
                         xDiagnostico = 6
-                    elif xPeso >= xImc.ds3:
+                    elif imc >= xImc.ds3:
                         xDiagnostico = 7
+                    
+
+
+                    
                 else:
-                    context["error"] = 'Datos incorectos, Favor verificar la información'
-                    return render(request, 'imc_menor.html', context)
+                    
+                        context={}
+                        context["pk"]=pk
+                        context["id"]=id
+                        context["error"] = 'Datos incorectos, Favor verificar la información'
+                        return render(request, 'imc_menor.html', context)
                 
 
         #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
