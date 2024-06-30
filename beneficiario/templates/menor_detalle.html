@@ -64,44 +64,34 @@
         </div>
     </div>       
     <br>
-    <h5 class="text-center">Información del Control Antropométrico Actual</h5>
+    <h5 class="text-center">Información del Último Control Antropométrico</h5>
     <hr>
     <div class="row">
         <div class="col">
-            <P> <strong> Peso Actual: </strong>{{menor_detalles.correo}}</p>
+            <P> <strong> Peso Actual: </strong>{{menor_detalles.peso_actual}}</p>
         </div>
         <div class="col">
-            <P> <strong> Talla Actual: </strong>{{menor_detalles.embarazada}}</p>
+            <P> <strong> Talla Actual: </strong>{{menor_detalles.talla_actual}}</p>
         </div>
         <div class="col">
-            <P> <strong> CBI: </strong>{{menor_detalles.lactando}}</p>
+            <P> <strong> CBI: </strong>{{menor_detalles.cbi_actual}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> IMC: </strong>{{menor_detalles.imc_actual}} Kg/m²</p>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <P> <strong> PTR: </strong>{{menor_detalles.direccion}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> PSE: </strong>{{menor_detalles.estado}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> CC: </strong>{{menor_detalles.ciudad}}</p>
-        </div>
-    </div>
+
 
     <div class="row">
-        <div class="col-2">
-            <P> <strong> IMC: </strong>{{menor_detalles.observacion}}</p>
+        <div class="col">
+            <P> <strong> Diagnóstico: </strong>{{menor_detalles.diagnostico_actual}}</p>
         </div>
         <div class="col">
-            <P> <strong> Diagnóstico: </strong>{{menor_detalles.diagnostico}}</p>
+            <P> <strong> Diagnóstico Talla: </strong>{{menor_detalles.diagnostico_talla_actual}}</p>
         </div>
         <div class="col">
-            <P> <strong> Diagnóstico Talla: </strong>{{menor_detalles.numero_cuenta}}</p>
-        </div>
-        <div class="col">
-            <P> <strong> Diagnóstico Nutricional: </strong>{{menor_detalles.numero_cuenta}}</p>
+            <P> <strong> Diagnóstico Nutricional: </strong>{{menor_detalles.estado_nutri_actual}}</p>
         </div>
     </div>
     <hr>
@@ -113,25 +103,57 @@
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
-                    <th scope="col">ESTADO</th>
-                    <th scope="col">FECHA</th>
-                    <th scope="col">PESO</th>
-                    <th scope="col">TALLA</th>
-                    <th scope="col">IMC</th>
-                    <th scope="col">DIAGNOSTICO</th>
+                    <th scope="col">PROYECTO</th>
+                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col" class="text-center">EDAD</th>
+                    <th scope="col" class="text-center">MESES</th>
+                    <th scope="col" class="text-center">PESO</th>
+                    <th scope="col" class="text-center">TALLA</th>
+                    <th scope="col" class="text-center">IMC Kg/m²</th>
+                    <th scope="col" class="text-center">DIAGNOSTICO</th>
+                    <th scope="col" class="text-center">D. TALLA</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
             <tbody>
-                {% if antropometricos %}
-                    {% for antrop in antropometricos %}
+                {% if antropMenores %}
+                    {% for antrop in antropMenores %}
                         <tr>
-                            <td>{{antrop.embarazo_lactando}}</td>
+                            <td>{{antrop.proyecto}}</td>
                             <td class="text-center">{{antrop.fecha | date:"d/m/Y"}}</td>
-                            <td>{{antrop.peso}}</td>
-                            <td>{{antrop.talla}}</td>
-                            <td>{{antrop.imc}}</td>
-                            <td>{{antrop.diagnostico}}</td>
+                            <td class="text-center">{{antrop.edad}}</td>
+                            <td class="text-center">{{antrop.meses}}</td>
+                            <td class="text-center">{{antrop.peso}}</td>
+                            <td class="text-center">{{antrop.talla}}</td>
+                            <td class="text-center">{{antrop.imc}}</td>
+                            {% if antrop.diagnostico == "DNT AGUDA SEVERA" %}
+                                <td class="text-center"><div class="text-bg-danger">DNT AGUDA SEVERA</div></td>  
+                            {%elif antrop.diagnostico == "DNT AGUDA MODERADA" %}
+                                <td class="text-center"><div class="text-white"style="background-color:#FF7F50">DNT AGUDA MODERADA</div></td>  
+                            {%elif antrop.diagnostico == "RIESGO DNT AGUDA" %}
+                                <td class="text-center"><div class="text-bg-warning">RIESGO DNT AGUDA</div></td>  
+                            {%elif antrop.diagnostico == "PESO ADECUADO" %}
+                                <td class="text-center"><div class="text-bg-success">PESO ADECUADO</div></td>
+                            {%elif antrop.diagnostico == "RIESGO DE SOBREPESO" %}
+                                <td class="text-center"><div class="text-bg-warning">RIESGO DE SOBREPESO</div></td>
+                            {%elif antrop.diagnostico == "SOBREPESO" %}
+                                <td class="text-center"><div class="text-white"style="background-color:#FF7F50">SOBREPESO</div></td>
+                            {%elif antrop.diagnostico == "OBESIDAD" %}
+                                <td class="text-center"><div class="text-bg-danger">OBESIDAD</div></td>
+                            {% endif %}
+
+                            {% if antrop.diagnostico_talla == "TALLA BAJA" %}
+                                <td class="text-center"><div class="text-bg-danger">TALLA BAJA</div></td>  
+                            {%elif antrop.diagnostico_talla == "RIESGO TALLA BAJA" %}
+                                <td class="text-center"><div class="text-bg-warning">RIESGO TALLA BAJA</div></td>  
+                            {%elif antrop.diagnostico_talla == "TALLA NORMAL" %}
+                                <td class="text-center"><div class="text-bg-success">TALLA NORMAL</div></td>
+                            {%elif antrop.diagnostico_talla == "RIESGO TALLA ALTA" %}
+                                <td class="text-center"><div class="text-bg-warning">RIESGO TALLA ALTA</div></td>
+                            {%elif antrop.diagnostico_talla == "TALLA ALTA" %}
+                                <td class="text-center"><div class="text-bg-info">TALLA ALTA</div></td>
+                            {% endif %}
+
                             <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
@@ -156,11 +178,11 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">PROYECTO</th>
-                    <th scope="col">FECHA</th>
-                    <th scope="col">EDAD</th>
-                    <th scope="col">MESES</th>
-                    <th scope="col">TIPO CONSULTA</th>
-                    <th scope="col">EXAMEN FISICO</th>
+                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col" class="text-center">EDAD</th>
+                    <th scope="col" class="text-center">MESES</th>
+                    <th scope="col" class="text-center">TIPO CONSULTA</th>
+                    <th scope="col" class="text-center">EXAMEN FISICO</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -169,11 +191,11 @@
                     {% for medica in medicas %}
                         <tr>
                             <td>{{medica.proyecto}}</td>
-                            <td>{{medica.fecha | date:"d/m/Y"}}</td>
-                            <td>{{medica.edad}}</td>
-                            <td>{{medica.meses}}</td>
-                            <td>{{medica.tipo_consulta}}</td>
-                            <td>{{medica.examen_fisico}}</td>
+                            <td class="text-center">{{medica.fecha | date:"d/m/Y"}}</td>
+                            <td class="text-center">{{medica.edad}}</td>
+                            <td class="text-center">{{medica.meses}}</td>
+                            <td class="text-center">{{medica.tipo_consulta}}</td>
+                            <td class="text-center">{{medica.examen_fisico}}</td>
                             <td class="text-center"> <a href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}

@@ -194,11 +194,9 @@ def menor_detalle(request, pk, id):
      
         menor_detalles = get_object_or_404(Menor, id=id)
         beneficiarios = Beneficiario.objects.filter(id=pk)
-        antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-        menores = Menor.objects.filter(cedula_bef=pk)
-        familias = Familia.objects.filter(cedula_bef = pk)
-        medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-        medicas = Medica.objects.filter(cedula_id=id)
+        antropMenores = AntropMenor.objects.filter(cedula = id)
+        medicas = Medica.objects.filter(cedula = id)
+
         form = MenorForm(instance=menor_detalles)
 
         context={}
@@ -207,11 +205,9 @@ def menor_detalle(request, pk, id):
         context["form"]=form
         context["menor_detalles"]=menor_detalles
         context["beneficiarios"]=beneficiarios
-        context["antropBefs"]=antropBefs
-        context["menores"]=menores
-        context["familias"]=familias
-        context["medicamentos"]=medicamentos
+        context["antropMenores"]=antropMenores
         context["medicas"]=medicas
+
     
         return render(request, 'menor_detalle.html', context)
 
@@ -302,10 +298,10 @@ def imc_menor_crear(request, pk, id):
 
             xTalla = float(request.POST.get("talla"))
             xPeso = float(request.POST.get("peso"))
-            xcbi = request.POST.get("cbi")
-            xptr = request.POST.get("ptr")
-            xpse = request.POST.get("pse")
-            xcc = request.POST.get("cc")
+            xcbi = float(request.POST.get("cbi"))
+            xptr = float(request.POST.get("ptr"))
+            xpse = float(request.POST.get("pse"))
+            xcc = float(request.POST.get("cc"))
 
             fecha_inicial = menor_detalles.fecha_nac
             fecha = datetime.today()
@@ -338,12 +334,12 @@ def imc_menor_crear(request, pk, id):
                     xTallaCal = VtallaI
 
 
-                xImc = ImcPesoTalla_5x.objects.filter(sexo = xSexo, talla = xTallaCal)
+                xImc = ImcPesoTalla_5x.objects.get(sexo = xSexo, talla = xTallaCal)
 
-                print(xImc.edad)
+                #print(xImc.edad)
 
                 if xImc:
-                    print(xImc.edad)
+                    
                     if imc <= xImc.ds3_T:
                         xDiagnostico = 1
                     elif imc > xImc.ds3_T and imc <= xImc.ds2_T:
@@ -358,10 +354,7 @@ def imc_menor_crear(request, pk, id):
                         xDiagnostico = 6
                     elif imc >= xImc.ds3:
                         xDiagnostico = 7
-                    
-
-
-                    
+                   
                 else:
                     
                         context={}
@@ -374,7 +367,7 @@ def imc_menor_crear(request, pk, id):
         #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
             elif xEdad > 5 and xEdad <= 19:
                 
-                xImc = ImcCla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses)
+                xImc = ImcCla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
                 if xImc:
                     if imc <= xImc.l3sd:
                         xDiagnostico = 1
@@ -410,7 +403,7 @@ def imc_menor_crear(request, pk, id):
                     xDiagnostico = 14
 
             if xEdad <= 19:
-                xImcTalla = ImcTalla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses)
+                xImcTalla = ImcTalla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
                 if xTalla <= xImcTalla.sd2_T:
                     xDiagTalla = 21
                 elif xTalla > xImcTalla.sd2_T and xTalla <= xImcTalla.sd1_T:
@@ -425,10 +418,10 @@ def imc_menor_crear(request, pk, id):
 
         #********   DIAGNOSTICO   **********
 
-            xDiag = Diagnostico.objects.filter(codigo_diag = xDiagnostico)
+            xDiag = Diagnostico.objects.get(codigo_diag = xDiagnostico)
             diag_peso = xDiag.diagnostico
 
-            xDiagTallas = Diagnostico.objects.filter(codigo_diag = xDiagTalla)
+            xDiagTallas = Diagnostico.objects.get(codigo_diag = xDiagTalla)
             diag_talla = xDiagTallas.diagnostico
 
         #********   SALVAR   **********
@@ -440,9 +433,18 @@ def imc_menor_crear(request, pk, id):
 
             menor_detalles.edad = tiempo_transc.years
             menor_detalles.meses = tiempo_transc.months
+            menor_detalles.peso_actual = xPeso
+            menor_detalles.talla_actual = xTalla
+            menor_detalles.cbi_actual = xcbi
+            menor_detalles.imc_actual = imc
+            menor_detalles.pse_actual = xpse
+            menor_detalles.ptr_actual = xptr
+            menor_detalles.cc_actual = xcc
+            menor_detalles.diagnostico_actual = diag_peso
+            menor_detalles.diagnostico_talla_actual = diag_talla
             menor_detalles.save()
 
-            return redirect("imc_menor_riesgo", pk, idimc)
+            return redirect("imc_menor_riesgo", pk, id, idimc)
         
         except ValueError:
             return render(request, 'imc_menor.html', {
@@ -461,6 +463,7 @@ def imc_menor_riesgo(request, pk, id, idimc):
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         context = {}
         context["pk"]=pk
+        context["id"]=id
         context["beneficiarios"]=beneficiarios
         context["idimc"]=idimc
         context["imc_menores"]=imc_menores
@@ -478,34 +481,23 @@ def imc_menor_riesgo(request, pk, id, idimc):
             riesgos.riesgo=xriesgo
             riesgos.servicio=xservicio
             riesgos.centro_hospital=xcentro_hospital
-            riesgos.observacion=xobservacion          
+            riesgos.observacion=xobservacion       
+    
             riesgos.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-            context={}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-
-            return render(request, "menor_detalle.html", context)
+            return redirect( "menor_detalle", pk, id)
         
         except ValueError:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             imc_menores = get_object_or_404(AntropMenor, id=idimc)
             context = {}
             context["pk"]=pk
+            context["id"]=id
             context["beneficiarios"]=beneficiarios
             context["idimc"]=idimc
             context["imc_menores"]=imc_menores
             context["error"]='Datos incorectos, Favor verificar la información'
-            return render(request, 'imc_benef_riesgo.html', context)
+            return render(request, 'imc_menor_riesgo.html', context)
     
 
 @login_required 
@@ -876,15 +868,8 @@ def medica_crear(request, pk, id):
             menor_detalles.meses = tiempo_transc.months
             menor_detalles.save()
 
-            medicas = Medica.objects.filter(cedula_id=id)
-            context={}
-            context["pk"]=pk
-            context["id"]=id
-            context["beneficiarios"]=beneficiarios
-            context["menor_detalles"]=menor_detalles
-            context["medicas"]=medicas
+            return redirect( "menor_detalle", pk, id)
 
-            return render(request, 'menor_detalle.html', context)
         except ValueError:
             return render(request, 'medica_crear.html', {
             'pk': pk,
@@ -962,12 +947,14 @@ def medica_eliminar(request, pk, id, idmed):
     beneficiarios = get_object_or_404(Beneficiario,id=pk)
     menor_detalles = get_object_or_404(Menor,id=id)
     medicas = Medica.objects.filter(cedula_id=id)
+    antropMenores = AntropMenor.objects.filter(cedula_id=id)
     context={}
     context["pk"]=pk
     context["id"]=id
     context["beneficiarios"]=beneficiarios
     context["menor_detalles"]=menor_detalles
     context["medicas"]=medicas
+    context["antropMenores"]=antropMenores
 
     return render(request, 'menor_detalle.html', context)
 
