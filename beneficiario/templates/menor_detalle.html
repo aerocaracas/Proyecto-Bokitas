@@ -183,6 +183,7 @@
                     <th scope="col" class="text-center">MESES</th>
                     <th scope="col" class="text-center">TIPO CONSULTA</th>
                     <th scope="col" class="text-center">EXAMEN FISICO</th>
+                    <th scope="col" class="text-center">NIÑO SANO</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -196,6 +197,11 @@
                             <td class="text-center">{{medica.meses}}</td>
                             <td class="text-center">{{medica.tipo_consulta}}</td>
                             <td class="text-center">{{medica.examen_fisico}}</td>
+                            {% if medica.diagnostico1.0 == 'Niño Sano' %}
+                                <td class="text-center">SI</td>
+                            {% else %}
+                                <td class="text-center">NO</td>
+                            {% endif%}
                             <td class="text-center"> <a href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
