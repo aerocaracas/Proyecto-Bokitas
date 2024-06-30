@@ -326,33 +326,21 @@ def imc_menor_crear(request, pk, id):
             xTallaz = xTalla/100
             imc = round(xPeso/(xTallaz**2),2)        
 
-            print('****')
-            print(xPeso, type(xPeso))
-            print(xTallaz, type(xTallaz)) 
-            print(xTalla, type(xTalla))  
-            print(imc, type(imc))
-            print('****') 
-
         #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
 
             if xEdad <= 5:
                 VtallaI=int(xTalla) 
                 residuo = xTalla - VtallaI
 
-
-                #print(VtallaI)
- 	
                 if residuo >= .5:
                     xTallaCal=(VtallaI + .5)
                 else: 
                     xTallaCal = VtallaI
 
 
-                print(xSexo)
-                print(xTallaCal)
                 xImc = ImcPesoTalla_5x.objects.filter(sexo = xSexo, talla = xTallaCal)
 
-                #print(xImc.talla)
+                print(xImc.edad)
 
                 if xImc:
                     print(xImc.edad)
