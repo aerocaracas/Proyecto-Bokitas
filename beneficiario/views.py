@@ -322,6 +322,8 @@ def imc_menor_crear(request, pk, id):
             xTallaz = xTalla/100
             imc = round(xPeso/(xTallaz**2),2)        
 
+            print(imc)
+
         #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
 
             if xEdad <= 5:
@@ -340,19 +342,19 @@ def imc_menor_crear(request, pk, id):
 
                 if xImc:
                     
-                    if imc <= xImc.ds3_T:
+                    if xPeso <= xImc.ds3_T:
                         xDiagnostico = 1
-                    elif imc > xImc.ds3_T and imc <= xImc.ds2_T:
+                    elif xPeso > xImc.ds3_T and xPeso <= xImc.ds2_T:
                         xDiagnostico = 2 
-                    elif imc > xImc.ds2_T and imc <= xImc.ds1_T:
+                    elif xPeso > xImc.ds2_T and xPeso <= xImc.ds1_T:
                         xDiagnostico = 3
-                    elif imc > xImc.ds1_T and imc <= xImc.ds1:
+                    elif xPeso > xImc.ds1_T and xPeso <= xImc.ds1:
                         xDiagnostico = 4
-                    elif imc > xImc.ds1 and imc <= xImc.ds2:
+                    elif xPeso > xImc.ds1 and xPeso <= xImc.ds2:
                         xDiagnostico = 5
-                    elif imc > xImc.ds2 and imc <= xImc.ds3:
+                    elif xPeso > xImc.ds2 and xPeso <= xImc.ds3:
                         xDiagnostico = 6
-                    elif imc >= xImc.ds3:
+                    elif xPeso >= xImc.ds3:
                         xDiagnostico = 7
                    
                 else:

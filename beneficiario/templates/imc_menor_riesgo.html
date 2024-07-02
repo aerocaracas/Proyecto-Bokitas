@@ -52,11 +52,14 @@
             <div  class="text-center" >
                 <h2>Resultado</h2>
                 <p> Su IMC = {{imc_menores.imc}} Kg/m² </p>
-
-                {% if imc_menores.diagnostico == "PESO BAJO" %}
-                    <div class="text-bg-danger p-2">PESO BAJO</div>  
-                {%elif imc_menores.diagnostico == "ADECUADO" %}
-                    <div class="text-bg-success p-2">ADECUADO</div>
+                {% if imc_menores.diagnostico == "DNT AGUDA SEVERA" %}
+                    <div class="text-bg-danger p-2">DNT AGUDA SEVERA</div>  
+                {%elif imc_menores.diagnostico == "DNT AGUDA MODERADA" %}
+                    <div class="text-white p-2"style="background-color:#FF7F50">DNT AGUDA MODERADA</div>  
+                {%elif imc_menores.diagnostico == "RIESGO DNT AGUDA" %}
+                    <div class="text-bg-warning p-2">RIESGO DNT AGUDA</div>  
+                {%elif imc_menores.diagnostico == "PESO ADECUADO" %}
+                    <div class="text-bg-success p-2">PESO ADECUADO</div>
                 {%elif imc_menores.diagnostico == "RIESGO DE SOBREPESO" %}
                     <div class="text-bg-warning p-2">RIESGO DE SOBREPESO</div>
                 {%elif imc_menores.diagnostico == "SOBREPESO" %}

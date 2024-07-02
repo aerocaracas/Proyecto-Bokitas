@@ -85,7 +85,7 @@
 
     <div class="row">
         <div class="col">
-            <P> <strong> Diagnóstico: </strong>{{menor_detalles.diagnostico_actual}}</p>
+            <P> <strong> Diagnóstico Peso: </strong>{{menor_detalles.diagnostico_actual}}</p>
         </div>
         <div class="col">
             <P> <strong> Diagnóstico Talla: </strong>{{menor_detalles.diagnostico_talla_actual}}</p>
@@ -110,8 +110,9 @@
                     <th scope="col" class="text-center">PESO</th>
                     <th scope="col" class="text-center">TALLA</th>
                     <th scope="col" class="text-center">IMC Kg/m²</th>
-                    <th scope="col" class="text-center">DIAGNOSTICO</th>
-                    <th scope="col" class="text-center">D. TALLA</th>
+                    <th scope="col" class="text-center">DIAGN. PESO</th>
+                    <th scope="col" class="text-center">DIAGN. TALLA</th>
+                    <th scope="col" class="text-center">RIESGO</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -153,7 +154,7 @@
                             {%elif antrop.diagnostico_talla == "TALLA ALTA" %}
                                 <td class="text-center"><div class="text-bg-info">TALLA ALTA</div></td>
                             {% endif %}
-
+                            <td class="text-center">{{antrop.riesgo}}</td>
                             <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
