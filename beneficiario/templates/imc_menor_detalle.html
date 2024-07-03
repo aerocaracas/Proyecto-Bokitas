@@ -7,8 +7,7 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
                 
-    <h1 class="text-center">Registro Antropométrico</h1>
-    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    <h1 class="text-center">Detalle Registro Antropométrico</h1>
     <hr>
 
 
@@ -25,20 +24,33 @@
             <br>
         </div>
 
-            <div class="row">
-                <div class="col-4">
-                    <P> <strong> Peso: </strong> {{imc_menores.peso}} </p>
-                </div>
-
-                <div class="col-4">
-                    <P> <strong> Talla: </strong> {{imc_menores.talla}} </p>
-                </div>
-
-                <div class="col-4">
-                    <P> <strong> CBI: </strong> {{imc_menores.cbi}} </p>
-                </div>
+        <div class="row">
+            <div class="col-4">
+                <P> <strong> Peso: </strong> {{imc_menores.peso}} </p>
             </div>
 
+            <div class="col-4">
+                <P> <strong> Talla: </strong> {{imc_menores.talla}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> CBI: </strong> {{imc_menores.cbi}} </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <P> <strong> PTR: </strong> {{imc_menores.ptr}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> PSE: </strong> {{imc_menores.pse}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> CC: </strong> {{imc_menores.cc}} </p>
+            </div>
+        </div>
+      
     </div>
 
     {% if imc_menores.imc %}
@@ -86,40 +98,35 @@
         </div>
         <br>
 
-        <form action="imc_menor_riesgo" method="POST">
-            {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                <P class="text-center"> <strong> Presenta Riesgo: </strong> {{imc_menores.riesgo}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Servicio: </strong> {{imc_menores.servicio}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Centro: </strong> {{imc_menores.centro_hospital}} </p>
+            </div>
+
+            <div class="col-4">
+                <P> <strong> Observación: </strong> {{imc_menores.observacion}} </p>
+            </div>
+        </div>
+        
+            <!-- ########  Menu de opciones  ##########-->
+        <br>
+        <hr>
+        <div class="container">
+            <a href="{% url 'menor_detalle' pk beneficiarios.id %}" class="btn btn-secondary"> Regresar </a>
+                
+            &nbsp
+            <a href="{% url 'imc_menor_eliminar' pk beneficiarios.id imc_menores.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                
+        </div>
     
-            <div class="row justify-content-center">
-                <div class="col-5 text-center">
-                    <label for="riesgo">Presenta Riesgo:</label>
-                    <select id="riesgo" name="riesgo">
-                        <option value="NO" selected>NO</option>
-                        <option value="SI">SI</option>
-                    </select>
-                </div>
-            </div> 
-            
-            <div class="row">
-                <div class="col">
-                    <label for="servicio">Servicio:</label>
-                    <textarea name="servicio" rows="6" cols="12"></textarea>
-                </div>
-                <div class="col">
-                    <label for="centro_hospital">Centro:</label>
-                    <textarea name="centro_hospital" rows="6" cols="12"></textarea>
-                </div>
-                <div class="col">
-                    <label for="observacion">Observación:</label>
-                    <textarea name="observacion" rows="6" cols="12"></textarea>
-                </div>
-            </div> 
-            
-            <br>
-            <button type="submit" class="btn btn-primary" action="{% url 'menor_detalle' pk id %}">Aceptar </button>
-
-        </form>
-
-
     {% endif %}
 
 </div>

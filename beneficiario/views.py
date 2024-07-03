@@ -322,8 +322,6 @@ def imc_menor_crear(request, pk, id):
             xTallaz = xTalla/100
             imc = round(xPeso/(xTallaz**2),2)        
 
-            print(imc)
-
         #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
 
             if xEdad <= 5:
@@ -449,11 +447,13 @@ def imc_menor_crear(request, pk, id):
             return redirect("imc_menor_riesgo", pk, id, idimc)
         
         except ValueError:
-            return render(request, 'imc_menor.html', {
-            'error': 'Datos incorectos, Favor verificar la información',
-            'pk': pk,
-            'id': id
-            })
+            context={}
+            context["pk"]=pk
+            context["id"]=id
+            context["error"]='Datos incorectos, Favor verificar la información'
+            context["beneficiarios"]=beneficiarios
+            context["menor_detalles"]=menor_detalles
+            return render(request, 'imc_menor.html', context)
 
 
 @login_required     
@@ -461,12 +461,12 @@ def imc_menor_riesgo(request, pk, id, idimc):
         
     if request.method == 'GET':
 
-        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         context = {}
         context["pk"]=pk
         context["id"]=id
-        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
         context["idimc"]=idimc
         context["imc_menores"]=imc_menores
 
@@ -490,12 +490,12 @@ def imc_menor_riesgo(request, pk, id, idimc):
             return redirect( "menor_detalle", pk, id)
         
         except ValueError:
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            menor_detalles = get_object_or_404(Menor, id=id)
             imc_menores = get_object_or_404(AntropMenor, id=idimc)
             context = {}
             context["pk"]=pk
             context["id"]=id
-            context["beneficiarios"]=beneficiarios
+            context["menor_detalles"]=menor_detalles
             context["idimc"]=idimc
             context["imc_menores"]=imc_menores
             context["error"]='Datos incorectos, Favor verificar la información'
@@ -507,22 +507,25 @@ def imc_menor_detalle(request, pk, id, idimc):
 
     if request.method == 'GET':
 
+        menor_detalles = get_object_or_404(Menor, id=id)
+        imc_menores = get_object_or_404(AntropMenor, id=idimc)
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        imc_beneficiarios = get_object_or_404(AntropBef, id=id)
         context = {}
         context["pk"]=pk
-        context["beneficiarios"]=beneficiarios
         context["idimc"]=id
-        context["imc_beneficiarios"]=imc_beneficiarios
+        context["idimc"]=idimc
+        context["menor_detalles"]=menor_detalles
+        context["imc_menores"]=imc_menores
+        context["beneficiarios"]=beneficiarios
 
-        return render(request, "imc_benef_detalle.html", context)   
+        return render(request, "imc_menor_detalle.html", context)   
 
 
 @login_required   
 def imc_menor_eliminar(request, pk, id, idimc):
-    imc_beneficiarios = get_object_or_404(AntropBef, id=id)
-    imc_beneficiarios.delete()
-    return redirect('beneficiario_detalle', pk)
+    imc_menores = get_object_or_404(AntropMenor, id=idimc)
+    imc_menores.delete()
+    return redirect( "menor_detalle", pk, id)
 
 
 
@@ -723,16 +726,33 @@ def imc_benef(request, pk):
 
             imc = round(peso/(talla**2))
 
-            if imc < 18.5:
-                diagnostico = "PESO BAJO"
-            elif imc >= 18.5 and imc < 23:
-                diagnostico = "ADECUADO"
-            elif imc >= 23 and imc < 25:
-                diagnostico = "RIESGO DE SOBREPESO"
-            elif imc >= 25 and imc < 30:
-                diagnostico = "SOBREPESO"
-            elif imc >= 30:
-                diagnostico = "OBESIDAD"
+            if beneficiarios.embarazada == "SI":
+                
+                xImc = ImcEmbarazada.objects.get(semana = tiempo)
+
+                if xImc:                  
+                    if imc <= xImc.p2:
+                        diagnostico = "PESO BAJO"
+                    elif imc > xImc.p2 and imc <= xImc.p3:
+                        diagnostico = "ADECUADO"
+                    elif imc > xImc.p3 and imc <= xImc.p4:
+                        diagnostico = "RIESGO DE SOBREPESO"
+                    elif imc > xImc.p4 and imc <= xImc.p5:
+                        diagnostico = "SOBREPESO"
+                    elif imc >= xImc.p5:
+                        diagnostico = "OBESIDAD"
+
+            else:
+                if imc < 18.5:
+                    diagnostico = "PESO BAJO"
+                elif imc >= 18.5 and imc < 23:
+                    diagnostico = "ADECUADO"
+                elif imc >= 23 and imc < 25:
+                    diagnostico = "RIESGO DE SOBREPESO"
+                elif imc >= 25 and imc < 30:
+                    diagnostico = "SOBREPESO"
+                elif imc >= 30:
+                    diagnostico = "OBESIDAD"
 
             fecha = datetime.now()
             if beneficiarios.embarazada == "SI":

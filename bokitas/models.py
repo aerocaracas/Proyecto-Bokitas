@@ -263,9 +263,9 @@ class AntropMenor(models.Model):
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    ptr = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    pse = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    cc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    ptr = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    pse = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    cc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     diagnostico = models.CharField(max_length=50, blank=False)
     diagnostico_talla = models.CharField(max_length=50, blank=False)
@@ -525,12 +525,10 @@ class ImcCla(models.Model):
 
 class ImcEmbarazada(models.Model):
     semana = models.PositiveIntegerField()
-    p1 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p2 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p3 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p4 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p5 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
-    p6 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
 
 class ImcTalla(models.Model):
     sexo = models.PositiveIntegerField()

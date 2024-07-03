@@ -5,7 +5,6 @@
 {% load crispy_forms_tags %}
 
 <br>
-<br>
 
 <!-- ########  Detalle del Menor  ##########-->
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
@@ -63,9 +62,10 @@
             <P> <strong> Estatus: </strong>{{menor_detalles.estatus}}</p>
         </div>
     </div>       
-    <br>
-    <h5 class="text-center">Información del Último Control Antropométrico</h5>
+
     <hr>
+    <h5 class="text-center">Información del Último Control Antropométrico</h5>
+    <br>
     <div class="row">
         <div class="col">
             <P> <strong> Peso Actual: </strong>{{menor_detalles.peso_actual}}</p>
@@ -80,8 +80,6 @@
             <P> <strong> IMC: </strong>{{menor_detalles.imc_actual}} Kg/m²</p>
         </div>
     </div>
-
-
 
     <div class="row">
         <div class="col">
@@ -155,7 +153,7 @@
                                 <td class="text-center"><div class="text-bg-info">TALLA ALTA</div></td>
                             {% endif %}
                             <td class="text-center">{{antrop.riesgo}}</td>
-                            <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a href="{% url 'imc_menor_detalle' pk id antrop.id  %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
