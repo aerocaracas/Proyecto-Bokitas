@@ -247,6 +247,9 @@ def menor_actualizar(request, pk, id):
             menores = Menor.objects.filter(cedula_bef=pk)
             familias = Familia.objects.filter(cedula_bef = pk)
             medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+            medicas = Medica.objects.filter(cedula_id=id)
+            antropMenores = AntropMenor.objects.filter(cedula_id=id)
+
 
             context={}
             context["pk"]=pk
@@ -257,6 +260,8 @@ def menor_actualizar(request, pk, id):
             context["antropBefs"]=antropBefs
             context["familias"]=familias
             context["medicamentos"]=medicamentos
+            context["medicas"]=medicas
+            context["antropMenores"]=antropMenores
    
             return render(request, 'menor_detalle.html', context)
         except ValueError:
@@ -866,6 +871,7 @@ def medica_crear(request, pk, id):
         context["id"]=id
         context["beneficiarios"]=beneficiarios
         context["menor_detalles"]=menor_detalles
+        antropMenores = AntropMenor.objects.filter(cedula_id=id)
         context["form"]=MedicaForm
         return render(request, 'medica_crear.html', context)
     else:
@@ -944,6 +950,7 @@ def medica_detalle(request, pk, id, idmed):
 
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             medicas = Medica.objects.filter(cedula_id=id)
+            antropMenores = AntropMenor.objects.filter(cedula_id=id)
 
             context={}
             context["pk"]=pk
@@ -951,6 +958,7 @@ def medica_detalle(request, pk, id, idmed):
             context["beneficiarios"]=beneficiarios
             context["menor_detalles"]=menor_detalles
             context["medicas"]=medicas
+            context["antropMenores"]=antropMenores
 
             return render(request, 'menor_detalle.html', context)
         except ValueError:
