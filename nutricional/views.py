@@ -30,7 +30,7 @@ def nutricional(request):
 @login_required  
 def nutricional_crear(request):
     if request.method == 'GET':
-        return render(request, 'beneficiario_crear.html', {
+        return render(request, 'nutricional_crear.html', {
             'form': NutricionalForm 
         })
     else:

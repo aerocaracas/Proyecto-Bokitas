@@ -7,7 +7,7 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
-    <h1 class="text-center">Crear Encuesta Nutricional</h1>
+    <h1 class="text-center">Encuesta Nutricional</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
     <br>
@@ -25,46 +25,233 @@
                 {{beneficiarios}}
             </div>
         </div>
-
+        <h5 class="text-center">CUESTIONARIO DIETÉTICO</h5>
         <div class="row">
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col-3">
+                {{form.embarazada | as_crispy_field}}
             </div>
-            <div class="col-12 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col-3">
+                {{form.tiempo_gestacion | as_crispy_field}}
             </div>
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col-3">
+                {{form.lactante | as_crispy_field}}
+            </div>
+            <div class="col-3">
+                {{form.tiempo_lactancia | as_crispy_field}}
             </div>
         </div>
-
+        <hr>
+        <h5 class="text-center">Responsable de la compra del mercado y la cocina </h5>
         <div class="row">
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.mercado_lorealiza | as_crispy_field}}
             </div>
-            <div class="col-12 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.cocina_lorealiza | as_crispy_field}}
             </div>
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.frecuencia | as_crispy_field}}
             </div>
         </div>
-
+        <hr>
+        <h5 class="text-center">Apetito, Comidas y Meriendas  </h5>
         <div class="row">
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.apetito | as_crispy_field}}
             </div>
-            <div class="col-12 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.cuantas_comidas | as_crispy_field}}
             </div>
-            <div class="col-4 text-center">
-                {{form.examen_fisico | as_crispy_field}}
+            <div class="col">
+                {{form.meriendas | as_crispy_field}}
             </div>
         </div>
-
-
-
-        {{form | crispy }}
+        <hr>
+        <h5 class="text-center">Grupos de Alimentos</h5>
+        <div class="row">
+            <div class="col">
+                {{form.cuantos_grupos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.tipo_grupos | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Frecuencia del Consumo</h5>
+        <div class="row">
+            <div class="col">
+                {{form.cereales | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.vegetales | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.frutas | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.carnes | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.pollo | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.pescado | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.embutidos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.viceras | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.grasas | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.lacteos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.huevos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.leguminosas | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.tuberculos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.charcuteria | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Poco consumo de Alimentos</h5>
+        <div class="row">
+            <div class="col">
+                {{form.poco_vegelales | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.poco_frutas | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.poco_viceras | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Ayuda económica y Bonos  </h5>
+        <div class="row">
+            <div class="col-6">
+                {{form.bonos | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.bonos_entre | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.clap | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.clap_entre | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.iglesia | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.iglesia_entre | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.familiar | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.familiar_entre | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.pensionado | as_crispy_field}}
+            </div>
+            <div class="col-6">
+                {{form.pensionado_entre | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Actividad Deportiva</h5>
+        <div class="row">
+            <div class="col">
+                {{form.practica_deporte | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.tiempo | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.actividad | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Medicamento o Suplemento Nutricional</h5>
+        <div class="row">
+            <div class="col">
+                {{form.medicamento | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.medicamento_suplemento | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Consumo de Agua y Servicios Básicos</h5>
+        <div class="row">
+            <div class="col">
+                {{form.agua | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.falla_servicio | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.compra_gas | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.compra_agua | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.almacena_agua | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.donde_almacena | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">Educación Nutricional</h5>
+        <div class="row">
+            <div class="col">
+                {{form.conoce_grupos | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.conoce_calidad | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.conoce_desnutricion | as_crispy_field}}
+            </div>
+        </div>
+        <hr>
+        <h5 class="text-center">AEducación para Embarazadas y Lactantes</h5>
+        <div class="row">
+            <div class="col">
+                {{form.conoce_beneficio | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.embarazada | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.lactando | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.desea_amamantar | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.dificultad_amamantar | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.desea_orientacion | as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.desea_conocimiento | as_crispy_field}}
+            </div>
+        </div>
                     
         <br>
         <hr>
