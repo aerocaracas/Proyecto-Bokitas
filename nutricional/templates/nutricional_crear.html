@@ -5,17 +5,64 @@
 {% load crispy_forms_tags %}
 
 <br>
-<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
                 
-    <h1 class="text-center">Crear Beneficiario</h1>
+    <h1 class="text-center">Crear Encuesta Nutricional</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
     <br>
 
     {{error}}
             
-    <form action="/beneficiario/crear/" method="POST">
+    <form action="{% url 'nutricional_crear' %}" method="POST">
         {% csrf_token %}
+
+        <div class="row">
+            <div class="col-4 text-center">
+                {{beneficiarios.cedula_bef}}
+            </div>
+            <div class="col-12 text-center">
+                {{beneficiarios}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-12 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-12 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-12 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+            <div class="col-4 text-center">
+                {{form.examen_fisico | as_crispy_field}}
+            </div>
+        </div>
+
+
 
         {{form | crispy }}
                     

@@ -11,6 +11,7 @@ from dateutil import relativedelta
 @login_required  
 def nutricional(request):
     nutricionales = Nutricional.objects.all()
+    beneficiarios = Beneficiario.objects.all()
     page = request.GET.get('page',1)
 
     try:
@@ -21,6 +22,7 @@ def nutricional(request):
 
     return render(request, 'nutricional.html',{
         'entity': nutricionales,
+        'beneficiarios': beneficiarios,
         'paginator': paginator
     })
 
