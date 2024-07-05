@@ -313,20 +313,146 @@ class Medicamento(models.Model):
         return f"{self.cedula_bef}"
 
 
+MERCADO = (
+    ("Padre", "Padre"),
+    ("Madre", "Madre"),
+    ("Abuelo(a)", "Abuelo(a)"),
+    ("Tio(a)", "Tio(a)"),
+    ("Otros", "Otros"),
+)
+
+FRECUENCIA = (
+    ("Diario", "Diario"),
+    ("2-3 días", "2-3 días"),
+    ("Semanal", "Semanal"),
+    ("Quincenal", "Quincenal"),
+)
+
+APETITO = (
+    ("Bueno", "Bueno"),
+    ("Regular", "Regular"),
+    ("Malo", "Malo"),
+    ("Elevado", "Elevado"),
+)
+
+COMIDAS = (
+    ("1 Comida", "1 Comida"),
+    ("2 Comidas", "2 Comidas"),
+    ("3 Comidas", "3 Comidas"),
+)
+
+MERIENDA = (
+    ("1 Merienda", "1 Merienda"),
+    ("2 Meriendas", "2 Meriendas"),
+    ("3 Meriendas", "3 Meriendas"),
+)
+
+GRUPOS = (
+    ("1 - 2", "1 - 2"),
+    ("2 - 3", "2 - 3"),
+    ("3 - 4", "3 - 4"),
+    ("4 - 6", "4 - 6"),
+)
+
+TIPO_GRUPOS = (
+    ("Cereales y Leguminosas", "Cereales y Leguminosas"),
+    ("Frutas y Verduras", "Frutas y Verduras"),
+    ("Leche, Yogures y Quesos", "Leche, Yogures y Quesos"),
+    ("Grasas", "Grasas"),
+    ("Dulces", "Dulces"),
+    ("Carnes y Huevos", "Carnes y Huevos"),
+)
+
+CONSUMO = (
+    ("0/7", "0/7"),
+    ("1-2/7", "1-2/7"),
+    ("3-5/7", "3-5/7"),
+    ("7/7", "7/7"),
+    ("1-2/15", "1-2/15"),
+    ("1-2/30", "1-2/30"),
+)
+
+POCO_CONSUMO = (
+    ("Por Rechazo", "Por Rechazo"),
+    ("No sabe prepararlo", "No sabe prepararlo"),
+    ("Están muy costosos", "Están muy costosos"),
+    ("No están acostumbrados", "No están acostumbrados"),
+)
+
+ENTRE = (
+    ("Entre 1 a 3 meses", "Entre 1 a 3 meses"),
+    ("Entre 3 a 6 meses", "Entre 3 a 6 meses"),
+)
+
+TIEMPO = (
+    ("30 min de 1-3 / 7", "30 min de 1-3 / 7"),
+    ("30 min de 4-7 / 7", "30 min de 4-7 / 7"),
+    ("más de 30 min 1-3 / 7", "más de 30 min 1-3 / 7"),
+    ("más de 30 min 4-7 / 7", "más de 30 min 4-7 / 7"),
+    ("No precisa datos", "No precisa datos"),
+)
+
+ACTIVIDAD = (
+    ("Juegos Activos", "Juegos Activos"),
+    ("Práctica Deportiva", "Práctica Deportiva"),
+    ("Ambas Actividades", "Ambas Actividades"),
+)
+
+AGUA = (
+    ("Tuberia sin Tratamiento", "Tuberia sin Tratamiento"),
+    ("Filtrada", "Filtrada"),
+    ("Botellon", "Botellon"),
+    ("Hervida", "Hervida"),
+    ("Tabletas de Aguatab", "Tabletas de Aguatab"),
+)
+
+FALLA = (
+    ("Agua", "Agua"),
+    ("Gas", "Gas"),
+    ("Eléctricidad", "Eléctricidad"),
+    ("Telefonía Internet", "Telefonía Internet"),
+    ("Aseo Urbano", "Aseo Urbano"),
+)
+
+ALMACENA = (
+    ("Pipote", "Pipote"),
+    ("Tanque", "Tanque"),
+    ("Otros", "Otros"),
+)
+
+SI_NO_POCA = (
+    ("Si", "Si"),
+    ("No", "No"),
+    ("Poca Información", "Poca Información"),
+)
+
+SI_NO_POCA_APLICA = (
+    ("Si", "Si"),
+    ("No", "No"),
+    ("Poca Información ", "Poca Información "),
+    ("No Aplica", "No Aplica"),
+)
+
+SI_NO_MINUSCULA = (
+    ("Si", "Si"),
+    ("No", "No"),
+)
+
+
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateField(auto_now_add=True)
-    embarazada = models.CharField(max_length=10,choices=SI_NO, blank=True)
-    lactante = models.CharField(max_length=10,choices=SI_NO, blank=True)
+    embarazada = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
+    lactante = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     tiempo_lactancia = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     mercado_lorealiza = MultiSelectField(max_length=200, choices=MERCADO, blank=True)
-    cocina_lorealiza = MultiSelectField(max_length=200, choices=COCINA, blank=True)
+    cocina_lorealiza = MultiSelectField(max_length=200, choices=MERCADO, blank=True)
     frecuencia = models.CharField(max_length=10,choices=FRECUENCIA, blank=True)
     apetito = models.CharField(max_length=10,choices=APETITO, blank=True)
     cuantas_comidas = models.CharField(max_length=10,choices=COMIDAS, blank=True)
-    meriendas = models.CharField(max_length=10,choices=MERIENDA, blank=True)
+    meriendas = models.CharField(max_length=100,choices=MERIENDA, blank=True)
     cuantos_grupos = models.CharField(max_length=10,choices=GRUPOS, blank=True)
     tipo_grupos = MultiSelectField(max_length=200, choices=TIPO_GRUPOS, blank=True)
     cereales = models.CharField(max_length=10,choices=CONSUMO, blank=True)
@@ -343,40 +469,40 @@ class Nutricional(models.Model):
     leguminosas = models.CharField(max_length=10,choices=CONSUMO, blank=True)
     tuberculos = models.CharField(max_length=10,choices=CONSUMO, blank=True)
     charcuteria = models.CharField(max_length=10,choices=CONSUMO, blank=True)
-    vegelales = MultiSelectField(max_length=200, choices=VEGETALES, blank=True)
-    frutas = MultiSelectField(max_length=200, choices=FRUTAS, blank=True)
-    viceras = MultiSelectField(max_length=200, choices=VICERAS, blank=True)
-    bonos = models.CharField(max_length=10,choices=SI_NO)
+    vegelales = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
+    frutas = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
+    viceras = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
+    bonos = models.CharField(max_length=10,choices=SI_NO_MINUSCULA)
     bonos_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
-    clap = models.CharField(max_length=10,choices=SI_NO)
+    clap = models.CharField(max_length=10,choices=SI_NO_MINUSCULA)
     clap_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
-    iglesia = models.CharField(max_length=10,choices=SI_NO)
+    iglesia = models.CharField(max_length=10,choices=SI_NO_MINUSCULA)
     iglesia_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
-    familiar = models.CharField(max_length=10,choices=SI_NO)
+    familiar = models.CharField(max_length=10,choices=SI_NO_MINUSCULA)
     familiar_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
-    pensionado = models.CharField(max_length=10,choices=SI_NO)
+    pensionado = models.CharField(max_length=10,choices=SI_NO_MINUSCULA)
     pensionado_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
-    practica_deporte = models.CharField(max_length=10,choices=SI_NO, blank=True)
-    tiempo = models.CharField(max_length=10,choices=TIEMPO, blank=True)
-    actividad = models.CharField(max_length=10,choices=ACTIVIDAD, blank=True)
-    medicamento = models.CharField(max_length=10,choices=SI_NO, blank=True)
+    practica_deporte = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
+    tiempo = models.CharField(max_length=100,choices=TIEMPO, blank=True)
+    actividad = models.CharField(max_length=100,choices=ACTIVIDAD, blank=True)
+    medicamento = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
     medicamento_suplemento = models.CharField(max_length=150, blank=True)
     agua = MultiSelectField(max_length=200, choices=AGUA, blank=True)
     falla_servicio = MultiSelectField(max_length=200, choices=FALLA, blank=True)
-    compra_gas = models.CharField(max_length=10,choices=SI_NO, blank=True)
-    compra_agua = models.CharField(max_length=10,choices=SI_NO, blank=True)
-    almacena_agua = models.CharField(max_length=10,choices=SI_NO, blank=True)
+    compra_gas = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
+    compra_agua = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
+    almacena_agua = models.CharField(max_length=10,choices=SI_NO_MINUSCULA, blank=True)
     donde_almacena = MultiSelectField(max_length=200, choices=ALMACENA, blank=True)
-    conoce_grupos = models.CharField(max_length=10,choices=SI_NO_POCA, blank=True)
-    conoce_calidad = models.CharField(max_length=10,choices=SI_NO_POCA, blank=True)
-    conoce_desnutricion = models.CharField(max_length=10,choices=SI_NO_POCA, blank=True)
-    conoce_beneficio = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    embarazada = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    lactando = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    desea_amamantar = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    dificultad_amamantar = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    desea_orientacion = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
-    desea_conocimiento = models.CharField(max_length=10,choices=SI_NO_POCA_APLICA, blank=True)
+    conoce_grupos = models.CharField(max_length=50,choices=SI_NO_POCA, blank=True)
+    conoce_calidad = models.CharField(max_length=50,choices=SI_NO_POCA, blank=True)
+    conoce_desnutricion = models.CharField(max_length=50,choices=SI_NO_POCA, blank=True)
+    conoce_beneficio = models.CharField(max_length=50,choices=SI_NO_POCA_APLICA, blank=True)
+    embarazada = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
+    lactando = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
+    desea_amamantar = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
+    dificultad_amamantar = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
+    desea_orientacion = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
+    desea_conocimiento = models.CharField(max_length=100,choices=SI_NO_POCA_APLICA, blank=True)
 
     def __str__(self):
         return f"{self.cedula_bef}, {self.proyecto} {self.fecha}"
