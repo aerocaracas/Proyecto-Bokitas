@@ -23,15 +23,18 @@ def nutricional(request):
     return render(request, 'nutricional.html',{
         'entity': nutricionales,
         'beneficiarios': beneficiarios,
-        'paginator': paginator
+        'paginator': paginator,
+
     })
 
 
 @login_required  
 def nutricional_crear(request):
     if request.method == 'GET':
+        beneficiarios = Beneficiario.objects.all()
         return render(request, 'nutricional_crear.html', {
-            'form': NutricionalForm 
+            'form': NutricionalForm,
+            'beneficiarios': beneficiarios, 
         })
     else:
         try:
