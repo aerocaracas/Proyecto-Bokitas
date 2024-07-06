@@ -114,6 +114,68 @@ ANEMICO = (
     ("Suplementación de Minerales y Vitaminas", "Suplementación de Minerales y Vitaminas"),
 )
 
+MERCADO = (
+    ("Padre", "Padre"),
+    ("Madre", "Madre"),
+    ("Abuelo(a)", "Abuelo(a)"),
+    ("Tio(a)", "Tio(a)"),
+    ("Otros", "Otros"),
+)
+
+
+
+TIPO_GRUPOS = (
+    ("Cereales y Leguminosas", "Cereales y Leguminosas"),
+    ("Frutas y Verduras", "Frutas y Verduras"),
+    ("Leche, Yogures y Quesos", "Leche, Yogures y Quesos"),
+    ("Grasas", "Grasas"),
+    ("Dulces", "Dulces"),
+    ("Carnes y Huevos", "Carnes y Huevos"),
+)
+
+
+
+POCO_CONSUMO = (
+    ("Por Rechazo", "Por Rechazo"),
+    ("No sabe prepararlo", "No sabe prepararlo"),
+    ("Están muy costosos", "Están muy costosos"),
+    ("No están acostumbrados", "No están acostumbrados"),
+)
+
+ENTRE = (
+    ("Entre 1 a 3 meses", "Entre 1 a 3 meses"),
+    ("Entre 3 a 6 meses", "Entre 3 a 6 meses"),
+)
+
+
+
+AGUA = (
+    ("Tuberia sin Tratamiento", "Tuberia sin Tratamiento"),
+    ("Filtrada", "Filtrada"),
+    ("Botellon", "Botellon"),
+    ("Hervida", "Hervida"),
+    ("Tabletas de Aguatab", "Tabletas de Aguatab"),
+)
+
+FALLA = (
+    ("Agua", "Agua"),
+    ("Gas", "Gas"),
+    ("Eléctricidad", "Eléctricidad"),
+    ("Telefonía Internet", "Telefonía Internet"),
+    ("Aseo Urbano", "Aseo Urbano"),
+)
+
+ALMACENA = (
+    ("Pipote", "Pipote"),
+    ("Tanque", "Tanque"),
+    ("Otros", "Otros"),
+)
+
+
+SI_NO_MINUSCULA = (
+    ("Si", "Si"),
+    ("No", "No"),
+)
 
 
 # Create your models here.
@@ -313,73 +375,6 @@ class Medicamento(models.Model):
         return f"{self.cedula_bef}"
 
 
-MERCADO = (
-    ("Padre", "Padre"),
-    ("Madre", "Madre"),
-    ("Abuelo(a)", "Abuelo(a)"),
-    ("Tio(a)", "Tio(a)"),
-    ("Otros", "Otros"),
-)
-
-
-
-TIPO_GRUPOS = (
-    ("Cereales y Leguminosas", "Cereales y Leguminosas"),
-    ("Frutas y Verduras", "Frutas y Verduras"),
-    ("Leche, Yogures y Quesos", "Leche, Yogures y Quesos"),
-    ("Grasas", "Grasas"),
-    ("Dulces", "Dulces"),
-    ("Carnes y Huevos", "Carnes y Huevos"),
-)
-
-
-
-POCO_CONSUMO = (
-    ("Por Rechazo", "Por Rechazo"),
-    ("No sabe prepararlo", "No sabe prepararlo"),
-    ("Están muy costosos", "Están muy costosos"),
-    ("No están acostumbrados", "No están acostumbrados"),
-)
-
-ENTRE = (
-    ("Entre 1 a 3 meses", "Entre 1 a 3 meses"),
-    ("Entre 3 a 6 meses", "Entre 3 a 6 meses"),
-)
-
-
-
-AGUA = (
-    ("Tuberia sin Tratamiento", "Tuberia sin Tratamiento"),
-    ("Filtrada", "Filtrada"),
-    ("Botellon", "Botellon"),
-    ("Hervida", "Hervida"),
-    ("Tabletas de Aguatab", "Tabletas de Aguatab"),
-)
-
-FALLA = (
-    ("Agua", "Agua"),
-    ("Gas", "Gas"),
-    ("Eléctricidad", "Eléctricidad"),
-    ("Telefonía Internet", "Telefonía Internet"),
-    ("Aseo Urbano", "Aseo Urbano"),
-)
-
-ALMACENA = (
-    ("Pipote", "Pipote"),
-    ("Tanque", "Tanque"),
-    ("Otros", "Otros"),
-)
-
-
-
-
-
-SI_NO_MINUSCULA = (
-    ("Si", "Si"),
-    ("No", "No"),
-)
-
-
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
@@ -446,7 +441,8 @@ class Nutricional(models.Model):
     desea_conocimiento = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return f"{self.cedula_bef}, {self.proyecto} {self.fecha}"
+        return f"{self.cedula_bef}"
+
 
 class Medica(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)

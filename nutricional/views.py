@@ -11,7 +11,6 @@ from dateutil import relativedelta
 @login_required  
 def nutricional(request):
     nutricionales = Nutricional.objects.all()
-    beneficiarios = Beneficiario.objects.all()
     page = request.GET.get('page',1)
 
     try:
@@ -22,7 +21,6 @@ def nutricional(request):
 
     return render(request, 'nutricional.html',{
         'entity': nutricionales,
-        'beneficiarios': beneficiarios,
         'paginator': paginator,
 
     })
@@ -31,30 +29,23 @@ def nutricional(request):
 @login_required  
 def nutricional_crear(request):
     if request.method == 'GET':
-        beneficiarios = Beneficiario.objects.all()
         return render(request, 'nutricional_crear.html', {
-            'form': NutricionalForm,
-            'beneficiarios': beneficiarios, 
+            'form': NutricionalForm, 
         })
     else:
         try:
             form = NutricionalForm(request.POST)
-            new_beneficiario = form.save(commit=False)
 
-            fecha_inicial = new_beneficiario.fecha_nac
-            dia_hoy = date.today()
-            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
-            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
-            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
-            
-            new_beneficiario.edad = tiempo_transc.years
-            new_beneficiario.meses = tiempo_transc.months
-            new_beneficiario.user = request.user
-            new_beneficiario.save()
+            new_nutricional = form.save(commit=False)
+            cedula = new_nutricional.cedula_bef_id
+            print(cedula)
+            beneficiario = get_object_or_404(Beneficiario, id=cedula)
+            new_nutricional.proyecto_id = beneficiario.proyecto_id
+            new_nutricional.save()
 
-            return redirect('beneficiario')
+            return redirect('nutricional')
         except ValueError:
-            return render(request, 'beneficiario_crear.html', {
+            return render(request, 'nutricional_crear.html', {
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información'
             })

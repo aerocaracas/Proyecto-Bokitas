@@ -80,7 +80,10 @@ SI_NO_POCA_APLICA = (
 class NutricionalForm(ModelForm):
     class Meta:
         model = Nutricional
-        fields = "__all__"
+        fields = ['cedula_bef','embarazada','lactante','tiempo_gestacion','tiempo_lactancia','mercado_lorealiza','cocina_lorealiza','frecuencia','apetito','cuantas_comidas','meriendas','cuantos_grupos','tipo_grupos','cereales','vegetales','frutas','carnes','pollo','pescado','embutidos','viceras','grasas','lacteos','huevos','leguminosas','tuberculos','charcuteria','poco_vegelales','poco_frutas','poco_viceras','bonos','bonos_entre','clap','clap_entre','iglesia','iglesia_entre','familiar','familiar_entre','pensionado','pensionado_entre','practica_deporte','tiempo','actividad','medicamento','medicamento_suplemento','agua','falla_servicio','compra_gas','compra_agua','almacena_agua','donde_almacena','conoce_grupos','conoce_calidad','conoce_desnutricion','conoce_beneficio','embarazo','lactando','desea_amamantar','dificultad_amamantar','desea_orientacion','desea_conocimiento']
+
+        labels = {'cedula_bef':'Cédula del Beneficiario'}
+
         widgets = {
             'embarazada': forms.RadioSelect(choices=SI_NO_MINUSCULA),
             'lactante': forms.RadioSelect(choices=SI_NO_MINUSCULA),
@@ -125,6 +128,5 @@ class NutricionalForm(ModelForm):
             'desea_amamantar': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
             'dificultad_amamantar': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
             'desea_orientacion': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
-            'desea_conocimiento': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
-
+            'desea_conocimiento': forms.RadioSelect(choices=SI_NO_POCA_APLICA)
         }

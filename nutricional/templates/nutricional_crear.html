@@ -25,7 +25,7 @@
         <h5 class="text-center">CUESTIONARIO DIETÉTICO</h5>
         <div class="row">
             <div class="col-3">
-                {{form.embarazada | as_crispy_field}}
+                {{form.embarazada| as_crispy_field }}
             </div>
             <div class="col-3">
                 <h5>{{form.tiempo_gestacion | as_crispy_field}}</h5>
@@ -103,6 +103,9 @@
             <div class="col">
                 {{form.embutidos | as_crispy_field}}
             </div>
+        </div>
+        <br>
+        <div class="row">
             <div class="col">
                 {{form.viceras | as_crispy_field}}
             </div>
