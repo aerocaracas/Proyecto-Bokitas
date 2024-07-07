@@ -1,54 +1,303 @@
 .form-layout{
-
     border-radius: 15px;
     width: 500px;
-
 }
 
-#div_id_cocina_lorealiza div{
+ /* embarazada */
+ #div_id_embarazada div{
     display:inline-flex;
-    width: 100%;
-}
-#div_id_cocina_lorealiza .form-check-label{
-    margin-left: 5px;
-    padding-right: 20px;
-
-} 
-
-#div_id_mercado_lorealiza div{
-    display:inline-flex;
-    width: 100%;
-}
-#div_id_mercado_lorealiza .form-check-label{
-    margin-left: 5px;
-    padding-right: 20px;
-
-}
-
-#div_id_frecuencia div{
-    display:inline-flex;
-    width: 100%;
-}
-#div_id_frecuencia .form-check-label{
-    margin-left: 5px;
-    padding-right: 10px;
-
-}
-
-#div_id_embarazada div{
-    display:inline-flex;
-
 }
 #div_id_embarazada .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_embarazada .form-label {
+    display: none;
+}
+#div_id_tiempo_gestacion .form-label {
+    display: none;
+}
 
+ /* lactante */
 #div_id_lactante div{
     display:inline-flex;
-
 }
 #div_id_lactante .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_lactante .form-label {
+    display: none;
+}
+#div_id_tiempo_lactancia .form-label {
+    display: none;
+}
+
+ /* mercado_lorealiza */
+#div_id_mercado_lorealiza div{
+    display:inline-flex;
+}
+#div_id_mercado_lorealiza .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* frecuencia */
+#div_id_frecuencia div{
+    display:inline-flex;
+}
+#div_id_frecuencia .form-check-label{
+    margin-left: 5px;
+    padding-right: 10px;
+}
+
+ /* cocina_lorealiza */
+ #div_id_cocina_lorealiza div{
+    display:inline-flex;
+}
+#div_id_cocina_lorealiza .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+} 
+
+ /* apetito */
+#div_id_apetito div{
+    display:inline-flex;
+}
+#div_id_apetito .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* cuantas_comidas */
+ #div_id_cuantas_comidas div{
+    display:inline-flex;
+}
+#div_id_cuantas_comidas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* meriendas */
+ #div_id_meriendas div{
+    display:inline-flex;
+}
+#div_id_meriendas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* cuantos_grupos */
+#div_id_cuantos_grupos .form-check{
+    margin-left: 100px;
+}
+
+ /* cereales */
+ #div_id_cereales div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_cereales .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_cereales .form-label {
+    display: none;
+}
+
+ /* vegetales */
+ #div_id_vegetales div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_vegetales .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_vegetales .form-label {
+    display: none;
+}
+
+ /* frutas */
+ #div_id_frutas div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_frutas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_frutas .form-label {
+    display: none;
+}
+
+ /* carnes */
+ #div_id_carnes div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_carnes .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_carnes .form-label {
+    display: none;
+}
+
+ /* pollo */
+ #div_id_pollo div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_pollo .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_pollo .form-label {
+    display: none;
+}
+
+ /* pescado */
+ #div_id_pescado div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_pescado .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_pescado .form-label {
+    display: none;
+}
+
+ /* embutidos */
+ #div_id_embutidos div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_embutidos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_embutidos .form-label {
+    display: none;
+}
+
+ /* viceras */
+ #div_id_viceras div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_viceras .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_viceras .form-label {
+    display: none;
+}
+
+ /* grasas */
+ #div_id_grasas div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_grasas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_grasas .form-label {
+    display: none;
+}
+
+ /* lacteos */
+ #div_id_lacteos div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_lacteos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_lacteos .form-label {
+    display: none;
+}
+
+ /* huevos */
+ #div_id_huevos div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_huevos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_huevos .form-label {
+    display: none;
+}
+
+ /* leguminosas */
+ #div_id_leguminosas div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_leguminosas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_leguminosas .form-label {
+    display: none;
+}
+
+ /* tuberculos */
+ #div_id_tuberculos div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_tuberculos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_tuberculos .form-label {
+    display: none;
+}
+
+ /* charcuteria */
+ #div_id_charcuteria div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_charcuteria .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_charcuteria .form-label {
+    display: none;
+}
+
+ /* poco_vegetales */
+ #div_id_poco_vegetales div{
+    display:inline-flex;
+}
+#div_id_poco_vegetales .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* poco_frutas */
+ #div_id_poco_frutas  div{
+    display:inline-flex;
+}
+#div_id_poco_frutas  .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* poco_viceras  */
+ #div_id_poco_viceras div{
+    display:inline-flex;
+}
+#div_id_poco_viceras .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+

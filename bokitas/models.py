@@ -128,7 +128,7 @@ TIPO_GRUPOS = (
     ("Cereales y Leguminosas", "Cereales y Leguminosas"),
     ("Frutas y Verduras", "Frutas y Verduras"),
     ("Leche, Yogures y Quesos", "Leche, Yogures y Quesos"),
-    ("Grasas", "Grasas"),
+    ("Grasas y Aceites", "Grasas y Aceites"),
     ("Dulces", "Dulces"),
     ("Carnes y Huevos", "Carnes y Huevos"),
 )
@@ -405,7 +405,7 @@ class Nutricional(models.Model):
     leguminosas = models.CharField(max_length=10, blank=True)
     tuberculos = models.CharField(max_length=10, blank=True)
     charcuteria = models.CharField(max_length=10, blank=True)
-    poco_vegelales = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
+    poco_vegetales = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
     poco_frutas = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
     poco_viceras = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
     bonos = models.CharField(max_length=10, blank=True)

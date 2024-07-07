@@ -37,7 +37,8 @@ GRUPOS = (
     ("1 - 2", "1 - 2"),
     ("2 - 3", "2 - 3"),
     ("3 - 4", "3 - 4"),
-    ("4 - 6", "4 - 6"),
+    ("4 - 5", "4 - 5"),
+    ("5 - 6", "5 - 6"),
 )
 
 CONSUMO = (
@@ -80,9 +81,9 @@ SI_NO_POCA_APLICA = (
 class NutricionalForm(ModelForm):
     class Meta:
         model = Nutricional
-        fields = ['cedula_bef','embarazada','lactante','tiempo_gestacion','tiempo_lactancia','mercado_lorealiza','cocina_lorealiza','frecuencia','apetito','cuantas_comidas','meriendas','cuantos_grupos','tipo_grupos','cereales','vegetales','frutas','carnes','pollo','pescado','embutidos','viceras','grasas','lacteos','huevos','leguminosas','tuberculos','charcuteria','poco_vegelales','poco_frutas','poco_viceras','bonos','bonos_entre','clap','clap_entre','iglesia','iglesia_entre','familiar','familiar_entre','pensionado','pensionado_entre','practica_deporte','tiempo','actividad','medicamento','medicamento_suplemento','agua','falla_servicio','compra_gas','compra_agua','almacena_agua','donde_almacena','conoce_grupos','conoce_calidad','conoce_desnutricion','conoce_beneficio','embarazo','lactando','desea_amamantar','dificultad_amamantar','desea_orientacion','desea_conocimiento']
+        fields = ['cedula_bef','embarazada','lactante','tiempo_gestacion','tiempo_lactancia','mercado_lorealiza','cocina_lorealiza','frecuencia','apetito','cuantas_comidas','meriendas','cuantos_grupos','tipo_grupos','cereales','vegetales','frutas','carnes','pollo','pescado','embutidos','viceras','grasas','lacteos','huevos','leguminosas','tuberculos','charcuteria','poco_vegetales','poco_frutas','poco_viceras','bonos','bonos_entre','clap','clap_entre','iglesia','iglesia_entre','familiar','familiar_entre','pensionado','pensionado_entre','practica_deporte','tiempo','actividad','medicamento','medicamento_suplemento','agua','falla_servicio','compra_gas','compra_agua','almacena_agua','donde_almacena','conoce_grupos','conoce_calidad','conoce_desnutricion','conoce_beneficio','embarazo','lactando','desea_amamantar','dificultad_amamantar','desea_orientacion','desea_conocimiento']
 
-        labels = {'cedula_bef':'Cédula del Beneficiario','embarazada':'Se encuentra Embarazada','tiempo_gestacion':'Tiempo Gestación','lactante':'Se encuentra Lactando','tiempo_lactancia':'Tiempo Lactando','mercado_lorealiza':'Responsable de la compra en el mercado','frecuencia':'Frecuencia con que hace la compra','cocina_lorealiza':'Responsable de cocinar'}
+        labels = {'cedula_bef':'Cédula del Beneficiario','mercado_lorealiza':'Responsable de la compra en el mercado','frecuencia':'Frecuencia con que hace la compra','cocina_lorealiza':'Responsable de cocinar','apetito':'Cómo es su apetito?','cuantas_comidas':'Cuantas comidas realizan al día?','meriendas':'Cuantas meriendas?','cuantos_grupos':'Cuantos Grupos estan presentes en su alimentación?','tipo_grupos':'Cuales son?','poco_vegetales':'El poco consumo o nada de Vegetales es:','poco_frutas':'El poco consumo o nada de Frutas es:','poco_viceras':'El poco consumo o nada de Viceras es:',}
 
         widgets = {
             'embarazada': forms.RadioSelect(choices=SI_NO_MINUSCULA),

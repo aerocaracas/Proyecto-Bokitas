@@ -22,35 +22,53 @@
                 <h5>{{form.cedula_bef | as_crispy_field}}</h5>
             </div>
         </div>
-        <h5 class="p-2 mb-2 bg-primary-subtle text-center">CUESTIONARIO DIETÉTICO</h5>
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Estado de Gravidez</h4>
         <div class="row">
-            <div class="col-6">
+            <div class="col-1">
+            </div>
+            <div class="col-4">
+                <h4>Se encuentra Embarazada?</h4>
+            </div>
+            <div class="col-1">
                 {{form.embarazada | as_crispy_field}}
-            </div>
-            <div class="col-3">
-                <h5>{{form.tiempo_gestacion | as_crispy_field}}</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                {{form.lactante | as_crispy_field}}
-            </div>
-            <div class="col-3">
-                <h5>{{form.tiempo_lactancia | as_crispy_field}}</h5>
-            </div>
-        </div>
-
-        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Responsable de la compra del mercado y la cocina </h4>
-        <div class="row">
-            <div class="col-6">
-                {{form.mercado_lorealiza | as_crispy_field}}
             </div>
             <div class="col-1">
             </div>
+            <div class="col-3">
+                <h4>Tiempo de Gestación:</h4>
+            </div>
+            <div class="col-1">
+                {{form.tiempo_gestacion | as_crispy_field}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-4">
+                <h4>Se encuentra Lactando?</h4>
+            </div>
+            <div class="col-1">
+                {{form.lactante | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3">
+                <h4>Tiempo Lactando:</h4>
+            </div>
+            <div class="col-1">
+                {{form.tiempo_lactancia | as_crispy_field}}
+            </div>
+        </div>
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Responsable de la compra del mercado y la cocina </h4>
+        <div class="row">
+            <div class="col">
+                {{form.mercado_lorealiza | as_crispy_field}}
+            </div>
+
             <div class="col">
                 {{form.frecuencia | as_crispy_field}}
             </div>
-            <div class="col-6">
+            <div class="col">
                 {{form.cocina_lorealiza | as_crispy_field}}
             </div>
 
@@ -58,9 +76,11 @@
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Apetito, Comidas y Meriendas  </h4>
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 {{form.apetito | as_crispy_field}}
             </div>
+        </div>
+        <div class="row">
             <div class="col">
                 {{form.cuantas_comidas | as_crispy_field}}
             </div>
@@ -86,63 +106,131 @@
         </div>
  
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Frecuencia del Consumo</h4>
+
         <div class="row">
-            <div class="col">
+            <div class="col-2">
+                <h4>Cereales:</h4>
+            </div>
+            <div class="col-10">
                 {{form.cereales | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Vegetales:</h4>
+            </div>
+            <div class="col-10">
                 {{form.vegetales | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Frutas:</h4>
+            </div>
+            <div class="col-10">
                 {{form.frutas | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Carnes:</h4>
+            </div>
+            <div class="col-10">
                 {{form.carnes | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Pollo:</h4>
+            </div>
+            <div class="col-10">
                 {{form.pollo | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Pescado:</h4>
+            </div>
+            <div class="col-10">
                 {{form.pescado | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Embutidos:</h4>
+            </div>
+            <div class="col-10">
                 {{form.embutidos | as_crispy_field}}
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col">
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Viceras:</h4>
+            </div>
+            <div class="col-10">
                 {{form.viceras | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Grasas:</h4>
+            </div>
+            <div class="col-10">
                 {{form.grasas | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Lacteos:</h4>
+            </div>
+            <div class="col-10">
                 {{form.lacteos | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Huevo:</h4>
+            </div>
+            <div class="col-10">
                 {{form.huevos | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Leguminosas:</h4>
+            </div>
+            <div class="col-10">
                 {{form.leguminosas | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h4>Tuberculos:</h4>
+            </div>
+            <div class="col-10">
                 {{form.tuberculos | as_crispy_field}}
             </div>
-            <div class="col">
+        </div>
+        <div class="row bg-white">
+            <div class="col-2">
+                <h4>Charcuteria:</h4>
+            </div>
+            <div class="col-10">
                 {{form.charcuteria | as_crispy_field}}
             </div>
         </div>
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Poco consumo de Alimentos</h4>
         <div class="row">
-            <div class="col">
-                {{form.poco_vegelales | as_crispy_field}}
+            <div class="col-12 text-center">
+                {{form.poco_vegetales | as_crispy_field}}
             </div>
-            <div class="col">
+            <hr>
+            <div class="col-12 text-center">
                 {{form.poco_frutas | as_crispy_field}}
             </div>
-            <div class="col">
+            <hr>
+            <div class="col-12 text-center">
                 {{form.poco_viceras | as_crispy_field}}
             </div>
         </div>
