@@ -22,36 +22,41 @@
                 <h5>{{form.cedula_bef | as_crispy_field}}</h5>
             </div>
         </div>
-        <h5 class="text-center">CUESTIONARIO DIETÉTICO</h5>
+        <h5 class="p-2 mb-2 bg-primary-subtle text-center">CUESTIONARIO DIETÉTICO</h5>
         <div class="row">
-            <div class="col-3">
-                {{form.embarazada| as_crispy_field }}
+            <div class="col-6">
+                {{form.embarazada | as_crispy_field}}
             </div>
             <div class="col-3">
                 <h5>{{form.tiempo_gestacion | as_crispy_field}}</h5>
             </div>
-            <div class="col-3">
+        </div>
+        <div class="row">
+            <div class="col-6">
                 {{form.lactante | as_crispy_field}}
             </div>
             <div class="col-3">
                 <h5>{{form.tiempo_lactancia | as_crispy_field}}</h5>
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Responsable de la compra del mercado y la cocina </h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Responsable de la compra del mercado y la cocina </h4>
         <div class="row">
-            <div class="col">
+            <div class="col-6">
                 {{form.mercado_lorealiza | as_crispy_field}}
             </div>
-            <div class="col">
-                {{form.cocina_lorealiza | as_crispy_field}}
+            <div class="col-1">
             </div>
             <div class="col">
                 {{form.frecuencia | as_crispy_field}}
             </div>
+            <div class="col-6">
+                {{form.cocina_lorealiza | as_crispy_field}}
+            </div>
+
         </div>
-        <hr>
-        <h4 class="text-center">Apetito, Comidas y Meriendas  </h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Apetito, Comidas y Meriendas  </h4>
         <div class="row">
             <div class="col">
                 {{form.apetito | as_crispy_field}}
@@ -63,8 +68,8 @@
                 {{form.meriendas | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Grupos de Alimentos</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Grupos de Alimentos</h4>
         <div class="row">
             <div class="col">
                 <h4 class="text-center">Rueda de los Alimentos</h4>
@@ -79,8 +84,8 @@
             </div>
 
         </div>
-        <hr>
-        <h4 class="text-center">Frecuencia del Consumo</h4>
+ 
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Frecuencia del Consumo</h4>
         <div class="row">
             <div class="col">
                 {{form.cereales | as_crispy_field}}
@@ -128,8 +133,8 @@
                 {{form.charcuteria | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Poco consumo de Alimentos</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Poco consumo de Alimentos</h4>
         <div class="row">
             <div class="col">
                 {{form.poco_vegelales | as_crispy_field}}
@@ -141,8 +146,8 @@
                 {{form.poco_viceras | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Ayuda económica y Bonos  </h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Ayuda económica y Bonos  </h4>
         <div class="row">
             <div class="col-6">
                 {{form.bonos | as_crispy_field}}
@@ -175,8 +180,8 @@
                 {{form.pensionado_entre | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Actividad Deportiva</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Actividad Deportiva</h4>
         <div class="row">
             <div class="col">
                 {{form.practica_deporte | as_crispy_field}}
@@ -188,8 +193,8 @@
                 {{form.actividad | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Medicamento o Suplemento Nutricional</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Medicamento o Suplemento Nutricional</h4>
         <div class="row">
             <div class="col">
                 {{form.medicamento | as_crispy_field}}
@@ -198,8 +203,8 @@
                 <h5>{{form.medicamento_suplemento | as_crispy_field}}</h5>
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Consumo de Agua y Servicios Básicos</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Consumo de Agua y Servicios Básicos</h4>
         <div class="row">
             <div class="col">
                 {{form.agua | as_crispy_field}}
@@ -222,8 +227,8 @@
                 {{form.donde_almacena | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">Educación Nutricional</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación Nutricional</h4>
         <div class="row">
             <div class="col">
                 {{form.conoce_grupos | as_crispy_field}}
@@ -235,8 +240,8 @@
                 {{form.conoce_desnutricion | as_crispy_field}}
             </div>
         </div>
-        <hr>
-        <h4 class="text-center">AEducación para Embarazadas y Lactantes</h4>
+
+        <h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación para Embarazadas y Lactantes</h4>
         <div class="row">
             <div class="col">
                 {{form.conoce_beneficio | as_crispy_field}}
@@ -274,5 +279,5 @@
 
 </div>
 
-   
+
 {% endblock %}

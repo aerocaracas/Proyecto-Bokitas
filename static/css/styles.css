@@ -5,8 +5,50 @@
 
 }
 
-.id_embarazada{
+#div_id_cocina_lorealiza div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_cocina_lorealiza .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
 
-    display: inline-flex;
+} 
 
+#div_id_mercado_lorealiza div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_mercado_lorealiza .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+
+}
+
+#div_id_frecuencia div{
+    display:inline-flex;
+    width: 100%;
+}
+#div_id_frecuencia .form-check-label{
+    margin-left: 5px;
+    padding-right: 10px;
+
+}
+
+#div_id_embarazada div{
+    display:inline-flex;
+
+}
+#div_id_embarazada .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+#div_id_lactante div{
+    display:inline-flex;
+
+}
+#div_id_lactante .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
 }
