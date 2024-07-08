@@ -301,3 +301,175 @@
     padding-right: 20px;
 }
 
+ /* bonos */
+ #div_id_bonos div{
+    display:inline-flex;
+}
+#div_id_bonos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ #div_id_bonos_entre div{
+    display:inline-flex;
+}
+#div_id_bonos_entre .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* clap */
+ #div_id_clap div{
+    display:inline-flex;
+}
+#div_id_clap .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ #div_id_clap_entre div{
+    display:inline-flex;
+}
+#div_id_bonos_entre .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* iglesia */
+ #div_id_iglesia div{
+    display:inline-flex;
+}
+#div_id_iglesia .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ #div_id_iglesia_entre div{
+    display:inline-flex;
+}
+#div_id_iglesia_entre .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* familiar */
+ #div_id_familiar div{
+    display:inline-flex;
+}
+#div_id_familiar .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ #div_id_familiar_entre div{
+    display:inline-flex;
+}
+#div_id_familiar_entre .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* pensionado */
+ #div_id_pensionado div{
+    display:inline-flex;
+}
+#div_id_pensionado .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ #div_id_pensionado_entre div{
+    display:inline-flex;
+}
+#div_id_pensionado_entre .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* practica_deporte */
+ #div_id_practica_deporte div{
+    display:inline-flex;
+}
+#div_id_practica_deporte .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* medicamento */
+ #div_id_medicamento div{
+    display:inline-flex;
+}
+#div_id_medicamento .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* agua */
+ #div_id_agua div{
+    display:inline-flex;
+}
+#div_id_agua .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* falla_servicio */
+ #div_id_falla_servicio div{
+    display:inline-flex;
+}
+#div_id_falla_servicio .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* compra_gas */
+ #div_id_compra_gas div{
+    display:inline-flex;
+}
+#div_id_compra_gas .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* compra_agua */
+ #div_id_compra_agua div{
+    display:inline-flex;
+}
+#div_id_compra_agua .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* almacena_agua */
+ #div_id_almacena_agua div{
+    display:inline-flex;
+}
+#div_id_almacena_agua .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* donde_almacena */
+ #div_id_donde_almacena div{
+    display:inline-flex;
+}
+#div_id_donde_almacena .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* conoce_grupos */
+ #div_id_conoce_grupos div{
+    display:inline-flex;
+}
+#div_id_conoce_grupos .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+
+ /* conoce_calidad */
+ #div_id_conoce_calidad div{
+    display:inline-flex;
+}
+#div_id_conoce_calidad .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+ /* conoce_desnutricion */
+ #div_id_conoce_desnutricion div{
+    display:inline-flex;
+}
+#div_id_conoce_desnutricion .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}

@@ -236,42 +236,51 @@
         </div>
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Ayuda económica y Bonos  </h4>
-        <div class="row">
-            <div class="col-6">
+        <div class="row justify-content-md-center text-center">
+            <div class="col-2">
                 {{form.bonos | as_crispy_field}}
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 {{form.bonos_entre | as_crispy_field}}
             </div>
-            <div class="col-6">
+        </div>
+        <div class="row justify-content-md-center text-center">
+            <div class="col-2">
                 {{form.clap | as_crispy_field}}
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 {{form.clap_entre | as_crispy_field}}
             </div>
-            <div class="col-6">
-                {{form.iglesia | as_crispy_field}}
-            </div>
-            <div class="col-6">
-                {{form.iglesia_entre | as_crispy_field}}
-            </div>
-            <div class="col-6">
-                {{form.familiar | as_crispy_field}}
-            </div>
-            <div class="col-6">
-                {{form.familiar_entre | as_crispy_field}}
-            </div>
-            <div class="col-6">
+        </div>
+        <div class="row justify-content-md-center text-center">
+            <div class="col-2">
                 {{form.pensionado | as_crispy_field}}
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 {{form.pensionado_entre | as_crispy_field}}
             </div>
         </div>
+        <div class="row justify-content-md-center text-center">
+            <div class="col-3">
+                {{form.iglesia | as_crispy_field}}
+            </div>
+            <div class="col-4">
+                {{form.iglesia_entre | as_crispy_field}}
+            </div>
+        </div>
+        <div class="row justify-content-md-center text-center">
+            <div class="col-3">
+                {{form.familiar | as_crispy_field}}
+            </div>
+            <div class="col-4">
+                {{form.familiar_entre | as_crispy_field}}
+            </div>
+        </div>
+
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Actividad Deportiva</h4>
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 {{form.practica_deporte | as_crispy_field}}
             </div>
             <div class="col">
@@ -284,7 +293,7 @@
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Medicamento o Suplemento Nutricional</h4>
         <div class="row">
-            <div class="col">
+            <div class="col text-center">
                 {{form.medicamento | as_crispy_field}}
             </div>
             <div class="col">
@@ -293,7 +302,7 @@
         </div>
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Consumo de Agua y Servicios Básicos</h4>
-        <div class="row">
+        <div class="row text-center">
             <div class="col">
                 {{form.agua | as_crispy_field}}
             </div>
@@ -318,13 +327,13 @@
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación Nutricional</h4>
         <div class="row">
-            <div class="col">
+            <div class="col-12">
                 {{form.conoce_grupos | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-12">
                 {{form.conoce_calidad | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-12">
                 {{form.conoce_desnutricion | as_crispy_field}}
             </div>
         </div>
