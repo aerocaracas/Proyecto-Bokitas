@@ -302,20 +302,27 @@
 }
 
  /* bonos */
- #div_id_bonos div{
+#div_id_bonos div{
     display:inline-flex;
 }
 #div_id_bonos .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
- #div_id_bonos_entre div{
+#div_id_bonos .form-label{
+    display: none;
+}
+#div_id_bonos_entre div{
     display:inline-flex;
 }
 #div_id_bonos_entre .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_bonos_entre .form-label{
+    display: none;
+}
+
  /* clap */
  #div_id_clap div{
     display:inline-flex;
@@ -324,13 +331,20 @@
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_clap .form-label{
+    display: none;
+}
  #div_id_clap_entre div{
     display:inline-flex;
 }
-#div_id_bonos_entre .form-check-label{
+#div_id_clap_entre .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_clap_entre .form-label{
+    display: none;
+}
+
  /* iglesia */
  #div_id_iglesia div{
     display:inline-flex;
@@ -339,12 +353,18 @@
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_iglesia .form-label{
+    display: none;
+}
  #div_id_iglesia_entre div{
     display:inline-flex;
 }
 #div_id_iglesia_entre .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
+}
+#div_id_iglesia_entre .form-label{
+    display: none;
 }
  /* familiar */
  #div_id_familiar div{
@@ -354,12 +374,18 @@
     margin-left: 5px;
     padding-right: 20px;
 }
+#div_id_familiar .form-label{
+    display: none;
+}
  #div_id_familiar_entre div{
     display:inline-flex;
 }
 #div_id_familiar_entre .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
+}
+#div_id_familiar_entre .form-label{
+    display: none;
 }
  /* pensionado */
  #div_id_pensionado div{
@@ -369,12 +395,18 @@
     margin-left: 5px;
     padding-right: 20px;
 }
- #div_id_pensionado_entre div{
+#div_id_pensionado .form-label{
+    display: none;
+}
+#div_id_pensionado_entre div{
     display:inline-flex;
 }
 #div_id_pensionado_entre .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
+}
+#div_id_pensionado_entre .form-label{
+    display: none;
 }
 
  /* practica_deporte */
@@ -472,4 +504,89 @@
 #div_id_conoce_desnutricion .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
+}
+
+
+ /* conoce_beneficio */
+ #div_id_conoce_beneficio div{
+    display:inline-flex;
+}
+#div_id_conoce_beneficio .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_conoce_beneficio .form-label{
+    display: none;
+}
+
+ /* embarazo */
+ #div_id_embarazo div{
+    display:inline-flex;
+}
+#div_id_embarazo .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_embarazo .form-label{
+    display: none;
+}
+
+ /* lactando */
+ #div_id_lactando div{
+    display:inline-flex;
+}
+#div_id_lactando .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_lactando .form-label{
+    display: none;
+}
+
+ /* desea_amamantar */
+ #div_id_desea_amamantar div{
+    display:inline-flex;
+}
+#div_id_desea_amamantar .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_desea_amamantar .form-label{
+    display: none;
+}
+
+ /* dificultad_amamantar */
+ #div_id_dificultad_amamantar div{
+    display:inline-flex;
+}
+#div_id_dificultad_amamantar .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_dificultad_amamantar .form-label{
+    display: none;
+}
+
+ /* desea_orientacion */
+ #div_id_desea_orientacion div{
+    display:inline-flex;
+}
+#div_id_desea_orientacion .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_desea_orientacion .form-label{
+    display: none;
+}
+
+ /* desea_conocimiento */
+ #div_id_desea_conocimiento div{
+    display:inline-flex;
+}
+#div_id_desea_conocimiento .form-check-label{
+    margin-left: 5px;
+    padding-right: 20px;
+}
+#div_id_desea_conocimiento .form-label{
+    display: none;
 }

@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-1">
             </div>
-            <div class="col-4">
+            <div class="col-4 d-flex flex-row-reverse">
                 <h4>Se encuentra Embarazada?</h4>
             </div>
             <div class="col-1">
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-1">
             </div>
-            <div class="col-4">
+            <div class="col-4 d-flex flex-row-reverse">
                 <h4>Se encuentra Lactando?</h4>
             </div>
             <div class="col-1">
@@ -236,41 +236,84 @@
         </div>
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Ayuda económica y Bonos  </h4>
-        <div class="row justify-content-md-center text-center">
-            <div class="col-2">
+        <div class="row  justify-content-md-center">
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Recibe algún Bono?</h5>
+            </div>
+            <div class="col-1">
                 {{form.bonos | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Periodo de Tiempo:</h5>
             </div>
             <div class="col-4">
                 {{form.bonos_entre | as_crispy_field}}
             </div>
         </div>
-        <div class="row justify-content-md-center text-center">
-            <div class="col-2">
+        <div class="row justify-content-md-center">
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Recibe bolsa Clap?</h5>
+            </div>
+            <div class="col-1">
                 {{form.clap | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Periodo de Tiempo:</h5>
             </div>
             <div class="col-4">
                 {{form.clap_entre | as_crispy_field}}
             </div>
         </div>
-        <div class="row justify-content-md-center text-center">
-            <div class="col-2">
+
+        <div class="row justify-content-md-center">
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Recibe Pensión?</h5>
+            </div>
+            <div class="col-1">
                 {{form.pensionado | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Periodo de Tiempo:</h5>
             </div>
             <div class="col-4">
                 {{form.pensionado_entre | as_crispy_field}}
             </div>
         </div>
-        <div class="row justify-content-md-center text-center">
-            <div class="col-3">
+
+        <div class="row justify-content-md-center">
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Recibe Ayuda de Iglesia?</h5>
+            </div>
+            <div class="col-1">
                 {{form.iglesia | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Periodo de Tiempo:</h5>
             </div>
             <div class="col-4">
                 {{form.iglesia_entre | as_crispy_field}}
             </div>
         </div>
-        <div class="row justify-content-md-center text-center">
-            <div class="col-3">
+
+        <div class="row justify-content-md-center">
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Recibe Ayuda Familiar?</h5>
+            </div>
+            <div class="col-1">
                 {{form.familiar | as_crispy_field}}
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-3 d-flex flex-row-reverse">
+                <h5>Periodo de Tiempo:</h5>
             </div>
             <div class="col-4">
                 {{form.familiar_entre | as_crispy_field}}
@@ -310,7 +353,7 @@
                 {{form.falla_servicio | as_crispy_field}}
             </div>
         </div>
-        <div class="row">
+        <div class="row text-center">
             <div class="col">
                 {{form.compra_gas | as_crispy_field}}
             </div>
@@ -326,7 +369,7 @@
         </div>
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación Nutricional</h4>
-        <div class="row">
+        <div class="row text-center">
             <div class="col-12">
                 {{form.conoce_grupos | as_crispy_field}}
             </div>
@@ -340,25 +383,46 @@
 
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación para Embarazadas y Lactantes</h4>
         <div class="row">
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Conoce sobre los beneficios de la lactancia materna?</h5>
+            </div>
+            <div class="col-5">
                 {{form.conoce_beneficio | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Se encuentra Embarazada?</h5>
+            </div>
+            <div class="col-5">
                 {{form.embarazo | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Se encuentra Lactando?</h5>
+            </div>
+            <div class="col-5">
                 {{form.lactando | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Desea amamantar a tu bebé cuando nazca?</h5>
+            </div>
+            <div class="col-5">
                 {{form.desea_amamantar | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Tiene dificultad para amamantar a tu bebé?</h5>
+            </div>
+            <div class="col-5">
                 {{form.dificultad_amamantar | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Desea tener orientación de como amamantar al bebé?</h5>
+            </div>
+            <div class="col-5">
                 {{form.desea_orientacion | as_crispy_field}}
             </div>
-            <div class="col">
+            <div class="col-6 d-flex flex-row-reverse">
+                <h5>Desearia tener más conocimiento sobre nutrición?</h5>
+            </div>
+            <div class="col-5">
                 {{form.desea_conocimiento | as_crispy_field}}
             </div>
         </div>

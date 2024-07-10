@@ -25,11 +25,11 @@
           </thead>
           <tbody>
               {% if entity %}
-                  {% for nutricionales in entity %}
+                  {% for nutricional in entity %}
                       <tr>
-                          <td>{{nutricionales}}</td>
-                          <td>{{nutricionales.proyecto}}</td>
-                          <td class="text-center">{{nutricionales.fecha | date:"d/m/Y"}}</td>
+                          <td>{{nutricional}}</td>
+                          <td>{{nutricional.proyecto}}</td>
+                          <td class="text-center">{{nutricional.fecha | date:"d/m/Y"}}</td>
                           <td class="text-center"> <a href="#"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                       </tr>
                   {% endfor %}

@@ -14,7 +14,7 @@ def nutricional(request):
     page = request.GET.get('page',1)
 
     try:
-        paginator = Paginator(nutricionales, 15)
+        paginator = Paginator(nutricionales, 3)
         nutricionales = paginator.page(page)
     except:
         raise Http404
