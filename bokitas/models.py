@@ -154,7 +154,7 @@ AGUA = (
     ("Filtrada", "Filtrada"),
     ("Botellon", "Botellon"),
     ("Hervida", "Hervida"),
-    ("Tabletas de Aguatab", "Tabletas de Aguatab"),
+    ("Tabletas Aguatab", "Tabletas Aguatab"),
 )
 
 FALLA = (

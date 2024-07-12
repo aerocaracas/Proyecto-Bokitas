@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from datetime import datetime, date
 from dateutil import relativedelta
 from django.contrib.auth.models import User
-from nutricional.forms import NutricionalForm
+from nutricional.forms import NutricionalForm,NutricionalForm2
 
 
 # Sesion Nutricional.
@@ -53,3 +53,39 @@ def nutricional_crear(request):
             'form': form,
             'error': 'Datos incorectos, Favor verificar la información'
             })
+
+@login_required      
+def nutricional_actualizar(request, pk):
+    if request.method == 'GET':
+        nutricionales = get_object_or_404(Nutricional, id=pk)
+        form = NutricionalForm(instance=nutricionales)
+
+        context={}
+        context["pk"]=pk
+        context["nutricionales"]=nutricionales
+        context["form"]=form
+        return render(request, 'nutricional_actualizar.html', context)
+    else:
+        try:
+            nutricionales = get_object_or_404(Nutricional, id=pk)
+            form = NutricionalForm2(request.POST, instance=nutricionales)
+
+            new_nutricional = form.save(commit=False)
+
+            new_nutricional.save()
+
+            return redirect('nutricional')
+        except ValueError:
+            return render(request, 'nutricional_actualizar.html', {
+            'form': form,
+            'error': 'Datos incorectos, Favor verificar la información',
+            'pk': pk,
+            })
+
+
+@login_required   
+def nutricional_eliminar(request, pk):
+    nutricionales = get_object_or_404(Nutricional, id=pk)
+    nutricionales.delete()
+    return redirect('nutricional')
+
