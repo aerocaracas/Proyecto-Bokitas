@@ -42,7 +42,6 @@ def nutricional_crear(request):
 
             new_nutricional = form.save(commit=False)
             cedula = new_nutricional.cedula_bef_id
-            print(cedula)
             beneficiario = get_object_or_404(Beneficiario, id=cedula)
             new_nutricional.proyecto_id = beneficiario.proyecto_id
             new_nutricional.save()

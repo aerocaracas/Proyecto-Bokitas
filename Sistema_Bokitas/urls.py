@@ -24,7 +24,6 @@ urlpatterns = [
     path('', include('proyecto.urls')),
     path('', include('beneficiario.urls')),
     path('', include('nutricional.urls')),
-    path('', include('socioeconomico.urls')),
     path('', include('tareas.urls')),
   
 ]

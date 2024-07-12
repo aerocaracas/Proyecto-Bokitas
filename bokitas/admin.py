@@ -8,7 +8,6 @@ from .models import AntropBef
 from .models import Medica
 from .models import Medicamento
 from .models import Nutricional
-from .models import Socioeconomico
 from .models import Tarea
 from .models import Diagnostico
 from .models import ImcCla
@@ -29,7 +28,6 @@ admin.site.register(AntropBef)
 admin.site.register(Medica)
 admin.site.register(Medicamento)
 admin.site.register(Nutricional)
-admin.site.register(Socioeconomico)
 admin.site.register(Tarea)
 admin.site.register(Diagnostico)
 admin.site.register(ImcCla)

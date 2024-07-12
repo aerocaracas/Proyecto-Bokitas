@@ -21,9 +21,9 @@
             <div class="col-6">
                 <h5>Beneficiario:</h5>
                 {{nutricionales}}
-
             </div>
         </div>
+        <br>
         <h4 class="p-2 mb-2 bg-primary-subtle text-center">Estado de Gravidez</h4>
         <div class="row">
             <div class="col-1">
@@ -32,7 +32,7 @@
                 <h4>Se encuentra Embarazada?</h4>
             </div>
             <div class="col-1">
-                {{form.embarazada | as_crispy_field}}
+                {{form.en_embarazo | as_crispy_field}}
             </div>
             <div class="col-1">
             </div>
@@ -50,7 +50,7 @@
                 <h4>Se encuentra Lactando?</h4>
             </div>
             <div class="col-1">
-                {{form.lactante | as_crispy_field}}
+                {{form.en_lactando | as_crispy_field}}
             </div>
             <div class="col-1">
             </div>

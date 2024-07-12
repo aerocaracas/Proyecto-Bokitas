@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'proyecto',
     'beneficiario',
     'nutricional',
-    'socioeconomico',
     'tareas',
 
     'multiselectfield',

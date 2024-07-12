@@ -8,11 +8,22 @@
     <br>
     <h2>PROYECTOS</h2>
     <hr>
-    <a class="btn btn-outline-primary btn-sm" href="{% url 'proyecto_crear' %}">
+    <div class="row">
+      <div class="col">
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'proyecto_crear' %}">
 
-      Crear Nuevo Proyecto
+          Crear Nuevo Proyecto
 
-    </a>
+        </a>
+      </div>
+      <div class="col">
+        <form action="" method="POST" class="d-flex">
+          {% csrf_token %}
+          <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar...">
+          <button class="btn btn-success mx-2" name="search">Buscar</button>
+        </form>
+      </div>
+    </div>
     <hr>
     <div class="table-responsive">
       <table class="table table-hover">

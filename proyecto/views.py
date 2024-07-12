@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from proyecto.forms import ProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -10,9 +11,14 @@ from django.http import Http404
 @login_required      
 def proyecto(request):
     proyectos = Proyecto.objects.all()
+    query = ""
     page = request.GET.get('page',1)
 
     try:
+        if "search" in request.POST:
+            query = request.POST.get("searchquery")
+            proyectos = Proyecto.objects.filter(Q(proyecto__icontains=query))
+        
         paginator = Paginator(proyectos, 2)
         proyectos = paginator.page(page)
     except:
@@ -20,6 +26,7 @@ def proyecto(request):
 
     return render(request, 'proyecto.html',{
         'entity': proyectos,
+        'query':query,
         'paginator': paginator
     })
 

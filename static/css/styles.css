@@ -10,15 +10,18 @@ body {
     width: 500px;
 }
 
+
+ /* **************  Formulario Nutricional ************ */
+
  /* embarazada */
- #div_id_embarazada div{
+ #div_id_en_embarazo div{
     display:inline-flex;
 }
-#div_id_embarazada .form-check-label{
+#div_id_en_embarazo .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
-#div_id_embarazada .form-label {
+#div_id_en_embarazo .form-label {
     display: none;
 }
 #div_id_tiempo_gestacion .form-label {
@@ -26,14 +29,14 @@ body {
 }
 
  /* lactante */
-#div_id_lactante div{
+#div_id_en_lactando div{
     display:inline-flex;
 }
-#div_id_lactante .form-check-label{
+#div_id_en_lactando .form-check-label{
     margin-left: 5px;
     padding-right: 20px;
 }
-#div_id_lactante .form-label {
+#div_id_en_lactando .form-label {
     display: none;
 }
 #div_id_tiempo_lactancia .form-label {

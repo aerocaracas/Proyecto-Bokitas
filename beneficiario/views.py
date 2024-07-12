@@ -3,6 +3,7 @@ from beneficiario.forms import BeneficiarioForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
+from django.db.models import Q
 from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, Diagnostico
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -14,9 +15,14 @@ from dateutil import relativedelta
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all()
+    query = ' '
     page = request.GET.get('page',1)
 
     try:
+        if "search" in request.POST:
+            query = request.POST.get("searchquery")
+            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query))
+
         paginator = Paginator(beneficiarios, 2)
         beneficiarios = paginator.page(page)
     except:
@@ -24,6 +30,7 @@ def beneficiario(request):
     
     return render(request, 'beneficiario.html',{
         'entity': beneficiarios,
+        'query':query,
         'paginator': paginator
     })
 
