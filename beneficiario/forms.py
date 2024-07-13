@@ -1,7 +1,13 @@
 from django.forms import ModelForm
 from django import forms
 from bokitas.models import Beneficiario, Familia, Menor, Medica
+from django.forms.widgets import NumberInput 
 
+
+SI_NO = (
+    ("SI", "SI"),
+    ("NO", "NO"),
+)
 
 SEXOS = (
     ("MASCULINO", "MASCULINO"),
@@ -48,6 +54,11 @@ class BeneficiarioForm(ModelForm):
 
         labels = {'proyecto':'Proyecto','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo', 'fecha_nac':'Fecha de Nacimiento','embarazada':'Se encuentra Embarazada','lactante':'Se encuentra Lactando','estado_civil':'Estado Civil','educacion':'Educación','profesion':'Profesión','laboral':'Situación Laboral','telefono':'Teléfono','correo':'Correo Electrónico','direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','observacion':'Observación','estatus':'Estatus','numero_cuenta':'Número de Cuenta'}
 
+        widgets = {
+            'fecha_nac': NumberInput(attrs={'type':'date'}),
+            'direccion': forms.Textarea(attrs={'rows':3}),
+            'observacion': forms.Textarea(attrs={'rows':3}),
+                }
 
 class MenorForm(ModelForm):
     class Meta:
@@ -57,6 +68,11 @@ class MenorForm(ModelForm):
 
         labels = {'proyecto':'Proyecto','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','fecha_ing_proyecto':'Fecha Ingreso','observacion':'Observación','estatus':'Estatus'
         }
+
+        widgets = {
+            'fecha_nac': NumberInput(attrs={'type':'date'}),
+            'fecha_ing_proyecto': NumberInput(attrs={'type':'date'}),
+                }
 
 
 class FamiliarForm(ModelForm):
@@ -82,3 +98,10 @@ class MedicaForm(forms.ModelForm):
 
         labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
         }
+
+        widgets = {
+            'otros_varios': forms.Textarea(attrs={'rows':4}),
+            'tratamiento': forms.Textarea(attrs={'rows':4}),
+            'referencia': forms.Textarea(attrs={'rows':4}),
+            'paraclinicos': forms.Textarea(attrs={'rows':4}),
+                }
