@@ -15,7 +15,7 @@ from dateutil import relativedelta
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all()
-    query = ' '
+    query = ''
     page = request.GET.get('page',1)
 
     try:

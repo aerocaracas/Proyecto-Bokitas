@@ -6,13 +6,24 @@
     
     <div class="col-10 offset-1"> 
       <br>
-      <h2>ENCUESTA NUTRICIONAL</h2>
+      <h2><strong>ENCUESTA NUTRICIONAL</strong></h2>
       <hr>
-      <a class="btn btn-outline-primary btn-sm" href="{% url 'nutricional_crear' %}">
-
-        Crear Nueva Encuesta
-
-      </a>
+      <div class="row">
+        <div class="col">
+          <a class="btn btn-outline-primary btn-sm" href="{% url 'nutricional_crear' %}">
+  
+            Crear Nueva Encuesta
+  
+          </a>
+        </div>
+        <div class="col">
+          <form action="" method="POST" class="d-flex">
+            {% csrf_token %}
+            <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar Cédula...">
+            <button class="btn btn-success mx-2" name="search">Buscar</button>
+          </form>
+        </div>
+      </div>
       <hr>
       <div class="table-responsive">
         <table class="table table-hover">
@@ -28,7 +39,7 @@
               {% if entity %}
                   {% for nutricional in entity %}
                       <tr>
-                          <td>{{nutricional}}</td>
+                          <td>{{nutricional.cedula_bef}}</td>
                           <td>{{nutricional.proyecto}}</td>
                           <td class="text-center">{{nutricional.fecha | date:"d/m/Y"}}</td>
                           <td class="text-center"> <a href="{% url 'nutricional_actualizar' nutricional.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
