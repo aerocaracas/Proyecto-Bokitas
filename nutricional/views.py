@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Nutricional
-from django.db.models import Q
 from nutricional.forms import NutricionalForm
 from django.core.paginator import Paginator
 from nutricional.forms import NutricionalForm,NutricionalForm2
@@ -19,8 +18,7 @@ def nutricional(request):
     try:
         if "search" in request.POST:
             query = request.POST.get("searchquery")
-            nutricionales = Nutricional.objects.filter(Q(cedula_bef__icontains=query))
-            print(query)
+            nutricionales = Nutricional.objects.filter(cedula_bef__cedula__contains=query)
         paginator = Paginator(nutricionales, 2)
         nutricionales = paginator.page(page)
     except:

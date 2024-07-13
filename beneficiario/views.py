@@ -21,7 +21,7 @@ def beneficiario(request):
     try:
         if "search" in request.POST:
             query = request.POST.get("searchquery")
-            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query))
+            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query))
 
         paginator = Paginator(beneficiarios, 2)
         beneficiarios = paginator.page(page)
