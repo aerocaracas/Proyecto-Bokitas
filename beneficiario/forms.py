@@ -72,6 +72,7 @@ class MenorForm(ModelForm):
         widgets = {
             'fecha_nac': NumberInput(attrs={'type':'date'}),
             'fecha_ing_proyecto': NumberInput(attrs={'type':'date'}),
+            'observacion': forms.Textarea(attrs={'rows':4}),
                 }
 
 
@@ -84,6 +85,10 @@ class FamiliarForm(ModelForm):
 
         labels = {'cedula_bef':'Cédula Beneficiario','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','edad':'Edad','meses':'Meses','estado_civil':'Estado Civil','educacion':'Eduación','profesion':'Profesión','laboral':'Situación Laboral','observacion':'Observación'
         }
+
+        widgets = {
+            'observacion': forms.Textarea(attrs={'rows':4}),
+                }
 
 
 class MedicaForm(forms.ModelForm):

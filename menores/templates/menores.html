@@ -5,17 +5,10 @@
     
     <div class="col-10 offset-1"> 
       <br>
-      <h2><strong>BENEFICIARIOS</strong></h2>
+      <h2><strong>MENORES</strong></h2>
       <hr>
       <div class="row">
-        <div class="col">
-          <a class="btn btn-outline-primary mx-2" href="{% url 'beneficiario_crear' %}">
-  
-            Crear Nuevo Beneficiario
-  
-          </a>
-        </div>
-        <div class="col">
+        <div class="col-6">
           <form action="" method="POST" class="d-flex">
             {% csrf_token %}
             <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar...">
@@ -32,20 +25,20 @@
               <th scope="col">CEDULA</th>
               <th scope="col">NOMBRE</th>
               <th scope="col">APELLIDO</th>
-              <th scope="col">TELEFONO</th>
+              <th scope="col">REPRESENTANTE</th>
               <th scope="col"class="text-center">DETALLE</th>
             </tr>
           </thead>
           <tbody>
               {% if entity %}
-                  {% for beneficiario in entity %}
+                  {% for menor in entity %}
                       <tr>
-                          <td>{{beneficiario.proyecto}}</td>
-                          <td>{{beneficiario.cedula}}</td>
-                          <td>{{beneficiario.nombre}}</td>
-                          <td>{{beneficiario.apellido}}</td>
-                          <td>{{beneficiario.telefono}}</td>
-                          <td class="text-center"> <a href="{% url 'beneficiario_detalle' beneficiario.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                          <td>{{menor.proyecto}}</td>
+                          <td>{{menor.cedula}}</td>
+                          <td>{{menor.nombre}}</td>
+                          <td>{{menor.apellido}}</td>
+                          <td>{{menor.cedula_bef}}</td>
+                          <td class="text-center"> <a href="{% url 'menor_detalle' menor.cedula_bef_id menor.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                       </tr>
                   {% endfor %}
               {% endif%}

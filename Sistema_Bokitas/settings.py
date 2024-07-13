@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bokitas',
     'proyecto',
     'beneficiario',
+    'menores',
     'nutricional',
     'tareas',
 
