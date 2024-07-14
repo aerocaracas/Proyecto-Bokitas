@@ -77,7 +77,6 @@ class MenorForm(ModelForm):
 
 
 class FamiliarForm(ModelForm):
-    sexo = forms.ChoiceField(choices=SEXOS, widget=forms.RadioSelect)
     class Meta:
         model = Familia 
         fields = ['parentesco','cedula','nombre','apellido','sexo','fecha_nac','estado_civil','educacion','profesion','laboral','observacion'
@@ -88,6 +87,7 @@ class FamiliarForm(ModelForm):
 
         widgets = {
             'observacion': forms.Textarea(attrs={'rows':4}),
+            'fecha_nac': NumberInput(attrs={'type':'date'}),
                 }
 
 

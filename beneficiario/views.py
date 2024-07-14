@@ -345,10 +345,10 @@ def imc_menor_crear(request, pk, id):
                 else: 
                     xTallaCal = VtallaI
 
+                xImc = False
 
-                xImc = ImcPesoTalla_5x.objects.get(sexo = xSexo, talla = xTallaCal)
-
-                #print(xImc.edad)
+                if ImcPesoTalla_5x.objects.filter(sexo = xSexo, talla = xTallaCal).exists():
+                    xImc = ImcPesoTalla_5x.objects.get(sexo = xSexo, talla = xTallaCal)
 
                 if xImc:
                     
@@ -369,17 +369,21 @@ def imc_menor_crear(request, pk, id):
                    
                 else:
                     
-                        context={}
-                        context["pk"]=pk
-                        context["id"]=id
-                        context["error"] = 'Datos incorectos, Favor verificar la información'
-                        return render(request, 'imc_menor.html', context)
+                    context={}
+                    context["pk"]=pk
+                    context["id"]=id
+                    context["error"] = 'Datos incorectos, Favor verificar la información'
+                    return render(request, 'imc_menor.html', context)
                 
 
         #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
             elif xEdad > 5 and xEdad <= 19:
                 
-                xImc = ImcCla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
+                xImc = False
+
+                if ImcCla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses).exists():
+                    xImc = ImcCla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
+                
                 if xImc:
                     if imc <= xImc.l3sd:
                         xDiagnostico = 1
@@ -396,6 +400,9 @@ def imc_menor_crear(request, pk, id):
                     elif imc >= xImc.sd3:
                         xDiagnostico = 7
                 else:
+                    context={}
+                    context["pk"]=pk
+                    context["id"]=id
                     context["error"] = 'Datos incorectos, Favor verificar la información'
                     return render(request, 'imc_menor.html', context)
 
@@ -687,20 +694,7 @@ def imc_benef_riesgo(request, pk, idimc):
             riesgos.observacion=observacion          
             riesgos.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-            context={}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-
-            return render(request, "beneficiario_detalle.html", context)
+            return redirect('beneficiario_detalle', pk)
         
         except ValueError:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
