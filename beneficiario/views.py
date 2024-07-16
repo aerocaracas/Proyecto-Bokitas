@@ -672,10 +672,12 @@ def imc_benef_riesgo(request, pk, idimc):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
+        imc = int(imc_beneficiarios.imc)
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
         context["idimc"]=idimc
+        context["imc"]=imc
         context["imc_beneficiarios"]=imc_beneficiarios
 
         return render(request, "imc_benef_riesgo.html", context)   
@@ -763,7 +765,7 @@ def imc_benef(request, pk):
             fecha = datetime.now()
             if beneficiarios.embarazada == "SI":
                 estado = "EMBARAZADA"
-            elif beneficiarios.lactando == "SI":
+            elif beneficiarios.lactante == "SI":
                 estado = "LACTANDO"
             else:
                 estado = "ESTUDIO"
