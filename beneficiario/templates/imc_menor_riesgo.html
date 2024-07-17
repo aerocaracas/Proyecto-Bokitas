@@ -43,9 +43,111 @@
 
     {% if imc_menores.imc %}
         <div class="row">
-            <div  class="text-center" >
-                <h2>Resultado</h2>
-                <p><strong> Su IMC = {{imc_menores.imc}} Kg/m² </strong></p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="main" style="width: 400px;height:300px;"></div>
+
+                    <script type="text/javascript">
+                        var datos = {{imc}};
+                        var chartDom = document.getElementById('main');
+                        var myChart = echarts.init(chartDom);
+                        var option;
+
+                        option = {
+                          series: [
+                            {
+                              type: 'gauge',
+                              startAngle: 180,
+                              endAngle: 0,
+                              center: ['50%', '75%'],
+                              radius: '130%',
+                              min: 15,
+                              max: 33,
+                              splitNumber: 8,
+                              axisLine: {
+                                lineStyle: {
+                                  width: 25,
+                                  color: [
+                                    [0.19, '#dc3545'],
+                                    [0.44, '#198754'],
+                                    [0.55, '#ffc107'],
+                                    [0.833, '#FF7F50'],
+                                    [1, '#dc3545']
+                                    
+                                  ]
+                                }
+                              },
+                              pointer: {
+                                icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                                length: '15%',
+                                width: 30,
+                                offsetCenter: [0, '-60%'],
+                                itemStyle: {
+                                  color: 'auto'
+                                }
+                              },
+                              axisTick: {
+                                length: 12,
+                                lineStyle: {
+                                  color: 'auto',
+                                  width: 2
+                                }
+                              },
+                              splitLine: {
+                                length: 20,
+                                lineStyle: {
+                                  color: 'auto',
+                                  width: 5
+                                }
+                              },
+                              axisLabel: {
+                                color: '#464646',
+                                fontSize: 12,
+                                distance: -45,
+                                rotate: 'tangential',
+                                formatter: function (value) {
+                                  if (value === 30) {
+                                    return 'OBESIDAD';
+                                  } else if (value === 28) {
+                                    return 'SOBREPESO';
+                                  } else if (value === 25) {
+                                    return 'RIESGO DE SOBREPESO';
+                                  } else if (value === 23) {
+                                    return 'ADECUADO';
+                                  } else if (value === 18) {
+                                    return 'PESO BAJO';
+                                  }
+                                  return '';
+                                }
+                              },
+                              title: {
+                                offsetCenter: [0, '-10%'],
+                                fontSize: 25
+                              },
+                              detail: {
+                                fontSize: 50,
+                                offsetCenter: [0, '-35%'],
+                                valueAnimation: true,
+                                color: 'inherit'
+                              },
+                              data: [
+                                {
+                                  value: datos,
+                                  name: 'IMC Kg/m²'
+                                }
+                              ]
+                            }
+                          ]
+                        };
+
+                        option && myChart.setOption(option);
+
+                        
+                    </script>
+
+
+                </div>
+
             </div>
 
             <div  class="col-6 text-center" >

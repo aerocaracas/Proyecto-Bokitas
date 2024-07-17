@@ -372,6 +372,8 @@ def imc_menor_crear(request, pk, id):
                     context={}
                     context["pk"]=pk
                     context["id"]=id
+                    context["beneficiarios"]=beneficiarios
+                    context["menor_detalles"]=menor_detalles
                     context["error"] = 'Datos incorectos, Favor verificar la información'
                     return render(request, 'imc_menor.html', context)
                 
@@ -403,6 +405,8 @@ def imc_menor_crear(request, pk, id):
                     context={}
                     context["pk"]=pk
                     context["id"]=id
+                    context["beneficiarios"]=beneficiarios
+                    context["menor_detalles"]=menor_detalles
                     context["error"] = 'Datos incorectos, Favor verificar la información'
                     return render(request, 'imc_menor.html', context)
 
@@ -482,9 +486,11 @@ def imc_menor_riesgo(request, pk, id, idimc):
 
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
+        imc = round(imc_menores.imc)
         context = {}
         context["pk"]=pk
         context["id"]=id
+        context["imc"]=imc
         context["menor_detalles"]=menor_detalles
         context["idimc"]=idimc
         context["imc_menores"]=imc_menores
@@ -529,10 +535,12 @@ def imc_menor_detalle(request, pk, id, idimc):
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        imc = round(imc_menores.imc)
         context = {}
         context["pk"]=pk
         context["idimc"]=id
         context["idimc"]=idimc
+        context["imc"]=imc
         context["menor_detalles"]=menor_detalles
         context["imc_menores"]=imc_menores
         context["beneficiarios"]=beneficiarios
@@ -672,7 +680,7 @@ def imc_benef_riesgo(request, pk, idimc):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
-        imc = int(imc_beneficiarios.imc)
+        imc = round(imc_beneficiarios.imc)
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
@@ -791,10 +799,12 @@ def imc_benef_detalle(request, pk, id):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+        imc = round(imc_beneficiarios.imc)
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
         context["idimc"]=id
+        context["imc"]=imc
         context["imc_beneficiarios"]=imc_beneficiarios
 
         return render(request, "imc_benef_detalle.html", context)   
