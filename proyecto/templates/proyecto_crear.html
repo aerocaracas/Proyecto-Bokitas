@@ -5,26 +5,27 @@
 {% load crispy_forms_tags %}
 
 <br>
+<div class="container">
+    <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
+        <h1 class="text-center">Crear Nuevo Proyecto</h1>
+        <hr>
 
-<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
-    <h1 class="text-center">Crear Nuevo Proyecto</h1>
-    <hr>
+        {{error}}
 
-    {{error}}
+        <form action="/proyecto/crear/" method="POST">
+            {% csrf_token %}
 
-    <form action="/proyecto/crear/" method="POST">
-        {% csrf_token %}
+            {{form | crispy }}
 
-        {{form | crispy }}
+            <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
+            &nbsp
+            <button class="btn btn-primary">
+                Aceptar
+            </button>
 
-        <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
-        &nbsp
-        <button class="btn btn-primary">
-            Aceptar
-        </button>
-
-       </form>
-            
+        </form>
+                
+    </div>
 </div>
 
 

@@ -5,21 +5,20 @@
 {% load crispy_forms_tags %}
 
 <br>
-<div class="col-12 col-md-6 offset-md-3">
-  <div class="card shadow p-3 mb-5 bg-body-tertiary rounded ">
-                
+<div class="container">
+  <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">              
     <h1 class="text-center">Crear Beneficiario</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
     <hr>
     <br>
 
     {{error}}
-            
+              
     <form action="/beneficiario/crear/" method="POST">
         {% csrf_token %}
 
         {{form | crispy }}
-                    
+                      
         <br>
         <hr>
 
@@ -28,9 +27,9 @@
         <button class="btn btn-primary">
             Aceptar
         </button>
-            
+              
     </form>
-  </div>
+  </div>  
 </div>
 
    
