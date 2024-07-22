@@ -36,7 +36,14 @@
   </head>
 <body>
     {% include 'menu.html' %}
-    
+    {% for message in messages %}
+      {% if message.lavel == DEFAULT_MESSAGE_LAVEL.SUCCESS %}
+        <p id="message-timer"  class="alert alert-success float-center text-center message-text">
+          {{message}}
+        </p>
+      {% endif %}
+
+    {% endfor %}
     {% block content %}   
 
     {% endblock %}

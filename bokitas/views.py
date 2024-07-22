@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from bokitas.forms import SignUpForm, LoginForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ def signup(request):
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])     
                 user.save()
                 login(request, user)
+                messages.success(request, "Cuenta creada Satisfactoriamente!!!")
                 return redirect('home')
             except IntegrityError:
                 return render(request, 'signup.html', {
@@ -38,6 +40,7 @@ def signup(request):
 @login_required  
 def signout(request):
     logout(request)
+    messages.success(request, "Cierre de sesión Satisfactoriamente!!!")
     return redirect('home')
 
 # Iniciar Sesion
@@ -55,5 +58,6 @@ def signin(request):
             })
         else:
             login(request, user)
+            
             return redirect('home')
 
