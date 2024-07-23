@@ -27,13 +27,13 @@ def signup(request):
                 messages.success(request, "Cuenta creada Satisfactoriamente!!!")
                 return redirect('home')
             except IntegrityError:
+                messages.warning(request, "Usuario ya Existe!!!")
                 return render(request, 'signup.html', {
                     'form': SignUpForm,
-                    "error": 'Usuario ya Existe!!!'
                 })
+        messages.warning(request, "Password no Coincide!!!")
         return render(request, 'signup.html', {
             'form': SignUpForm,
-            "error": 'Password no Coincide'
         })
 
 # Salir de la aplicacion
@@ -52,9 +52,9 @@ def signin(request):
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
+            messages.warning(request, "Usuario o Password es Incorrecto!!!")
             return render(request, 'signin.html', {
                 'form': LoginForm,
-                'error': 'Usuario o Password es Incorrecto'
             })
         else:
             login(request, user)
