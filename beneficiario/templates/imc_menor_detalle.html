@@ -26,28 +26,28 @@
 
         <div class="row">
             <div class="col-4">
-                <P> <strong> Peso: </strong> {{imc_menores.peso}} </p>
+                <P> <strong> Peso: </strong> {{imc_menores.peso}} Kg</p>
             </div>
 
             <div class="col-4">
-                <P> <strong> Talla: </strong> {{imc_menores.talla}} </p>
+                <P> <strong> Talla: </strong> {{imc_menores.talla}} cm</p>
             </div>
 
             <div class="col-4">
-                <P> <strong> CBI: </strong> {{imc_menores.cbi}} </p>
+                <P> <strong> CBI: </strong> {{imc_menores.cbi}} cm</p>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
-                <P> <strong> PTR: </strong> {{imc_menores.ptr}} </p>
+                <P> <strong> PTR: </strong> {{imc_menores.ptr}} cm</p>
             </div>
 
             <div class="col-4">
-                <P> <strong> PSE: </strong> {{imc_menores.pse}} </p>
+                <P> <strong> PSE: </strong> {{imc_menores.pse}} cm</p>
             </div>
 
             <div class="col-4">
-                <P> <strong> CC: </strong> {{imc_menores.cc}} </p>
+                <P> <strong> CC: </strong> {{imc_menores.cc}} cm</p>
             </div>
         </div>
       
@@ -60,7 +60,8 @@
                     <div id="main" style="width: 400px;height:300px;"></div>
 
                     <script type="text/javascript">
-                        var datos = {{imc}};
+                       //var datos = {{imc}};
+                        var datos = 2.3;
                         var chartDom = document.getElementById('main');
                         var myChart = echarts.init(chartDom);
                         var option;
@@ -73,17 +74,19 @@
                               endAngle: 0,
                               center: ['50%', '75%'],
                               radius: '130%',
-                              min: 15,
-                              max: 33,
-                              splitNumber: 8,
+                              min: 1.9,
+                              max: 3.25,
+                              splitNumber: 7,
                               axisLine: {
                                 lineStyle: {
                                   width: 25,
                                   color: [
-                                    [0.19, '#dc3545'],
-                                    [0.44, '#198754'],
-                                    [0.55, '#ffc107'],
-                                    [0.833, '#FF7F50'],
+                                    [0.1428, '#dc3545'],
+                                    [0.2856, '#FF7F50'],
+                                    [0.4284, '#ffc107'],
+                                    [0.5712, '#198754'],
+                                    [0.714, '#ffc107'],
+                                    [0.8568, '#FF7F50'],
                                     [1, '#dc3545']
                                     
                                   ]
@@ -118,17 +121,6 @@
                                 distance: -45,
                                 rotate: 'tangential',
                                 formatter: function (value) {
-                                  if (value === 30) {
-                                    return 'OBESIDAD';
-                                  } else if (value === 28) {
-                                    return 'SOBREPESO';
-                                  } else if (value === 25) {
-                                    return 'RIESGO DE SOBREPESO';
-                                  } else if (value === 23) {
-                                    return 'ADECUADO';
-                                  } else if (value === 18) {
-                                    return 'PESO BAJO';
-                                  }
                                   return '';
                                 }
                               },

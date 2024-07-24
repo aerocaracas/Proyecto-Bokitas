@@ -486,7 +486,7 @@ def imc_menor_riesgo(request, pk, id, idimc):
 
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
-        imc = round(imc_menores.imc)
+        imc = str(imc_menores.imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["id"]=id
@@ -535,7 +535,7 @@ def imc_menor_detalle(request, pk, id, idimc):
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        imc = round(imc_menores.imc)
+        imc = str(imc_menores.imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["idimc"]=id
