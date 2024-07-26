@@ -335,6 +335,8 @@ class AntropMenor(models.Model):
     servicio = models.TextField(max_length=200, blank=True)
     centro_hospital = models.TextField(max_length=200, blank=True)
     observacion = models.TextField(max_length=200, blank=True)
+    minimo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    maximo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"
@@ -487,6 +489,11 @@ class Ciudades(models.Model):
 class Diagnostico(models.Model):
     codigo_diag = models.PositiveIntegerField()
     diagnostico = models.CharField(max_length=25)
+    color1 = models.CharField(max_length=10)
+    color2 = models.CharField(max_length=10)
+    color3 = models.CharField(max_length=10)
+    color4 = models.CharField(max_length=10)
+    color5 = models.CharField(max_length=10)
 
 class ImcCla(models.Model):
     sexo = models.PositiveIntegerField()

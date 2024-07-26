@@ -7,7 +7,7 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
                 
-    <h1 class="text-center">Detalle Registro Antropométrico</h1>
+    <h4 class="text-center">Detalle Registro Antropométrico</h4>
     <hr>
     <div class="tabcontent" id="metric">
 
@@ -55,8 +55,14 @@
                     <div id="main" style="width: 400px;height:300px;"></div>
 
                     <script type="text/javascript">
-                       //var datos = {{imc}};
-                        var datos = 6;
+                       var datos = {{imc}};
+                        var min = {{minimo}};
+                        var max = {{maximo}}
+                        var col1 = {{color1}};
+                        var col2 = {{color2}};
+                        var col3 = {{color3}};
+                        var col4 = {{color4}};
+                        var col5 = {{color5}};
                         var chartDom = document.getElementById('main');
                         var myChart = echarts.init(chartDom);
                         var option;
@@ -69,28 +75,31 @@
                               endAngle: 0,
                               center: ['50%', '75%'],
                               radius: '130%',
-                              min: 5.1 - (1.436 / 2),
-                              max: 8.85 + (1.436 / 2),
-                              splitNumber: 7,
+                              min: min,
+                              max: max,
+                              splitNumber: 10,
                               axisLine: {
                                 lineStyle: {
-                                  width: 25,
+                                  width: 20,
                                   color: [
-                                    [0.1428, '#dc3545'],
-                                    [0.2856, '#FF7F50'],
-                                    [0.4284, '#ffc107'],
-                                    [0.5712, '#198754'],
-                                    [0.714, '#ffc107'],
-                                    [0.8568, '#FF7F50'],
-                                    [1, '#dc3545']
+                                    [0.1, col1],
+                                    [0.2, col2],
+                                    [0.3, col3],
+                                    [0.4, col4],
+                                    [0.5, col5],
+                                    [0.6, col5],
+                                    [0.7, col4],
+                                    [0.8, col3],
+                                    [0.9, col2],
+                                    [1, col1]
                                     
-                                  ]
+                                  ]  
                                 }
                               },
                               pointer: {
                                 icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
                                 length: '15%',
-                                width: 30,
+                                width: 20,
                                 offsetCenter: [0, '-60%'],
                                 itemStyle: {
                                   color: 'auto'
@@ -113,18 +122,16 @@
                               axisLabel: {
                                 color: '#464646',
                                 fontSize: 12,
-                                distance: -45,
+                                distance: 30,
                                 rotate: 'tangential',
-                                formatter: function (value) {
-                                  return '';
-                                }
+
                               },
                               title: {
                                 offsetCenter: [0, '-10%'],
-                                fontSize: 25
+                                fontSize: 20
                               },
                               detail: {
-                                fontSize: 50,
+                                fontSize: 45,
                                 offsetCenter: [0, '-35%'],
                                 valueAnimation: true,
                                 color: 'inherit'
@@ -151,21 +158,7 @@
 
             <div  class="col-6 text-center" >
                 <p class="text-center"><strong>DIAGN. PESO</strong></p>
-                {% if imc_menores.diagnostico == "DNT AGUDA SEVERA" %}
-                    <div class="text-bg-danger p-1">DNT AGUDA SEVERA</div>  
-                {%elif imc_menores.diagnostico == "DNT AGUDA MODERADA" %}
-                    <div class="text-white p-1"style="background-color:#FF7F50">DNT AGUDA MODERADA</div>  
-                {%elif imc_menores.diagnostico == "RIESGO DNT AGUDA" %}
-                    <div class="text-bg-warning p-1">RIESGO DNT AGUDA</div>  
-                {%elif imc_menores.diagnostico == "PESO ADECUADO" %}
-                    <div class="text-bg-success p-1">PESO ADECUADO</div>
-                {%elif imc_menores.diagnostico == "RIESGO DE SOBREPESO" %}
-                    <div class="text-bg-warning p-1">RIESGO DE SOBREPESO</div>
-                {%elif imc_menores.diagnostico == "SOBREPESO" %}
-                    <div class="text-white p-1"style="background-color:#FF7F50">SOBREPESO</div>
-                {%elif imc_menores.diagnostico == "OBESIDAD" %}
-                    <div class="text-bg-danger p-1">OBESIDAD</div>
-                {% endif %}
+                    <div class="text-white p-1"style="background-color:{{color5}}">imc_menores.diagnostico</div>  
             </div>
             
             <div  class="col-6 text-center" >

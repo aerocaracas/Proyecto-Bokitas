@@ -354,19 +354,32 @@ def imc_menor_crear(request, pk, id):
                     
                     if xPeso <= xImc.ds3_T:
                         xDiagnostico = 1
+                        minimo = xImc.ds3_T - 1.5
+                        maximo = xImc.ds3_T
                     elif xPeso > xImc.ds3_T and xPeso <= xImc.ds2_T:
                         xDiagnostico = 2 
+                        minimo = xImc.ds3_T
+                        maximo = xImc.ds2_T
                     elif xPeso > xImc.ds2_T and xPeso <= xImc.ds1_T:
                         xDiagnostico = 3
+                        minimo = xImc.ds2_T
+                        maximo = xImc.ds1_T
                     elif xPeso > xImc.ds1_T and xPeso <= xImc.ds1:
                         xDiagnostico = 4
+                        minimo = xImc.ds1_T
+                        maximo = xImc.ds1
                     elif xPeso > xImc.ds1 and xPeso <= xImc.ds2:
                         xDiagnostico = 5
+                        minimo = xImc.ds1
+                        maximo = xImc.ds2
                     elif xPeso > xImc.ds2 and xPeso <= xImc.ds3:
                         xDiagnostico = 6
+                        minimo = xImc.ds2
+                        maximo = xImc.ds3
                     elif xPeso >= xImc.ds3:
                         xDiagnostico = 7
-                   
+                        minimo = xImc.ds3
+                        maximo = xImc.ds3 + 1.5
                 else:
                     
                     context={}
