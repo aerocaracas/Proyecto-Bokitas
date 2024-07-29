@@ -335,8 +335,10 @@ class AntropMenor(models.Model):
     servicio = models.TextField(max_length=200, blank=True)
     centro_hospital = models.TextField(max_length=200, blank=True)
     observacion = models.TextField(max_length=200, blank=True)
-    minimo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    maximo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    min_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    max_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    min_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    max_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"

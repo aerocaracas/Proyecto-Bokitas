@@ -57,14 +57,14 @@
                 <div id="main" style="width: 200px;height:150px;"></div>
 
                 <script type="text/javascript">
-                    var col1 = '{{diagnosticos.color1}}';
-                    var col2 = '{{diagnosticos.color2}}';
-                    var col3 = '{{diagnosticos.color3}}';
-                    var col4 = '{{diagnosticos.color4}}';
-                    var col5 = '{{diagnosticos.color5}}';
+                    var col1 = '{{diag_peso.color1}}';
+                    var col2 = '{{diag_peso.color2}}';
+                    var col3 = '{{diag_peso.color3}}';
+                    var col4 = '{{diag_peso.color4}}';
+                    var col5 = '{{diag_peso.color5}}';
                     var datos = {{peso}};
-                    var min = {{minimo}};
-                    var max = {{maximo}};
+                    var min = {{min_peso}};
+                    var max = {{max_peso}};
                     var chartDom = document.getElementById('main');
                     var myChart = echarts.init(chartDom);
                     var option;
@@ -155,20 +155,20 @@
                 </script>
             </div>
 
-
+            <!-- ########    DIAGNOSTICO TALLA    ##########-->
 
             <div class="col-6">
               <div id="main2" style="width: 200px;height:150px;"></div>
 
               <script type="text/javascript">
-                  var col1 = '{{diagnosticos.color1}}';
-                  var col2 = '{{diagnosticos.color2}}';
-                  var col3 = '{{diagnosticos.color3}}';
-                  var col4 = '{{diagnosticos.color4}}';
-                  var col5 = '{{diagnosticos.color5}}';
-                  var datos = {{peso}};
-                  var min = {{minimo}};
-                  var max = {{maximo}};
+                  var col1 = '{{diag_tala.color1}}';
+                  var col2 = '{{diag_tala.color2}}';
+                  var col3 = '{{diag_tala.color3}}';
+                  var col4 = '{{diag_tala.color4}}';
+                  var col5 = '{{diag_tala.color5}}';
+                  var talla = {{talla}};
+                  var min = {{min_talla}};
+                  var max = {{max_talla}};
                   var chartDom = document.getElementById('main2');
                   var myChart = echarts.init(chartDom);
                   var option;
@@ -246,8 +246,8 @@
                             },
                             data: [
                               {
-                                value: datos,
-                                name: 'Cm.'
+                                value: talla,
+                                name: 'cm.'
                               }
                             ]
                           }
@@ -261,24 +261,13 @@
 
             <div  class="col-6 text-center" >
                 <p class="text-center"><strong>DIAGN. PESO</strong></p>
-                    <div class="text-white p-1"style="background-color:{{diagnosticos.color5}}">{{imc_menores.diagnostico}}</div>  
+                    <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
             </div>
             
             <div  class="col-6 text-center" >
-                <p class="text-center"><strong>DIAGN. TALLA</strong></p>
-                {% if imc_menores.diagnostico_talla == "TALLA BAJA" %}
-                    <div class="text-bg-danger p-1">TALLA BAJA</div>  
-                {%elif imc_menores.diagnostico_talla == "RIESGO TALLA BAJA" %}
-                    <div class="text-bg-warning p-1">RIESGO TALLA BAJA</div>  
-                {%elif imc_menores.diagnostico_talla == "TALLA NORMAL" %}
-                    <div class="text-bg-success p-1">TALLA NORMAL</div>  
-                {%elif imc_menores.diagnostico_talla == "RIESGO TALLA ALTA" %}
-                    <div class="text-bg-warning p-1">RIESGO TALLA ALTA</div>
-                {%elif imc_menores.diagnostico_talla == "TALLA ALTA" %}
-                    <div class="text-bg-info p-1">TALLA ALTA</div>
-                {% endif %}
+              <p class="text-center"><strong>DIAGN. TALLA</strong></p>
+                  <div class="text-white p-1"style="background-color:{{diag_talla.color5}}">{{imc_menores.diagnostico_talla}}</div>  
             </div>
-
 
         </div>
         <br>

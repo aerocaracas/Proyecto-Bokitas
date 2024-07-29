@@ -443,27 +443,47 @@ def imc_menor_crear(request, pk, id):
 
                 if imc < 18.5:
                     xDiagnostico = 10
+                    minimo = 20.5
+                    maximo = 18.5
                 elif imc >= 18.5 and imc < 23:
                     xDiagnostico = 11
+                    minimo = 18.5
+                    maximo = 23
                 elif imc >= 23 and imc < 25:
                     xDiagnostico = 5
+                    minimo = 23
+                    maximo = 25
                 elif imc >= 25 and imc < 30:
                     xDiagnostico = 6
+                    minimo = 25
+                    maximo = 30
                 elif imc >= 30:
                     xDiagnostico = 7
+                    minimo = 30
+                    maximo = 32
 
             if xEdad <= 19:
                 xImcTalla = ImcTalla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
                 if xTalla <= xImcTalla.sd2_T:
                     xDiagTalla = 21
+                    min_talla = float(xImcTalla.sd2_T) - 2
+                    max_talla = xImcTalla.sd2_T
                 elif xTalla > xImcTalla.sd2_T and xTalla <= xImcTalla.sd1_T:
                     xDiagTalla = 22
+                    min_talla = xImcTalla.sd2_T
+                    max_talla = xImcTalla.sd1_T
                 elif xTalla > xImcTalla.sd1_T and xTalla <= xImcTalla.sd1:
                     xDiagTalla = 23
+                    min_talla = xImcTalla.sd1_T
+                    max_talla = xImcTalla.sd1
                 elif xTalla > xImcTalla.sd1 and xTalla <= xImcTalla.sd2:
                     xDiagTalla = 24
+                    min_talla = xImcTalla.sd1
+                    max_talla = xImcTalla.sd2
                 elif xTalla >= xImcTalla.sd2:
                     xDiagTalla = 25
+                    min_talla = xImcTalla.sd2
+                    max_talla = float(xImcTalla.sd2) + 2
 
 
         #********   DIAGNOSTICO   **********
@@ -476,7 +496,7 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla, minimo=minimo, maximo=maximo )
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla, min_peso=minimo, max_peso=maximo, min_talla=min_talla, max_talla=max_talla )
                 
             imc_menor.save()
             idimc=imc_menor.id
@@ -513,20 +533,28 @@ def imc_menor_riesgo(request, pk, id, idimc):
 
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
-        diagnosticos = get_object_or_404(Diagnostico, diagnostico=imc_menores.diagnostico)
-        imc = str(imc_menores.imc).replace(',','.')
-        minimo = str(imc_menores.minimo).replace(',','.')
-        maximo = str(imc_menores.maximo).replace(',','.')
+        diag_peso = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico)
+        diag_talla = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico_talla)
+        peso = str(imc_menores.peso).replace(',','.')
+        talla = str(imc_menores.talla).replace(',','.')
+        min_peso = str(imc_menores.min_peso).replace(',','.')
+        max_peso = str(imc_menores.max_peso).replace(',','.')
+        min_talla = str(imc_menores.min_talla).replace(',','.')
+        max_talla = str(imc_menores.max_talla).replace(',','.')
         context = {}
         context["pk"]=pk
         context["id"]=id
-        context["imc"]=imc
         context["menor_detalles"]=menor_detalles
         context["idimc"]=idimc
-        context["minimo"]=minimo
-        context["maximo"]=maximo
+        context["peso"]=peso
+        context["talla"]=talla
+        context["min_peso"]=min_peso
+        context["max_peso"]=max_peso
+        context["min_talla"]=min_talla
+        context["max_talla"]=max_talla
+        context["diag_peso"]=diag_peso
+        context["diag_talla"]=diag_talla
         context["imc_menores"]=imc_menores
-        context["diagnosticos"]=diagnosticos
 
         return render(request, "imc_menor_riesgo.html", context)   
 
@@ -570,21 +598,29 @@ def imc_menor_detalle(request, pk, id, idimc):
         menor_detalles = get_object_or_404(Menor, id=id)
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        diagnosticos = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico)
+        diag_peso = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico)
+        diag_talla = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico_talla)
         peso = str(imc_menores.peso).replace(',','.')
-        minimo = str(imc_menores.minimo).replace(',','.')
-        maximo = str(imc_menores.maximo).replace(',','.')
-        #color5 = str(diagnosticos.color5).replace("'",'')
+        talla = str(imc_menores.talla).replace(',','.')
+        min_peso = str(imc_menores.min_peso).replace(',','.')
+        max_peso = str(imc_menores.max_peso).replace(',','.')
+        min_talla = str(imc_menores.min_talla).replace(',','.')
+        max_talla = str(imc_menores.max_talla).replace(',','.')
+
         context = {}
         context["pk"]=pk
         context["idimc"]=id
         context["idimc"]=idimc
         context["peso"]=peso
-        context["minimo"]=minimo
-        context["maximo"]=maximo
+        context["talla"]=talla
+        context["min_peso"]=min_peso
+        context["max_peso"]=max_peso
+        context["min_talla"]=min_talla
+        context["max_talla"]=max_talla
         context["menor_detalles"]=menor_detalles
         context["imc_menores"]=imc_menores
-        context["diagnosticos"]=diagnosticos
+        context["diag_peso"]=diag_peso
+        context["diag_talla"]=diag_talla
         context["beneficiarios"]=beneficiarios
 
         return render(request, "imc_menor_detalle.html", context)   
