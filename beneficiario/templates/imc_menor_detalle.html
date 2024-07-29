@@ -45,45 +45,45 @@
                 <P> <strong> CC: </strong> {{imc_menores.cc}} cm</p>
             </div>
         </div>
+        <div class="col-12 text-center">
+            <h4><strong> IMC: </strong> {{imc_menores.imc}} Kg/m²</h4>
+        </div>
       
     </div>
 
     {% if imc_menores.imc %}
         <div class="row">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div id="main" style="width: 250px;height:150px;"></div>
+            <div class="col-6">
+                <div id="main" style="width: 200px;height:150px;"></div>
 
-                    <script type="text/javascript">
-                        var col1 = '{{diagnosticos.color1}}';
-                        var col2 = '{{diagnosticos.color2}}';
-                        var col3 = '{{diagnosticos.color3}}';
-                        var col4 = '{{diagnosticos.color4}}';
-                        var col5 = '{{diagnosticos.color5}}';
-                        var datos = {{peso}};
-                        var min = {{minimo}};
-                        var max = {{maximo}};
+                <script type="text/javascript">
+                    var col1 = '{{diagnosticos.color1}}';
+                    var col2 = '{{diagnosticos.color2}}';
+                    var col3 = '{{diagnosticos.color3}}';
+                    var col4 = '{{diagnosticos.color4}}';
+                    var col5 = '{{diagnosticos.color5}}';
+                    var datos = {{peso}};
+                    var min = {{minimo}};
+                    var max = {{maximo}};
+                    var chartDom = document.getElementById('main');
+                    var myChart = echarts.init(chartDom);
+                    var option;
 
-
-                        var chartDom = document.getElementById('main');
-                        var myChart = echarts.init(chartDom);
-                        var option;
-
-                        option = {
-                          series: [
-                            {
-                              type: 'gauge',
-                              startAngle: 180,
-                              endAngle: 0,
-                              center: ['50%', '75%'],
-                              radius: '130%',
-                              min: min,
-                              max: max,
-                              splitNumber: 10,
-                              axisLine: {
-                                lineStyle: {
-                                  width: 20,
-                                  color: [
+                    option = {
+                        series: [
+                        {
+                            type: 'gauge',
+                            startAngle: 180,
+                            endAngle: 0,
+                            center: ['50%', '75%'],
+                            radius: '130%',
+                             min: min,
+                            max: max,
+                            splitNumber: 10,
+                            axisLine: {
+                              lineStyle: {
+                                width: 20,
+                                color: [
                                     [0.1, col1],
                                     [0.2, col2],
                                     [0.3, col3],
@@ -124,17 +124,19 @@
                               axisLabel: {
                                 color: '#464646',
                                 fontSize: 12,
-                                distance: 30,
+                                distance: -45,
                                 rotate: 'tangential',
-
+                                formatter: function (value) {
+                                  return '';
+                                }
                               },
                               title: {
-                                offsetCenter: [0, '-10%'],
-                                fontSize: 20
+                                offsetCenter: [0, '10%'],
+                                fontSize: 15
                               },
                               detail: {
-                                fontSize: 40,
-                                offsetCenter: [0, '-35%'],
+                                fontSize: 30,
+                                offsetCenter: [0, '-10%'],
                                 valueAnimation: true,
                                 color: '#464646'
                               },
@@ -149,14 +151,113 @@
                         };
 
                         option && myChart.setOption(option);
-
-                        
-                    </script>
-
-
-                </div>
-
+     
+                </script>
             </div>
+
+
+
+            <div class="col-6">
+              <div id="main2" style="width: 200px;height:150px;"></div>
+
+              <script type="text/javascript">
+                  var col1 = '{{diagnosticos.color1}}';
+                  var col2 = '{{diagnosticos.color2}}';
+                  var col3 = '{{diagnosticos.color3}}';
+                  var col4 = '{{diagnosticos.color4}}';
+                  var col5 = '{{diagnosticos.color5}}';
+                  var datos = {{peso}};
+                  var min = {{minimo}};
+                  var max = {{maximo}};
+                  var chartDom = document.getElementById('main2');
+                  var myChart = echarts.init(chartDom);
+                  var option;
+
+                  option = {
+                      series: [
+                      {
+                          type: 'gauge',
+                          startAngle: 180,
+                          endAngle: 0,
+                          center: ['50%', '75%'],
+                          radius: '130%',
+                           min: min,
+                          max: max,
+                          splitNumber: 10,
+                          axisLine: {
+                            lineStyle: {
+                              width: 20,
+                              color: [
+                                  [0.1, col1],
+                                  [0.2, col2],
+                                  [0.3, col3],
+                                  [0.4, col4],
+                                  [0.5, col5],
+                                  [0.6, col5],
+                                  [0.7, col4],
+                                  [0.8, col3],
+                                  [0.9, col2],
+                                  [1, col1]
+                                  
+                                ]  
+                              }
+                            },
+                            pointer: {
+                              icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                              length: '15%',
+                              width: 20,
+                              offsetCenter: [0, '-60%'],
+                              itemStyle: {
+                                color: '#464646'
+                              }
+                            },
+                            axisTick: {
+                              length: 12,
+                              lineStyle: {
+                                color: 'auto',
+                                width: 2
+                              }
+                            },
+                            splitLine: {
+                              length: 20,
+                              lineStyle: {
+                                color: 'auto',
+                                width: 5
+                              }
+                            },
+                            axisLabel: {
+                              color: '#464646',
+                              fontSize: 12,
+                              distance: -45,
+                              rotate: 'tangential',
+                              formatter: function (value) {
+                                return '';
+                              }
+                            },
+                            title: {
+                              offsetCenter: [0, '10%'],
+                              fontSize: 15
+                            },
+                            detail: {
+                              fontSize: 30,
+                              offsetCenter: [0, '-10%'],
+                              valueAnimation: true,
+                              color: '#464646'
+                            },
+                            data: [
+                              {
+                                value: datos,
+                                name: 'Cm.'
+                              }
+                            ]
+                          }
+                        ]
+                      };
+
+                      option && myChart.setOption(option);
+   
+              </script>
+          </div>
 
             <div  class="col-6 text-center" >
                 <p class="text-center"><strong>DIAGN. PESO</strong></p>
