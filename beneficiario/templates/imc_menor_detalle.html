@@ -52,17 +52,19 @@
         <div class="row">
             <div class="row">
                 <div class="col-sm-6">
-                    <div id="main" style="width: 400px;height:300px;"></div>
+                    <div id="main" style="width: 250px;height:150px;"></div>
 
                     <script type="text/javascript">
-                       var datos = {{imc}};
+                        var col1 = '{{diagnosticos.color1}}';
+                        var col2 = '{{diagnosticos.color2}}';
+                        var col3 = '{{diagnosticos.color3}}';
+                        var col4 = '{{diagnosticos.color4}}';
+                        var col5 = '{{diagnosticos.color5}}';
+                        var datos = {{peso}};
                         var min = {{minimo}};
-                        var max = {{maximo}}
-                        var col1 = {{color1}};
-                        var col2 = {{color2}};
-                        var col3 = {{color3}};
-                        var col4 = {{color4}};
-                        var col5 = {{color5}};
+                        var max = {{maximo}};
+
+
                         var chartDom = document.getElementById('main');
                         var myChart = echarts.init(chartDom);
                         var option;
@@ -102,7 +104,7 @@
                                 width: 20,
                                 offsetCenter: [0, '-60%'],
                                 itemStyle: {
-                                  color: 'auto'
+                                  color: '#464646'
                                 }
                               },
                               axisTick: {
@@ -131,15 +133,15 @@
                                 fontSize: 20
                               },
                               detail: {
-                                fontSize: 45,
+                                fontSize: 40,
                                 offsetCenter: [0, '-35%'],
                                 valueAnimation: true,
-                                color: 'inherit'
+                                color: '#464646'
                               },
                               data: [
                                 {
                                   value: datos,
-                                  name: 'IMC Kg/m²'
+                                  name: 'Kg.'
                                 }
                               ]
                             }
@@ -158,7 +160,7 @@
 
             <div  class="col-6 text-center" >
                 <p class="text-center"><strong>DIAGN. PESO</strong></p>
-                    <div class="text-white p-1"style="background-color:{{color5}}">imc_menores.diagnostico</div>  
+                    <div class="text-white p-1"style="background-color:{{diagnosticos.color5}}">{{imc_menores.diagnostico}}</div>  
             </div>
             
             <div  class="col-6 text-center" >
