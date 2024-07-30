@@ -317,7 +317,7 @@ class Familia(models.Model):
     
 class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    cedula = models.ForeignKey(Familia, on_delete=models.CASCADE)
+    cedula = models.ForeignKey(Menor, on_delete=models.CASCADE)
     proyecto = models.CharField(max_length=100, blank=False)
     fecha = models.DateTimeField(default=timezone.now)
     edad = models.PositiveIntegerField(default=0)
@@ -335,10 +335,12 @@ class AntropMenor(models.Model):
     servicio = models.TextField(max_length=200, blank=True)
     centro_hospital = models.TextField(max_length=200, blank=True)
     observacion = models.TextField(max_length=200, blank=True)
-    min_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    max_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    min_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    max_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    min_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    max_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    min_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    max_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    min_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    max_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"

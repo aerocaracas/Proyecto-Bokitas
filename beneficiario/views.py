@@ -4,7 +4,7 @@ from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
 from django.db.models import Q
-from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, Diagnostico
+from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, ImcCla_5x, Diagnostico
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -380,6 +380,40 @@ def imc_menor_crear(request, pk, id):
                         xDiagnostico = 7
                         min_peso = xImc.ds3
                         max_peso = float(xImc.ds3) + 1.5
+
+        #***** CLASIFICA IMC A LOS MENORES DE 5 AÑOS ***
+                    xImc = ImcCla_5x.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
+
+                    if imc <= xImc.l3sd:
+                        xDiagnostico = 1
+                        min_imc = float(xImc.l3sd) - 2
+                        max_imc = xImc.l3sd
+                    elif imc > xImc.l3sd and imc <= xImc.l2sd:
+                        xDiagnostico = 2 
+                        min_imc = xImc.l3sd
+                        max_imc = xImc.l2sd
+                    elif imc > xImc.l2sd and imc <= xImc.l1sd:
+                        xDiagnostico = 3
+                        min_imc = xImc.l2sd
+                        max_imc = xImc.l1sd
+                    elif imc > xImc.l1sd and imc <= xImc.sd1:
+                        xDiagnostico = 4
+                        min_imc = xImc.l1sd
+                        max_imc = xImc.sd1
+                    elif imc > xImc.sd1 and imc <= xImc.sd2:
+                        xDiagnostico = 5
+                        min_imc = xImc.sd1
+                        max_imc = xImc.sd2
+                    elif imc > xImc.sd2 and imc <= xImc.sd3:
+                        xDiagnostico = 6
+                        min_imc = xImc.sd2
+                        max_imc = xImc.sd3
+                    elif imc >= xImc.sd3:
+                        xDiagnostico = 7
+                        min_imc = xImc.sd3
+                        max_imc = float(xImc.sd3) + 2
+
+
                 else:
                     
                     context={}
@@ -443,24 +477,24 @@ def imc_menor_crear(request, pk, id):
 
                 if imc < 18.5:
                     xDiagnostico = 10
-                    minimo = 20.5
-                    maximo = 18.5
+                    min_peso = 20.5
+                    max_peso = 18.5
                 elif imc >= 18.5 and imc < 23:
                     xDiagnostico = 11
-                    minimo = 18.5
-                    maximo = 23
+                    min_peso = 18.5
+                    max_peso = 23
                 elif imc >= 23 and imc < 25:
                     xDiagnostico = 5
-                    minimo = 23
-                    maximo = 25
+                    min_peso = 23
+                    max_peso = 25
                 elif imc >= 25 and imc < 30:
                     xDiagnostico = 6
-                    minimo = 25
-                    maximo = 30
+                    min_peso = 25
+                    max_peso = 30
                 elif imc >= 30:
                     xDiagnostico = 7
-                    minimo = 30
-                    maximo = 32
+                    min_peso = 30
+                    max_peso = 32
 
             if xEdad <= 19:
                 xImcTalla = ImcTalla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
@@ -496,7 +530,7 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla, min_peso=min_peso, max_peso=max_peso, min_talla=min_talla, max_talla=max_talla )
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso = xPeso, talla = xTalla, cbi = xcbi, ptr = xptr, pse = xpse, cc = xcc, imc = imc, diagnostico = diag_peso, diagnostico_talla = diag_talla, min_peso = min_peso, max_peso = max_peso, min_talla = min_talla, max_talla = max_talla,min_imc = min_imc, max_imc = max_imc)
                 
             imc_menor.save()
             idimc=imc_menor.id
