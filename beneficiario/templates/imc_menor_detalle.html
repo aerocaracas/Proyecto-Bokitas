@@ -56,6 +56,8 @@
             <div class="col-6">
                 <div id="main" style="width: 200px;height:150px;"></div>
 
+                <!-- ########    DIAGNOSTICO PESO PARA LA TALLA    ##########-->
+
                 <script type="text/javascript">
                     var col1 = '{{diag_peso.color1}}';
                     var col2 = '{{diag_peso.color2}}';
@@ -79,7 +81,7 @@
                             radius: '130%',
                              min: min,
                             max: max,
-                            splitNumber: 10,
+                            splitNumber: 2,
                             axisLine: {
                               lineStyle: {
                                 width: 20,
@@ -108,14 +110,14 @@
                                 }
                               },
                               axisTick: {
-                                length: 12,
+                                length: 8,
                                 lineStyle: {
                                   color: 'auto',
                                   width: 2
                                 }
                               },
                               splitLine: {
-                                length: 20,
+                                length: 10,
                                 lineStyle: {
                                   color: 'auto',
                                   width: 5
@@ -123,12 +125,10 @@
                               },
                               axisLabel: {
                                 color: '#464646',
-                                fontSize: 12,
-                                distance: -45,
+                                fontSize: 10,
+                                distance: 30,
                                 rotate: 'tangential',
-                                formatter: function (value) {
-                                  return '';
-                                }
+
                               },
                               title: {
                                 offsetCenter: [0, '10%'],
@@ -161,11 +161,11 @@
               <div id="main2" style="width: 200px;height:150px;"></div>
 
               <script type="text/javascript">
-                  var col1 = '{{diag_tala.color1}}';
-                  var col2 = '{{diag_tala.color2}}';
-                  var col3 = '{{diag_tala.color3}}';
-                  var col4 = '{{diag_tala.color4}}';
-                  var col5 = '{{diag_tala.color5}}';
+                  var col1 = '{{diag_talla.color1}}';
+                  var col2 = '{{diag_talla.color2}}';
+                  var col3 = '{{diag_talla.color3}}';
+                  var col4 = '{{diag_talla.color4}}';
+                  var col5 = '{{diag_talla.color5}}';
                   var talla = {{talla}};
                   var min = {{min_talla}};
                   var max = {{max_talla}};
@@ -260,12 +260,12 @@
           </div>
 
             <div  class="col-6 text-center" >
-                <p class="text-center"><strong>DIAGN. PESO</strong></p>
+                <p class="text-center"><strong>DIAGN. PESO PARA TALLA</strong></p>
                     <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
             </div>
             
             <div  class="col-6 text-center" >
-              <p class="text-center"><strong>DIAGN. TALLA</strong></p>
+              <p class="text-center"><strong>DIAGN. TALLA POR EDAD</strong></p>
                   <div class="text-white p-1"style="background-color:{{diag_talla.color5}}">{{imc_menores.diagnostico_talla}}</div>  
             </div>
 

@@ -334,7 +334,7 @@ def imc_menor_crear(request, pk, id):
             xTallaz = xTalla/100
             imc = round(xPeso/(xTallaz**2),2)        
 
-        #***** CLASIFICA POR PESO Y TALLA A LOS MENORES DE 5 AÑOS ***
+        #***** CLASIFICA POR PESO PARA LA TALLA Y IMC A LOS MENORES DE 5 AÑOS ***
 
             if xEdad <= 5:
                 VtallaI=int(xTalla) 
@@ -354,32 +354,32 @@ def imc_menor_crear(request, pk, id):
                     
                     if xPeso <= xImc.ds3_T:
                         xDiagnostico = 1
-                        minimo = float(xImc.ds3_T) - 1.5
-                        maximo = xImc.ds3_T
+                        min_peso = float(xImc.ds3_T) - 1.5
+                        max_peso = xImc.ds3_T
                     elif xPeso > xImc.ds3_T and xPeso <= xImc.ds2_T:
                         xDiagnostico = 2 
-                        minimo = xImc.ds3_T
-                        maximo = xImc.ds2_T
+                        min_peso = xImc.ds3_T
+                        max_peso = xImc.ds2_T
                     elif xPeso > xImc.ds2_T and xPeso <= xImc.ds1_T:
                         xDiagnostico = 3
-                        minimo = xImc.ds2_T
-                        maximo = xImc.ds1_T
+                        min_peso = xImc.ds2_T
+                        max_peso = xImc.ds1_T
                     elif xPeso > xImc.ds1_T and xPeso <= xImc.ds1:
                         xDiagnostico = 4
-                        minimo = xImc.ds1_T
-                        maximo = xImc.ds1
+                        min_peso = xImc.ds1_T
+                        max_peso = xImc.ds1
                     elif xPeso > xImc.ds1 and xPeso <= xImc.ds2:
                         xDiagnostico = 5
-                        minimo = xImc.ds1
-                        maximo = xImc.ds2
+                        min_peso = xImc.ds1
+                        max_peso = xImc.ds2
                     elif xPeso > xImc.ds2 and xPeso <= xImc.ds3:
                         xDiagnostico = 6
-                        minimo = xImc.ds2
-                        maximo = xImc.ds3
+                        min_peso = xImc.ds2
+                        max_peso = xImc.ds3
                     elif xPeso >= xImc.ds3:
                         xDiagnostico = 7
-                        minimo = xImc.ds3
-                        maximo = float(xImc.ds3) + 1.5
+                        min_peso = xImc.ds3
+                        max_peso = float(xImc.ds3) + 1.5
                 else:
                     
                     context={}
@@ -391,7 +391,7 @@ def imc_menor_crear(request, pk, id):
                     return render(request, 'imc_menor.html', context)
                 
 
-        #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
+        #***** CLASIFICA POR IMC A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
             elif xEdad > 5 and xEdad <= 19:
                 
                 xImc = False
@@ -402,32 +402,32 @@ def imc_menor_crear(request, pk, id):
                 if xImc:
                     if imc <= xImc.l3sd:
                         xDiagnostico = 1
-                        minimo = float(xImc.l3sd) - 2
-                        maximo = xImc.l3sd
+                        min_peso = float(xImc.l3sd) - 2
+                        max_peso = xImc.l3sd
                     elif imc > xImc.l3sd and imc <= xImc.l2sd:
                         xDiagnostico = 2 
-                        minimo = xImc.l3sd
-                        maximo = xImc.l2sd
+                        min_peso = xImc.l3sd
+                        max_peso = xImc.l2sd
                     elif imc > xImc.l2sd and imc <= xImc.l1sd:
                         xDiagnostico = 3
-                        minimo = xImc.l2sd
-                        maximo = xImc.l1sd
+                        min_peso = xImc.l2sd
+                        max_peso = xImc.l1sd
                     elif imc > xImc.l1sd and imc <= xImc.sd1:
                         xDiagnostico = 4
-                        minimo = xImc.l1sd
-                        maximo = xImc.sd1
+                        min_peso = xImc.l1sd
+                        max_peso = xImc.sd1
                     elif imc > xImc.sd1 and imc <= xImc.sd2:
                         xDiagnostico = 5
-                        minimo = xImc.sd1
-                        maximo = xImc.sd2
+                        min_peso = xImc.sd1
+                        max_peso = xImc.sd2
                     elif imc > xImc.sd2 and imc <= xImc.sd3:
                         xDiagnostico = 6
-                        minimo = xImc.sd2
-                        maximo = xImc.sd3
+                        min_peso = xImc.sd2
+                        max_peso = xImc.sd3
                     elif imc >= xImc.sd3:
                         xDiagnostico = 7
-                        minimo = xImc.sd3
-                        maximo = float(xImc.sd3) + 2
+                        min_peso = xImc.sd3
+                        max_peso = float(xImc.sd3) + 2
                 else:
                     context={}
                     context["pk"]=pk
@@ -438,7 +438,7 @@ def imc_menor_crear(request, pk, id):
                     return render(request, 'imc_menor.html', context)
 
         
-        #***** CLASIFICA POR PESO Y TALLA A LOS MAYORES DE 19 AÑOS ***
+        #***** CLASIFICA DE IMC A LOS MAYORES DE 19 AÑOS ***
             else:
 
                 if imc < 18.5:
@@ -496,7 +496,7 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla, min_peso=minimo, max_peso=maximo, min_talla=min_talla, max_talla=max_talla )
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso=xPeso, talla=xTalla, cbi=xcbi, ptr = xptr, pse = xpse, cc = xcc, imc=imc, diagnostico=diag_peso, diagnostico_talla=diag_talla, min_peso=min_peso, max_peso=max_peso, min_talla=min_talla, max_talla=max_talla )
                 
             imc_menor.save()
             idimc=imc_menor.id

@@ -526,6 +526,18 @@ class ImcTalla(models.Model):
     sd1 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     sd2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
 
+class ImcCla_5x(models.Model):
+    sexo = models.PositiveIntegerField()
+    anos = models.PositiveIntegerField(default=0)
+    meses = models.PositiveIntegerField(default=0)
+    l3sd = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    l2sd = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    l1sd = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    sd0 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    sd1 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    sd2 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+    sd3 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
+
 class ImcPesoTalla_5x(models.Model):
     edad = models.PositiveIntegerField(default=0)
     sexo = models.PositiveIntegerField()
