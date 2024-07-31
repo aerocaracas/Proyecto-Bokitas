@@ -229,13 +229,36 @@
         <a href="{% url 'menor_actualizar' pk id %}" class="btn btn-info"> Actualizar </a>
            
         &nbsp
-        <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Eliminar
+        </button>
+        
         
     </div>
   
 
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Registro del Menor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Está seguro de Eliminar al Menor?
+                Esta acción elimina también la información registrada del menor
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
+            </div>
+        </div>
+    </div>
+</div>
 
    
 

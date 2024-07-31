@@ -12,8 +12,6 @@
     <h1 class="text-center">Detalles del Beneficiario</h1>
     <h5 class="text-center">Información detallada del Beneficiario</h5>
     <hr>
-
-    {{error}}
     <br>
     <div class="row">
         <div class="col">
@@ -268,20 +266,40 @@
                             <td>{{medicamento.nombre}}</td>
                             <td>{{medicamento.descripcion}}</td>
                             <td class="text-center">{{medicamento.cantidad}}</td>
-                            <td class="text-center"> <a class="btn btn-danger btn-sm" href="{% url 'medicamento_eliminar' pk medicamento.id %}"><i class="bi bi-trash-fill"></i></a> </td>
+                            <td class="text-center"><a class="btn btn-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modalmedicamento"><i class="bi bi-trash-fill"></i></a></td>
                         </tr>
+                                <!-- Modal -->
+                        <div class="modal fade" id="modalmedicamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Registro de Medicamento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                            Está seguro de Eliminar el Registro de Medicamentos?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a href="{% url 'medicamento_eliminar' pk medicamento.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 {% endif%}
             </tbody>
         </table>
 
 
-        <!-- ########  Boton agregar Familiar  ##########-->
+        <!-- ########  Boton agregar Medicamento o Producto  ##########-->
         <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
 
             Agregar Nueva Entrega
     
           </a>
+
+
     </div>
 
     <!-- ########  Menu de opciones  ##########-->
@@ -294,7 +312,10 @@
         <a href="{% url 'beneficiario_actualizar' pk %}" class="btn btn-info"> Actualizar </a>
            
         &nbsp
-        <a href="{% url 'beneficiario_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Eliminar
+    </button>
+        
         
     </div>
   
@@ -302,6 +323,25 @@
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Registro del Beneficiario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Está seguro de Eliminar al Beneficiario?
+                Esta acción elimina también a los menores que han sido registrados bajo su Tutela
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'beneficiario_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
+            </div>
+        </div>
+    </div>
+</div>
    
 
 {% endblock %}

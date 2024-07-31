@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.contrib import messages
 
 # Create your views here.
 @login_required      
@@ -43,11 +44,12 @@ def proyecto_crear(request):
             new_proyecto = form.save(commit=False)
             new_proyecto.user = request.user
             new_proyecto.save()
+            messages.success(request, "Se creo satisfactoriamente el Nuevo Proyecto")
             return redirect('proyecto')
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'proyecto_crear.html', {
-            'form': ProyectoForm,
-            'error': 'Datos incorectos, Favor verificar la información'
+            'form': form,
             })
 
 @login_required      
@@ -64,17 +66,19 @@ def proyecto_detalle(request, pk):
             proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
             form = ProyectoForm(request.POST, instance=proyectos)
             form.save()
+            messages.success(request, "Se actualizo satisfactoriamente el Proyecto")
             return redirect('proyecto')
         except ValueError:
+            messages.warning(request, "Error al actualizar Proyecto")
             return render(request, 'proyecto_detalle.html',{
             'proyectos':proyectos,
             'form': form,
-            'error': "Error al actualizar Proyecto"
         })
 
 @login_required   
 def proyecto_eliminar(request, pk):
     proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
     proyectos.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el Proyecto")
     return redirect('proyecto')
 

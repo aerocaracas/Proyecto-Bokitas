@@ -58,6 +58,6 @@ def signin(request):
             })
         else:
             login(request, user)
-            
+            messages.success(request, "Inicio de sesión Satisfactoriamente Bienvenido!!!")
             return redirect('home')
 
