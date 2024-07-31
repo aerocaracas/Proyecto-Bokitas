@@ -427,7 +427,8 @@ def imc_menor_crear(request, pk, id):
 
         #***** CLASIFICA POR IMC A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
             elif xEdad > 5 and xEdad <= 19:
-                
+                min_imc = 0
+                max_imc = 0
                 xImc = False
 
                 if ImcCla.objects.filter(sexo = xSexo, anos = xEdad, meses = xMeses).exists():
@@ -569,12 +570,19 @@ def imc_menor_riesgo(request, pk, id, idimc):
         imc_menores = get_object_or_404(AntropMenor, id=idimc)
         diag_peso = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico)
         diag_talla = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico_talla)
-        peso = str(imc_menores.peso).replace(',','.')
+        if menor_detalles.edad <= 5:
+            peso = str(imc_menores.peso).replace(',','.')
+        else:
+            peso = str(imc_menores.imc).replace(',','.')
         talla = str(imc_menores.talla).replace(',','.')
+        imc = str(imc_menores.imc).replace(',','.')
         min_peso = str(imc_menores.min_peso).replace(',','.')
         max_peso = str(imc_menores.max_peso).replace(',','.')
         min_talla = str(imc_menores.min_talla).replace(',','.')
         max_talla = str(imc_menores.max_talla).replace(',','.')
+        min_imc = str(imc_menores.min_imc).replace(',','.')
+        max_imc = str(imc_menores.max_imc).replace(',','.')
+
         context = {}
         context["pk"]=pk
         context["id"]=id
@@ -582,10 +590,13 @@ def imc_menor_riesgo(request, pk, id, idimc):
         context["idimc"]=idimc
         context["peso"]=peso
         context["talla"]=talla
+        context["imc"]=imc
         context["min_peso"]=min_peso
         context["max_peso"]=max_peso
         context["min_talla"]=min_talla
         context["max_talla"]=max_talla
+        context["min_imc"]=min_imc
+        context["max_imc"]=max_imc
         context["diag_peso"]=diag_peso
         context["diag_talla"]=diag_talla
         context["imc_menores"]=imc_menores
@@ -634,12 +645,19 @@ def imc_menor_detalle(request, pk, id, idimc):
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         diag_peso = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico)
         diag_talla = get_object_or_404(Diagnostico, diagnostico = imc_menores.diagnostico_talla)
-        peso = str(imc_menores.peso).replace(',','.')
+        if menor_detalles.edad <= 5:
+            peso = str(imc_menores.peso).replace(',','.')
+        else:
+            peso = str(imc_menores.imc).replace(',','.')
+
         talla = str(imc_menores.talla).replace(',','.')
+        imc = str(imc_menores.imc).replace(',','.')
         min_peso = str(imc_menores.min_peso).replace(',','.')
         max_peso = str(imc_menores.max_peso).replace(',','.')
         min_talla = str(imc_menores.min_talla).replace(',','.')
         max_talla = str(imc_menores.max_talla).replace(',','.')
+        min_imc = str(imc_menores.min_imc).replace(',','.')
+        max_imc = str(imc_menores.max_imc).replace(',','.')
 
         context = {}
         context["pk"]=pk
@@ -647,10 +665,13 @@ def imc_menor_detalle(request, pk, id, idimc):
         context["idimc"]=idimc
         context["peso"]=peso
         context["talla"]=talla
+        context["imc"]=imc
         context["min_peso"]=min_peso
         context["max_peso"]=max_peso
         context["min_talla"]=min_talla
         context["max_talla"]=max_talla
+        context["min_imc"]=min_imc
+        context["max_imc"]=max_imc
         context["menor_detalles"]=menor_detalles
         context["imc_menores"]=imc_menores
         context["diag_peso"]=diag_peso
