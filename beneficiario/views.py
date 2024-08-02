@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from datetime import datetime, date
 from dateutil import relativedelta
+from django.contrib import messages
 
 # Sesion del Beneficiario.
 @login_required      
@@ -56,12 +57,12 @@ def beneficiario_crear(request):
             new_beneficiario.meses = tiempo_transc.months
             new_beneficiario.user = request.user
             new_beneficiario.save()
-
+            messages.success(request, "Se creo satisfactoriamente el Beneficiario")
             return redirect('beneficiario')
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'beneficiario_crear.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información'
             })
 
 @login_required      
@@ -115,23 +116,14 @@ def beneficiario_actualizar(request, pk):
             act_beneficiario.user = request.user
             act_beneficiario.save()
 
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-   
-            return render(request, 'beneficiario_detalle.html', {
-            'beneficiarios': beneficiarios,
-            'antropBefs': antropBefs,
-            'menores': menores,
-            'familias': familias,
-            'medicamentos': medicamentos,
-            'pk': pk
-                })
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
+            return redirect("beneficiario_detalle", pk)
+        
+        
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'beneficiario_actualizar.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
@@ -140,6 +132,7 @@ def beneficiario_actualizar(request, pk):
 def beneficiario_eliminar(request, pk):
     beneficiarios = get_object_or_404(Beneficiario, id=pk)
     beneficiarios.delete()
+    messages.error(request, "Se Elimino satisfactoriamente al Beneficiario")
     return redirect('beneficiario')
 
 
@@ -172,24 +165,13 @@ def menor_crear(request, pk):
             new_menor.user = request.user
             new_menor.save()
 
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-
-            context={}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-   
-            return render(request, 'beneficiario_detalle.html', context)
+            messages.success(request, "Se creo satisfactoriamente el Menor")
+            return redirect("beneficiario_detalle", pk)
+           
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'menor_crear.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
@@ -249,32 +231,19 @@ def menor_actualizar(request, pk, id):
             act_menor.user = request.user
             act_menor.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-            medicas = Medica.objects.filter(cedula_id=id)
-            antropMenores = AntropMenor.objects.filter(cedula_id=id)
-
-
             context={}
             context["pk"]=pk
             context["id"]=id
             context["menor_detalles"]=menor_detalles
-            context["menores"]=menores
             context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-            context["medicas"]=medicas
-            context["antropMenores"]=antropMenores
-   
-            return render(request, 'menor_detalle.html', context)
+
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
+            return redirect("menor_detalle", context)
+
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'menor_actualizar.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk,
             'id': id
             })
@@ -284,6 +253,7 @@ def menor_actualizar(request, pk, id):
 def menor_eliminar(request, pk, id):
     menores = get_object_or_404(Menor, id=id)
     menores.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('beneficiario_detalle', pk)
 
 
@@ -421,7 +391,8 @@ def imc_menor_crear(request, pk, id):
                     context["id"]=id
                     context["beneficiarios"]=beneficiarios
                     context["menor_detalles"]=menor_detalles
-                    context["error"] = 'Datos incorectos, Favor verificar la información'
+                    
+                    messages.warning(request, "Datos incorectos, Favor verificar la información")
                     return render(request, 'imc_menor.html', context)
                 
 
@@ -469,7 +440,7 @@ def imc_menor_crear(request, pk, id):
                     context["id"]=id
                     context["beneficiarios"]=beneficiarios
                     context["menor_detalles"]=menor_detalles
-                    context["error"] = 'Datos incorectos, Favor verificar la información'
+                    messages.warning(request, "Datos incorectos, Favor verificar la información")
                     return render(request, 'imc_menor.html', context)
 
         
@@ -555,9 +526,9 @@ def imc_menor_crear(request, pk, id):
             context={}
             context["pk"]=pk
             context["id"]=id
-            context["error"]='Datos incorectos, Favor verificar la información'
             context["beneficiarios"]=beneficiarios
             context["menor_detalles"]=menor_detalles
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'imc_menor.html', context)
 
 
@@ -617,7 +588,7 @@ def imc_menor_riesgo(request, pk, id, idimc):
             riesgos.observacion=xobservacion       
     
             riesgos.save()
-
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             return redirect( "menor_detalle", pk, id)
         
         except ValueError:
@@ -631,7 +602,8 @@ def imc_menor_riesgo(request, pk, id, idimc):
             context["idimc"]=idimc
             context["imc_menores"]=imc_menores
             context["diagnosticos"]=diagnosticos
-            context["error"]='Datos incorectos, Favor verificar la información'
+
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'imc_menor_riesgo.html', context)
     
 
@@ -685,6 +657,7 @@ def imc_menor_detalle(request, pk, id, idimc):
 def imc_menor_eliminar(request, pk, id, idimc):
     imc_menores = get_object_or_404(AntropMenor, id=idimc)
     imc_menores.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect( "menor_detalle", pk, id)
 
 
@@ -720,25 +693,17 @@ def familiar_crear(request, pk):
             new_familiar.cedula_bef_id = pk
             new_familiar.save()
 
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-
             context={}
             context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
 
-            return render(request, 'beneficiario_detalle.html', context)
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
+            return redirect("beneficiario_detalle", context)
+            
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'familiar_crear.html', {
             'form': form,
             'beneficiarios':beneficiarios,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
@@ -772,25 +737,16 @@ def familiar_actualizar(request, pk, id):
 
             new_familiar.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-
             context={}
             context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
-   
-            return render(request, 'beneficiario_detalle.html', context)
+
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
+            return redirect("beneficiario_detalle", context)
+
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'familia_actualizar.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk,
             'id': id
             })
@@ -800,6 +756,7 @@ def familiar_actualizar(request, pk, id):
 def familiar_eliminar(request, pk, id):
     familias = get_object_or_404(Familia, id=id)
     familias.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('beneficiario_detalle', pk)
 
 
@@ -837,9 +794,11 @@ def imc_benef_riesgo(request, pk, idimc):
             riesgos.observacion=observacion          
             riesgos.save()
 
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             return redirect('beneficiario_detalle', pk)
         
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
             context = {}
@@ -847,7 +806,7 @@ def imc_benef_riesgo(request, pk, idimc):
             context["beneficiarios"]=beneficiarios
             context["idimc"]=idimc
             context["imc_beneficiarios"]=imc_beneficiarios
-            context["error"]='Datos incorectos, Favor verificar la información'
+
             return render(request, 'imc_benef_riesgo.html', context)
     
 
@@ -919,8 +878,8 @@ def imc_benef(request, pk):
             return redirect("imc_benef_riesgo", pk, idimc)
         
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'imc_benef.html', {
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
@@ -947,6 +906,7 @@ def imc_benef_detalle(request, pk, id):
 def imc_benef_eliminar(request, pk, id):
     imc_beneficiarios = get_object_or_404(AntropBef, id=id)
     imc_beneficiarios.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('beneficiario_detalle', pk)
 
 
@@ -971,27 +931,14 @@ def medicamento_crear(request, pk):
             
             medicamentos = Medicamento(cedula_bef_id=pk, fecha = fecha, nombre=medicamento, descripcion=descripcion, cantidad=cantidad)
             medicamentos.save()
-
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            antropBefs = AntropBef.objects.filter(cedula_bef = pk)
-            menores = Menor.objects.filter(cedula_bef=pk)
-            familias = Familia.objects.filter(cedula_bef = pk)
-            medicamentos = Medicamento.objects.filter(cedula_bef=pk)
-
-            context={}
-            context["pk"]=pk
-            context["beneficiarios"]=beneficiarios
-            context["antropBefs"]=antropBefs
-            context["menores"]=menores
-            context["familias"]=familias
-            context["medicamentos"]=medicamentos
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             
-            return render(request, 'beneficiario_detalle.html', context)
+            return redirect("beneficiario_detalle", pk)
         
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'menor_crear.html', {
             'beneficiarios': beneficiarios,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk
             })
 
@@ -1001,6 +948,7 @@ def medicamento_eliminar(request, pk, id):
 
     medicamentos = get_object_or_404(Medicamento, id=id)
     medicamentos.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('beneficiario_detalle', pk)
 
 
@@ -1017,7 +965,6 @@ def medica_crear(request, pk, id):
         context["id"]=id
         context["beneficiarios"]=beneficiarios
         context["menor_detalles"]=menor_detalles
-        antropMenores = AntropMenor.objects.filter(cedula_id=id)
         context["form"]=MedicaForm
         return render(request, 'medica_crear.html', context)
     else:
@@ -1042,16 +989,17 @@ def medica_crear(request, pk, id):
             menor_detalles.meses = tiempo_transc.months
             menor_detalles.save()
 
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             return redirect( "menor_detalle", pk, id)
 
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'medica_crear.html', {
             'pk': pk,
             'id':id,
             'form': form,
             'bemeficiarios':beneficiarios,
             'menor_detalles':menor_detalles,
-            'error': 'Datos incorectos, Favor verificar la información'
             })
 
 
@@ -1094,23 +1042,17 @@ def medica_detalle(request, pk, id, idmed):
             menor_detalles.meses = tiempo_transc.months
             menor_detalles.save()
 
-            beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            medicas = Medica.objects.filter(cedula_id=id)
-            antropMenores = AntropMenor.objects.filter(cedula_id=id)
-
             context={}
             context["pk"]=pk
             context["id"]=id
-            context["beneficiarios"]=beneficiarios
-            context["menor_detalles"]=menor_detalles
-            context["medicas"]=medicas
-            context["antropMenores"]=antropMenores
 
-            return render(request, 'menor_detalle.html', context)
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
+            return redirect("menor_detalle", context)
+        
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'medica_detalle.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk,
             'id': id
             })
@@ -1120,19 +1062,12 @@ def medica_detalle(request, pk, id, idmed):
 def medica_eliminar(request, pk, id, idmed):
     medicas = get_object_or_404(Medica, id=idmed)
     medicas.delete()
-    beneficiarios = get_object_or_404(Beneficiario,id=pk)
-    menor_detalles = get_object_or_404(Menor,id=id)
-    medicas = Medica.objects.filter(cedula_id=id)
-    antropMenores = AntropMenor.objects.filter(cedula_id=id)
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     context={}
     context["pk"]=pk
     context["id"]=id
-    context["beneficiarios"]=beneficiarios
-    context["menor_detalles"]=menor_detalles
-    context["medicas"]=medicas
-    context["antropMenores"]=antropMenores
 
-    return render(request, 'menor_detalle.html', context)
+    return redirect("menor_detalle", context)
 
 
 

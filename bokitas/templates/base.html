@@ -23,40 +23,38 @@
 
 
   <!--   Custom CCS-->
-   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css '%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css '%}">
 
-   
-   <!--  Custom Echarts JS  -->
-   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <!--  Custom Echarts JS  -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
 
-
-
-</head>
-  
   </head>
-<body>
-    {% include 'menu.html' %}
+
+  <body>
+      {% include 'menu.html' %}
 
 
-    <!--  ************   message en Bootstrap 5 ***********-->
+      <!--  ************   message en Bootstrap 5 ***********-->
 
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert {{ message.tags }} alert-dismissible fade show text-center p-1" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close p-2" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-
-
-    {% block content %}   
-
-    {% endblock %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible fade show text-center p-1" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close p-2" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
 
 
+      {% block content %}   
+
+      {% endblock %}
 
 
-
-<!-- Custom JS  -->
+  <!-- Custom JS  -->
     <script src="{% static 'js/principal.js' %}"></script>
+
+    
+
+
+

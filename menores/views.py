@@ -19,7 +19,7 @@ def menores(request):
         if "search" in request.POST:
             query = request.POST.get("searchquery")
             menores = Menor.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query) | Q(cedula_bef__cedula__contains=query))
-        paginator = Paginator(menores, 2)
+        paginator = Paginator(menores, 15)
         menores = paginator.page(page)
     except:
         raise Http404

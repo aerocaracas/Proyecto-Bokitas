@@ -5,6 +5,7 @@ from bokitas.models import Beneficiario, Nutricional
 from nutricional.forms import NutricionalForm
 from django.core.paginator import Paginator
 from nutricional.forms import NutricionalForm,NutricionalForm2
+from django.contrib import messages
 
 
 # Sesion Nutricional.
@@ -47,12 +48,12 @@ def nutricional_crear(request):
             beneficiario = get_object_or_404(Beneficiario, id=cedula)
             new_nutricional.proyecto_id = beneficiario.proyecto_id
             new_nutricional.save()
-
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             return redirect('nutricional')
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'nutricional_crear.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información'
             })
 
 @login_required      
@@ -74,12 +75,12 @@ def nutricional_actualizar(request, pk):
             new_nutricional = form.save(commit=False)
 
             new_nutricional.save()
-
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
             return redirect('nutricional')
         except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'nutricional_actualizar.html', {
             'form': form,
-            'error': 'Datos incorectos, Favor verificar la información',
             'pk': pk,
             })
 
@@ -88,5 +89,6 @@ def nutricional_actualizar(request, pk):
 def nutricional_eliminar(request, pk):
     nutricionales = get_object_or_404(Nutricional, id=pk)
     nutricionales.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('nutricional')
 
