@@ -231,14 +231,8 @@ def menor_actualizar(request, pk, id):
             act_menor.user = request.user
             act_menor.save()
 
-            context={}
-            context["pk"]=pk
-            context["id"]=id
-            context["menor_detalles"]=menor_detalles
-            context["beneficiarios"]=beneficiarios
-
             messages.success(request, "Se actualizo satisfactoriamente el Registro")
-            return redirect("menor_detalle", context)
+            return redirect("menor_detalle", pk, id)
 
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
@@ -397,7 +391,7 @@ def imc_menor_crear(request, pk, id):
                 
 
         #***** CLASIFICA POR IMC A LOS MAYORES DE 5 AÑOS Y MENORES DE 19 AÑOS ***
-            elif xEdad > 5 and xEdad <= 19:
+            elif xEdad > 5 and xEdad < 19:
                 min_imc = 0
                 max_imc = 0
                 xImc = False
@@ -435,6 +429,7 @@ def imc_menor_crear(request, pk, id):
                         min_peso = xImc.sd3
                         max_peso = float(xImc.sd3) + 2
                 else:
+                    print(xEdad)
                     context={}
                     context["pk"]=pk
                     context["id"]=id
@@ -445,30 +440,28 @@ def imc_menor_crear(request, pk, id):
 
         
         #***** CLASIFICA DE IMC A LOS MAYORES DE 19 AÑOS ***
-            else:
-
+            elif xEdad >= 19:
+                xDiagTalla = 26
+                min_talla = 0
+                max_talla = 0
+                min_imc = 0
+                max_imc = 0
+                min_peso = 0
+                max_peso = 0
+            
                 if imc < 18.5:
                     xDiagnostico = 10
-                    min_peso = 20.5
-                    max_peso = 18.5
                 elif imc >= 18.5 and imc < 23:
-                    xDiagnostico = 11
-                    min_peso = 18.5
-                    max_peso = 23
+                    xDiagnostico = 4
                 elif imc >= 23 and imc < 25:
                     xDiagnostico = 5
-                    min_peso = 23
-                    max_peso = 25
                 elif imc >= 25 and imc < 30:
                     xDiagnostico = 6
-                    min_peso = 25
-                    max_peso = 30
                 elif imc >= 30:
                     xDiagnostico = 7
-                    min_peso = 30
-                    max_peso = 32
 
-            if xEdad <= 19:
+
+            if xEdad < 19:
                 xImcTalla = ImcTalla.objects.get(sexo = xSexo, anos = xEdad, meses = xMeses)
                 if xTalla <= xImcTalla.sd2_T:
                     xDiagTalla = 21
@@ -523,6 +516,7 @@ def imc_menor_crear(request, pk, id):
             return redirect("imc_menor_riesgo", pk, id, idimc)
         
         except ValueError:
+
             context={}
             context["pk"]=pk
             context["id"]=id
@@ -693,11 +687,8 @@ def familiar_crear(request, pk):
             new_familiar.cedula_bef_id = pk
             new_familiar.save()
 
-            context={}
-            context["pk"]=pk
-
             messages.success(request, "Se guardo satisfactoriamente el Registro")
-            return redirect("beneficiario_detalle", context)
+            return redirect("beneficiario_detalle", pk)
             
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
@@ -737,11 +728,8 @@ def familiar_actualizar(request, pk, id):
 
             new_familiar.save()
 
-            context={}
-            context["pk"]=pk
-
             messages.success(request, "Se actualizo satisfactoriamente el Registro")
-            return redirect("beneficiario_detalle", context)
+            return redirect("beneficiario_detalle", pk)
 
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
@@ -932,7 +920,7 @@ def medicamento_crear(request, pk):
             medicamentos = Medicamento(cedula_bef_id=pk, fecha = fecha, nombre=medicamento, descripcion=descripcion, cantidad=cantidad)
             medicamentos.save()
             messages.success(request, "Se guardo satisfactoriamente el Registro")
-            
+
             return redirect("beneficiario_detalle", pk)
         
         except ValueError:
@@ -1042,12 +1030,8 @@ def medica_detalle(request, pk, id, idmed):
             menor_detalles.meses = tiempo_transc.months
             menor_detalles.save()
 
-            context={}
-            context["pk"]=pk
-            context["id"]=id
-
             messages.success(request, "Se actualizo satisfactoriamente el Registro")
-            return redirect("menor_detalle", context)
+            return redirect("menor_detalle", pk, id)
         
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
@@ -1063,11 +1047,8 @@ def medica_eliminar(request, pk, id, idmed):
     medicas = get_object_or_404(Medica, id=idmed)
     medicas.delete()
     messages.error(request, "Se Elimino satisfactoriamente el registro")
-    context={}
-    context["pk"]=pk
-    context["id"]=id
 
-    return redirect("menor_detalle", context)
+    return redirect("menor_detalle", pk, id)
 
 
 

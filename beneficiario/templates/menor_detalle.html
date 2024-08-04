@@ -125,7 +125,9 @@
                             <td class="text-center">{{antrop.peso}}</td>
                             <td class="text-center">{{antrop.talla}}</td>
                             <td class="text-center">{{antrop.imc}}</td>
-                            {% if antrop.diagnostico == "DNT AGUDA SEVERA" %}
+                            {% if antrop.diagnostico == "BAJO PESO" %}
+                                <td class="text-center"><div class="text-bg-danger">BAJO PESO</div></td>  
+                            {%elif antrop.diagnostico == "DNT AGUDA SEVERA" %}
                                 <td class="text-center"><div class="text-bg-danger">DNT AGUDA SEVERA</div></td>  
                             {%elif antrop.diagnostico == "DNT AGUDA MODERADA" %}
                                 <td class="text-center"><div class="text-white"style="background-color:#FF7F50">DNT AGUDA MODERADA</div></td>  
@@ -151,6 +153,8 @@
                                 <td class="text-center"><div class="text-bg-warning">RIESGO TALLA ALTA</div></td>
                             {%elif antrop.diagnostico_talla == "TALLA ALTA" %}
                                 <td class="text-center"><div class="text-bg-info">TALLA ALTA</div></td>
+                            {% else %}
+                                <td class="text-center"><div class="text-bg-info text-white">NO APLICA</div></td>
                             {% endif %}
                             <td class="text-center">{{antrop.riesgo}}</td>
                             <td class="text-center"> <a href="{% url 'imc_menor_detalle' pk id antrop.id  %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
