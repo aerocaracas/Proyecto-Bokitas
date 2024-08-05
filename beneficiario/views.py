@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from beneficiario.forms import BeneficiarioForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica
+from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional
 from django.db.models import Q
 from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, ImcCla_5x, Diagnostico
 from django.contrib.auth.models import User
@@ -74,6 +74,7 @@ def beneficiario_detalle(request, pk):
         menores = Menor.objects.filter(cedula_bef=pk)
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
+        nutricionales = Nutricional.objects.filter(cedula_bef=pk)
         
         form = BeneficiarioForm(instance=beneficiarios)
 
@@ -83,6 +84,7 @@ def beneficiario_detalle(request, pk):
             'menores': menores,
             'familias': familias,
             'medicamentos': medicamentos,
+            'nutricionales':nutricionales,
             'form': form,
             'pk': pk
 
@@ -758,7 +760,7 @@ def imc_benef_riesgo(request, pk, idimc):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
-        imc = round(imc_beneficiarios.imc)
+        imc = str(imc_beneficiarios.imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
@@ -820,7 +822,7 @@ def imc_benef(request, pk):
 
             talla = talla/100
 
-            imc = round(peso/(talla**2))
+            imc = round(peso/(talla**2),2)
 
             if beneficiarios.embarazada == "SI":
                 
@@ -879,7 +881,7 @@ def imc_benef_detalle(request, pk, id):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=id)
-        imc = round(imc_beneficiarios.imc)
+        imc = str(imc_beneficiarios.imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios

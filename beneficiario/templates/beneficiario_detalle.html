@@ -291,16 +291,58 @@
             </tbody>
         </table>
 
-
         <!-- ########  Boton agregar Medicamento o Producto  ##########-->
         <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
 
             Agregar Nueva Entrega
     
-          </a>
-
+        </a>
 
     </div>
+
+    <hr>
+
+    <!-- ########  Tabla Encuesta Nutricional  ##########-->
+
+    <h4 class="text-center">ENCUESTA NUTRICIONAL</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">BENEFICIARIO</th>
+              <th scope="col">PROYECTO</th>
+              <th scope="col"class="text-center">FECHA</th>
+              <th scope="col"class="text-center">DETALLE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if nutricionales %}
+                {% for nutricional in nutricionales %}
+                    <tr>
+                        <td>{{nutricional.cedula_bef}}</td>
+                        <td>{{nutricional.proyecto}}</td>
+                        <td class="text-center">{{nutricional.fecha | date:"d/m/Y"}}</td>
+                        <td class="text-center"> <a href="{% url 'nutricional_actualizar' nutricional.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                    </tr>
+                {% endfor %}
+            {% endif%}
+          </tbody>
+        </table>
+
+        <!-- ########  Boton agregar Medicamento o Producto  ##########-->
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'nutricional_crear' %}">
+
+            Agregar Nueva Encuesta
+            
+        </a>
+
+    <div>
+
+
+
+
+
+
 
     <!-- ########  Menu de opciones  ##########-->
     <br>
