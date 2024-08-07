@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from beneficiario.forms import BeneficiarioForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
+from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional
 from django.db.models import Q
@@ -1052,5 +1053,18 @@ def medica_eliminar(request, pk, id, idmed):
 
     return redirect("menor_detalle", pk, id)
 
+
+@login_required      
+def nutricional_beneficiario(request, pk, id):
+    if request.method == 'GET':
+        nutricionales = get_object_or_404(Nutricional, id=id)
+        form = NutricionalForm(instance=nutricionales)
+
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["nutricionales"]=nutricionales
+        context["form"]=form
+        return render(request, 'nutricional_beneficiario.html', context)
 
 
