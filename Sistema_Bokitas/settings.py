@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'menores',
     'nutricional',
     'tareas',
-
+    'reportes',
     'multiselectfield',
 ]
 

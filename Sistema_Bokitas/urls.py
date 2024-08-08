@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('menores.urls')),
     path('', include('nutricional.urls')),
     path('', include('tareas.urls')),
+    path('', include('reportes.urls')),
   
 ]
