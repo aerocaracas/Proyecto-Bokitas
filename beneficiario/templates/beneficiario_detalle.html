@@ -14,9 +14,19 @@
     <hr>
     <br>
     <div class="row">
-        <div class="col">
-            <P> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
-        </div>
+        {% if proyectos.estatus == "ACTIVO" %}
+            <div class="col">
+                <P class="text-success fw-bold"> <strong> Proyecto: </strong> {{beneficiarios.proyecto}} </p>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <P class="text-danger fw-bold"> <strong> Proyecto: </strong> {{beneficiarios.proyecto}}</p>
+            </div>
+            <div class="col">
+                <P class="text-danger fw-bold">Este proyecto no esta ACTIVO, Favor Actualizar</p>
+            </div>
+        {% endif %}
+
     </div>
     <div class="row">
 
@@ -134,11 +144,19 @@
         </table>
 
         <!-- ########  Boton Agregar Hijo ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_crear' pk %}">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_crear' pk %}">
 
-            Agregar Nuevo Hijo
-    
-        </a>
+                Agregar Nuevo Hijo
+        
+            </a>
+        {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="#">
+
+                Agregar Nuevo Hijo
+
+            </a>
+        {% endif %}
 
     </div>
     <hr>
@@ -176,11 +194,20 @@
         </table>
 
         <!-- ########  Boton agregar Familiar  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' pk %}">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' pk %}">
 
-            Agregar Nuevo Familiar
-    
-          </a>
+                Agregar Nuevo Familiar
+        
+            </a>
+        {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="#">
+
+                Agregar Nuevo Familiar
+
+            </a>
+        {% endif %}
+
     </div>
     <hr>
 
@@ -234,12 +261,19 @@
         </table>
     
         <!-- ########  boton agregar Antropometrico  ##########-->
-
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_benef' pk %}">
-    
-            Nuevo Control Antropométrico
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_benef' pk %}">
         
-        </a>
+                Nuevo Control Antropométrico
+            
+            </a>
+        {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="#">
+
+                Nuevo Control Antropométrico
+
+            </a>
+        {% endif %}
 
     </div>
 
@@ -292,11 +326,19 @@
         </table>
 
         <!-- ########  Boton agregar Medicamento o Producto  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
 
-            Agregar Nueva Entrega
-    
-        </a>
+                Agregar Nueva Entrega
+        
+            </a>
+        {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="#">
+
+                Agregar Nueva Entrega
+
+            </a>
+        {% endif %}
 
     </div>
 

@@ -3,7 +3,7 @@ from beneficiario.forms import BeneficiarioForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional
+from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional, Proyecto
 from django.db.models import Q
 from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, ImcCla_5x, Diagnostico
 from django.contrib.auth.models import User
@@ -76,6 +76,7 @@ def beneficiario_detalle(request, pk):
         familias = Familia.objects.filter(cedula_bef = pk)
         medicamentos = Medicamento.objects.filter(cedula_bef=pk)
         nutricionales = Nutricional.objects.filter(cedula_bef=pk)
+        proyectos = get_object_or_404(Proyecto, id=beneficiarios.proyecto_id)
         
         form = BeneficiarioForm(instance=beneficiarios)
 
@@ -86,6 +87,7 @@ def beneficiario_detalle(request, pk):
             'familias': familias,
             'medicamentos': medicamentos,
             'nutricionales':nutricionales,
+            'proyectos':proyectos,
             'form': form,
             'pk': pk
 
@@ -188,6 +190,7 @@ def menor_detalle(request, pk, id):
         beneficiarios = Beneficiario.objects.filter(id=pk)
         antropMenores = AntropMenor.objects.filter(cedula = id)
         medicas = Medica.objects.filter(cedula = id)
+        proyectos = get_object_or_404(Proyecto, id=menor_detalles.proyecto_id)
 
         form = MenorForm(instance=menor_detalles)
 
@@ -199,6 +202,7 @@ def menor_detalle(request, pk, id):
         context["beneficiarios"]=beneficiarios
         context["antropMenores"]=antropMenores
         context["medicas"]=medicas
+        context["proyectos"]=proyectos
 
     
         return render(request, 'menor_detalle.html', context)

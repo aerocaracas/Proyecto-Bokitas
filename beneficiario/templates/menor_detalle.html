@@ -16,9 +16,18 @@
     {{error}}
 
     <div class="row">
-        <div class="col">
-            <P> <strong> Proyecto: </strong> {{menor_detalles.proyecto}} </p>
-        </div>
+        {% if proyectos.estatus == "ACTIVO" %}
+            <div class="col">
+                <P class="text-success fw-bold"> <strong> Proyecto: </strong> {{menor_detalles.proyecto}} </p>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <P class="text-danger fw-bold"> <strong> Proyecto: </strong> {{menor_detalles.proyecto}}</p>
+            </div>
+            <div class="col">
+                <P class="text-danger fw-bold">Este proyecto no esta ACTIVO, Favor Actualizar</p>
+            </div>
+        {% endif %}
     </div>
     <div class="row">
 
@@ -165,11 +174,20 @@
         </table>
 
         <!-- ########  boton agregar Antropometrico  ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}">
 
-            Nuevo Control Antropométrico
-    
-        </a>
+                Nuevo Control Antropométrico
+        
+            </a>
+        {% else %}
+            <a class="btn btn-outline-secondary btn-sm" href="#">
+
+                Nuevo Control Antropométrico
+        
+            </a>
+        {% endif %}
+
     </div>
     <hr>
     <br>
@@ -213,11 +231,19 @@
         </table>
 
         <!-- ########  Boton Agregar Control Medico ##########-->
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}">
+
+                Nuevo Control Pediatrico
+        
+            </a>
+        {% else %}
+        <a class="btn btn-outline-secondary btn-sm" href="#">
 
             Nuevo Control Pediatrico
     
         </a>
+        {% endif %}
 
     </div>
     <hr>
