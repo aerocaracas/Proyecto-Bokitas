@@ -12,18 +12,15 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill,Side
 class exportar_proyecto(TemplateView):
 
     def get(self, request, *args, **kwargs):
-        query = Beneficiario.objects.all()
-        wb = Workbook()
-        bandera = True
-        hojas = 5
-        cont = 1
-        for hoja in query:
-            if bandera:
-                ws = wb.active
-                bandera = False
-            else:
-                ws = wb.create_sheet('hoja'+str(cont))
-            cont += 1
+    #####    query = Beneficiario.objects.all()
+        workbook = Workbook()
+        worksheet = workbook.active
+
+        worksheet.merge_cells('A1:D1')
+        worksheet.merge_cells('A2:D2')
+
+
+
         
     #*********  Establecer el nombre del Archivo *******
         nombre_archvo = "Reporte_por_Proyecto.xlsx"
@@ -32,6 +29,6 @@ class exportar_proyecto(TemplateView):
         response = HttpResponse(content_type = "application/ms-excel")
         contenido = "attachment; filename = {0}".format(nombre_archvo)
         response["Content-Disposition"] = contenido
-        wb.save(response)
+        workbook.save(response)
         return response
     
