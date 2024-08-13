@@ -44,31 +44,47 @@ class exportar_proyecto(TemplateView):
             third_cell.value = "Bokitas Fundation  www.bokitas.org"
             third_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 12, bold = True, color="6F42C1")
         
-    #*********  hoja de Datos de los Beneficiario  *************
-        worksheet = workbook['REGISTRO BENEFICIARIOS']
+#***********************  HOJA DE DATOS DE LOS BENEFICIARIOS  ********************************
+
+    #*********  Registro de Datos de los Beneficiario  *************
+        worksheet = workbook.worksheets[0]
+       # worksheet = workbook['REGISTRO BENEFICIARIOS']
         worksheet.merge_cells('A4:U6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DE LOS BENEFICIARIOS"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-    #*********  Registro de Datos de los Beneficiario  *************
-        titulo1 = ['PROYECTO','CENTRO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','EMBARAZADA','LACTANDO','ESTADO CIVIL','EDUCACIÓN','PROFESIÓN','LABORAL','TELEFONO','CORREO','DIRECCIÓN','CIUDAD','ESTADO','ESTATUS','NÚMERO DE CUENTA']
+        beneficiarios = Beneficiario.objects.all()
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','EMBARAZADA','LACTANDO','ESTADO CIVIL','EDUCACIÓN','PROFESIÓN','LABORAL','TELEFONO','CORREO','DIRECCIÓN','CIUDAD','ESTADO','ESTATUS','NÚMERO DE CUENTA']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
 
     #********* asigna el titulo a las columnas  ************************
-        for col_num, column_title in enumerate(titulo1, 1):
+        for col_num, column_title in enumerate(titulos, 1):
             cell = worksheet.cell(row=row_num, column=col_num)
             cell.value = column_title
             cell.fill = PatternFill("solid", fgColor="E2D9F3")
             cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
             cell.font  = Font(bold=True, size = 14, color="333399")
             cell.alignment = Alignment(horizontal="center", vertical="center")
-            worksheet.column_dimensions[get_column_letter(col_num)].auto_size=True
-            
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
 
+    #**************  Agrega la data a las celdas
+        for beneficiario in beneficiarios:
+            row_num += 1
+            datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac,beneficiario.edad,beneficiario.meses,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+
+            for col_num, cell_value in enumerate(datos, 1):
+                cell = worksheet.cell(row=row_num, column=col_num)
+                cell.value = str(cell_value)
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                if col_num == 6 or col_num == 7 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 20:
+                    cell.alignment = Alignment(horizontal="center")
+
+                
 
 
 
