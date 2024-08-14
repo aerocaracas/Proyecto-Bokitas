@@ -16,7 +16,7 @@ from django.contrib import messages
 # Sesion del Beneficiario.
 @login_required      
 def beneficiario(request):
-    beneficiarios = Beneficiario.objects.all()
+    beneficiarios = Beneficiario.objects.all().order_by('cedula')
     query = ''
     page = request.GET.get('page',1)
 
@@ -25,7 +25,7 @@ def beneficiario(request):
             query = request.POST.get("searchquery")
             beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query))
 
-        paginator = Paginator(beneficiarios, 2)
+        paginator = Paginator(beneficiarios, 10)
         beneficiarios = paginator.page(page)
     except:
         raise Http404
