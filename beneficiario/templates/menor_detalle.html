@@ -17,14 +17,20 @@
 
     <div class="row">
         {% if proyectos.estatus == "ACTIVO" %}
-            <div class="col">
+            <div class="col-6">
                 <P class="text-success fw-bold"> <strong> Proyecto: </strong> {{menor_detalles.proyecto}} </p>
             </div>
+            <div class="col-6">
+                <P> <strong> Representante: </strong>{{menor_detalles.cedula_bef}}</p>
+            </div>
         {% else %}
-            <div class="col-12">
+            <div class="col-6">
                 <P class="text-danger fw-bold"> <strong> Proyecto: </strong> {{menor_detalles.proyecto}}</p>
             </div>
-            <div class="col">
+            <div class="col-6">
+                <P> <strong> Representante: </strong>{{menor_detalles.cedula_bef}}</p>
+            </div>
+            <div class="col-12">
                 <P class="text-danger fw-bold">Este proyecto no esta ACTIVO, Favor Actualizar</p>
             </div>
         {% endif %}
@@ -39,9 +45,6 @@
         </div>
         <div class="col">
             <P> <strong> Apellido: </strong> {{menor_detalles.apellido}} </p>
-        </div>
-        <div class="col">
-            <P> <strong> Representante: </strong>{{menor_detalles.cedula_bef}}</p>
         </div>
     </div>
 
@@ -61,6 +64,9 @@
     </div>
          
     <div class="row">
+        <div class="col">
+            <P> <strong> Parentesco: </strong>{{menor_detalles.parentesco}}</p>
+        </div>
         <div class="col">
             <P> <strong> Fecha Ingreso: </strong>{{menor_detalles.fecha_ing_proyecto | date:"d/m/Y"}}</p>
         </div>

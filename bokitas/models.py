@@ -58,6 +58,12 @@ EMBARAZO_LACTANDO = (
 HIJOS = (
     ("HIJO", "HIJO"),
     ("HIJA", "HIJA"),
+    ("SOBRINO", "SOBRINO"),
+    ("SOBRINA", "SOBRINA"),
+    ("NIETO", "NIETO"),
+    ("NIETA", "NIETA"),
+    ("ASISTIDO", "ASISTIDO"),
+    ("ASISTIDA", "ASISTIDA"),
 )
 
 PARENTESCO = (
