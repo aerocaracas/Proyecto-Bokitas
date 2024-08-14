@@ -865,10 +865,23 @@ def imc_benef(request, pk):
             else:
                 estado = "ESTUDIO"
 
-            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
+            fecha_inicial = beneficiarios.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
+            xEdad = tiempo_transc.years
+            xMeses = tiempo_transc.months
+
+            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
             
             antropometrico.save()
             idimc=antropometrico.id
+
+            beneficiarios.edad = xEdad
+            beneficiarios.meses = xMeses
+            beneficiarios.save()
 
             return redirect("imc_benef_riesgo", pk, idimc)
         
