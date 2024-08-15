@@ -302,8 +302,8 @@ class exportar_proyecto(TemplateView):
     
 
 
-class exportar_beneficiario(TemplateView):
-    def get(self, request,  proyec, *args, **kwargs):
+class exportar_beneficiario_detalle(TemplateView):
+    def get(self, request,  pk, *args, **kwargs):
         workbook = Workbook()
         fecha = datetime.now()
         fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m') 
@@ -335,7 +335,7 @@ class exportar_beneficiario(TemplateView):
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        beneficiarios = Beneficiario.objects.filter(proyecto=proyec).order_by('cedula')
+        beneficiarios = Beneficiario.objects.filter(id=pk)
         
         titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','NACIONALIDAD','NUM HIJOS','EMBARAZADA','LACTANDO','ESTADO CIVIL','EDUCACIÓN','PROFESIÓN','LABORAL','TELEFONO','CORREO','DIRECCIÓN','CIUDAD','ESTADO','ESTATUS','NÚMERO DE CUENTA']
         row_num = 7
@@ -366,7 +366,7 @@ class exportar_beneficiario(TemplateView):
                     cell.alignment = Alignment(horizontal="center")
 
     #*********  Establecer el nombre del Archivo *******
-        nombre_archvo = "Reporte_Beneficiarios.xlsx"
+        nombre_archvo = "Reporte_Beneficiario_detalle.xlsx"
     
     #*********  Definir el tipo de respuesta que se va a dar ***********
         response = HttpResponse(content_type = "application/ms-excel")

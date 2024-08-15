@@ -63,5 +63,32 @@
     </div>
   </div>
      
+
+  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto">Exportar Excel Proyecto</a>
+
+
+<!-- Modal exp_proyecto -->
+<div class="modal fade" id="exp_proyecto"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_proyectoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exp_proyectoLabel">Exportar Proyecto Completo</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+            <div class="container">
+              <div class="col-6">
+                <label for="">Proyecto: </label>
+                <input type="text" name="proye" class="form-control" required placeholder="Proyecto">
+              </div>
+            </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <a href="{% url 'exportar_proyecto' %}" role="button" class="btn btn-info"> Exportar </a>
+          </div>
+      </div>
+  </div>
+</div>
+
+
    
 {% endblock %}

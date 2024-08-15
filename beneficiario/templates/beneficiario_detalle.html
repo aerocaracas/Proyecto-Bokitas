@@ -305,7 +305,8 @@
                             <td class="text-center">{{medicamento.cantidad}}</td>
                             <td class="text-center"><a class="btn btn-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modalmedicamento"><i class="bi bi-trash-fill"></i></a></td>
                         </tr>
-                                <!-- Modal -->
+                        
+                        <!-- Modal Eliminar Medicamentos / Productos -->
                         <div class="modal fade" id="modalmedicamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -314,7 +315,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                            Está seguro de Eliminar el Registro de Medicamentos?
+                                        Está seguro de Eliminar el Registro de Medicamentos?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -376,7 +377,6 @@
 
     <div>
 
-
     <!-- ########  Menu de opciones  ##########-->
     <br>
     <hr>
@@ -389,16 +389,15 @@
         &nbsp
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Eliminar
-    </button>
-        
-        
+        </button>
+        &nbsp
+        <a class="btn btn-outline-primary" href="{% url 'exportar_beneficiario_detalle' pk %}">Exportar a Excel</a>
     </div>
   
 
 </div>
 
-
-<!-- Modal -->
+<!-- Modal Eliminar Beneficiario -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -418,5 +417,4 @@
     </div>
 </div>
    
-
 {% endblock %}
