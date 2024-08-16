@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional
+from bokitas.models import Proyecto, Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional
 from django.db.models import Q
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView
@@ -96,7 +96,7 @@ class exportar_proyecto(TemplateView):
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        menores = Menor.objects.all().order_by('-cedula_bef')
+        menores = Menor.objects.filter(proyecto=proyecto).order_by('-cedula_bef')
 
         titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
         row_num = 7

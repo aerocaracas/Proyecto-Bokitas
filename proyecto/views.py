@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from proyecto.forms import ProyectoForm, ExpProyectoForm
+from proyecto.forms import ProyectoForm
+from beneficiario.forms import ExpProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto
 from django.db.models import Q

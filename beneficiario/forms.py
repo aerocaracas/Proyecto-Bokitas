@@ -61,7 +61,7 @@ class BeneficiarioForm(ModelForm):
                 }
 
 
-class ProyectoForm(ModelForm):
+class ExpProyectoForm(ModelForm):
     class Meta:
         model = Beneficiario
         fields = ['proyecto']

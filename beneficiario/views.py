@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, ProyectoForm
+from beneficiario.forms import BeneficiarioForm, ExpProyectoForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
@@ -17,7 +17,7 @@ from django.contrib import messages
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all().order_by('cedula')
-    proyect = ProyectoForm
+    proyect = ExpProyectoForm
     query = ''
 
     page = request.GET.get('page',1)
@@ -876,8 +876,9 @@ def imc_benef(request, pk):
 
             xEdad = tiempo_transc.years
             xMeses = tiempo_transc.months
+            proyecto = beneficiarios.proyecto
 
-            antropometrico = AntropBef(cedula_bef_id=pk, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
+            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
             
             antropometrico.save()
             idimc=antropometrico.id

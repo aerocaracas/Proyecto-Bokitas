@@ -9,9 +9,7 @@
     <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
         <h1 class="text-center">Crear Nuevo Proyecto</h1>
         <hr>
-
-        {{error}}
-
+        
         <form action="/proyecto/crear/" method="POST">
             {% csrf_token %}
 
