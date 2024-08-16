@@ -14,7 +14,6 @@ from openpyxl.utils import get_column_letter
 class exportar_proyecto(TemplateView):
     def get(self, request, *args, **kwargs):
         proyecto = request.GET.get('proyecto')
-        print(proyecto)
         workbook = Workbook()
         bandera = True
         fecha = datetime.now()
@@ -127,7 +126,7 @@ class exportar_proyecto(TemplateView):
                     cell.alignment = Alignment(horizontal="center")
 
 
-#*************  HOJA DE DATOS ANTROPOMETRICOS DEL  MENORES  *********************
+#*************  HOJA DE DATOS ANTROPOMETRICOS DEL MENORES  *********************
 
     #*********  Registro de Datos antropometricos Menores  *************
         worksheet = workbook.worksheets[2]
@@ -137,7 +136,7 @@ class exportar_proyecto(TemplateView):
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        imc_menores = AntropMenor.objects.filter(proyecto=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
+        imc_menores = AntropMenor.objects.filter(proyecto_id=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
 
         titulos = ['PROYECTO','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA EVALUACIÓN','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
         row_num = 7

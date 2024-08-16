@@ -892,7 +892,8 @@ def imc_benef(request, pk):
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'imc_benef.html', {
-            'pk': pk
+            'pk': pk,
+            'beneficiarios': beneficiarios
             })
 
 

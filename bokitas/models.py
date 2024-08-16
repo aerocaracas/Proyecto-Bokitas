@@ -329,7 +329,7 @@ class Familia(models.Model):
 class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Menor, on_delete=models.CASCADE)
-    proyecto = models.CharField(max_length=100, blank=False)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateTimeField(default=timezone.now)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
@@ -358,7 +358,7 @@ class AntropMenor(models.Model):
 
 class AntropBef(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    proyecto = models.CharField(max_length=100, blank=False)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     fecha = models.DateTimeField(default=timezone.now)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
