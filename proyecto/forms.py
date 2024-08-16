@@ -7,3 +7,10 @@ class ProyectoForm(ModelForm):
         fields = ['proyecto','estatus','nombre_centro', 'direccion','estado','ciudad','representante','telefono','correo']
 
         labels = {'proyecto':'Proyecto','estatus':'Estatus','nombre_centro':'Nombre del Centro', 'direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','representante':'Representante','telefono':'Teléfono','correo':'Correo'}
+
+class ExpProyectoForm(ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = ['proyecto']
+
+        labels = {'proyecto':'Seleccione el Proyecto'}

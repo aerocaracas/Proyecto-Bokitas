@@ -60,6 +60,15 @@ class BeneficiarioForm(ModelForm):
             'observacion': forms.Textarea(attrs={'rows':3}),
                 }
 
+
+class ProyectoForm(ModelForm):
+    class Meta:
+        model = Beneficiario
+        fields = ['proyecto']
+        labels = {'proyecto':'Seleccione el Proyecto'}
+
+
+
 class MenorForm(ModelForm):
     class Meta:
         model = Menor 

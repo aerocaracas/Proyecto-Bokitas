@@ -3,6 +3,8 @@
 
 {% block content %}   
 
+{% load crispy_forms_tags %}
+
     
   <div class="col-10 offset-1"> 
     <br>
@@ -15,6 +17,8 @@
           Crear Nuevo Proyecto
 
         </a>
+        &nbsp
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto">Exportar a Excel</a>
       </div>
       <div class="col">
         <form action="" method="POST" class="d-flex">
@@ -62,33 +66,35 @@
 
     </div>
   </div>
-     
 
-  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto">Exportar Excel Proyecto</a>
-
-
-<!-- Modal exp_proyecto -->
-<div class="modal fade" id="exp_proyecto"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_proyectoLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exp_proyectoLabel">Exportar Proyecto Completo</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-            <div class="container">
-              <div class="col-6">
-                <label for="">Proyecto: </label>
-                <input type="text" name="proye" class="form-control" required placeholder="Proyecto">
-              </div>
+  <!-- Modal exp_Proyecto -->
+  <div class="modal fade" id="exp_proyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_beneficiariooLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exp_beneficiarioLabel">Exportar el Proyecto Completo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <a href="{% url 'exportar_proyecto' %}" role="button" class="btn btn-info"> Exportar </a>
-          </div>
-      </div>
+            <div class="modal-body">
+                <form action="/exportar_proyecto" method="GET">
+                  {% csrf_token %}
+                  <h6>{{proyect}}</h6>                
+                  <dev class="d-flex justify-content-center">
+                    <button class="btn btn-success mx-2">
+                      Exportar
+                    </button>
+                  </dev>
+                  
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
-
+  
 
    
 {% endblock %}

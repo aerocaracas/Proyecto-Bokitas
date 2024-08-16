@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from proyecto.forms import ProyectoForm
+from proyecto.forms import ProyectoForm, ExpProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto
 from django.db.models import Q
@@ -12,6 +12,7 @@ from django.contrib import messages
 @login_required      
 def proyecto(request):
     proyectos = Proyecto.objects.all()
+    proyect = ExpProyectoForm
     query = ""
     page = request.GET.get('page',1)
 
@@ -27,6 +28,7 @@ def proyecto(request):
 
     return render(request, 'proyecto.html',{
         'entity': proyectos,
+        'proyect':proyect,
         'query':query,
         'paginator': paginator
     })

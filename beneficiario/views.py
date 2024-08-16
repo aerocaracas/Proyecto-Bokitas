@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm
+from beneficiario.forms import BeneficiarioForm, ProyectoForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
@@ -17,7 +17,9 @@ from django.contrib import messages
 @login_required      
 def beneficiario(request):
     beneficiarios = Beneficiario.objects.all().order_by('cedula')
+    proyect = ProyectoForm
     query = ''
+
     page = request.GET.get('page',1)
 
     try:
@@ -32,6 +34,7 @@ def beneficiario(request):
     
     return render(request, 'beneficiario.html',{
         'entity': beneficiarios,
+        'proyect':proyect,
         'query':query,
         'paginator': paginator
     })
