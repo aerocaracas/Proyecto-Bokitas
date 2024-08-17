@@ -18,9 +18,11 @@
 
         </a>
         &nbsp
-          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto">Exportar a Excel</a>
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto">Exportar Proyecto</a>
+          &nbsp
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_jornada">Exportar Jornada</a>
       </div>
-      <div class="col">
+      <div class="col-5">
         <form action="" method="POST" class="d-flex">
           {% csrf_token %}
           <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar...">
@@ -95,6 +97,34 @@
     </div>
   </div>
   
+<!-- Modal exp_Jornada -->
+<div class="modal fade" id="exp_jornada" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_jornadaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exp_jornadaLabel">Exportar Información por Fecha de la Jornada </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form action="/exportar_proyecto" method="GET">
+                {% csrf_token %}
+                <h6>{{proyect | crispy}}</h6>                
+                <dev class="d-flex justify-content-center">
+                  <button class="btn btn-success mx-2">
+                    Exportar
+                  </button>
+                </dev>
+                
+              </form>
+              
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 
    
 {% endblock %}

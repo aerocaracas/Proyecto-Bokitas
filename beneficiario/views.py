@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, ExpProyectoForm
+from beneficiario.forms import BeneficiarioForm, ExpProyectoForm, ImcMenorForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
@@ -269,9 +269,11 @@ def imc_menor_crear(request, pk, id):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         menor_detalles = get_object_or_404(Menor, id=id)
+        form = ImcMenorForm
         context={}
         context["pk"]=pk
         context["id"]=id
+        context["form"]=form
         context["beneficiarios"]=beneficiarios
         context["menor_detalles"]=menor_detalles
 
@@ -281,18 +283,20 @@ def imc_menor_crear(request, pk, id):
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
             menor_detalles = get_object_or_404(Menor, id=id)
+            form = ImcMenorForm(request.POST)
+            new_imc_menor = form.save(commit=False)
 
-            xTalla = float(request.POST.get("talla"))
-            xPeso = float(request.POST.get("peso"))
-            xcbi = float(request.POST.get("cbi"))
-            xptr = float(request.POST.get("ptr"))
-            xpse = float(request.POST.get("pse"))
-            xcc = float(request.POST.get("cc"))
+            xFecha = new_imc_menor.fecha
+            xTalla = float(new_imc_menor.talla)
+            xPeso = float(new_imc_menor.peso)
+            xcbi = float(new_imc_menor.cbi)
+            xptr = float(new_imc_menor.ptr)
+            xpse = float(new_imc_menor.pse)
+            xcc = float(new_imc_menor.cc)
 
-            fecha_inicial = menor_detalles.fecha_nac
-            fecha = datetime.today()
-            dia_hoy = date.today()
             proyecto = menor_detalles.proyecto
+            fecha_inicial = menor_detalles.fecha_nac
+            dia_hoy = date.today()
             fecha_fin = dia_hoy.strftime('%d-%m-%Y')
             fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
             tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
@@ -393,6 +397,7 @@ def imc_menor_crear(request, pk, id):
                     context={}
                     context["pk"]=pk
                     context["id"]=id
+                    context["form"]=form
                     context["beneficiarios"]=beneficiarios
                     context["menor_detalles"]=menor_detalles
                     
@@ -443,6 +448,7 @@ def imc_menor_crear(request, pk, id):
                     context={}
                     context["pk"]=pk
                     context["id"]=id
+                    context["form"]=form
                     context["beneficiarios"]=beneficiarios
                     context["menor_detalles"]=menor_detalles
                     messages.warning(request, "Datos incorectos, Favor verificar la información")
@@ -505,7 +511,7 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = fecha, edad = xEdad, meses = xMeses, peso = xPeso, talla = xTalla, cbi = xcbi, ptr = xptr, pse = xpse, cc = xcc, imc = imc, diagnostico = diag_peso, diagnostico_talla = diag_talla, min_peso = min_peso, max_peso = max_peso, min_talla = min_talla, max_talla = max_talla,min_imc = min_imc, max_imc = max_imc)
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = xFecha, edad = xEdad, meses = xMeses, peso = xPeso, talla = xTalla, cbi = xcbi, ptr = xptr, pse = xpse, cc = xcc, imc = imc, diagnostico = diag_peso, diagnostico_talla = diag_talla, min_peso = min_peso, max_peso = max_peso, min_talla = min_talla, max_talla = max_talla,min_imc = min_imc, max_imc = max_imc)
                 
             imc_menor.save()
             idimc=imc_menor.id
@@ -530,6 +536,7 @@ def imc_menor_crear(request, pk, id):
             context={}
             context["pk"]=pk
             context["id"]=id
+            context["form"]=form
             context["beneficiarios"]=beneficiarios
             context["menor_detalles"]=menor_detalles
             messages.warning(request, "Datos incorectos, Favor verificar la información")

@@ -255,6 +255,15 @@ class Beneficiario(models.Model):
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
+
+class jornada(models.Model):
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    fecha = models.DateField()
+
+    def __str__(self):
+        return f"{self.fecha},{self.proyecto}"
+
+
 class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
@@ -336,9 +345,9 @@ class AntropMenor(models.Model):
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    ptr = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    pse = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    cc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    ptr = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,default=0.00)
+    pse = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,default=0.00)
+    cc = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,default=0.00)
     imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     diagnostico = models.CharField(max_length=50, blank=False)
     diagnostico_talla = models.CharField(max_length=50, blank=False)
