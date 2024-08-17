@@ -373,6 +373,8 @@ class AntropBef(models.Model):
     servicio = models.TextField(max_length=200,blank=True)
     centro_hospital = models.TextField(max_length=200,blank=True)
     observacion = models.TextField(max_length=200,blank=True)
+    min_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    max_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f"{self.cedula_bef}"

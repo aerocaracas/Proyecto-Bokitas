@@ -768,12 +768,18 @@ def imc_benef_riesgo(request, pk, idimc):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=idimc)
+        diag_imc = get_object_or_404(Diagnostico, diagnostico = imc_beneficiarios.diagnostico)
         imc = str(imc_beneficiarios.imc).replace(',','.')
+        min_imc = str(imc_beneficiarios.min_imc).replace(',','.')
+        max_imc = str(imc_beneficiarios.max_imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
         context["idimc"]=idimc
         context["imc"]=imc
+        context["min_imc"]=min_imc
+        context["max_imc"]=max_imc
+        context["diag_imc"]=diag_imc
         context["imc_beneficiarios"]=imc_beneficiarios
 
         return render(request, "imc_benef_riesgo.html", context)   
@@ -827,7 +833,8 @@ def imc_benef(request, pk):
             talla = float(request.POST.get("talla"))
             cbi = request.POST.get("cbi")
             tiempo = request.POST.get("tiempo")
-
+            min_imc = 0
+            max_imc = 0
             talla = talla/100
 
             imc = round(peso/(talla**2),2)
@@ -838,27 +845,38 @@ def imc_benef(request, pk):
 
                 if xImc:                  
                     if imc <= xImc.p2:
-                        diagnostico = "PESO BAJO"
+                        xDiagnostico = 10
+                        min_imc = float(xImc.p2) - 2
+                        max_imc = xImc.p2
                     elif imc > xImc.p2 and imc <= xImc.p3:
-                        diagnostico = "ADECUADO"
+                        xDiagnostico = 4
+                        min_imc = xImc.p2
+                        max_imc = xImc.p3
                     elif imc > xImc.p3 and imc <= xImc.p4:
-                        diagnostico = "RIESGO DE SOBREPESO"
+                        xDiagnostico = 5
+                        min_imc = xImc.p3
+                        max_imc = xImc.p4
                     elif imc > xImc.p4 and imc <= xImc.p5:
-                        diagnostico = "SOBREPESO"
+                        xDiagnostico = 6
+                        min_imc = xImc.p4
+                        max_imc = xImc.p5
                     elif imc >= xImc.p5:
-                        diagnostico = "OBESIDAD"
+                        xDiagnostico = 7
+                        min_imc = xImc.p5
+                        max_imc = float(xImc.p5) + 2
 
             else:
+
                 if imc < 18.5:
-                    diagnostico = "PESO BAJO"
+                    xDiagnostico = 10
                 elif imc >= 18.5 and imc < 23:
-                    diagnostico = "ADECUADO"
+                    xDiagnostico = 4
                 elif imc >= 23 and imc < 25:
-                    diagnostico = "RIESGO DE SOBREPESO"
+                    xDiagnostico = 5
                 elif imc >= 25 and imc < 30:
-                    diagnostico = "SOBREPESO"
+                    xDiagnostico = 6
                 elif imc >= 30:
-                    diagnostico = "OBESIDAD"
+                    xDiagnostico = 7
 
             fecha = datetime.now()
             if beneficiarios.embarazada == "SI":
@@ -867,6 +885,12 @@ def imc_benef(request, pk):
                 estado = "LACTANDO"
             else:
                 estado = "ESTUDIO"
+
+        #********   DIAGNOSTICO   **********
+
+            xDiag = Diagnostico.objects.get(codigo_diag = xDiagnostico)
+            diagnostico = xDiag.diagnostico
+
 
             fecha_inicial = beneficiarios.fecha_nac
             dia_hoy = date.today()
@@ -878,7 +902,7 @@ def imc_benef(request, pk):
             xMeses = tiempo_transc.months
             proyecto = beneficiarios.proyecto
 
-            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico)
+            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico, min_imc = min_imc, max_imc = max_imc)
             
             antropometrico.save()
             idimc=antropometrico.id
@@ -904,12 +928,18 @@ def imc_benef_detalle(request, pk, id):
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         imc_beneficiarios = get_object_or_404(AntropBef, id=id)
+        diag_imc = get_object_or_404(Diagnostico, diagnostico = imc_beneficiarios.diagnostico)
         imc = str(imc_beneficiarios.imc).replace(',','.')
+        min_imc = str(imc_beneficiarios.min_imc).replace(',','.')
+        max_imc = str(imc_beneficiarios.max_imc).replace(',','.')
         context = {}
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
         context["idimc"]=id
         context["imc"]=imc
+        context["min_imc"]=min_imc
+        context["max_imc"]=max_imc
+        context["diag_imc"]=diag_imc
         context["imc_beneficiarios"]=imc_beneficiarios
 
         return render(request, "imc_benef_detalle.html", context)   

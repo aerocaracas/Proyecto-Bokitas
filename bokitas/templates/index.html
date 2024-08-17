@@ -3,14 +3,16 @@
 {% block content %}
 
     <body>
-        <br>
+        <div class="d-flex justify-content-end p-2">
+             <p>Siguenos: &nbsp <a data-mdb-ripple-init class="btn btn-primary" style="background-color: #ac2bac;" href="https://www.instagram.com/bokitasorg/?hl=es" target="_blank" role="button"
+  ><i class="bi bi-instagram"></i></a> &nbsp <a data-mdb-ripple-init class="btn btn-primary" style="background-color: #6f42c1;" href="https://www.bokitas.org" target="_blank" role="button"
+  ><i class="bi bi-globe"></i></a>   </p>
+        </div>
         <div class="text-center bg-light.bg-gradient">
 
             <h2> Sistema Integral de Atención BOKITAS </h2>
             <h5> Realice el seguimiento al beneficiario de manera efectiva </h5>
             <hr>
-
-
             {% if user.is_authenticated %}
                 <!--  CARRUSEL DE BOKITAS    -->
               <div class="col-lg-5" style="float:none;margin:auto;">
@@ -61,12 +63,11 @@
             {% endif %}
 
             <div class="container">
-                <h3 class="text-center"> COMO TRABAJAMOS </h3>
-                <br>
+                <h4 class="text-center"> COMO TRABAJAMOS </h4>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
                         <div class="card h-100 card border-white">
-                            <img src="/static/img/cuchilleria.png" class="mx-auto d-block" alt="Suplementos nutricionales" height="200">
+                            <img src="/static/img/cuchilleria.png" class="mx-auto d-block" alt="Suplementos nutricionales" height="150">
                             <div class="card-body">
                                 <h5 class="card-title">NUTRICIONAL</h5>
                                 <p class="card-text">Bokitas facilitan el acceso a suplementos nutricionales y educación nutricional.</p>
@@ -75,7 +76,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100 card border-white">
-                            <img src="/static/img/medicion.png" class="mx-auto d-block" alt="Pesan y miden a menores" height="200">
+                            <img src="/static/img/medicion.png" class="mx-auto d-block" alt="Pesan y miden a menores" height="150">
                             <div class="card-body">
                                 <h5 class="card-title">CONTROL</h5>
                                 <p class="card-text">Especialistas pesan y miden a menores e identifican a los desnutridos.</p>
@@ -84,7 +85,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100 card border-white">
-                            <img src="/static/img/estetoscopio.png" class="mx-auto d-block" alt="Pediatria" height="200">
+                            <img src="/static/img/estetoscopio.png" class="mx-auto d-block" alt="Pediatria" height="150">
                             <div class="card-body">
                                 <h5 class="card-title">PEDIATRIA</h5>
                                 <p class="card-text">El pediatra examina a los niños y solicita pruebas de laboratorio y medicamentos.</p>
@@ -94,12 +95,7 @@
                 </div>
 
             </div>
-
-        </div>
-        <br>
-        <br>
-        <br>
-
+      </div>
+      <br>
     </body>
-
 {% endblock%}

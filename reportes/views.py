@@ -666,3 +666,79 @@ class listado_beneficiario(TemplateView):
         workbook.save(response)
         return response
     
+
+
+class listado_menores(TemplateView):
+    def get(self, request, *args, **kwargs):
+        proyecto = request.GET.get('proyecto')
+        workbook = Workbook()
+        fecha = datetime.now()
+        fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m') 
+        worksheet = workbook.active
+        worksheet.title = "LISTADO DE MENORES"
+        worksheet.merge_cells('A1:C1')
+        first_cell = worksheet['A1']
+        first_cell.value = "Fecha: " + fecha_fin
+
+    #*********  Crear encabezado en la hoja  *************
+        worksheet.merge_cells('A2:D2')
+        second_cell = worksheet['A2']
+        second_cell.value = "Bokitas"
+        second_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 52, bold = True, color="6F42C1")
+
+        worksheet.merge_cells('A3:D3')
+        third_cell = worksheet['A3']
+        third_cell.value = "Bokitas Fundation    www.bokitas.org"
+        third_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 12, bold = True, color="6F42C1")
+        
+#***********************  HOJA DE DATOS DE LOS MENORES  ********************************
+
+    #*********  Registro de Datos de los Menores  *************
+        worksheet = workbook.worksheets[0]
+        worksheet.merge_cells('A4:O6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "REGISTROS DEL PERFIL DE MENORES"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        menores = Menor.objects.filter(proyecto=proyecto).order_by('-cedula_bef')
+
+        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
+        row_num = 7
+        thin = Side(border_style="thin", color="000000")
+        double = Side(border_style="double", color="000000")
+
+    #********* asigna el titulo a las columnas  ************************
+        for col_num, column_title in enumerate(titulos, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.fill = PatternFill("solid", fgColor="E2D9F3")
+            cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
+            cell.font  = Font(bold=True, size = 14, color="333399")
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+    #**************  Agrega la data a las celdas
+        for menor in menores:
+            row_num += 1
+            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y')]
+
+            for col_num, cell_value in enumerate(datos, 1):
+                cell = worksheet.cell(row=row_num, column=col_num)
+                cell.value = str(cell_value)
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15:
+                    cell.alignment = Alignment(horizontal="center")
+
+
+    #*********  Establecer el nombre del Archivo *******
+        nombre_archvo = "Rep_listado_Menores.xlsx"
+    
+    #*********  Definir el tipo de respuesta que se va a dar ***********
+        response = HttpResponse(content_type = "application/ms-excel")
+        contenido = "attachment; filename = {0}".format(nombre_archvo)
+        response["Content-Disposition"] = contenido
+        workbook.save(response)
+        return response
+    

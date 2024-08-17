@@ -20,7 +20,7 @@ def nutricional(request):
         if "search" in request.POST:
             query = request.POST.get("searchquery")
             nutricionales = Nutricional.objects.filter(cedula_bef__cedula__contains=query)
-        paginator = Paginator(nutricionales, 2)
+        paginator = Paginator(nutricionales, 15)
         nutricionales = paginator.page(page)
     except:
         raise Http404

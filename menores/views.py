@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor
+from bokitas.models import Menor
+from beneficiario.forms import ExpProyectoForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -12,6 +13,7 @@ from django.db.models import Q
 def menores(request):
 
     menores = Menor.objects.all()
+    proyect = ExpProyectoForm
     query = ""
     page = request.GET.get('page',1)
 
@@ -27,6 +29,7 @@ def menores(request):
     return render(request, 'menores.html',{
         'entity': menores,
         'query': query,
+        'proyect':proyect,
         'paginator': paginator
     })
 

@@ -243,10 +243,10 @@
                             <td>{{antrop.talla}}</td>
                             <td>{{antrop.cbi}}</td>
                             <td class="text-center">{{antrop.imc}}</td>
-                            {% if antrop.diagnostico == "PESO BAJO" %}
-                                <td class="text-center"><div class="text-bg-danger">PESO BAJO</div></td>  
-                            {%elif antrop.diagnostico == "ADECUADO" %}
-                                <td class="text-center"><div class="text-bg-success">ADECUADO</div></td>
+                            {% if antrop.diagnostico == "BAJO PESO" %}
+                                <td class="text-center"><div class="text-bg-danger">BAJO PESO</div></td>  
+                            {%elif antrop.diagnostico == "PESO ADECUADO" %}
+                                <td class="text-center"><div class="text-bg-success">PESO ADECUADO</div></td>
                             {%elif antrop.diagnostico == "RIESGO DE SOBREPESO" %}
                                 <td class="text-center"><div class="text-bg-warning">RIESGO DE SOBREPESO</div></td>
                             {%elif antrop.diagnostico == "SOBREPESO" %}
