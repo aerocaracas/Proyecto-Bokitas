@@ -74,7 +74,11 @@
             <P> <strong> Observación: </strong>{{menor_detalles.observacion}}</p>
         </div>
         <div class="col">
-            <P> <strong> Estatus: </strong>{{menor_detalles.estatus}}</p>
+            {% if menor_detalles.estatus == "ACTIVO" %}
+                    <P class="text-success fw-bold"> <strong> Estatus: </strong>{{menor_detalles.estatus}}</p>
+            {% else %}
+                    <P class="text-danger fw-bold"> <strong> Estatus: </strong>{{menor_detalles.estatus}}</p>
+            {% endif %}
         </div>
     </div>       
 
@@ -180,7 +184,7 @@
         </table>
 
         <!-- ########  boton agregar Antropometrico  ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}">
 
                 Nuevo Control Antropométrico
@@ -237,7 +241,7 @@
         </table>
 
         <!-- ########  Boton Agregar Control Medico ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}">
 
                 Nuevo Control Pediatrico
@@ -272,11 +276,10 @@
         
     </div>
   
-
 </div>
 
 
-<!-- Modal -->
+<!-- Modal Eliminar -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -295,32 +298,5 @@
         </div>
     </div>
 </div>
-
-   
-
-
-<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_menores">Exporta Excel Menores</a>
-
-
-
-<!-- Modal exp_Menores -->
-<div class="modal fade" id="exp_menores" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_menoresLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exp_menoresLabel">Exportar listado de Menores de un Proyecto</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Está seguro de Eliminar al Beneficiario?
-                Esta acción elimina también a los menores que han sido registrados bajo su Tutela
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="#" role="button" class="btn btn-info"> Exportar </a>
-            </div>
-        </div>
-    </div>
-  </div>
 
 {% endblock %}

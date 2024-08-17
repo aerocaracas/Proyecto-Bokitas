@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Beneficiario, Familia, Menor, Medica
+from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, Medica
 from django.forms.widgets import NumberInput 
 
 
@@ -82,6 +82,20 @@ class MenorForm(ModelForm):
             'fecha_nac': NumberInput(attrs={'type':'date'}),
             'fecha_ing_proyecto': NumberInput(attrs={'type':'date'}),
             'observacion': forms.Textarea(attrs={'rows':4}),
+                }
+
+
+class ImcMenorForm(ModelForm):
+    class Meta:
+        model = AntropMenor 
+        fields = ['fecha','peso','talla','cbi','ptr','pse','cc'
+        ]
+
+        labels = {'fecha':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI','ptr':'PTR','pse':'PSE','cc':'CC'
+        }
+
+        widgets = {
+            'fecha': NumberInput(attrs={'type':'date'}),
                 }
 
 

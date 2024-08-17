@@ -94,7 +94,7 @@
             <P> <strong> Dirección: </strong>{{beneficiarios.direccion}}</p>
         </div>
         <div class="col">
-            <P> <strong> Estado: </strong>{{beneficiarios.estado}}</p>
+            <P> <strong> Estatus: </strong>{{beneficiarios.estado}}</p>
         </div>
         <div class="col">
             <P> <strong> Ciudad: </strong>{{beneficiarios.ciudad}}</p>
@@ -106,7 +106,11 @@
             <P> <strong> Observaciones: </strong>{{beneficiarios.observacion}}</p>
         </div>
         <div class="col">
-            <P> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
+            {% if beneficiarios.estatus == "ACTIVO" %}
+                <P class="text-success fw-bold"> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
+            {% else %}
+                <P class="text-danger fw-bold"> <strong> Estatus: </strong>{{beneficiarios.estatus}}</p>
+            {% endif %}
         </div>
         <div class="col">
             <P> <strong> Número de Cuenta: </strong>{{beneficiarios.numero_cuenta}}</p>
@@ -126,6 +130,7 @@
                     <th scope="col">APELLIDO</th>
                     <th scope="col" class="text-center">EDAD</th>
                     <th scope="col" class="text-center">MESES</th>
+                    <th scope="col" class="text-center">ESTATUS</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -139,6 +144,11 @@
                             <td>{{menor.apellido}}</td>
                             <td class="text-center">{{menor.edad}}</td>
                             <td class="text-center">{{menor.meses}}</td>
+                            {% if menor.estatus == "ACTIVO" %}
+                                <td class="text-success fw-bold text-center">{{menor.estatus}}</td>
+                            {% else %}
+                            <td class="text-danger fw-bold text-center">{{menor.estatus}}</td>
+                            {% endif %}
                             <td class="text-center"> <a href="{% url 'menor_detalle' pk menor.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                         </tr>
                     {% endfor %}
@@ -147,7 +157,7 @@
         </table>
 
         <!-- ########  Boton Agregar Hijo ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and beneficiarios.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_crear' pk %}">
 
                 Agregar Nuevo Hijo
@@ -197,7 +207,7 @@
         </table>
 
         <!-- ########  Boton agregar Familiar  ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and beneficiarios.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'familiar_crear' pk %}">
 
                 Agregar Nuevo Familiar
@@ -264,7 +274,7 @@
         </table>
     
         <!-- ########  boton agregar Antropometrico  ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and beneficiarios.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_benef' pk %}">
         
                 Nuevo Control Antropométrico
@@ -330,7 +340,7 @@
         </table>
 
         <!-- ########  Boton agregar Medicamento o Producto  ##########-->
-        {% if proyectos.estatus == "ACTIVO" %}
+        {% if proyectos.estatus == "ACTIVO" and beneficiarios.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'medicamento_crear' pk %}">
 
                 Agregar Nueva Entrega
@@ -394,7 +404,6 @@
         <a class="btn btn-outline-primary" href="{% url 'exp_beneficiario_detalle' pk %}">Exportar a Excel</a>
     </div>
   
-
 </div>
 
 <!-- Modal Eliminar Beneficiario -->

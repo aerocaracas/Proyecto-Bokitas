@@ -47,7 +47,7 @@ LABORAL = (
 
 ESTATUS = (
     ("ACTIVO", "ACTIVO"),
-    ("CERRADO", "CERRADO"),
+    ("EGRESO", "EGRESO"),
 )
 
 EMBARAZO_LACTANDO = (
