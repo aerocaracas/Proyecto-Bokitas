@@ -72,10 +72,10 @@ class ExpProyectoForm(ModelForm):
 class MenorForm(ModelForm):
     class Meta:
         model = Menor 
-        fields = ['proyecto','parentesco','cedula','nombre','apellido','sexo','fecha_nac','fecha_ing_proyecto','observacion','estatus'
+        fields = ['proyecto','parentesco','cedula','nombre','apellido','sexo','fecha_nac','jornada','fecha_ing_proyecto','observacion','estatus'
         ]
 
-        labels = {'proyecto':'Proyecto','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','fecha_ing_proyecto':'Fecha Ingreso','observacion':'Observación','estatus':'Estatus'
+        labels = {'proyecto':'Proyecto','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','jornada':'Fecha de Jornada','fecha_ing_proyecto':'Fecha Ingreso','observacion':'Observación','estatus':'Estatus'
         }
 
         widgets = {
@@ -88,10 +88,10 @@ class MenorForm(ModelForm):
 class ImcMenorForm(ModelForm):
     class Meta:
         model = AntropMenor 
-        fields = ['fecha','peso','talla','cbi','ptr','pse','cc'
+        fields = ['jornada','peso','talla','cbi','ptr','pse','cc'
         ]
 
-        labels = {'fecha':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI','ptr':'PTR','pse':'PSE','cc':'CC'
+        labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI','ptr':'PTR','pse':'PSE','cc':'CC'
         }
 
         widgets = {

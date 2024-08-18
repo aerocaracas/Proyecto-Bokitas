@@ -11,11 +11,12 @@ from .models import Nutricional
 from .models import Tarea
 from .models import Diagnostico
 from .models import ImcCla
+from .models import ImcCla_5x
 from .models import ImcEmbarazada
 from .models import ImcPesoTalla_5x
 from .models import ImcTalla
-from .models import Estados
-from .models import Ciudades
+from .models import Jornada
+from .models import Asistencia
 
 
 # Register your models here.
@@ -31,9 +32,10 @@ admin.site.register(Nutricional)
 admin.site.register(Tarea)
 admin.site.register(Diagnostico)
 admin.site.register(ImcCla)
+admin.site.register(ImcCla_5x)
 admin.site.register(ImcEmbarazada)
 admin.site.register(ImcPesoTalla_5x)
 admin.site.register(ImcTalla)
-admin.site.register(Estados)
-admin.site.register(Ciudades)
+admin.site.register(Jornada)
+admin.site.register(Asistencia)
 

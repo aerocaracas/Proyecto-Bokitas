@@ -213,19 +213,19 @@ class Proyecto(models.Model):
     
 
 class Jornada(models.Model):
-    fecha = models.DateField()
+    jornada = models.DateField()
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     descripcion = models.CharField(max_length=200, blank=True)
     
     class Meta:
-        ordering = ('-fecha',)
+        ordering = ('-jornada',)
 
     def save(self, *args, **kwargs):
         self.descripcion = self.descripcion.upper()
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.fecha},{self.proyecto}"
+        return f"{self.jornada},{self.proyecto}"
 
 
 class Beneficiario(models.Model):
@@ -253,9 +253,7 @@ class Beneficiario(models.Model):
     ciudad = models.CharField(max_length=30,blank=True)
     estatus = models.CharField(max_length=10, default="ACTIVO", choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
-
     observacion = models.TextField(max_length=200, blank=True)
-    
     creado = models.DateTimeField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -272,6 +270,18 @@ class Beneficiario(models.Model):
 
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
+
+
+class Asistencia(models.Model):
+    cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    
+    class Meta:
+        ordering = ('-jornada',)
+
+    def __str__(self):
+        return f"{self.jornada},{self.cedula_bef}"
 
 
 class Menor(models.Model):
@@ -316,6 +326,7 @@ class Menor(models.Model):
 
     def __str__(self):
         return f"{self.cedula}, {self.nombre} {self.apellido},     {self.proyecto}"
+
 
 class Familia(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
@@ -376,6 +387,7 @@ class AntropMenor(models.Model):
     def __str__(self):
         return f"{self.cedula}, {self.cedula_bef} {self.proyecto}"
 
+
 class AntropBef(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
@@ -398,6 +410,7 @@ class AntropBef(models.Model):
 
     def __str__(self):
         return f"{self.cedula_bef}"
+
 
 class Medicamento(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
@@ -514,17 +527,6 @@ class Medica(models.Model):
         return f"{self.cedula_bef}, {self.proyecto} {self.fecha}"
 
 
-class Estados(models.Model):
-    id_estado = models.PositiveIntegerField()
-    estado = models.CharField(max_length=40)
-    iso_3166_2 = models.CharField(max_length=4)
-
-class Ciudades(models.Model):
-    id_ciudad = models.PositiveIntegerField()
-    d_estado = models.PositiveIntegerField()
-    Ciudad = models.CharField(max_length=40)
-    capital = models.PositiveIntegerField()
-
 class Diagnostico(models.Model):
     codigo_diag = models.PositiveIntegerField()
     diagnostico = models.CharField(max_length=25)
@@ -533,6 +535,7 @@ class Diagnostico(models.Model):
     color3 = models.CharField(max_length=10)
     color4 = models.CharField(max_length=10)
     color5 = models.CharField(max_length=10)
+
 
 class ImcCla(models.Model):
     sexo = models.PositiveIntegerField()
@@ -546,12 +549,14 @@ class ImcCla(models.Model):
     sd2 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
     sd3 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
+
 class ImcEmbarazada(models.Model):
     semana = models.PositiveIntegerField()
     p2 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p3 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p4 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
     p5 = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
+
 
 class ImcTalla(models.Model):
     sexo = models.PositiveIntegerField()
@@ -562,6 +567,7 @@ class ImcTalla(models.Model):
     sd0 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     sd1 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     sd2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+
 
 class ImcCla_5x(models.Model):
     sexo = models.PositiveIntegerField()
@@ -575,6 +581,7 @@ class ImcCla_5x(models.Model):
     sd2 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
     sd3 = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
+
 class ImcPesoTalla_5x(models.Model):
     edad = models.PositiveIntegerField(default=0)
     sexo = models.PositiveIntegerField()
@@ -586,6 +593,7 @@ class ImcPesoTalla_5x(models.Model):
     ds1 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     ds2 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     ds3 = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+
 
 class Tarea(models.Model):
     titulo = models.CharField(max_length=100)
