@@ -210,10 +210,28 @@ class Proyecto(models.Model):
 
     def __str__(self):
         return f"{self.proyecto}"
+    
+
+class Jornada(models.Model):
+    fecha = models.DateField()
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    descripcion = models.CharField(max_length=200, blank=True)
+    
+    class Meta:
+        ordering = ('-fecha',)
+
+    def save(self, *args, **kwargs):
+        self.descripcion = self.descripcion.upper()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.fecha},{self.proyecto}"
+
 
 class Beneficiario(models.Model):
     cedula = models.CharField(max_length=15, unique=True, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=10, blank=False, choices=SEXOS)
@@ -256,17 +274,10 @@ class Beneficiario(models.Model):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
 
-class jornada(models.Model):
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField()
-
-    def __str__(self):
-        return f"{self.fecha},{self.proyecto}"
-
-
 class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     cedula = models.CharField(max_length=15, unique=True, blank=False)
     parentesco = models.CharField(max_length=15,blank=False, choices=HIJOS)
     nombre = models.CharField(max_length=100, blank=False)
@@ -339,7 +350,7 @@ class AntropMenor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Menor, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateTimeField(default=timezone.now)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -368,7 +379,7 @@ class AntropMenor(models.Model):
 class AntropBef(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateTimeField(default=timezone.now)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
     edad = models.PositiveIntegerField(default=0) 
@@ -390,7 +401,8 @@ class AntropBef(models.Model):
 
 class Medicamento(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    fecha = models.DateField()
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=50, blank=False)
     descripcion = models.CharField(max_length=100, blank=False)
     cantidad = models.CharField(max_length=50, blank=False)
@@ -407,7 +419,7 @@ class Medicamento(models.Model):
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    fecha = models.DateField(auto_now_add=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     en_embarazo = models.CharField(max_length=10, blank=True)
     en_lactando = models.CharField(max_length=10, blank=True)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
@@ -476,8 +488,8 @@ class Nutricional(models.Model):
 class Medica(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     cedula = models.ForeignKey(Menor, on_delete=models.CASCADE, blank=False)
-    proyecto = models.CharField(max_length=50, blank=False)
-    fecha = models.DateField(auto_now_add=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     edad = models.PositiveIntegerField(default=0) 
     meses = models.PositiveIntegerField(default=0)
     medico_tratante = models.CharField(max_length=50, blank=False)
