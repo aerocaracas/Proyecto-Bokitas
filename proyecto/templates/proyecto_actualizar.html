@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+
+{% block content %}   
+
+{% load crispy_forms_tags %}
+
+<br>
+<div class="container">
+    <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
+                
+        <h1 class="text-center">Actualización de Datos</h1>
+        <h5 class="text-center">Actualice los datos del Proyecto</h5>
+        <hr>
+        <br>
+
+        <form action=" " method="POST">
+            {% csrf_token %}
+            
+            {{form | crispy }}
+
+            <br>
+            <hr>
+
+            <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
+            &nbsp
+            <button class="btn btn-info"> Actualizar </button>
+
+        </form> 
+
+
+
+    </div>
+</div>
+
+
+   
+
+{% endblock %}

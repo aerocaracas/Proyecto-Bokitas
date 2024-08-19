@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from proyecto.forms import ProyectoForm
 from beneficiario.forms import ExpProyectoForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Proyecto
+from bokitas.models import Proyecto, Jornada
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -35,6 +35,24 @@ def proyecto(request):
     })
 
 
+@login_required      
+def proyecto_detalle(request, pk):
+    if request.method == 'GET':
+     
+        proyectos = get_object_or_404(Proyecto, id=pk)
+        jornadas = Jornada.objects.filter(proyecto = pk)
+        
+        form = ProyectoForm(instance=proyectos)
+
+        return render(request, 'proyecto_detalle.html',{
+            'proyectos':proyectos,
+            'jornadas':jornadas,
+            'form': form,
+            'pk': pk
+
+        })
+  
+
 @login_required  
 def proyecto_crear(request):
     if request.method == 'GET':
@@ -55,12 +73,13 @@ def proyecto_crear(request):
             'form': form,
             })
 
+
 @login_required      
-def proyecto_detalle(request, pk):
+def proyecto_actualizar(request, pk):
     if request.method == 'GET':
         proyectos = get_object_or_404(Proyecto, id=pk, user=request.user)
         form = ProyectoForm(instance=proyectos)
-        return render(request, 'proyecto_detalle.html',{
+        return render(request, 'proyecto_actualizar.html',{
             'proyectos':proyectos,
             'form': form
         })
@@ -73,10 +92,11 @@ def proyecto_detalle(request, pk):
             return redirect('proyecto')
         except ValueError:
             messages.warning(request, "Error al actualizar Proyecto")
-            return render(request, 'proyecto_detalle.html',{
+            return render(request, 'proyecto_actualizar.html',{
             'proyectos':proyectos,
             'form': form,
         })
+
 
 @login_required   
 def proyecto_eliminar(request, pk):

@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block content %}   
@@ -5,56 +6,145 @@
 {% load crispy_forms_tags %}
 
 <br>
-<br>
-<div class="container">
-    <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
+<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
 
-        <h1 class="text-center">Detalles del Proyecto</h1>
-        <h5 class="text-center">Información detallada del Proyecto</h5>
-        <hr>
+    <h1 class="text-center">Detalles del Proyecto</h1>
+    <h5 class="text-center">Información detallada del Proyecto</h5>
+    <hr>
+    <br>
+    <div class="row">
+        {% if proyectos.estatus == "ACTIVO" %}
+            <div class="col-6">
+                <P class="text-success fw-bold"> <strong> Proyecto: </strong> {{proyectos.proyecto}} </p>
+            </div>
+            <div class="col-6">
+                <P class="text-success fw-bold"> <strong> Estatus: </strong> {{proyectos.estatus}} </p>
+            </div>
+        {% else %}
+            <div class="col-6">
+                <P class="text-danger fw-bold"> <strong> Proyecto: </strong> {{proyectos.proyecto}}</p>
+            </div>
+            <div class="col-6">
+                <P class="text-danger fw-bold"> <strong> Estatus: </strong> {{proyectos.estatus}} </p>
+            </div>
+            <div class="col-12">
+                <P class="text-danger fw-bold">Este proyecto se encuentra Cerrado</p>
+            </div>
+        {% endif %}
+    </div>
 
-        {{error}}
+    <div class="row">
+        <div class="col">
+            <P> <strong> Nombre del Centro: </strong> {{proyectos.nombre_centro}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Representante: </strong>{{proyectos.representante}}</p> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <P> <strong> Teléfono: </strong> {{proyectos.telefono}} </p>
+        </div>
+        <div class="col">
+            <P> <strong> Correo: </strong>{{proyectos.correo}}</p>
+        </div>
+    </div>
+    
+        <div class="row">
 
-        <form method="POST">
-            {% csrf_token %}
-            {{form | crispy }}
+            <div class="col-4">
+                <P> <strong> Dirección: </strong>{{proyectos.direccion}}</p>
+            </div>
+            <div class="col">
+                <P> <strong> Estado: </strong>{{proyectos.estado}}</p>
+            </div>
+            <div class="col">
+                <P> <strong> Ciudad: </strong>{{proyectos.ciudad}}</p>
+            </div>
+        </div>
 
-            <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
-            &nbsp
-            <button class="btn btn-info">
-                Actualizar
-            </button>
-            &nbsp
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Eliminar
-            </button>
-            
-                        
-        </form> 
+        <!-- ########  Tabla  Fechas del Proyecto  ##########-->
+    <h4 class="text-center">FECHAS ASIGNADAS PARA ESTE PROYECTO</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">PROYECTO</th>
+                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col">DESCRIPCIÓN</th>
+                    <th scope="col" class="text-center">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if jornadas %}
+                    {% for jornada in jornadas %}
+                        <tr>
+                            <td>{{jornada.proyecto}}</td>
+                            <td class="text-center">{{jornada.fecha | date:"d/m/Y"}}</td>
+                            <td class="text-center">{{jornada.descripcion}}</td>
+                            <td class="text-center"> <a href="{% url 'projecto_fecha_detalle' pk %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
+            </tbody>
+        </table>
+
+        <!-- ########  Boton Agregar Control Medico ##########-->
+        {% if proyectos.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'proyecto_fecha' pk id %}">
+
+                Nueva Fecha al Proyecto
+        
+            </a>
+        {% else %}
+        <a class="btn btn-outline-secondary btn-sm" href="#">
+
+            Nueva Fecha al Proyecto
+    
+        </a>
+        {% endif %}
 
     </div>
+    <hr>
+    <br>
+
+
+    <!-- ########  Menu de opciones  ##########-->
+  
+    <div class="container">
+        <a href="{% url 'proyecto' %}" class="btn btn-secondary"> Regresar </a>
+           
+        &nbsp
+        <a href="{% url 'proyecto_actualizar' pk %}" class="btn btn-info"> Actualizar </a>
+           
+        &nbsp
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarProyecto">
+            Eliminar
+        </button>
+        
+    </div>
+
 </div>            
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <!-- Modal Eliminar Proyecto-->
+<div class="modal fade" id="eliminarProyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Proyecto</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Proyecto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Está seguro de Eliminar el Proyecto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'proyecto_eliminar' pk %}" role="button" class="btn btn-danger"> Eliminar </a>
+            </div>
         </div>
-        <div class="modal-body">
-          Está seguro de Eliminar el Proyecto?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <a href="{% url 'proyecto_eliminar' proyectos.id %}" role="button" class="btn btn-danger"> Eliminar </a>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
    
 
 {% endblock %}
