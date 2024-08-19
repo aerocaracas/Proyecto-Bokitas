@@ -91,11 +91,10 @@
 
         <!-- ########  Boton Agregar Control Medico ##########-->
         {% if proyectos.estatus == "ACTIVO" %}
-            <a class="btn btn-outline-primary btn-sm" href="{% url 'proyecto_fecha' pk id %}">
-
+            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#FechaProyecto">
                 Nueva Fecha al Proyecto
-        
-            </a>
+            </button>
+
         {% else %}
         <a class="btn btn-outline-secondary btn-sm" href="#">
 
@@ -126,6 +125,37 @@
 
 </div>            
 
+
+  <!-- Modal Agregar Fecha al Proyecto  -->
+<div class="modal fade" id="FechaProyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="FechaProyecto" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="FechaProyecto">Agregar Fecha para la Jornada del Proyecto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/proyecto/crear/" method="POST">
+                    {% csrf_token %}
+        
+                    Agrege Fecha para la Jornada
+                    <br>
+                    {{formJornada | crispy }}
+        
+                    &nbsp
+                    <a href="{% url 'proyecto_jornada' pk %}" role="button" class="btn btn-success"> Agregar </a>
+        
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+   
 
   <!-- Modal Eliminar Proyecto-->
 <div class="modal fade" id="eliminarProyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

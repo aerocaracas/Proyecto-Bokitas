@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from proyecto.forms import ProyectoForm
-from beneficiario.forms import ExpProyectoForm
+from proyecto.forms import ProyectoForm, JornadaForm
+from beneficiario.forms import ExpProyectoForm, ExpJornadaForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto, Jornada
 from django.db.models import Q
@@ -43,11 +43,14 @@ def proyecto_detalle(request, pk):
         jornadas = Jornada.objects.filter(proyecto = pk)
         
         form = ProyectoForm(instance=proyectos)
+        formJornada = JornadaForm
 
+       
         return render(request, 'proyecto_detalle.html',{
             'proyectos':proyectos,
             'jornadas':jornadas,
             'form': form,
+            'formJornada': formJornada,
             'pk': pk
 
         })
@@ -81,7 +84,8 @@ def proyecto_actualizar(request, pk):
         form = ProyectoForm(instance=proyectos)
         return render(request, 'proyecto_actualizar.html',{
             'proyectos':proyectos,
-            'form': form
+            'form': form,
+            'pk': pk
         })
     else:
         try:
@@ -89,7 +93,7 @@ def proyecto_actualizar(request, pk):
             form = ProyectoForm(request.POST, instance=proyectos)
             form.save()
             messages.success(request, "Se actualizo satisfactoriamente el Proyecto")
-            return redirect('proyecto')
+            return redirect('proyecto_detalle', pk)
         except ValueError:
             messages.warning(request, "Error al actualizar Proyecto")
             return render(request, 'proyecto_actualizar.html',{
@@ -105,3 +109,24 @@ def proyecto_eliminar(request, pk):
     messages.error(request, "Se Elimino satisfactoriamente el Proyecto")
     return redirect('proyecto')
 
+
+@login_required  
+def proyecto_jornada(request, pk):
+        try:
+           ### jornada = request.GET.get('jornada')
+           ## descripcion = request.GET.get('descripcion')
+            formJornada = JornadaForm(request.POST)
+            new_jornada = formJornada.save(commit=False)
+            new_jornada.proyecto = pk
+            new_jornada.save()
+            messages.success(request, "Se creo agrego nueva fecha al Proyecto")
+            return redirect('proyecto_detalle',pk)
+        except ValueError:
+            proyectos = get_object_or_404(Proyecto, id=pk)
+
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
+            return render(request, 'proyecto_detalle.html', {
+            'formJornada': formJornada,
+            'proyectos':proyectos,
+            'pk': pk
+            })

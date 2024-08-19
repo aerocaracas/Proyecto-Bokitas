@@ -47,7 +47,9 @@ LABORAL = (
 
 ESTATUS = (
     ("ACTIVO", "ACTIVO"),
+    ("CERRADO", "CERRADO"),
     ("EGRESO", "EGRESO"),
+    ("DESINCORPORACION", "DESINCORPORACION"),
 )
 
 EMBARAZO_LACTANDO = (
@@ -187,7 +189,7 @@ SI_NO_MINUSCULA = (
 # Create your models here.
 class Proyecto(models.Model):
     proyecto = models.CharField(max_length=100, unique=True, blank=False)
-    estatus = models.CharField(max_length=10, blank=False, choices=ESTATUS)
+    estatus = models.CharField(max_length=30, blank=False, choices=ESTATUS)
     nombre_centro = models.CharField(max_length=50,blank=False)
     direccion = models.TextField(blank=True)
     estado = models.CharField(max_length=25)
@@ -251,7 +253,7 @@ class Beneficiario(models.Model):
     direccion = models.TextField(blank=True)
     estado = models.CharField(max_length=25,blank=True)
     ciudad = models.CharField(max_length=30,blank=True)
-    estatus = models.CharField(max_length=10, default="ACTIVO", choices=ESTATUS)
+    estatus = models.CharField(max_length=30, default="ACTIVO", choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
     observacion = models.TextField(max_length=200, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
@@ -298,7 +300,7 @@ class Menor(models.Model):
     meses = models.PositiveIntegerField(default=0)
     fecha_ing_proyecto = models.DateField(null=True)
     observacion = models.TextField(max_length=200, blank=True)
-    estatus = models.CharField(max_length=20,default=True, choices=ESTATUS)
+    estatus = models.CharField(max_length=30,default=True, choices=ESTATUS)
     peso_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     imc_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
