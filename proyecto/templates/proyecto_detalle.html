@@ -80,10 +80,29 @@
                     {% for jornada in jornadas %}
                         <tr>
                             <td>{{jornada.proyecto}}</td>
-                            <td class="text-center">{{jornada.fecha | date:"d/m/Y"}}</td>
-                            <td class="text-center">{{jornada.descripcion}}</td>
-                            <td class="text-center"> <a href="{% url 'projecto_fecha_detalle' pk %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center">{{jornada.jornada | date:"d/m/Y"}}</td>
+                            <td>{{jornada.descripcion}}</td>
+                            <td class="text-center"><a class="btn btn-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modaljornada"><i class="bi bi-trash-fill"></i></a></td>
                         </tr>
+                        
+                        <!-- Modal Eliminar Medicamentos / Productos -->
+                        <div class="modal fade" id="modaljornada" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Registro de Medicamento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Está seguro de Eliminar la Jornada de éste Proyecto?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a href="{% url 'jornada_eliminar' pk jornada.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 {% endif%}
             </tbody>
@@ -92,13 +111,13 @@
         <!-- ########  Boton Agregar Control Medico ##########-->
         {% if proyectos.estatus == "ACTIVO" %}
             <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#FechaProyecto">
-                Nueva Fecha al Proyecto
+                Nueva Jornada al Proyecto
             </button>
 
         {% else %}
         <a class="btn btn-outline-secondary btn-sm" href="#">
 
-            Nueva Fecha al Proyecto
+            Nueva Jornada al Proyecto
     
         </a>
         {% endif %}
@@ -135,22 +154,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/proyecto/crear/" method="POST">
+                <form action="jornada/" method="POST">
                     {% csrf_token %}
-        
-                    Agrege Fecha para la Jornada
-                    <br>
+
                     {{formJornada | crispy }}
         
                     &nbsp
-                    <a href="{% url 'proyecto_jornada' pk %}" role="button" class="btn btn-success"> Agregar </a>
+                    <hr>
+                    <button class="btn btn-success"> Agregar </button>
+                    &nbsp
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    &nbsp
         
                 </form>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                
             </div>
         </div>
     </div>

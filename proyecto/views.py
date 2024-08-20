@@ -14,6 +14,7 @@ from django.contrib import messages
 def proyecto(request):
     proyectos = Proyecto.objects.all()
     proyect = ExpProyectoForm
+    jornada = ExpJornadaForm
     query = ""
     page = request.GET.get('page',1)
 
@@ -22,7 +23,7 @@ def proyecto(request):
             query = request.POST.get("searchquery")
             proyectos = Proyecto.objects.filter(Q(proyecto__icontains=query))
         
-        paginator = Paginator(proyectos, 2)
+        paginator = Paginator(proyectos, 10)
         proyectos = paginator.page(page)
     except:
         raise Http404
@@ -30,6 +31,7 @@ def proyecto(request):
     return render(request, 'proyecto.html',{
         'entity': proyectos,
         'proyect':proyect,
+        'jornada':jornada,
         'query':query,
         'paginator': paginator
     })
@@ -40,7 +42,7 @@ def proyecto_detalle(request, pk):
     if request.method == 'GET':
      
         proyectos = get_object_or_404(Proyecto, id=pk)
-        jornadas = Jornada.objects.filter(proyecto = pk)
+        jornadas = Jornada.objects.filter(proyecto = pk).order_by('jornada')
         
         form = ProyectoForm(instance=proyectos)
         formJornada = JornadaForm
@@ -113,20 +115,26 @@ def proyecto_eliminar(request, pk):
 @login_required  
 def proyecto_jornada(request, pk):
         try:
-           ### jornada = request.GET.get('jornada')
-           ## descripcion = request.GET.get('descripcion')
-            formJornada = JornadaForm(request.POST)
-            new_jornada = formJornada.save(commit=False)
-            new_jornada.proyecto = pk
+            formulario = JornadaForm(request.POST)
+            new_jornada = formulario.save(commit=False)
+            new_jornada.proyecto_id = pk
             new_jornada.save()
             messages.success(request, "Se creo agrego nueva fecha al Proyecto")
             return redirect('proyecto_detalle',pk)
         except ValueError:
             proyectos = get_object_or_404(Proyecto, id=pk)
-
+            formJornada = JornadaForm
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'proyecto_detalle.html', {
             'formJornada': formJornada,
             'proyectos':proyectos,
             'pk': pk
             })
+
+
+@login_required   
+def jornada_eliminar(request, pk, id):
+    jornadas = get_object_or_404(Jornada, id=id)
+    jornadas.delete()
+    messages.error(request, "Se Elimino satisfactoriamente la Jornada")
+    return redirect('proyecto_detalle',pk)
