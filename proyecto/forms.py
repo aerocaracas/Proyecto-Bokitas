@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from bokitas.models import Proyecto,Jornada
+from bokitas.models import Proyecto,Jornada, Beneficiario
 from django.forms.widgets import NumberInput 
 
 class ProyectoForm(ModelForm):
@@ -16,6 +16,18 @@ class ExpProyectoForm(ModelForm):
         fields = ['proyecto']
 
         labels = {'proyecto':'Seleccione el Proyecto'}
+
+
+class ExpJornadaForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+            super(ExpJornadaForm, self).__init__(*args, **kwargs)
+            self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id = self.instance.proyecto)
+
+    class Meta:
+        model = Beneficiario
+        fields = ['proyecto','jornada']
+        labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
+
 
 
 class JornadaForm(ModelForm):

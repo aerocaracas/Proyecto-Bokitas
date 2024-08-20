@@ -68,13 +68,6 @@ class ExpProyectoForm(ModelForm):
         labels = {'proyecto':'Seleccione el Proyecto'}
 
 
-class ExpJornadaForm(ModelForm):
-    class Meta:
-        model = Beneficiario
-        fields = ['proyecto','jornada']
-        labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
-
-
 class MenorForm(ModelForm):
     class Meta:
         model = Menor 
