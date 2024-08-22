@@ -4,7 +4,6 @@ from beneficiario.forms import ExpProyectoForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Proyecto, Jornada
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
@@ -14,7 +13,7 @@ from django.contrib import messages
 def proyecto(request):
     proyectos = Proyecto.objects.all()
     proyect = ExpProyectoForm
-    jornada = ExpJornadaForm
+    jornadaForm = ExpJornadaForm()
     query = ""
     page = request.GET.get('page',1)
 
@@ -22,16 +21,48 @@ def proyecto(request):
         if "search" in request.POST:
             query = request.POST.get("searchquery")
             proyectos = Proyecto.objects.filter(Q(proyecto__icontains=query))
+            paginator = Paginator(proyectos, 10)
+            proyectos = paginator.page(page)
+            return render(request, 'proyecto.html',{
+                'entity': proyectos,
+                'proyect':proyect,
+                'jornadaForm':jornadaForm,
+                'query':query,
+                'paginator': paginator
+                })
         
         paginator = Paginator(proyectos, 10)
         proyectos = paginator.page(page)
+
+        if request.method == 'POST':
+            
+            jornadaForm = ExpJornadaForm(request.POST)
+            print('uno uno')
+            if jornadaForm.is_valid():
+            # Procesa los datos del formulario
+            # ...
+                
+                print('TEST TES TEST TEST TEST')
+                return render(request, 'exportar_jornada.html')
+        
+            else:
+                jornadaForm = ExpJornadaForm()
+                messages.warning(request, "Datos incorectos, Favor verificar la información")
+                return render(request, 'proyecto.html',{
+                    'entity': proyectos,
+                    'proyect':proyect,
+                    'jornadaForm':jornadaForm,
+                    'query':query,
+                    'paginator': paginator
+                    })
+
     except:
         raise Http404
 
     return render(request, 'proyecto.html',{
         'entity': proyectos,
         'proyect':proyect,
-        'jornada':jornada,
+        'jornadaForm':jornadaForm,
         'query':query,
         'paginator': paginator
     })

@@ -8,6 +8,7 @@
     
   <div class="col-10 offset-1"> 
     <br>
+    {{error}}
     <h2><strong>PROYECTOS</strong></h2>
     <hr>
     <div class="row">
@@ -108,9 +109,12 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <form action="/exportar_proyecto" method="GET">
+              <form method="POST">
                 {% csrf_token %}
-                <h6>{{jornada | crispy}}</h6>                
+
+                <h6>{{jornadaForm | crispy}}</h6> 
+
+                            
                 <dev class="d-flex justify-content-center">
                   <button class="btn btn-success mx-2">
                     Exportar

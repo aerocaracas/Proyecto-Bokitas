@@ -1,8 +1,8 @@
-from django.forms import ModelForm
-from bokitas.models import Proyecto,Jornada, Beneficiario
+from django import forms
+from bokitas.models import Proyecto,Jornada 
 from django.forms.widgets import NumberInput 
 
-class ProyectoForm(ModelForm):
+class ProyectoForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ['proyecto','estatus','nombre_centro', 'direccion','estado','ciudad','representante','telefono','correo']
@@ -10,7 +10,7 @@ class ProyectoForm(ModelForm):
         labels = {'proyecto':'Proyecto','estatus':'Estatus','nombre_centro':'Nombre del Centro', 'direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','representante':'Representante','telefono':'Teléfono','correo':'Correo'}
 
 
-class ExpProyectoForm(ModelForm):
+class ExpProyectoForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ['proyecto']
@@ -18,19 +18,37 @@ class ExpProyectoForm(ModelForm):
         labels = {'proyecto':'Seleccione el Proyecto'}
 
 
-class ExpJornadaForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-            super(ExpJornadaForm, self).__init__(*args, **kwargs)
-            self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id = self.instance.proyecto)
 
+class ExpJornadaForm(forms.ModelForm):
     class Meta:
-        model = Beneficiario
-        fields = ['proyecto','jornada']
+        model = Jornada
+        fields = ('proyecto', 'jornada')
+
         labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if 'proyecto' in self.data:
+            try:
+                proyecto_value = self.data.get('proyecto')
+                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
+            except (ValueError, TypeError):
+                pass
+
+    def clean_jornada(self):
+        jornada_value = self.cleaned_data.get('jornada')
+        
+        if not jornada_value:
+            raise ExpJornadaForm.ValidationError('Debe seleccionar un valor para la Jornada')
+        return jornada_value
+    
 
 
 
-class JornadaForm(ModelForm):
+
+class JornadaForm(forms.ModelForm):
     class Meta:
         model = Jornada
         fields = ['jornada','descripcion']
