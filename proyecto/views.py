@@ -37,12 +37,13 @@ def proyecto(request):
         if request.method == 'POST':
             
             jornadaForm = ExpJornadaForm(request.POST)
-            print('uno uno')
             if jornadaForm.is_valid():
             # Procesa los datos del formulario
             # ...
                 
-                print('TEST TES TEST TEST TEST')
+                print(jornadaForm)
+
+
                 return render(request, 'exportar_jornada.html')
         
             else:
@@ -66,6 +67,20 @@ def proyecto(request):
         'query':query,
         'paginator': paginator
     })
+
+
+@login_required      
+def load_jornadas(request):
+    proyecto_id = request.GET.get('proyecto')
+    jornadas = Jornada.objects.filter(proyecto_id = proyecto_id)
+    return render(request, 'jornada_opcioones.html', {'jornadas': jornadas})  
+
+
+
+
+
+
+
 
 
 @login_required      

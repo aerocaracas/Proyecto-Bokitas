@@ -112,7 +112,7 @@
               <form method="POST">
                 {% csrf_token %}
 
-                <h6>{{jornadaForm}}</h6> 
+                <h6>{{jornadaForm | crispy}}</h6> 
 
                             
                 <dev class="d-flex justify-content-center">
@@ -122,7 +122,9 @@
                 </dev>
                 
               </form>
-              
+
+
+
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
