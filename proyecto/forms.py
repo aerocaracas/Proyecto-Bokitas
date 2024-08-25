@@ -25,17 +25,23 @@ class ExpProyectoForm(forms.ModelForm):
 
 
 class ExpJornadaForm(forms.Form):
-    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget = forms.Select(attrs={'hx-get': 'load_jornadas/','hx-trigger': '#id_jornada'}))
-    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
+    class Meta:
+        model = Jornada
+        fields = ['jornada']
+
+        labels = {'jornada':'Seleccione la Jornada'}
+    
+   # jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
+        
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.none()
+        self.fields['jornada'].queryset = Jornada.objects.all()
 
         if 'proyecto' in self.data:
             try:
                 proyecto_value = int(self.data.get('proyecto'))
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
+                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value).order_by('jornada')
             except (ValueError, TypeError):
                 pass
 
@@ -94,6 +100,32 @@ class EditarFormView(FormView):
         kwargs = super().get_form_kwargs()
         kwargs['jornada'] = self.request.GET.get('jornada')
         return kwargs
+
+
+
+        
+        ********   otro ******
+
+class ExpJornadaForm(forms.Form):
+    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget = forms.Select(attrs={'hx-get': 'load_jornadas/','hx-trigger': '#id_jornada'}))
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if 'proyecto' in self.data:
+            try:
+                proyecto_value = int(self.data.get('proyecto'))
+                print(proyecto_value)
+                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
+            except (ValueError, TypeError):
+                pass
+
+
+
+
+        
 
 
 

@@ -33,30 +33,7 @@ def proyecto(request):
         
         paginator = Paginator(proyectos, 10)
         proyectos = paginator.page(page)
-
-        if request.method == 'POST':
-            
-            jornadaForm = ExpJornadaForm(request.POST)
-            if jornadaForm.is_valid():
-            # Procesa los datos del formulario
-            # ...
-                
-                print(jornadaForm)
-
-
-                return render(request, 'exportar_jornada.html')
         
-            else:
-                jornadaForm = ExpJornadaForm()
-                messages.warning(request, "Datos incorectos, Favor verificar la información")
-                return render(request, 'proyecto.html',{
-                    'entity': proyectos,
-                    'proyect':proyect,
-                    'jornadaForm':jornadaForm,
-                    'query':query,
-                    'paginator': paginator
-                    })
-
     except:
         raise Http404
 
@@ -67,19 +44,6 @@ def proyecto(request):
         'query':query,
         'paginator': paginator
     })
-
-
-@login_required      
-def load_jornadas(request):
-    proyecto_id = request.GET.get('proyecto')
-    jornadas = Jornada.objects.filter(proyecto_id = proyecto_id)
-    return render(request, 'jornada_opcioones.html', {'jornadas': jornadas})  
-
-
-
-
-
-
 
 
 

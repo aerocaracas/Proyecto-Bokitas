@@ -113,6 +113,10 @@
             <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#FechaProyecto">
                 Nueva Jornada al Proyecto
             </button>
+            &nbsp
+            <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_jornada">
+              Exportar Jornada
+            </a>
 
         {% else %}
         <a class="btn btn-outline-secondary btn-sm" href="#">
@@ -191,6 +195,40 @@
         </div>
     </div>
 </div>
+
+  
+<!-- Modal exp_Jornada -->
+<div class="modal fade" id="exp_jornada" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_jornadaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exp_jornadaLabel">Exportar Información por Fecha de la Jornada </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+                <form method="POST">
+                  {% csrf_token %}
+  
+                  <h6>{{jornadaForm | crispy}}</h6> 
+        
+                  <dev class="d-flex justify-content-center">
+                    <button class="btn btn-success mx-2">
+                      Exportar
+                    </button>
+                  </dev>
+                  
+                </form>
+    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
    
 
 {% endblock %}
