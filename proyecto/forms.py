@@ -32,23 +32,25 @@ class JornadaForm(forms.ModelForm):
 ###########################********************************************
 
 
+class ExpJornadaForm(forms.ModelForm):
+    class Meta:
+        model = Jornada
+        fields = ('proyecto','jornada')
 
-
-class ExpJornadaForm(forms.Form):
-    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget = forms.Select(attrs={'hx-get': 'load_jornadas/','hx-trigger': '#id_jornada'}))
-    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
+        labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['jornada'].queryset = Jornada.objects.none()
-
+        
         if 'proyecto' in self.data:
             try:
-                proyecto_value = int(self.data.get('proyecto'))
-                print(proyecto_value)
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
+                proyecto_id = int(self.data.get('proyecto'))
+                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_id).order_by('jornada')
             except (ValueError, TypeError):
-                pass
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['jornada'].queryset = self.instance.jornada.jornada_set.order_by('jornada')
 
 
 ####################################

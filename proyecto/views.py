@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 @login_required      
@@ -52,11 +54,13 @@ def proyecto(request):
     })
 
 
-# AJAX
-def load_jornadas(request):
-    country_id = request.GET.get('proyecto_id')
-    cities = Jornada.objects.filter(proyecto_id=country_id).all()
-    return render(request, 'load_jornadas.html', {'jornadas': cities})
+def cities(request):
+    data = json.loads(request.body)
+    cities = Jornada.objects.filter(proyecto__id=data['user_id'])
+    proyecto_id = data['proyecto_id']
+    print(proyecto_id)
+    print(cities)
+    return JsonResponse(list(cities.values("id", "name")), safe=False)
 
 
 
