@@ -97,4 +97,13 @@
   </div>
 
    
+
+
+  <form method="post" id="ExpJornadaForm">
+    {% csrf_token %}
+    {{ expJornadaForm.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+
 {% endblock %}

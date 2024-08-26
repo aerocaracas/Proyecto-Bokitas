@@ -19,40 +19,6 @@ class ExpProyectoForm(forms.ModelForm):
         labels = {'proyecto':'Seleccione el Proyecto'}
 
 
-
-
-
-
-
-class ExpJornadaForm(forms.Form):
-    class Meta:
-        model = Jornada
-        fields = ['jornada']
-
-        labels = {'jornada':'Seleccione la Jornada'}
-    
-   # jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
-        
-        
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.all()
-
-        if 'proyecto' in self.data:
-            try:
-                proyecto_value = int(self.data.get('proyecto'))
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value).order_by('jornada')
-            except (ValueError, TypeError):
-                pass
-
-
-
-
-
-
-
-
-
 class JornadaForm(forms.ModelForm):
     class Meta:
         model = Jornada
@@ -63,7 +29,29 @@ class JornadaForm(forms.ModelForm):
         widgets = {'jornada': NumberInput(attrs={'type':'date'})}
 
 
- 
+###########################********************************************
+
+
+
+
+class ExpJornadaForm(forms.Form):
+    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget = forms.Select(attrs={'hx-get': 'load_jornadas/','hx-trigger': '#id_jornada'}))
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if 'proyecto' in self.data:
+            try:
+                proyecto_value = int(self.data.get('proyecto'))
+                print(proyecto_value)
+                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
+            except (ValueError, TypeError):
+                pass
+
+
+####################################
 
 
 ''' 

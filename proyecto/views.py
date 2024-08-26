@@ -13,7 +13,7 @@ from django.contrib import messages
 def proyecto(request):
     proyectos = Proyecto.objects.all()
     proyect = ExpProyectoForm
-    jornadaForm = ExpJornadaForm()
+    expJornadaForm = ExpJornadaForm()
     query = ""
     page = request.GET.get('page',1)
 
@@ -26,13 +26,19 @@ def proyecto(request):
             return render(request, 'proyecto.html',{
                 'entity': proyectos,
                 'proyect':proyect,
-                'jornadaForm':jornadaForm,
+                'expJornadaForm':expJornadaForm,
                 'query':query,
                 'paginator': paginator
                 })
-        
         paginator = Paginator(proyectos, 10)
         proyectos = paginator.page(page)
+        if request.method == 'POST':
+            expJornadaForm = ExpJornadaForm(request.POST)
+            if expJornadaForm.is_valid():
+                print('test test')
+                expJornadaForm.save()
+                return redirect('pryectos')
+
         
     except:
         raise Http404
@@ -40,10 +46,17 @@ def proyecto(request):
     return render(request, 'proyecto.html',{
         'entity': proyectos,
         'proyect':proyect,
-        'jornadaForm':jornadaForm,
+        'expJornadaForm':expJornadaForm,
         'query':query,
         'paginator': paginator
     })
+
+
+# AJAX
+def load_jornadas(request):
+    country_id = request.GET.get('proyecto_id')
+    cities = Jornada.objects.filter(proyecto_id=country_id).all()
+    return render(request, 'load_jornadas.html', {'jornadas': cities})
 
 
 
@@ -148,3 +161,5 @@ def jornada_eliminar(request, pk, id):
     jornadas.delete()
     messages.error(request, "Se Elimino satisfactoriamente la Jornada")
     return redirect('proyecto_detalle',pk)
+
+
