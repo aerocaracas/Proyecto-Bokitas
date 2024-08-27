@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from beneficiario.forms import BeneficiarioForm, ExpProyectoForm, ImcMenorForm
+from beneficiario.forms import BeneficiarioForm, ExpProyectoForm, ImcMenorForm, ImcBenefForm
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
@@ -826,20 +826,25 @@ def imc_benef(request, pk):
     if request.method == 'GET':
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        context = {}
-        context["pk"] = pk
-        context["beneficiarios"] = beneficiarios
+        form = ImcBenefForm
+        context={}
+        context["pk"]=pk
+        context["form"]=form
+        context["beneficiarios"]=beneficiarios
     
         return render(request, "imc_benef.html", context)
 
     else:
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            form = ImcBenefForm(request.POST)
+            new_imc_benef = form.save(commit=False)
 
-            peso = float(request.POST.get("peso"))
-            talla = float(request.POST.get("talla"))
-            cbi = request.POST.get("cbi")
-            tiempo = request.POST.get("tiempo")
+            talla = float(new_imc_benef.talla)
+            peso = float(new_imc_benef.peso)
+            cbi = new_imc_benef.cbi
+            tiempo = new_imc_benef.tiempo_gestacion
+
             min_imc = 0
             max_imc = 0
             talla = talla/100

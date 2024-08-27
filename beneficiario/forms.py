@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, Medica
+from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medica
 from django.forms.widgets import NumberInput 
 
 
@@ -49,10 +49,10 @@ SI_NO = (
 class BeneficiarioForm(ModelForm):
     class Meta:
         model = Beneficiario
-        fields = ['proyecto','cedula','nombre','apellido','sexo', 'fecha_nac','nacionalidad','num_hijos','embarazada','lactante','estado_civil','educacion','profesion','laboral','telefono','correo','direccion','estado','ciudad','observacion','estatus','numero_cuenta'
+        fields = ['proyecto','jornada','cedula','nombre','apellido','sexo', 'fecha_nac','nacionalidad','num_hijos','embarazada','lactante','estado_civil','educacion','profesion','laboral','telefono','correo','direccion','estado','ciudad','observacion','estatus','numero_cuenta'
         ]
 
-        labels = {'proyecto':'Proyecto','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo', 'fecha_nac':'Fecha de Nacimiento','nacionalidad':'Nacionalidad','num_hijos':'Número de Hijos','embarazada':'Se encuentra Embarazada','lactante':'Se encuentra Lactando','estado_civil':'Estado Civil','educacion':'Educación','profesion':'Profesión','laboral':'Situación Laboral','telefono':'Teléfono','correo':'Correo Electrónico','direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','observacion':'Observación','estatus':'Estatus','numero_cuenta':'Número de Cuenta'}
+        labels = {'proyecto':'Proyecto','jornada':'Fecha Jornada','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo', 'fecha_nac':'Fecha de Nacimiento','nacionalidad':'Nacionalidad','num_hijos':'Número de Hijos','embarazada':'Se encuentra Embarazada','lactante':'Se encuentra Lactando','estado_civil':'Estado Civil','educacion':'Educación','profesion':'Profesión','laboral':'Situación Laboral','telefono':'Teléfono','correo':'Correo Electrónico','direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','observacion':'Observación','estatus':'Estatus','numero_cuenta':'Número de Cuenta'}
 
         widgets = {
             'fecha_nac': NumberInput(attrs={'type':'date'}),
@@ -71,7 +71,7 @@ class ExpProyectoForm(ModelForm):
 class MenorForm(ModelForm):
     class Meta:
         model = Menor 
-        fields = ['proyecto','parentesco','cedula','nombre','apellido','sexo','fecha_nac','jornada','fecha_ing_proyecto','observacion','estatus'
+        fields = ['proyecto','jornada','parentesco','cedula','nombre','apellido','sexo','fecha_nac','fecha_ing_proyecto','observacion','estatus'
         ]
 
         labels = {'proyecto':'Proyecto','parentesco':'Parentesco','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','jornada':'Fecha de Jornada','fecha_ing_proyecto':'Fecha Ingreso','observacion':'Observación','estatus':'Estatus'
@@ -98,6 +98,16 @@ class ImcMenorForm(ModelForm):
                 }
 
 
+class ImcBenefForm(ModelForm):
+    class Meta:
+        model = AntropBef
+        fields = ['jornada','tiempo_gestacion','peso','talla','cbi'
+        ]
+
+        labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI'
+        }
+
+
 class FamiliarForm(ModelForm):
     class Meta:
         model = Familia 
@@ -120,10 +130,10 @@ class MedicaForm(forms.ModelForm):
 
     class Meta:
         model = Medica
-        fields = ['medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','tratamiento','referencia','paraclinicos'
+        fields = ['jornada','medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','tratamiento','referencia','paraclinicos'
         ]
 
-        labels = {'medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
+        labels = {'jornada':'Fecha de Jornada','medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'','tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
         }
 
         widgets = {

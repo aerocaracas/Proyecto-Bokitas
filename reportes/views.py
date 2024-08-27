@@ -138,7 +138,7 @@ class exportar_proyecto(TemplateView):
 
         imc_menores = AntropMenor.objects.filter(proyecto_id=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
 
-        titulos = ['PROYECTO','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA EVALUACIÓN','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
+        titulos = ['PROYECTO','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA JORNADA','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -159,7 +159,7 @@ class exportar_proyecto(TemplateView):
 
         for imc in imc_menores:
             row_num += 1
-            datos = [imc.proyecto,imc.cedula_bef,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
+            datos = [imc.proyecto,imc.cedula_bef,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
 
             if imc.cedula.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -195,7 +195,7 @@ class exportar_proyecto(TemplateView):
 
         imc_embarazos = AntropBef.objects.filter(proyecto=proyecto, embarazo_lactando = 'EMBARAZADA').order_by('-cedula_bef').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA EVALUACIÓN','EDAD','MESES','MESES EMBARAZO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA JORNADA','EDAD','MESES','MESES EMBARAZO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -216,7 +216,7 @@ class exportar_proyecto(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -249,7 +249,7 @@ class exportar_proyecto(TemplateView):
 
         imc_embarazos = AntropBef.objects.filter(proyecto=proyecto, embarazo_lactando = 'LACTANDO').order_by('-cedula_bef').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA EVALUACIÓN','EDAD','MESES','MESES LACTANDO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA JORNADA','EDAD','MESES','MESES LACTANDO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -270,7 +270,7 @@ class exportar_proyecto(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -380,7 +380,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         imc_menores = AntropMenor.objects.filter(cedula_bef_id = pk).order_by('cedula_id').select_related('cedula')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA EVALUACIÓN','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA JORNADA','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
         row_num = row_num + 3
@@ -404,7 +404,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         for imc in imc_menores:
             row_num += 1
-            datos = [imc.proyecto,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
+            datos = [imc.proyecto,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
             
             if imc.cedula.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -440,7 +440,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         imc_beneficiario = AntropBef.objects.filter(cedula_bef_id = pk).order_by('cedula_bef_id').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','FECHA EVAL.','ESTADO','EDAD','MESES','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','FECHA JORNADA','ESTADO','EDAD','MESES','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO']
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
         row_num = row_num + 3
@@ -464,7 +464,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         for imc in imc_beneficiario:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.sexo,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.fecha.strftime('%d-%m-%Y'),imc.embarazo_lactando,imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico]
+            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.sexo,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.strftime('%d-%m-%Y'),imc.embarazo_lactando,imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico]
             
             if imc.cedula_bef != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -500,7 +500,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         medicamentos = Medicamento.objects.filter(cedula_bef_id = pk).order_by('cedula_bef_id').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA ENTRG.','NOMBRE PROD.',' DESCRIPCIÓN ','CANTIDAD']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA JORNADA','NOMBRE PROD.',' DESCRIPCIÓN ','CANTIDAD']
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
         row_num = row_num + 3
@@ -521,7 +521,7 @@ class exp_beneficiario_detalle(TemplateView):
 
         for med in medicamentos:
             row_num += 1
-            datos = [med.cedula_bef.proyecto,med.cedula_bef.cedula,med.cedula_bef.nombre,med.cedula_bef.apellido,med.fecha.strftime('%d-%m-%Y'),med.nombre,med.descripcion,med.cantidad]
+            datos = [med.cedula_bef.proyecto,med.cedula_bef.cedula,med.cedula_bef.nombre,med.cedula_bef.apellido,med.jornada.strftime('%d-%m-%Y'),med.nombre,med.descripcion,med.cantidad]
             
             
             for col_num, cell_value in enumerate(datos, 1):
@@ -753,7 +753,7 @@ class exportar_jornada(TemplateView):
         fecha = datetime.now()
         fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
         
-        hojas = ["REGISTRO BENEFICIARIOS","REGISTRO MENORES","REGISTRO DE EMBARAZADAS","REGISTRO DE LACTANTES"]
+        hojas = ["REGISTRO BENEFICIARIOS","REGISTRO MENORES","ANTROPOMETRICO MENOR","REGISTRO DE EMBARAZADAS","REGISTRO DE LACTANTES"]
 
         for hoja in hojas: 
             if bandera:
@@ -828,7 +828,7 @@ class exportar_jornada(TemplateView):
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        menores = Menor.objects.filter(proyecto=proyecto).order_by('-cedula_bef')
+        menores = Menor.objects.filter(proyecto=proyecto,jornada = jornada).order_by('-cedula_bef')
 
         titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
         row_num = 7
@@ -871,7 +871,7 @@ class exportar_jornada(TemplateView):
 
         imc_menores = AntropMenor.objects.filter(proyecto_id=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
 
-        titulos = ['PROYECTO','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA EVALUACIÓN','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
+        titulos = ['PROYECTO','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','FECHA JORNADA','EDAD','MESES','PESO','TALLA','CBI','PTR','PSE','CC','IMC','DIAGNOSTICO PESO','DIAGNOSTICO TALLA']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -892,7 +892,7 @@ class exportar_jornada(TemplateView):
 
         for imc in imc_menores:
             row_num += 1
-            datos = [imc.proyecto,imc.cedula_bef,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
+            datos = [imc.proyecto,imc.cedula_bef,imc.cedula.cedula,imc.cedula.nombre,imc.cedula.apellido,imc.cedula.sexo,imc.cedula.fecha_nac.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.cedula.peso_actual,imc.cedula.talla_actual,imc.jornada,imc.edad,imc.meses,imc.peso,imc.talla,imc.cbi,imc.ptr,imc.pse,imc.cc,imc.imc,imc.diagnostico,imc.diagnostico_talla]
 
             if imc.cedula.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -928,7 +928,7 @@ class exportar_jornada(TemplateView):
 
         imc_embarazos = AntropBef.objects.filter(proyecto=proyecto, embarazo_lactando = 'EMBARAZADA').order_by('-cedula_bef').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA EVALUACIÓN','EDAD','MESES','MESES EMBARAZO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA JORNADA','EDAD','MESES','MESES EMBARAZO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -949,7 +949,7 @@ class exportar_jornada(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada,imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -982,7 +982,7 @@ class exportar_jornada(TemplateView):
 
         imc_embarazos = AntropBef.objects.filter(proyecto=proyecto, embarazo_lactando = 'LACTANDO').order_by('-cedula_bef').select_related('cedula_bef')
 
-        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA EVALUACIÓN','EDAD','MESES','MESES LACTANDO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
+        titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','FECHA NAC.','FECHA JORNADA','EDAD','MESES','MESES LACTANDO','PESO','TALLA','CBI','IMC','DIAGNOSTICO PESO','RIESGO','OBSERVACIONES']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -1003,7 +1003,7 @@ class exportar_jornada(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.fecha.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada,imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -1024,7 +1024,7 @@ class exportar_jornada(TemplateView):
                         cell.alignment = Alignment(horizontal="center")
 
     #*********  Establecer el nombre del Archivo *******
-        nombre_archvo = "Reporte_por_Proyecto.xlsx"
+        nombre_archvo = "Reporte_por_Jornmada.xlsx"
     
     #*********  Definir el tipo de respuesta que se va a dar ***********
         response = HttpResponse(content_type = "application/ms-excel")
