@@ -54,13 +54,13 @@ def proyecto(request):
     })
 
 
-def cities(request):
-    data = json.loads(request.body)
-    cities = Jornada.objects.filter(proyecto__id=data['user_id'])
-    proyecto_id = data['proyecto_id']
-    print(proyecto_id)
-    print(cities)
-    return JsonResponse(list(cities.values("id", "name")), safe=False)
+def load_jornadas(request):
+    print('test test')
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
+
+
 
 
 

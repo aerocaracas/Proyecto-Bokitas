@@ -747,6 +747,7 @@ class listado_menores(TemplateView):
 class exportar_jornada(TemplateView):
     def get(self, request, *args, **kwargs):
         proyecto = request.GET.get('proyecto')
+        jornada = request.GET.get('jornada')
         workbook = Workbook()
         bandera = True
         fecha = datetime.now()

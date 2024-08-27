@@ -29,94 +29,18 @@ class JornadaForm(forms.ModelForm):
         widgets = {'jornada': NumberInput(attrs={'type':'date'})}
 
 
-###########################********************************************
-
-
-class ExpJornadaForm(forms.ModelForm):
-    class Meta:
-        model = Jornada
-        fields = ('proyecto','jornada')
-
-        labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
-        
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.none()
-        
-        if 'proyecto' in self.data:
-            try:
-                proyecto_id = int(self.data.get('proyecto'))
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_id).order_by('jornada')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['jornada'].queryset = self.instance.jornada.jornada_set.order_by('jornada')
-
-
-####################################
-
-
-''' 
-
-
-class ExpJornadaForm(forms.ModelForm):
-    class Meta:
-        model = Jornada
-        fields = ('proyecto','jornada')
-
-        labels = {'proyecto':'Seleccione el Proyecto','jornada':'Seleccione la Jornada'}
-        
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.none()
-
-        if 'proyecto' in self.data:
-            try:
-                proyecto_value = self.data.get('proyecto')
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
-                print(self.fields['jornada'].queryset)
-            except (ValueError, TypeError):
-                pass
-
-    def clean_jornada(self):
-        jornada_value = self.cleaned_data.get('jornada')
-        if not jornada_value:
-            raise ExpJornadaForm.ValidationError('Debe seleccionar un valor para la Jornada')
-        return jornada_value
-    
-
-class EditarFormView(FormView):
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['jornada'] = self.request.GET.get('jornada')
-        return kwargs
-
-
-
-        
-        ********   otro ******
-
 class ExpJornadaForm(forms.Form):
-    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget = forms.Select(attrs={'hx-get': 'load_jornadas/','hx-trigger': '#id_jornada'}))
-    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none(),required=False)
-        
+    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(),
+            widget=forms.Select(attrs={"hx-get": "load_jornadas/", "hx-target": "#id_jornada"}))
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['jornada'].queryset = Jornada.objects.none()
 
-        if 'proyecto' in self.data:
-            try:
-                proyecto_value = int(self.data.get('proyecto'))
-                print(proyecto_value)
-                self.fields['jornada'].queryset = Jornada.objects.filter(proyecto_id=proyecto_value)
-            except (ValueError, TypeError):
-                pass
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
 
 
 
-
-        
-
-
-
-'''
