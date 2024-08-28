@@ -37,7 +37,6 @@ def proyecto(request):
         if request.method == 'POST':
             expJornadaForm = ExpJornadaForm(request.POST)
             if expJornadaForm.is_valid():
-                print('test test')
                 expJornadaForm.save()
                 return redirect('pryectos')
 
@@ -55,13 +54,9 @@ def proyecto(request):
 
 
 def load_jornadas(request):
-    print('test test')
     proyecto_id = request.GET.get("proyecto")
     jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
     return render(request, "jornadas_options.html", {"jornadas": jornadas})
-
-
-
 
 
 @login_required      

@@ -28,6 +28,7 @@ urlpatterns = [
     path('beneficiario/<int:pk>/medicamento/crear/', views.medicamento_crear, name='medicamento_crear'),
     path('beneficiario/<int:pk>/medicamento/<int:id>/eliminar', views.medicamento_eliminar, name='medicamento_eliminar'),
     path('beneficiario/<int:pk>/nutricioinal/<int:id>/nutricional_beneficiario', views.nutricional_beneficiario, name='nutricional_beneficiario'),
+    path("beneficiario/load_jornadas_benef/", views.load_jornadas_benef, name="load_jornadas_benef"),
 
     
 

@@ -3,7 +3,7 @@ from beneficiario.forms import BeneficiarioForm, ExpProyectoForm, ImcMenorForm, 
 from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional, Proyecto
+from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional, Proyecto, Jornada
 from django.db.models import Q
 from bokitas.models import ImcCla, ImcEmbarazada, ImcPesoTalla_5x, ImcTalla, ImcCla_5x, Diagnostico
 from django.contrib.auth.models import User
@@ -826,10 +826,13 @@ def imc_benef(request, pk):
     if request.method == 'GET':
 
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
-        form = ImcBenefForm
+        proyecto_id = beneficiarios.proyecto_id
+
+        jornadas = Jornada.objects.filter(proyecto_id=proyecto_id) 
+        
         context={}
         context["pk"]=pk
-        context["form"]=form
+        context["form"]=ImcBenefForm(initial={'jornada': jornadas})
         context["beneficiarios"]=beneficiarios
     
         return render(request, "imc_benef.html", context)
@@ -931,6 +934,21 @@ def imc_benef(request, pk):
             'pk': pk,
             'beneficiarios': beneficiarios
             })
+
+
+
+
+
+def load_jornadas_benef(request):
+    print('test test')
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
+
+
+
+
+
 
 
 @login_required 
