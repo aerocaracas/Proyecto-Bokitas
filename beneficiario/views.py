@@ -269,7 +269,11 @@ def imc_menor_crear(request, pk, id):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         menor_detalles = get_object_or_404(Menor, id=id)
-        form = ImcMenorForm
+        proyecto_id = menor_detalles.proyecto_id
+        
+        form = ImcMenorForm()
+        form.fields['jornada'].queryset = Jornada.objects.filter(proyecto=proyecto_id)
+
         context={}
         context["pk"]=pk
         context["id"]=id
@@ -286,7 +290,7 @@ def imc_menor_crear(request, pk, id):
             form = ImcMenorForm(request.POST)
             new_imc_menor = form.save(commit=False)
 
-            xFecha = new_imc_menor.fecha
+            xJornada = new_imc_menor.jornada
             xTalla = float(new_imc_menor.talla)
             xPeso = float(new_imc_menor.peso)
             xcbi = float(new_imc_menor.cbi)
@@ -511,7 +515,7 @@ def imc_menor_crear(request, pk, id):
 
         #********   SALVAR   **********
 
-            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, fecha = xFecha, edad = xEdad, meses = xMeses, peso = xPeso, talla = xTalla, cbi = xcbi, ptr = xptr, pse = xpse, cc = xcc, imc = imc, diagnostico = diag_peso, diagnostico_talla = diag_talla, min_peso = min_peso, max_peso = max_peso, min_talla = min_talla, max_talla = max_talla,min_imc = min_imc, max_imc = max_imc)
+            imc_menor = AntropMenor(cedula_bef_id=pk, cedula_id = id, proyecto = proyecto, jornada = xJornada, edad = xEdad, meses = xMeses, peso = xPeso, talla = xTalla, cbi = xcbi, ptr = xptr, pse = xpse, cc = xcc, imc = imc, diagnostico = diag_peso, diagnostico_talla = diag_talla, min_peso = min_peso, max_peso = max_peso, min_talla = min_talla, max_talla = max_talla,min_imc = min_imc, max_imc = max_imc)
                 
             imc_menor.save()
             idimc=imc_menor.id
@@ -824,15 +828,15 @@ def imc_benef_riesgo(request, pk, idimc):
 @login_required 
 def imc_benef(request, pk):
     if request.method == 'GET':
-
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         proyecto_id = beneficiarios.proyecto_id
 
-        jornadas = Jornada.objects.filter(proyecto_id=proyecto_id) 
-        
+        form = ImcBenefForm()
+        form.fields['jornada'].queryset = Jornada.objects.filter(proyecto=proyecto_id)
+
         context={}
         context["pk"]=pk
-        context["form"]=ImcBenefForm(initial={'jornada': jornadas})
+        context["form"]=form
         context["beneficiarios"]=beneficiarios
     
         return render(request, "imc_benef.html", context)
@@ -936,21 +940,6 @@ def imc_benef(request, pk):
             })
 
 
-
-
-
-def load_jornadas_benef(request):
-    print('test test')
-    proyecto_id = request.GET.get("proyecto")
-    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
-    return render(request, "jornadas_options.html", {"jornadas": jornadas})
-
-
-
-
-
-
-
 @login_required 
 def imc_benef_detalle(request, pk, id):
 
@@ -1033,12 +1022,17 @@ def medica_crear(request, pk, id):
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
         menor_detalles = get_object_or_404(Menor, id=id)
+        
+        proyecto_id = menor_detalles.proyecto_id
+        form = MedicaForm()
+        form.fields['jornada'].queryset = Jornada.objects.filter(proyecto=proyecto_id)
+
         context={}
         context["pk"]=pk
         context["id"]=id
         context["beneficiarios"]=beneficiarios
         context["menor_detalles"]=menor_detalles
-        context["form"]=MedicaForm
+        context["form"]=form
         return render(request, 'medica_crear.html', context)
     else:
         try:

@@ -220,14 +220,14 @@ class Jornada(models.Model):
     descripcion = models.CharField(max_length=200, blank=True)
     
     class Meta:
-        ordering = ('-jornada',)
+        ordering = ('jornada',)
 
     def save(self, *args, **kwargs):
         self.descripcion = self.descripcion.upper()
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.jornada},{self.proyecto}"
+        return f"{self.jornada}, {self.proyecto}"
 
 
 class Beneficiario(models.Model):
@@ -256,7 +256,7 @@ class Beneficiario(models.Model):
     estatus = models.CharField(max_length=30, default="ACTIVO", choices=ESTATUS)
     numero_cuenta = models.PositiveIntegerField(default=0,blank=True)
     observacion = models.TextField(max_length=200, blank=True)
-    creado = models.DateTimeField(auto_now_add=True)
+    creado = models.DateField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -311,7 +311,7 @@ class Menor(models.Model):
     diagnostico_actual = models.CharField(max_length=50, blank=False)
     diagnostico_talla_actual = models.CharField(max_length=50, blank=False)
     estado_nutri_actual = models.CharField(max_length=50, blank=False)
-    creado = models.DateTimeField(auto_now_add=True)
+    creado = models.DateField(auto_now_add=True)
     fecha_modificado = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -379,6 +379,7 @@ class AntropMenor(models.Model):
     servicio = models.TextField(max_length=200, blank=True)
     centro_hospital = models.TextField(max_length=200, blank=True)
     observacion = models.TextField(max_length=200, blank=True)
+    fecha = models.DateField(auto_now_add=True)
     min_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     max_peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     min_talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -407,6 +408,7 @@ class AntropBef(models.Model):
     servicio = models.TextField(max_length=200,blank=True)
     centro_hospital = models.TextField(max_length=200,blank=True)
     observacion = models.TextField(max_length=200,blank=True)
+    fecha = models.DateField(auto_now_add=True)
     min_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     max_imc = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
 
@@ -421,6 +423,7 @@ class Medicamento(models.Model):
     nombre = models.CharField(max_length=50, blank=False)
     descripcion = models.CharField(max_length=100, blank=False)
     cantidad = models.CharField(max_length=50, blank=False)
+    fecha = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.nombre = self.nombre.upper()
@@ -495,6 +498,7 @@ class Nutricional(models.Model):
     dificultad_amamantar = models.CharField(max_length=100, blank=True)
     desea_orientacion = models.CharField(max_length=100, blank=True)
     desea_conocimiento = models.CharField(max_length=100, blank=True)
+    fecha = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.cedula_bef}"
@@ -520,6 +524,7 @@ class Medica(models.Model):
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)
+    fecha = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.medico_tratante = self.medico_tratante.upper()

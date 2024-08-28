@@ -34,14 +34,18 @@
                 </div>
             </div>
             <BR>
+
             <div class="row">
                 <div class="col-4 text-center">
+                    {{form.jornada | as_crispy_field}}
+                </div>
+                <div class="col-3 text-center">
                     {{form.medico_tratante | as_crispy_field}}
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-3 text-center">
                     {{form.tipo_consulta | as_crispy_field}}
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-2 text-center">
                     {{form.examen_fisico | as_crispy_field}}
                 </div>
             </div>

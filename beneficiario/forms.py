@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medica, Jornada
+from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medica, Jornada, Proyecto
 from django.forms.widgets import NumberInput 
 
 
@@ -98,14 +98,22 @@ class ImcMenorForm(ModelForm):
                 }
 
 
-class ImcBenefForm(ModelForm):
-    class Meta:
-        model = AntropBef
-        fields = ['jornada','tiempo_gestacion','peso','talla','cbi'
-        ]
+class ImcBenefForm(forms.Form):
 
-        labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI'
-        }
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
+
+    tiempo_gestacion = forms.IntegerField(label="Tiempo (meses)")
+    peso = forms.DecimalField(label="Peso (kg)")
+    talla = forms.DecimalField(label="Talla (cm)")
+    cbi = forms.DecimalField(label="CBI")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
 
 
 class FamiliarForm(ModelForm):
