@@ -10,8 +10,8 @@ SI_NO = (
 )
 
 SEXOS = (
-    ("MASCULINO", "MASCULINO"),
     ("FEMENINO", "FEMENINO"),
+    ("MASCULINO", "MASCULINO"),
 )
 
 DIAGNOSTICO1 = (
@@ -42,23 +42,86 @@ ANEMICO = (
 )
 
 SI_NO = (
-    ("SI", "SI"),
     ("NO", "NO"),
+    ("SI", "SI"),
+)
+
+ESTADO_CIVIL = (
+    ("SOLTERA", "SOLTERA"),
+    ("SOLTERO", "SOLTERO"),
+    ("CASADA", "CASADA"),
+    ("CASADO", "CASADO"),
+    ("DIVORCIADA", "DIVORCIADA"),
+    ("DIVORCIADO", "DIVORCIADO"),
+    ("VIUDA", "VIUDA"),
+    ("VIUDO", "VIUDO"),
+    ("CONCUBINATO", "CONCUBINATO"),
+)
+
+EDUCACION = (
+    ("ANALFABETA", "ANALFABETA"),
+    ("PRIMARIA", "PRIMARIA"),
+    ("SECUNDARIA", "SECUNDARIA"),
+    ("TECNICO MEDIO", "TECNICO MEDIO"),
+    ("TECNICO SUPERIOR", "TECNICO SUPERIOR"),
+    ("UNIVERSITARIO", "UNIVERSITARIO"),
+)
+
+LABORAL = (
+    ("DESEMPLEADA", "DESEMPLEADA"),
+    ("DESEMPLEADO", "DESEMPLEADO"),
+    ("EMPLEADA", "EMPLEADA"),
+    ("EMPLEADO", "EMPLEADO"),
+    ("OCACIONAL", "OCACIONAL"),
+    ("INDEPENDIENTE", "INDEPENDIENTE"),
+)
+
+ESTATUS = (
+    ("ACTIVO", "ACTIVO"),
+    ("CERRADO", "CERRADO"),
+    ("EGRESO", "EGRESO"),
+    ("DESINCORPORACION", "DESINCORPORACION"),
 )
 
 class BeneficiarioForm(ModelForm):
     class Meta:
-        model = Beneficiario
-        fields = ['proyecto','jornada','cedula','nombre','apellido','sexo', 'fecha_nac','nacionalidad','num_hijos','embarazada','lactante','estado_civil','educacion','profesion','laboral','telefono','correo','direccion','estado','ciudad','observacion','estatus','numero_cuenta'
-        ]
+            model=Beneficiario
 
-        labels = {'proyecto':'Proyecto','jornada':'Fecha Jornada','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo', 'fecha_nac':'Fecha de Nacimiento','nacionalidad':'Nacionalidad','num_hijos':'Número de Hijos','embarazada':'Se encuentra Embarazada','lactante':'Se encuentra Lactando','estado_civil':'Estado Civil','educacion':'Educación','profesion':'Profesión','laboral':'Situación Laboral','telefono':'Teléfono','correo':'Correo Electrónico','direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','observacion':'Observación','estatus':'Estatus','numero_cuenta':'Número de Cuenta'}
+    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(),
+            widget=forms.Select(attrs={"hx-get": "load_jornadas_benef/", "hx-target": "#id_jornada"}))
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
+    cedula = forms.CharField(label="Cédula")
+    nombre = forms.CharField(label="Nombre")
+    apellido = forms.CharField(label="Apellido")
+    sexo = forms.ChoiceField(choices=SEXOS,label="Sexo")
+    fecha_nac = forms.DateField(label="Fecha Nacimiento", widget=forms.DateInput(attrs={'type':'date'}))
+    nacionalidad = forms.CharField(label="Nacionalidad")
+    num_hijos = forms.IntegerField(label="Numero de Hijos")
+    embarazada = forms.ChoiceField(choices=SI_NO, label="Embarazada")
+    lactante = forms.ChoiceField(choices=SI_NO, label="Lactando")
+    estado_civil = forms.ChoiceField(choices=ESTADO_CIVIL, label="Estado Civil")
+    educacion = forms.ChoiceField(choices=EDUCACION, label="Educación")
+    profesion = forms.CharField(label="Profesión")
+    laboral = forms.ChoiceField(choices=LABORAL, label="Trabaja")
+    telefono = forms.CharField(label="Telefono")
+    correo = forms.EmailField(label="Correo")
+    direccion = forms.CharField(label="Dirección", widget=forms.Textarea(attrs={'rows':3}))
+    estado = forms.CharField(label="Estado")
+    ciudad = forms.CharField(label="Ciudad")
+    observacion = forms.CharField(label="Observación", widget=forms.Textarea(attrs={'rows':3}))
+    estatus = forms.ChoiceField(choices=ESTATUS, label="Estatus")
+    numero_cuenta = forms.CharField(label="Numero de Cuenta")
 
-        widgets = {
-            'fecha_nac': NumberInput(attrs={'type':'date'}),
-            'direccion': forms.Textarea(attrs={'rows':3}),
-            'observacion': forms.Textarea(attrs={'rows':3}),
-                }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+
+
+
 
 
 class ExpProyectoForm(ModelForm):

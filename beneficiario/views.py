@@ -49,27 +49,38 @@ def beneficiario_crear(request):
     else:
         try:
             form = BeneficiarioForm(request.POST)
-            new_beneficiario = form.save(commit=False)
+            if form.is_valid():
+                print(form)
+                form.save()
+                new_beneficiario = form
 
-            fecha_inicial = new_beneficiario.fecha_nac
-            dia_hoy = date.today()
-            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
-            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
-            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
-            
-            new_beneficiario.edad = tiempo_transc.years
-            new_beneficiario.meses = tiempo_transc.months
-            new_beneficiario.user = request.user
-            new_beneficiario.save()
-            messages.success(request, "Se creo satisfactoriamente el Beneficiario")
-            return redirect('beneficiario')
+                fecha_inicial = new_beneficiario.fecha_nac
+                dia_hoy = date.today()
+                fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+                fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+                tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+                
+                new_beneficiario.edad = tiempo_transc.years
+                new_beneficiario.meses = tiempo_transc.months
+                new_beneficiario.user = request.user
+                new_beneficiario.save()
+                messages.success(request, "Se creo satisfactoriamente el Beneficiario")
+                return redirect('beneficiario')
+            else:
+                print(form.errors)
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'beneficiario_crear.html', {
             'form': form,
             })
 
-@login_required      
+def load_jornadas_benef(request):
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
+
+
+@login_required     
 def beneficiario_detalle(request, pk):
     if request.method == 'GET':
      
