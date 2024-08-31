@@ -83,7 +83,33 @@ ESTATUS = (
     ("DESINCORPORACION", "DESINCORPORACION"),
 )
 
-class BeneficiarioForm(ModelForm):
+class BeneficiarioForm(forms.ModelForm):
+    class Meta:
+        model = Beneficiario 
+    
+        fields = ['proyecto','jornada','cedula','nombre','apellido','sexo','fecha_nac','nacionalidad','num_hijos','embarazada','lactante','estado_civil','educacion','profesion','laboral','telefono','correo','direccion','ciudad','estado','observacion','estatus','numero_cuenta'
+        ]
+
+        labels = {'proyecto':'Proyecto','jornada':'Fecha de Jornada','cedula':'Cédula','nombre':'Nombre','apellido':'Apellido','sexo':'Sexo','fecha_nac':'Fecha Nacimiento','nacionalidad':'Nacionalidad','num_hijos':'Número Hijos','embarazada':'Embarazada','lactando':'Lactando','estado_civil':'Estado Civil','educacion':'Grado de Instrucción','profesion':'Profesión','laboral':'Estado Laboral','telefono':'Teléfono','correo':'Correo','direccion':'Dirección','ciudad':'Ciudad','estado':'Estado','observacion':'Observación','estatus':'Estatus','num_cuenta':'Número de Cuenta'
+        }
+
+        widgets = {
+            'proyecto': forms.Select(attrs={"hx-get": "load_jornadas_benef/", "hx-target": "#id_jornada"}),
+            'fecha_nac': NumberInput(attrs={'type':'date'}),
+            'direccion': forms.Textarea(attrs={'rows':4}),
+            'observacion': forms.Textarea(attrs={'rows':4}),
+                }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+
+
+'''
     class Meta:
             model=Beneficiario
 
@@ -121,7 +147,7 @@ class BeneficiarioForm(ModelForm):
             self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
 
 
-
+ '''
 
 
 class ExpProyectoForm(ModelForm):
