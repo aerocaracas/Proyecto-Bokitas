@@ -119,7 +119,7 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">PROYECTO</th>
-                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col" class="text-center">JORNADA</th>
                     <th scope="col" class="text-center">EDAD</th>
                     <th scope="col" class="text-center">MESES</th>
                     <th scope="col" class="text-center">PESO</th>
@@ -136,7 +136,7 @@
                     {% for antrop in antropMenores %}
                         <tr>
                             <td>{{antrop.proyecto}}</td>
-                            <td class="text-center">{{antrop.fecha | date:"d/m/Y"}}</td>
+                            <td class="text-center">{{antrop.jornada.jornada | date:"d/m/Y"}}</td>
                             <td class="text-center">{{antrop.edad}}</td>
                             <td class="text-center">{{antrop.meses}}</td>
                             <td class="text-center">{{antrop.peso}}</td>
@@ -207,7 +207,7 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">PROYECTO</th>
-                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col" class="text-center">JORNADA</th>
                     <th scope="col" class="text-center">EDAD</th>
                     <th scope="col" class="text-center">MESES</th>
                     <th scope="col" class="text-center">TIPO CONSULTA</th>
@@ -221,7 +221,7 @@
                     {% for medica in medicas %}
                         <tr>
                             <td>{{medica.proyecto}}</td>
-                            <td class="text-center">{{medica.fecha | date:"d/m/Y"}}</td>
+                            <td class="text-center">{{medica.jornada.jornada | date:"d/m/Y"}}</td>
                             <td class="text-center">{{medica.edad}}</td>
                             <td class="text-center">{{medica.meses}}</td>
                             <td class="text-center">{{medica.tipo_consulta}}</td>

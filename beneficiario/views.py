@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from beneficiario.forms import BeneficiarioForm, ExpProyectoForm, ImcMenorForm, ImcBenefForm
-from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm
+from beneficiario.forms import MenorForm, FamiliarForm, MedicaForm, MedicamentosForm
 from nutricional.forms import NutricionalForm
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Medica, Nutricional, Proyecto, Jornada
@@ -49,30 +49,26 @@ def beneficiario_crear(request):
     else:
         try:
             form = BeneficiarioForm(request.POST)
-            if form.is_valid():
-                print(form)
-                form.save()
-                new_beneficiario = form
+            new_beneficiario = form.save(commit=False)
 
-                fecha_inicial = new_beneficiario.fecha_nac
-                dia_hoy = date.today()
-                fecha_fin = dia_hoy.strftime('%d-%m-%Y')
-                fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
-                tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+            fecha_inicial = new_beneficiario.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
                 
-                new_beneficiario.edad = tiempo_transc.years
-                new_beneficiario.meses = tiempo_transc.months
-                new_beneficiario.user = request.user
-                new_beneficiario.save()
-                messages.success(request, "Se creo satisfactoriamente el Beneficiario")
-                return redirect('beneficiario')
-            else:
-                print(form.errors)
+            new_beneficiario.edad = tiempo_transc.years
+            new_beneficiario.meses = tiempo_transc.months
+            new_beneficiario.user = request.user
+            new_beneficiario.save()
+            messages.success(request, "Se creo satisfactoriamente el Beneficiario")
+            return redirect('beneficiario')
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'beneficiario_crear.html', {
             'form': form,
             })
+
 
 def load_jornadas_benef(request):
     proyecto_id = request.GET.get("proyecto")
@@ -193,6 +189,13 @@ def menor_crear(request, pk):
             'form': form,
             'pk': pk
             })
+
+
+def load_jornadas_menor(request, pk):
+    print('test')
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
 
 
 @login_required      
@@ -687,8 +690,6 @@ def imc_menor_eliminar(request, pk, id, idimc):
     return redirect( "menor_detalle", pk, id)
 
 
-
-
 # Sesion del Familiar
 
 @login_required  
@@ -908,7 +909,6 @@ def imc_benef(request, pk):
                 elif imc >= 30:
                     xDiagnostico = 7
 
-            fecha = datetime.now()
             if beneficiarios.embarazada == "SI":
                 estado = "EMBARAZADA"
             elif beneficiarios.lactante == "SI":
@@ -932,7 +932,7 @@ def imc_benef(request, pk):
             xMeses = tiempo_transc.months
             proyecto = beneficiarios.proyecto
 
-            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, fecha = fecha, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico, min_imc = min_imc, max_imc = max_imc)
+            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, jornada = new_imc_benef.jornada, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico, min_imc = min_imc, max_imc = max_imc)
             
             antropometrico.save()
             idimc=antropometrico.id
@@ -988,22 +988,29 @@ def imc_benef_eliminar(request, pk, id):
 
 @login_required  
 def medicamento_crear(request, pk):
+
     if request.method == 'GET':
         beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        proyecto_id = beneficiarios.proyecto_id
+
+        form = MedicamentosForm()
+        form.fields['jornada'].queryset = Jornada.objects.filter(proyecto=proyecto_id)
+        
         context={}
+        context["form"]=form
         context["pk"]=pk
         context["beneficiarios"]=beneficiarios
 
         return render(request, 'medicamento_crear.html', context)
     else:
         try:
-            medicamento = request.POST.get("medicamento")
-            descripcion = request.POST.get("descripcion")
-            cantidad = request.POST.get("cantidad")
-            fecha = datetime.now()
-            
-            medicamentos = Medicamento(cedula_bef_id=pk, fecha = fecha, nombre=medicamento, descripcion=descripcion, cantidad=cantidad)
-            medicamentos.save()
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            form = MedicamentosForm(request.POST)
+            new_dedicamento = form.save(commit=False) 
+            new_dedicamento.cedula_bef_id = pk
+            new_dedicamento.proyecto = beneficiarios.proyecto
+            new_dedicamento.save()
+
             messages.success(request, "Se guardo satisfactoriamente el Registro")
 
             return redirect("beneficiario_detalle", pk)
@@ -1012,7 +1019,8 @@ def medicamento_crear(request, pk):
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'menor_crear.html', {
             'beneficiarios': beneficiarios,
-            'pk': pk
+            'pk': pk,
+            'form': form
             })
 
 

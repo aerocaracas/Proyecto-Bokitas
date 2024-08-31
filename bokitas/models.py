@@ -422,7 +422,7 @@ class Medicamento(models.Model):
     jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=50, blank=False)
     descripcion = models.CharField(max_length=100, blank=False)
-    cantidad = models.CharField(max_length=50, blank=False)
+    cantidad = models.IntegerField()
     creado = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

@@ -246,7 +246,7 @@
                 {% if antropBefs %}
                     {% for antrop in antropBefs %}
                         <tr>
-                            <td>{{antrop.fecha | date:"d/m/Y"}}</td>
+                            <td>{{antrop.jornada.jornada | date:"d/m/Y"}}</td>
                             <td>{{antrop.embarazo_lactando}}</td>
                             <td class="text-center">{{antrop.tiempo_gestacion}}</td>
                             <td>{{antrop.peso}}</td>
@@ -309,7 +309,7 @@
                 {% if medicamentos %}
                     {% for medicamento in medicamentos %}
                         <tr>
-                            <td>{{medicamento.fecha | date:"d/m/Y"}}</td>
+                            <td>{{medicamento.jornada.jornada | date:"d/m/Y"}}</td>
                             <td>{{medicamento.nombre}}</td>
                             <td>{{medicamento.descripcion}}</td>
                             <td class="text-center">{{medicamento.cantidad}}</td>

@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medica, Jornada, Proyecto
+from bokitas.models import Beneficiario, Familia, Menor, AntropMenor, AntropBef, Medica, Jornada, Medicamento
 from django.forms.widgets import NumberInput 
 
 
@@ -109,47 +109,6 @@ class BeneficiarioForm(forms.ModelForm):
             self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
 
 
-'''
-    class Meta:
-            model=Beneficiario
-
-    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(),
-            widget=forms.Select(attrs={"hx-get": "load_jornadas_benef/", "hx-target": "#id_jornada"}))
-    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
-    cedula = forms.CharField(label="Cédula")
-    nombre = forms.CharField(label="Nombre")
-    apellido = forms.CharField(label="Apellido")
-    sexo = forms.ChoiceField(choices=SEXOS,label="Sexo")
-    fecha_nac = forms.DateField(label="Fecha Nacimiento", widget=forms.DateInput(attrs={'type':'date'}))
-    nacionalidad = forms.CharField(label="Nacionalidad")
-    num_hijos = forms.IntegerField(label="Numero de Hijos")
-    embarazada = forms.ChoiceField(choices=SI_NO, label="Embarazada")
-    lactante = forms.ChoiceField(choices=SI_NO, label="Lactando")
-    estado_civil = forms.ChoiceField(choices=ESTADO_CIVIL, label="Estado Civil")
-    educacion = forms.ChoiceField(choices=EDUCACION, label="Educación")
-    profesion = forms.CharField(label="Profesión")
-    laboral = forms.ChoiceField(choices=LABORAL, label="Trabaja")
-    telefono = forms.CharField(label="Telefono")
-    correo = forms.EmailField(label="Correo")
-    direccion = forms.CharField(label="Dirección", widget=forms.Textarea(attrs={'rows':3}))
-    estado = forms.CharField(label="Estado")
-    ciudad = forms.CharField(label="Ciudad")
-    observacion = forms.CharField(label="Observación", widget=forms.Textarea(attrs={'rows':3}))
-    estatus = forms.ChoiceField(choices=ESTATUS, label="Estatus")
-    numero_cuenta = forms.CharField(label="Numero de Cuenta")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.none()
-
-        if "proyecto" in self.data:
-            proyecto_id = int(self.data.get("proyecto"))
-            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
-
-
- '''
-
-
 class ExpProyectoForm(ModelForm):
     class Meta:
         model = Beneficiario
@@ -167,10 +126,19 @@ class MenorForm(ModelForm):
         }
 
         widgets = {
+            'proyecto': forms.Select(attrs={"hx-get": "load_jornadas_menor/", "hx-target": "#id_jornada"}),
             'fecha_nac': NumberInput(attrs={'type':'date'}),
             'fecha_ing_proyecto': NumberInput(attrs={'type':'date'}),
             'observacion': forms.Textarea(attrs={'rows':4}),
                 }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
 
 
 class ImcMenorForm(ModelForm):
@@ -182,27 +150,15 @@ class ImcMenorForm(ModelForm):
         labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI','ptr':'PTR','pse':'PSE','cc':'CC'
         }
 
-        widgets = {
-            'fecha': NumberInput(attrs={'type':'date'}),
-                }
 
+class ImcBenefForm(ModelForm):
+    class Meta:
+        model = AntropBef
+        fields = ['jornada','tiempo_gestacion','peso','talla','cbi'
+        ]
 
-class ImcBenefForm(forms.Form):
-
-    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
-
-    tiempo_gestacion = forms.IntegerField(label="Tiempo (meses)")
-    peso = forms.DecimalField(label="Peso (kg)")
-    talla = forms.DecimalField(label="Talla (cm)")
-    cbi = forms.DecimalField(label="CBI")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['jornada'].queryset = Jornada.objects.none()
-
-        if "proyecto" in self.data:
-            proyecto_id = int(self.data.get("proyecto"))
-            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+        labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI'
+        }
 
 
 class FamiliarForm(ModelForm):
@@ -239,3 +195,13 @@ class MedicaForm(forms.ModelForm):
             'referencia': forms.Textarea(attrs={'rows':4}),
             'paraclinicos': forms.Textarea(attrs={'rows':4}),
                 }
+        
+
+class MedicamentosForm(forms.ModelForm):
+    class Meta:
+        model = Medicamento
+        fields = ['jornada','nombre','descripcion','cantidad'
+        ]
+
+        labels = {'jornada':'Fecha Jornada','nombre':'Nombre del Medicamento/Producto','descripcion':'Descripción','cantidad':'Cantidad'
+        }

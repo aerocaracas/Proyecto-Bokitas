@@ -29,26 +29,23 @@
                     <P> <strong> Apellido: </strong> {{beneficiarios.apellido}} </p>
                 </div>
             </div>
+            <div class="col-12 d-flex justify-content-center text-center">
+                <h6>{{form.jornada | as_crispy_field}}</h6>
+             </div>
+             <div class="row">
+                <div class="col-12">
+                    <h6>{{form.nombre | as_crispy_field}}</h6>
+                </div>
 
-            <div class="row">
                 <div class="col-12">
-                    <label for="">Nombre del Medicamento/Producto:* </label>
-                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="medicamento" class="form-control" required placeholder="Nombre del Medicamento/Producto">
-                    <br>
+                    <h6>{{form.descripcion | as_crispy_field}}</h6>
                 </div>
-                
-                <div class="co-12">
-                    <label for="">Descripción:* </label>
-                    <input type="text" oninput="this.value = this.value.toUpperCase()" name="descripcion" class="form-control" required placeholder="Descripción">
-                    <br>
-                </div>
-                
+
                 <div class="col-12">
-                    <label for="">Cantidad:* </label>
-                    <input type="number" name="cantidad" class="form-control" required min="1" max="40" step="1" placeholder="Cantidad">
-                    <br>
+                    <h6>{{form.cantidad | as_crispy_field}}</h6>
                 </div>
             </div>
+
             <hr>
             <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
             &nbsp
