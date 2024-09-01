@@ -231,7 +231,7 @@ class Jornada(models.Model):
 
 
 class Beneficiario(models.Model):
-    cedula = models.CharField(max_length=15, unique=True, blank=False)
+    cedula = models.PositiveIntegerField(default=0, unique=True, blank=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     nombre = models.CharField(max_length=100, blank=False)
@@ -396,7 +396,7 @@ class AntropBef(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     embarazo_lactando = models.CharField(max_length=25,null=True, blank=True, choices=EMBARAZO_LACTANDO)
-    tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
+    tiempo_gestacion = models.PositiveIntegerField(default=0) 
     edad = models.PositiveIntegerField(default=0) 
     meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5,decimal_places=2,help_text="Kg")

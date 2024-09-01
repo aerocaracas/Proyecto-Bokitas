@@ -107,6 +107,8 @@ class BeneficiarioForm(forms.ModelForm):
         if "proyecto" in self.data:
             proyecto_id = int(self.data.get("proyecto"))
             self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+        elif self.instance.pk:
+            self.fields['jornada'].queryset = self.instance.proyecto.jornada_set.order_by('jornada')
 
 
 class ExpProyectoForm(ModelForm):

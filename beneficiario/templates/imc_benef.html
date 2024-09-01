@@ -35,7 +35,7 @@
             {% if beneficiarios.embarazada == "SI" %}
                 <div class="row">
                     <div class="col-6">
-                        <h6>Tiempo del Embarazo: </h6>
+                        <h6>Semanas del Embarazo: </h6>
                         <h6>{{form.tiempo_gestacion | as_crispy_field}}</h6>
                     </div>
                 </div> 
@@ -43,7 +43,7 @@
             {% elif beneficiarios.lactante == "SI" %}
                 <div class="row">
                     <div class="col-6">
-                        <h6>Tiempo Lactando: </h6>
+                        <h6>Meses Lactando: </h6>
                         <h6>{{form.tiempo_gestacion | as_crispy_field}}</h6>
                     </div>
                 </div> 

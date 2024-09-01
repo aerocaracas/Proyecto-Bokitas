@@ -30,6 +30,7 @@ urlpatterns = [
     path('beneficiario/<int:pk>/medicamento/<int:id>/eliminar', views.medicamento_eliminar, name='medicamento_eliminar'),
     path('beneficiario/<int:pk>/nutricioinal/<int:id>/nutricional_beneficiario', views.nutricional_beneficiario, name='nutricional_beneficiario'),
     path('beneficiario/crear/load_jornadas_benef/', views.load_jornadas_benef, name='load_jornadas_benef'),
+    path('beneficiario/<int:pk>/actualizar/load_jornadas_benef_act/', views.load_jornadas_benef_act, name='load_jornadas_benef_act'),
     path('beneficiario/<int:pk>/menor/crear/load_jornadas_menor/', views.load_jornadas_menor, name='load_jornadas_menor'),
 
 

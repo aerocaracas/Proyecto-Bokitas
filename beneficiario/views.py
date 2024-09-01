@@ -25,7 +25,7 @@ def beneficiario(request):
     try:
         if "search" in request.POST:
             query = request.POST.get("searchquery")
-            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query))
+            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query)).order_by('cedula')
 
         paginator = Paginator(beneficiarios, 10)
         beneficiarios = paginator.page(page)
@@ -74,6 +74,12 @@ def load_jornadas_benef(request):
     proyecto_id = request.GET.get("proyecto")
     jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
     return render(request, "jornadas_options.html", {"jornadas": jornadas})
+
+def load_jornadas_benef_act(request, pk):
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
+
 
 
 @login_required     
@@ -871,8 +877,16 @@ def imc_benef(request, pk):
             imc = round(peso/(talla**2),2)
 
             if beneficiarios.embarazada == "SI":
-                
-                xImc = ImcEmbarazada.objects.get(semana = tiempo)
+
+                if tiempo >= 6 and tiempo <= 42:
+                    xImc = ImcEmbarazada.objects.get(semana = tiempo)
+                else:
+                    messages.warning(request, "Datos incorectos, Favor verificar la información")
+                    return render(request, 'imc_benef.html', {
+                    'pk': pk,
+                    'form': form,
+                    'beneficiarios': beneficiarios
+            })
 
                 if xImc:                  
                     if imc <= xImc.p2:
@@ -947,6 +961,7 @@ def imc_benef(request, pk):
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'imc_benef.html', {
             'pk': pk,
+            'form': form,
             'beneficiarios': beneficiarios
             })
 
