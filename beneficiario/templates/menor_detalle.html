@@ -174,7 +174,7 @@
                                 <td class="text-center"><div class="text-bg-info text-white">NO APLICA</div></td>
                             {% endif %}
                             <td class="text-center">{{antrop.riesgo}}</td>
-                            <td class="text-center"> <a href="{% url 'imc_menor_detalle' pk id antrop.id  %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'imc_menor_detalle' pk id antrop.id  %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -231,7 +231,7 @@
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
-                            <td class="text-center"> <a href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}

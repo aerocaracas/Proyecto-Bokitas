@@ -149,7 +149,7 @@
                             {% else %}
                             <td class="text-danger fw-bold text-center">{{menor.estatus}}</td>
                             {% endif %}
-                            <td class="text-center"> <a href="{% url 'menor_detalle' pk menor.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'menor_detalle' pk menor.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -199,7 +199,7 @@
                             <td>{{familia.apellido}}</td>
                             <td>{{familia.sexo}}</td>
                             <td class="text-center">{{familia.fecha_nac | date:"d/m/Y"}}</td>
-                            <td class="text-center"> <a href="{% url 'familiar_actualizar' pk familia.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'familiar_actualizar' pk familia.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -265,7 +265,7 @@
                                 <td class="text-center"><div class="text-bg-danger">OBESIDAD</div></td>
                             {% endif %}
                             <td class="text-center">{{antrop.riesgo}}</td>
-                            <td class="text-center"> <a href="{% url 'imc_benef_detalle' pk antrop.id %}"><i class="bi bi-eye-fill"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'imc_benef_detalle' pk antrop.id %}"><i class="bi bi-eye-fill"></i> Detalle</a> </td>
 
                         </tr>
                     {% endfor %}
@@ -313,7 +313,7 @@
                             <td>{{medicamento.nombre}}</td>
                             <td>{{medicamento.descripcion}}</td>
                             <td class="text-center">{{medicamento.cantidad}}</td>
-                            <td class="text-center"><a class="btn btn-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modalmedicamento"><i class="bi bi-trash-fill"></i></a></td>
+                            <td class="text-center"><a class="btn btn-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modalmedicamento"><i class="bi bi-trash-fill"></i> Eliminar</a></td>
                         </tr>
                         
                         <!-- Modal Eliminar Medicamentos / Productos -->
@@ -378,7 +378,7 @@
                         <td>{{nutricional.cedula_bef}}</td>
                         <td>{{nutricional.proyecto}}</td>
                         <td class="text-center">{{nutricional.fecha | date:"d/m/Y"}}</td>
-                        <td class="text-center"> <a href="{% url 'nutricional_beneficiario' pk nutricional.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                        <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'nutricional_beneficiario' pk nutricional.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                     </tr>
                 {% endfor %}
             {% endif%}

@@ -11,7 +11,7 @@
       <hr>
       <div class="row">
         <div class="col">
-          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_menores">Exportar a Excel</a>
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_menores">Exportar Listado</a>
         </div>
 
         <div class="col-6">
@@ -44,7 +44,8 @@
                           <td>{{menor.nombre}}</td>
                           <td>{{menor.apellido}}</td>
                           <td>{{menor.cedula_bef}}</td>
-                          <td class="text-center"> <a href="{% url 'menor_detalle' menor.cedula_bef_id menor.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
+                          <td class="text-center"> <a class="btn btn-outline-primary btn-sm" href="{% url 'menor_detalle' menor.cedula_bef_id menor.id %}"><i class="bi bi-pencil-square"></i> Detalle 
+                          </a> </td>
                       </tr>
                   {% endfor %}
               {% endif%}
