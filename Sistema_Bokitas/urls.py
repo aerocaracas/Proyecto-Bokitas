@@ -27,5 +27,6 @@ urlpatterns = [
     path('', include('nutricional.urls')),
     path('', include('tareas.urls')),
     path('', include('reportes.urls')),
+    path('', include('calendarapp.urls')),
   
 ]
