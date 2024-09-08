@@ -1,7 +1,7 @@
 from django import forms
 from bokitas.models import Proyecto,Jornada 
 from django.forms.widgets import NumberInput
-from django.views.generic import FormView 
+
 
 class ProyectoForm(forms.ModelForm):
     class Meta:

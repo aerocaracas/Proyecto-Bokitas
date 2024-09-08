@@ -14,8 +14,6 @@
                 
     <h1 class="text-center">Detalle Consulta Medica</h1>
 
-    {{error}}
-
     <div class="tabcontent">  
         <form action="" method="POST">
             {% csrf_token %}
@@ -24,7 +22,7 @@
                 <div class="col-12 text-center">
                     <strong> BENEFICIARIO </strong>
                 </div>
-                    <div class="col-12 text-center">
+                <div class="col-12 text-center">
                     {{beneficiarios}}
                 </div>
                 <div class="col-12 text-center">
@@ -38,12 +36,15 @@
             <BR>
             <div class="row">
                 <div class="col-4 text-center">
+                    {{form.jornada | as_crispy_field}}
+                </div>
+                <div class="col-3 text-center">
                     {{form.medico_tratante | as_crispy_field}}
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-3 text-center">
                     {{form.tipo_consulta | as_crispy_field}}
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-2 text-center">
                     {{form.examen_fisico | as_crispy_field}}
                 </div>
             </div>
@@ -93,9 +94,8 @@
                     <hr>
                     <strong> CONTROL ANÉMICO</strong>
                 </div>
-                <div class="col-4">
-                </div>
-                <div class="col">
+
+                <div class="col d-flex justify-content-center">
                     <h6>{{form.anemico | as_crispy_field}}</h6>
                 </div>
             </div>
@@ -104,6 +104,15 @@
                     <hr>
                     <strong> RECOMENDACIONES</strong>
                 </div>
+                <div class="col-6 d-flex justify-content-center">
+                    <h6>{{form.recomendaciones1 | as_crispy_field}}</h6>
+                </div>
+
+                <div class="col-6 d-flex justify-content-center">
+                    <h6>{{form.recomendaciones2 | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-4 text-center">
                     <h6>{{form.tratamiento | as_crispy_field}}</h6>
                 </div>
@@ -111,7 +120,7 @@
                     <h6>{{form.referencia | as_crispy_field}}</h6>
                 </div>
                 <div class="col-4 text-center">
-                        <h6>{{form.paraclinicos | as_crispy_field}}</h6>
+                    <h6>{{form.paraclinicos | as_crispy_field}}</h6>
                 </div>
             </div>
             <br>

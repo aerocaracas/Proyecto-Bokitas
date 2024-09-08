@@ -95,9 +95,8 @@
                     <hr>
                     <strong> CONTROL ANÉMICO</strong>
                 </div>
-                <div class="col-4">
-                </div>
-                <div class="col">
+
+                <div class="col d-flex justify-content-center">
                     <h6>{{form.anemico | as_crispy_field}}</h6>
                 </div>
             </div>
@@ -106,6 +105,15 @@
                     <hr>
                     <strong> RECOMENDACIONES</strong>
                 </div>
+                <div class="col-6 d-flex justify-content-center">
+                    <h6>{{form.recomendaciones1 | as_crispy_field}}</h6>
+                </div>
+
+                <div class="col-6 d-flex justify-content-center">
+                    <h6>{{form.recomendaciones2 | as_crispy_field}}</h6>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-4 text-center">
                     <h6>{{form.tratamiento | as_crispy_field}}</h6>
                 </div>

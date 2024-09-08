@@ -47,9 +47,10 @@ LABORAL = (
 
 ESTATUS = (
     ("ACTIVO", "ACTIVO"),
-    ("CERRADO", "CERRADO"),
+    ("ALTA", "ALTA"),
     ("EGRESO", "EGRESO"),
-    ("DESINCORPORACION", "DESINCORPORACION"),
+    ("DESINCORPORADO", "DESINCORPORADO"),
+    ("CERRADO", "CERRADO"),
 )
 
 EMBARAZO_LACTANDO = (
@@ -122,6 +123,18 @@ ANEMICO = (
     ("Suplementación de Minerales y Vitaminas", "Suplementación de Minerales y Vitaminas"),
 )
 
+RECOMENDACIONES1 = (
+    ("Asesoria en Lactancia", "Asesoria en Lactancia"),
+    ("Asesoria Nutricional", "Asesoria Nutricional"),
+    ("Referencia Psicológica", "Referencia Psicológica"),
+)
+
+RECOMENDACIONES2 = (
+    ("Vitaminas", "Vitaminas"),
+    ("Lacktokiana", "Lacktokiana"),
+    ("ProKids", "ProKids"),
+)
+
 MERCADO = (
     ("Padre", "Padre"),
     ("Madre", "Madre"),
@@ -129,8 +142,6 @@ MERCADO = (
     ("Tio(a)", "Tio(a)"),
     ("Otros", "Otros"),
 )
-
-
 
 TIPO_GRUPOS = (
     ("Cereales y Leguminosas", "Cereales y Leguminosas"),
@@ -140,8 +151,6 @@ TIPO_GRUPOS = (
     ("Dulces", "Dulces"),
     ("Carnes y Huevos", "Carnes y Huevos"),
 )
-
-
 
 POCO_CONSUMO = (
     ("Por Rechazo", "Por Rechazo"),
@@ -154,8 +163,6 @@ ENTRE = (
     ("Entre 1 a 3 meses", "Entre 1 a 3 meses"),
     ("Entre 3 a 6 meses", "Entre 3 a 6 meses"),
 )
-
-
 
 AGUA = (
     ("Tuberia sin Tratamiento", "Tuberia sin Tratamiento"),
@@ -178,7 +185,6 @@ ALMACENA = (
     ("Tanque", "Tanque"),
     ("Otros", "Otros"),
 )
-
 
 SI_NO_MINUSCULA = (
     ("Si", "Si"),
@@ -521,6 +527,8 @@ class Medica(models.Model):
     desp_menor = models.CharField(max_length=10,choices=SI_NO, blank=True)
     desp_familia = models.CharField(max_length=10,choices=SI_NO, blank=True)
     anemico = MultiSelectField(max_length=200, choices=ANEMICO, blank=True,null=False)
+    recomendaciones1 = MultiSelectField(max_length=200, choices=RECOMENDACIONES1, blank=True,null=False)
+    recomendaciones2 = MultiSelectField(max_length=200, choices=RECOMENDACIONES2, blank=True,null=False)
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)

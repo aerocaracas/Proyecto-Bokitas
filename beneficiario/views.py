@@ -1151,7 +1151,8 @@ def medica_detalle(request, pk, id, idmed):
             return render(request, 'medica_detalle.html', {
             'form': form,
             'pk': pk,
-            'id': id
+            'id': id,
+            'idmed': idmed,
             })
 
 
