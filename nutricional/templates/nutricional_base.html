@@ -1,0 +1,478 @@
+{% load crispy_forms_tags %}
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Estado de Gravidez</h4>
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-4 d-flex flex-row-reverse">
+        <h5>Se encuentra Embarazada?</h5>
+    </div>
+    <div class="col-1">
+        {{form.en_embarazo | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3">
+        <h5>Tiempo de Gestación:</h5>
+    </div>
+    <div class="col-1">
+        {{form.tiempo_gestacion | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-4 d-flex flex-row-reverse">
+        <h5>Se encuentra Lactando?</h5>
+    </div>
+    <div class="col-1">
+        {{form.en_lactando | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3">
+        <h5>Tiempo Lactando:</h5>
+    </div>
+    <div class="col-1">
+        {{form.tiempo_lactancia | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Responsable de la compra del mercado y la cocina </h4>
+<div class="row  text-center d-flex justify-content-center">
+    <div class="col-6">
+        <h5>Responsable de la compra en el mercado</h5>
+    </div>
+    <div class="col-6">
+        <h5>Frecuencia con que hace la compra</h5>
+    </div>
+    <div class="col-6">
+        {{form.mercado_lorealiza | as_crispy_field}}
+    </div>
+    <div class="col-6">
+        {{form.frecuencia | as_crispy_field}}
+    </div>
+    <div class="col-12">
+        <h5>Responsable de cocinar</h5>
+    </div>
+    <div class="col-12">
+        {{form.cocina_lorealiza | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Apetito, Comidas y Meriendas  </h4>
+<div class="row text-center d-flex justify-content-center">
+    <div class="col-12">
+        <h5>Cómo es su apetito?</h5>
+    </div>
+    <div class="col-12">
+        {{form.apetito | as_crispy_field}}
+    </div>
+    <div class="col-6">
+        <h5>Cuantas comidas realizan al día?</h5>
+    </div>
+    <div class="col-6">
+        <h5>Cuantas meriendas?</h5>
+    </div>
+    <div class="col-6">
+        {{form.cuantas_comidas | as_crispy_field}}
+    </div>
+    <div class="col-6">
+        {{form.meriendas | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Grupos de Alimentos</h4>
+<div class="row">
+    <div class="col-4">
+        <h5 class="text-center">Rueda de los Alimentos</h5>
+    </div>
+    <div class="col-4">
+        <h5>Cuantos Grupos están presentes en su alimentación?</h5>
+    </div>
+    <div class="col-4">
+        <h5>Cuales son?</h5>
+    </div>
+    <div class="col-4 d-flex align-items-start">
+        <img src="/static/img/alimentos.png" class="mx-auto d-block" alt="Suplementos nutricionales" height="230">
+    </div>
+
+    <div class="col-4">
+        {{form.cuantos_grupos | as_crispy_field}}
+    </div>
+
+    <div class="col-4">
+        {{form.tipo_grupos | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Frecuencia del Consumo</h4>
+<div class="row">
+    <div class="col-2">
+        <h5>Cereales:</h5>
+    </div>
+    <div class="col-10">
+        {{form.cereales | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Vegetales:</h5>
+    </div>
+    <div class="col-10">
+        {{form.vegetales | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Frutas:</h5>
+    </div>
+    <div class="col-10">
+        {{form.frutas | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Carnes:</h5>
+    </div>
+    <div class="col-10">
+        {{form.carnes | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Pollo:</h5>
+    </div>
+    <div class="col-10">
+        {{form.pollo | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Pescado:</h5>
+    </div>
+    <div class="col-10">
+        {{form.pescado | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Embutidos:</h5>
+    </div>
+    <div class="col-10">
+        {{form.embutidos | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Viceras:</h5>
+    </div>
+    <div class="col-10">
+        {{form.viceras | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Grasas:</h5>
+    </div>
+    <div class="col-10">
+        {{form.grasas | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Lacteos:</h5>
+    </div>
+    <div class="col-10">
+        {{form.lacteos | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Huevo:</h5>
+    </div>
+    <div class="col-10">
+        {{form.huevos | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Leguminosas:</h5>
+    </div>
+    <div class="col-10">
+        {{form.leguminosas | as_crispy_field}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <h5>Tuberculos:</h5>
+    </div>
+    <div class="col-10">
+        {{form.tuberculos | as_crispy_field}}
+    </div>
+</div>
+<div class="row bg-white">
+    <div class="col-2">
+        <h5>Charcuteria:</h5>
+    </div>
+    <div class="col-10">
+        {{form.charcuteria | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Poco consumo de Alimentos</h4>
+<div class="row text-center">
+    <div class="col-12">
+        <h5>El poco consumo o nada de Vegetales es:</h5>
+    </div>
+    <div class="col-12">
+        {{form.poco_vegetales | as_crispy_field}}
+    </div>
+    <hr>
+    <div class="col-12">
+        <h5>El poco consumo o nada de Frutas es:</h5>
+    </div>
+    <div class="col-12">
+        {{form.poco_frutas | as_crispy_field}}
+    </div>
+    <hr>
+    <div class="col-12">
+        <h5>El poco consumo o nada de Viceras es:</h5>
+    </div>
+    <div class="col-12">
+        {{form.poco_viceras | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Ayuda económica y Bonos  </h4>
+<div class="row  justify-content-md-center">
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Recibe algún Bono?</h5>
+    </div>
+    <div class="col-1">
+        {{form.bonos | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Periodo de Tiempo:</h5>
+    </div>
+    <div class="col-4">
+        {{form.bonos_entre | as_crispy_field}}
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Recibe bolsa Clap?</h5>
+    </div>
+    <div class="col-1">
+        {{form.clap | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Periodo de Tiempo:</h5>
+    </div>
+    <div class="col-4">
+        {{form.clap_entre | as_crispy_field}}
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Recibe Pensión?</h5>
+    </div>
+    <div class="col-1">
+        {{form.pensionado | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Periodo de Tiempo:</h5>
+    </div>
+    <div class="col-4">
+        {{form.pensionado_entre | as_crispy_field}}
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Recibe Ayuda de Iglesia?</h5>
+    </div>
+    <div class="col-1">
+        {{form.iglesia | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Periodo de Tiempo:</h5>
+    </div>
+    <div class="col-4">
+        {{form.iglesia_entre | as_crispy_field}}
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Recibe Ayuda Familiar?</h5>
+    </div>
+    <div class="col-1">
+        {{form.familiar | as_crispy_field}}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-3 d-flex flex-row-reverse">
+        <h5>Periodo de Tiempo:</h5>
+    </div>
+    <div class="col-4">
+        {{form.familiar_entre | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Actividad Deportiva</h4>
+<div class="row">
+    <div class="col-4 text-center">
+        <h5>Practica algún Deporte?</h5>
+    </div>
+    <div class="col-4">
+        <h5>Tiempo</h5>
+    </div>
+    <div class="col-4">
+        <h5>Actividad</h5>
+    </div>
+    <div class="col text-center">
+        {{form.practica_deporte | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.tiempo | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.actividad | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Medicamento o Suplemento Nutricional</h4>
+<div class="row">
+    <div class="col-6 text-center">
+        <h5>Consume algún Madicamento o Suplemento Nutricional?</h5>
+    </div>
+    <div class="col-6">
+        <h5>Qué Medicamento o Suplemento consume?</h5>
+    </div>
+    <div class="col text-center">
+        {{form.medicamento | as_crispy_field}}
+    </div>
+    <div class="col">
+        <h5>{{form.medicamento_suplemento | as_crispy_field}}</h5>
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Consumo de Agua y Servicios Básicos</h4>
+<div class="row text-center">
+    <div class="col-6">
+        <h5>Cómo es el consumo del Agua?</h5>
+    </div>
+    <div class="col-6">
+        <h5>Cual de estos Servicio presenta fallas?</h5>
+    </div>
+    <div class="col">
+        {{form.agua | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.falla_servicio | as_crispy_field}}
+    </div>
+</div>
+<div class="row text-center">
+    <div class="col-3">
+        <h5>Compra gas?</h5>
+    </div>
+    <div class="col-3">
+        <h5>Compra agua?</h5>
+    </div>
+    <div class="col-3">
+        <h5>Almacena agua?</h5>
+    </div>
+    <div class="col-3">
+        <h5>Donde almacena?</h5>
+    </div>
+    <div class="col">
+        {{form.compra_gas | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.compra_agua | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.almacena_agua | as_crispy_field}}
+    </div>
+    <div class="col">
+        {{form.donde_almacena | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación Nutricional</h4>
+<div class="row text-center">
+    <div class="col-12">
+        <h5>Conoce los 5 a 6 Grupos de Alimentos?</h5>
+    </div>
+    <div class="col">
+        {{form.conoce_grupos | as_crispy_field}}
+    </div>
+    <div class="col-12">
+        <h5>Conoce cómo mejorar la calidad de la proteina vegetal?</h5>
+    </div>
+    <div class="col">
+        {{form.conoce_calidad | as_crispy_field}}
+    </div>
+    <div class="col-12">
+        <h5>Conoce sobre la desnutrición y su consecuencia?</h5>
+    </div>
+    <div class="col">
+        {{form.conoce_desnutricion | as_crispy_field}}
+    </div>
+</div>
+
+<h4 class="p-2 mb-2 bg-primary-subtle text-center">Educación para Embarazadas y Lactantes</h4>
+<div class="row">
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Conoce sobre los beneficios de la lactancia materna?</h5>
+    </div>
+    <div class="col-5">
+        {{form.conoce_beneficio | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Se encuentra Embarazada?</h5>
+    </div>
+    <div class="col-5">
+        {{form.embarazo | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Se encuentra Lactando?</h5>
+    </div>
+    <div class="col-5">
+        {{form.lactando | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Desea amamantar a tu bebé cuando nazca?</h5>
+    </div>
+    <div class="col-5">
+        {{form.desea_amamantar | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Tiene dificultad para amamantar a tu bebé?</h5>
+    </div>
+    <div class="col-5">
+        {{form.dificultad_amamantar | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Desea tener orientación de cómo amamantar al bebé?</h5>
+    </div>
+    <div class="col-5">
+        {{form.desea_orientacion | as_crispy_field}}
+    </div>
+    <div class="col-6 d-flex flex-row-reverse">
+        <h5>Desearia tener más conocimiento sobre nutrición?</h5>
+    </div>
+    <div class="col-5">
+        {{form.desea_conocimiento | as_crispy_field}}
+    </div>
+</div>

@@ -31,7 +31,7 @@
             <tr>
               <th scope="col">BENEFICIARIO</th>
               <th scope="col">PROYECTO</th>
-              <th scope="col"class="text-center">FECHA</th>
+              <th scope="col"class="text-center">JORNADA</th>
               <th scope="col"class="text-center">DETALLE</th>
             </tr>
           </thead>
@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{nutricional.cedula_bef}}</td>
                         <td>{{nutricional.proyecto}}</td>
-                        <td class="text-center">{{nutricional.fecha | date:"d/m/Y"}}</td>
+                        <td class="text-center">{{nutricional.jornada.jornada | date:"d/m/Y"}}</td>
                         <td class="text-center"> <a href="{% url 'nutricional_actualizar' nutricional.id %}"><i class="bi bi-pencil-square"style="font-size: 1.2rem; color: blue;"></i></a> </td>
                     </tr>
                 {% endfor %}
