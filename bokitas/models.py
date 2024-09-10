@@ -280,18 +280,6 @@ class Beneficiario(models.Model):
         return f"{self.cedula}, {self.nombre} {self.apellido}"
 
 
-class Asistencia(models.Model):
-    cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
-    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    
-    class Meta:
-        ordering = ('-jornada',)
-
-    def __str__(self):
-        return f"{self.jornada},{self.cedula_bef}"
-
-
 class Menor(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)

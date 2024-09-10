@@ -16,7 +16,6 @@ from .models import ImcEmbarazada
 from .models import ImcPesoTalla_5x
 from .models import ImcTalla
 from .models import Jornada
-from .models import Asistencia
 
 
 # Register your models here.
@@ -37,5 +36,5 @@ admin.site.register(ImcEmbarazada)
 admin.site.register(ImcPesoTalla_5x)
 admin.site.register(ImcTalla)
 admin.site.register(Jornada)
-admin.site.register(Asistencia)
+
 

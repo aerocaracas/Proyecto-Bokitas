@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Nutricional
+from bokitas.models import Nutricional, Jornada
 
 SI_NO_MINUSCULA = (
     ("Si", "Si"),
@@ -88,6 +88,7 @@ class NutricionalForm(ModelForm):
         'tiempo':'','actividad':'','medicamento':'','medicamento_suplemento':'','agua':'','falla_servicio':'','compra_gas':'','compra_agua':'','almacena_agua':'','donde_almacena':'','conoce_grupos':'','conoce_calidad':'','conoce_desnutricion':''}
 
         widgets = {
+            'cedula_bef': forms.Select(attrs={"hx-get": "load_jornadas_nutri/", "hx-target": "#id_jornada"}),
             'en_embarazo': forms.RadioSelect(choices=SI_NO_MINUSCULA),
             'en_lactando': forms.RadioSelect(choices=SI_NO_MINUSCULA),
             'frecuencia': forms.RadioSelect(choices=FRECUENCIA),
@@ -133,6 +134,16 @@ class NutricionalForm(ModelForm):
             'desea_orientacion': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
             'desea_conocimiento': forms.RadioSelect(choices=SI_NO_POCA_APLICA)
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+        elif self.instance.pk:
+            self.fields['jornada'].queryset = self.instance.proyecto.jornada_set.order_by('jornada')
 
 
 class NutricionalForm2(ModelForm):

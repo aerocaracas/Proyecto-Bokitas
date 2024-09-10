@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from bokitas.models import Beneficiario, Nutricional
+from bokitas.models import Beneficiario, Nutricional, Jornada
 from nutricional.forms import NutricionalForm
 from django.core.paginator import Paginator
 from nutricional.forms import NutricionalForm,NutricionalForm2
@@ -32,7 +32,6 @@ def nutricional(request):
     })
 
 
-
 @login_required  
 def nutricional_crear(request):
     if request.method == 'GET':
@@ -55,6 +54,7 @@ def nutricional_crear(request):
             return render(request, 'nutricional_crear.html', {
             'form': form,
             })
+
 
 @login_required      
 def nutricional_actualizar(request, pk):
@@ -92,3 +92,9 @@ def nutricional_eliminar(request, pk):
     messages.error(request, "Se Elimino satisfactoriamente el registro")
     return redirect('nutricional')
 
+
+def load_jornadas_nutri(request):
+    beneficiario_id = request.GET.get("cedula_bef")
+    proyecto_id = Beneficiario.objects.get(id=beneficiario_id).proyecto_id
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
