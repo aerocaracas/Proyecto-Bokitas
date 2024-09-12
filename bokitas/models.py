@@ -124,8 +124,8 @@ ANEMICO = (
 )
 
 RECOMENDACIONES1 = (
-    ("Asesoria en Lactancia", "Asesoria en Lactancia"),
-    ("Asesoria Nutricional", "Asesoria Nutricional"),
+    ("Asesoría en Lactancia", "Asesoría en Lactancia"),
+    ("Recomendación Nutricional", "Recomendación Nutricional"),
     ("Referencia Psicológica", "Referencia Psicológica"),
 )
 
@@ -295,6 +295,15 @@ class Menor(models.Model):
     fecha_ing_proyecto = models.DateField(null=True)
     observacion = models.TextField(max_length=200, blank=True)
     estatus = models.CharField(max_length=30,default=True, choices=ESTATUS)
+    peso_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    talla_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    imc_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    cbi_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    ptr_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    pse_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    cc_inicial = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    diagnostico_inicial = models.CharField(max_length=50, blank=True)
+    diagnostico_talla_inicial = models.CharField(max_length=50, blank=True)
     peso_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     talla_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     imc_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -302,7 +311,7 @@ class Menor(models.Model):
     ptr_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     pse_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     cc_actual = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    diagnostico_actual = models.CharField(max_length=50, blank=False)
+    diagnostico_actual = models.CharField(max_length=50, blank=True)
     diagnostico_talla_actual = models.CharField(max_length=50, blank=False)
     estado_nutri_actual = models.CharField(max_length=50, blank=False)
     creado = models.DateField(auto_now_add=True)

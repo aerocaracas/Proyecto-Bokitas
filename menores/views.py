@@ -431,6 +431,18 @@ def imc_menor_crear(request, pk, id):
             menor_detalles.cc_actual = xcc
             menor_detalles.diagnostico_actual = diag_peso
             menor_detalles.diagnostico_talla_actual = diag_talla
+
+            if menor_detalles.peso_inicial == 0:
+                menor_detalles.peso_inicial = xPeso
+                menor_detalles.talla_inicial = xTalla
+                menor_detalles.cbi_inicial = xcbi
+                menor_detalles.imc_inicial = imc
+                menor_detalles.pse_inicial = xpse
+                menor_detalles.ptr_inicial = xptr
+                menor_detalles.cc_inicial = xcc
+                menor_detalles.diagnostico_inicial = diag_peso
+                menor_detalles.diagnostico_talla_inicial = diag_talla
+
             menor_detalles.save()
 
             return redirect("imc_menor_riesgo", pk, id, idimc)

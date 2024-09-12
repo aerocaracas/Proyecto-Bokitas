@@ -80,9 +80,35 @@
         </div>
     </div>       
 
+
+    <hr>
+    <h5 class="text-center">Información del Primer Control Antropométrico</h5>
+    <div class="row">
+        <div class="col">
+            <P> <strong> Peso Inicial: </strong>{{menor_detalles.peso_inicial}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Talla Inicial: </strong>{{menor_detalles.talla_inicial}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> CBI: </strong>{{menor_detalles.cbi_inicial}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> IMC: {{menor_detalles.imc_inicial}} Kg/m²</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <P> <strong> Diagnóstico Peso: </strong>{{menor_detalles.diagnostico_inicial}}</p>
+        </div>
+        <div class="col">
+            <P> <strong> Diagnóstico Talla: </strong>{{menor_detalles.diagnostico_talla_inicial}}</p>
+        </div>
+    </div>
+
     <hr>
     <h5 class="text-center">Información del Último Control Antropométrico</h5>
-    <br>
     <div class="row">
         <div class="col">
             <P> <strong> Peso Actual: </strong>{{menor_detalles.peso_actual}}</p>
@@ -94,7 +120,7 @@
             <P> <strong> CBI: </strong>{{menor_detalles.cbi_actual}}</p>
         </div>
         <div class="col">
-            <P> <strong> IMC: </strong>{{menor_detalles.imc_actual}} Kg/m²</p>
+            <P> <strong> IMC: {{menor_detalles.imc_actual}} Kg/m²</strong></p>
         </div>
     </div>
 
@@ -213,6 +239,9 @@
                     <th scope="col" class="text-center">TIPO CONSULTA</th>
                     <th scope="col" class="text-center">EXAMEN FISICO</th>
                     <th scope="col" class="text-center">NIÑO SANO</th>
+                    <th scope="col" class="text-center">ASESOR. LACTANCIA</th>
+                    <th scope="col" class="text-center">RECOMED. NUTRICIONAL</th>
+                    <th scope="col" class="text-center">REF. PSICOLOGICA</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -227,6 +256,21 @@
                             <td class="text-center">{{medica.tipo_consulta}}</td>
                             <td class="text-center">{{medica.examen_fisico}}</td>
                             {% if medica.diagnostico1.0 == 'Niño Sano' %}
+                                <td class="text-center">SI</td>
+                            {% else %}
+                                <td class="text-center">NO</td>
+                            {% endif%}
+                            {% if medica.recomendaciones1.0 == 'Asesoría en Lactancia' %}
+                                <td class="text-center">SI</td>
+                            {% else %}
+                                <td class="text-center">NO</td>
+                            {% endif%}
+                            {% if medica.recomendaciones1.1 == 'Recomendación Nutricional' or medica.recomendaciones1 == 'Asesoría en Lactancia,Recomendación Nutricional' %}
+                                <td class="text-center">SI</td>
+                            {% else %}
+                                <td class="text-center">NO</td>
+                            {% endif%}
+                            {% if medica.recomendaciones1 == 'Referencia Psicológica' %}
                                 <td class="text-center">SI</td>
                             {% else %}
                                 <td class="text-center">NO</td>
