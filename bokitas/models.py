@@ -123,18 +123,6 @@ ANEMICO = (
     ("Suplementación de Minerales y Vitaminas", "Suplementación de Minerales y Vitaminas"),
 )
 
-RECOMENDACIONES1 = (
-    ("Asesoría en Lactancia", "Asesoría en Lactancia"),
-    ("Recomendación Nutricional", "Recomendación Nutricional"),
-    ("Referencia Psicológica", "Referencia Psicológica"),
-)
-
-RECOMENDACIONES2 = (
-    ("Vitaminas", "Vitaminas"),
-    ("Lacktokiana", "Lacktokiana"),
-    ("ProKids", "ProKids"),
-)
-
 MERCADO = (
     ("Padre", "Padre"),
     ("Madre", "Madre"),
@@ -191,6 +179,24 @@ SI_NO_MINUSCULA = (
     ("No", "No"),
 )
 
+VACUNAS = (
+    ("Pfizer", "Pfizer"),
+    ("Moderna", "Moderna"),
+    ("Astrazeneca", "Astrazeneca"),
+    ("Janssen", "Janssen"),
+    ("Sin vacuna", "Sin vacuna"),
+)
+
+DESCRIPCION_VACUNAS = (
+    ("1ra DOSIS", "1ra DOSIS"),
+    ("2da DOSIS", "2da DOSIS"),
+    ("3ra DOSIS", "3ra DOSIS"),
+    ("4ra DOSIS", "4ra DOSIS"),
+    ("5ra DOSIS", "5ra DOSIS"),
+    ("REFUERZO 1ra DOSIS", "REFUERZO 1ra DOSIS"),
+    ("REFUERZO 2da DOSIS", "REFUERZO 2da DOSIS"),
+    ("REFUERZO 3ra DOSIS", "REFUERZO 3ra DOSIS"),
+)
 
 # Create your models here.
 class Proyecto(models.Model):
@@ -524,8 +530,12 @@ class Medica(models.Model):
     desp_menor = models.CharField(max_length=10,choices=SI_NO, blank=True)
     desp_familia = models.CharField(max_length=10,choices=SI_NO, blank=True)
     anemico = MultiSelectField(max_length=200, choices=ANEMICO, blank=True,null=False)
-    recomendaciones1 = MultiSelectField(max_length=200, choices=RECOMENDACIONES1, blank=True,null=False)
-    recomendaciones2 = MultiSelectField(max_length=200, choices=RECOMENDACIONES2, blank=True,null=False)
+    asesor_lactancia = models.BooleanField(default=False)
+    recomen_nutricional = models.BooleanField(default=False)
+    refe_psicologica = models.BooleanField(default=False)
+    vitaminas = models.BooleanField(default=False)
+    lacktokiana = models.BooleanField(default=False)
+    prokids = models.BooleanField(default=False)
     tratamiento = models.TextField(max_length=200, blank=True)
     referencia = models.TextField(max_length=200, blank=True)
     paraclinicos = models.TextField(max_length=200, blank=True)
@@ -537,7 +547,18 @@ class Medica(models.Model):
     
     def __str__(self):
         return f"{self.cedula_bef}, {self.proyecto} {self.fecha}"
+    
 
+class Vacunas(models.Model):
+    cedula = models.ForeignKey(Menor, on_delete=models.CASCADE)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
+    vacuna = models.CharField(max_length=20, choices=VACUNAS, blank=False)
+    descripcion = models.CharField(max_length=20, choices=DESCRIPCION_VACUNAS, blank=False)
+    creado = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.cedula}"
 
 class Diagnostico(models.Model):
     codigo_diag = models.PositiveIntegerField()

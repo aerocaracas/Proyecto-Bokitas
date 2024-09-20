@@ -104,13 +104,18 @@
                     <hr>
                     <strong> RECOMENDACIONES</strong>
                 </div>
-                <div class="col-6 d-flex justify-content-center">
-                    <h6>{{form.recomendaciones1 | as_crispy_field}}</h6>
+                <div class="col d-flex justify-content-evenly">
+                    <h6>{{form.asesor_lactancia | as_crispy_field}}</h6>
+                    <h6>{{form.recomen_nutricional | as_crispy_field}}</h6>
+                    <h6>{{form.refe_psicologica | as_crispy_field}}</h6>
+                    <h6>{{form.vitaminas | as_crispy_field}}</h6>
+                    <h6>{{form.lacktokiana | as_crispy_field}}</h6>
+                    <h6>{{form.prokids | as_crispy_field}}</h6>
                 </div>
-
-                <div class="col-6 d-flex justify-content-center">
-                    <h6>{{form.recomendaciones2 | as_crispy_field}}</h6>
-                </div>
+            </div>
+            <hr>
+            <div class="col-12 text-center">
+                <strong> INDICACIONES</strong>
             </div>
             <div class="row">
                 <div class="col-4 text-center">

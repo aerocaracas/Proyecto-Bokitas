@@ -260,21 +260,26 @@
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
-                            {% if medica.recomendaciones1.0 == 'Asesoría en Lactancia' %}
+
+
+                            {% if medica.asesor_lactancia %}
                                 <td class="text-center">SI</td>
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
-                            {% if medica.recomendaciones1.1 == 'Recomendación Nutricional' or medica.recomendaciones1 == 'Asesoría en Lactancia,Recomendación Nutricional' %}
+                            {% if medica.recomen_nutricional %}
                                 <td class="text-center">SI</td>
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
-                            {% if medica.recomendaciones1 == 'Referencia Psicológica' %}
+                            {% if medica.refe_psicologica %}
                                 <td class="text-center">SI</td>
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
+
+
+
                             <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}

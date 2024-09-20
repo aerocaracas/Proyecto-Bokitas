@@ -54,10 +54,10 @@ class MedicaForm(forms.ModelForm):
 
     class Meta:
         model = Medica
-        fields = ['jornada','medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','recomendaciones1','recomendaciones2','tratamiento','referencia','paraclinicos'
+        fields = ['jornada','medico_tratante','tipo_consulta','examen_fisico','diagnostico1','diagnostico2','diagnostico3','otros_varios','desp_menor','desp_familia','anemico','asesor_lactancia','recomen_nutricional','refe_psicologica','vitaminas','lacktokiana','prokids','tratamiento','referencia','paraclinicos'
         ]
 
-        labels = {'jornada':'Fecha de Jornada','medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'', 'recomendaciones1':'', 'recomendaciones2':'', 'tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
+        labels = {'jornada':'Fecha de Jornada','medico_tratante':'Medico Tratante','tipo_consulta':'Tipo de Consulta','examen_fisico':'Examen Fisico','diagnostico1':'','diagnostico2':'','diagnostico3':'','otros_varios':'Otro Diagnóstico','desp_menor':'Se encuentra el Paciente Desparacitado','desp_familia':'Se encuentra el Grupo Familiar Desparacitado','anemico':'', 'asesor_lactancia':'Asesoría en Lactancia', 'recomen_nutricional':'Recomendación Nutricional', 'refe_psicologica':'Referencia Psicológica', 'vitaminas':'Vitaminas', 'lacktokiana':'Lacktokiana', 'prokids':'Prokids', 'tratamiento':'Tratamiento Indicado','referencia':'Referencia','paraclinicos':'Paraclinicos Solicitados'
         }
 
         widgets = {
