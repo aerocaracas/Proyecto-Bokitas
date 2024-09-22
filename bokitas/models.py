@@ -249,7 +249,7 @@ class Beneficiario(models.Model):
     nombre = models.CharField(max_length=100, blank=False)
     apellido = models.CharField(max_length=100, blank=False)
     sexo = models.CharField(max_length=10, blank=False, choices=SEXOS)
-    fecha_nac = models.DateField(null=False, blank=False)
+    fecha_nac = models.DateField(null=True, blank=True)
     edad = models.PositiveIntegerField(default=0) 
     meses = models.PositiveIntegerField(default=0)
     nacionalidad = models.CharField(max_length=100, blank=True)
