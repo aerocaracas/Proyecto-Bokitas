@@ -6,36 +6,40 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from bokitas.models import ImcEmbarazada, Diagnostico
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
 from django.http import Http404
 from datetime import datetime, date
 from dateutil import relativedelta
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Sesion del Beneficiario.
 @login_required      
 def beneficiario(request):
-    beneficiarios = Beneficiario.objects.all().order_by('cedula')
-    proyect = ExpProyectoForm
-    query = ''
 
-    page = request.GET.get('page',1)
+    if "search" in request.POST:
+            query = request.POST.get("searchquery")
+            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(proyecto__proyecto__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query)).order_by('cedula')
+    else:
+        query = ""
+        beneficiarios = Beneficiario.objects.all().order_by('cedula')
+
+    proyect = ExpProyectoForm
+    paginator = Paginator(beneficiarios, 10)
+    page_number = request.GET.get('page')
+    
 
     try:
-        if "search" in request.POST:
-            query = request.POST.get("searchquery")
-            beneficiarios = Beneficiario.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query)).order_by('cedula')
-
-        paginator = Paginator(beneficiarios, 10)
-        beneficiarios = paginator.page(page)
-    except:
-        raise Http404
+        beneficiarios = paginator.page(page_number)
+    except PageNotAnInteger:
+        beneficiarios = paginator.page(1)
+    except EmptyPage:
+        beneficiarios = paginator.page(paginator.num_pages)
     
     return render(request, 'beneficiario.html',{
-        'entity': beneficiarios,
+        'beneficiarios': beneficiarios,
         'proyect':proyect,
         'query':query,
-        'paginator': paginator
     })
 
 
