@@ -27,7 +27,7 @@ def menores(request):
         if "search" in request.POST:
             query = request.POST.get("searchquery")
             menores = Menor.objects.filter(Q(cedula__icontains=query) | Q(nombre__icontains=query) | Q(apellido__icontains=query) | Q(proyecto__proyecto__icontains=query) | Q(cedula_bef__cedula__contains=query))
-        paginator = Paginator(menores, 15)
+        paginator = Paginator(menores, 10)
         menores = paginator.page(page)
     except:
         messages.warning(request, "No hay Menores registrados o Datos incorectos, Favor verificar la información")

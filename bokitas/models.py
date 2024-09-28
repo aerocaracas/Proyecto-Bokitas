@@ -180,14 +180,24 @@ SI_NO_MINUSCULA = (
 )
 
 VACUNAS = (
-    ("Pfizer", "Pfizer"),
-    ("Moderna", "Moderna"),
-    ("Astrazeneca", "Astrazeneca"),
-    ("Janssen", "Janssen"),
-    ("Sin vacuna", "Sin vacuna"),
+    ("Anti Tuberculosis - BCG", "Anti Tuberculosis - BCG"),
+    ("Anti Hepatitis B - HB", "Anti Hepatitis B - HB"),
+    ("Anti Poliomielitis - VPI-bVPO", "Anti Poliomielitis - VPI-bVPO"),
+    ("Anti Difteria, Tétano y Pertussis - DTPc-DTPa", "Anti Difteria, Tétano y Pertussis - DTPc-DTPa"),
+    ("Anti Haemophilus Influenzae Tipo B - Hib", "Anti Haemophilus Influenzae Tipo B - Hib"),
+    ("Antirrotavirus - RV1-RV5", "Antirrotavirus - RV1-RV5"),
+    ("Anti Streptococus Pneumoniae I0 o I3 V - VCN", "Anti Streptococus Pneumoniae I0 o I3 V - VCN"),
+    ("Anti Influenza", "Anti Influenza"),
+    ("Anti SRS - SRP1-2", "Anti SRS - SRP1-2"),
+    ("Anti Amarílica - FA", "Anti Amarílica - FA"),
+    ("Anti Hepatitis A - HA", "Anti Hepatitis A - HA"),
+    ("Anti Varicela", "Anti Varicela"),
+    ("Anti meningococo conjugada A,C,Y,W-135", "Anti meningococo conjugada A,C,Y,W-135"),
+    ("Anti Streptococcus Pneumoniae 23V", "Anti Streptococcus Pneumoniae 23V"),
+
 )
 
-DESCRIPCION_VACUNAS = (
+DOSIS_VACUNAS = (
     ("1ra DOSIS", "1ra DOSIS"),
     ("2da DOSIS", "2da DOSIS"),
     ("3ra DOSIS", "3ra DOSIS"),
@@ -375,8 +385,8 @@ class AntropMenor(models.Model):
     jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
-    peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    talla = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    peso = models.DecimalField(max_digits=5, decimal_places=2)
+    talla = models.DecimalField(max_digits=5, decimal_places=2)
     cbi = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     ptr = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,default=0.00)
     pse = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,default=0.00)
@@ -410,7 +420,7 @@ class AntropBef(models.Model):
     meses = models.PositiveIntegerField(default=0)
     peso = models.DecimalField(max_digits=5,decimal_places=2,help_text="Kg")
     talla = models.DecimalField(max_digits=5,decimal_places=2,help_text="cm")
-    cbi = models.DecimalField(max_digits=5,decimal_places=2,blank=True,null=True,help_text="cm")
+    cbi = models.DecimalField(max_digits=5,decimal_places=2,default=0.00,blank=True,null=True,help_text="cm")
     imc = models.DecimalField(max_digits=5,decimal_places=2,default=0.00)
     diagnostico = models.CharField(max_length=50,blank=False)
     riesgo = models.CharField(max_length=3,choices=SI_NO,default="NO",blank=True,null=True)
@@ -553,8 +563,10 @@ class Vacunas(models.Model):
     cedula = models.ForeignKey(Menor, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
     jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
-    vacuna = models.CharField(max_length=20, choices=VACUNAS, blank=False)
-    descripcion = models.CharField(max_length=20, choices=DESCRIPCION_VACUNAS, blank=False)
+    vacuna = models.CharField(max_length=50, choices=VACUNAS, blank=False)
+    dosis = models.CharField(max_length=50, choices=DOSIS_VACUNAS, blank=False)
+    edad = models.PositiveIntegerField(default=0)
+    meses = models.PositiveIntegerField(default=0)
     creado = models.DateField(auto_now_add=True)
     
     def __str__(self):

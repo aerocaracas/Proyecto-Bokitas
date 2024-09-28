@@ -28,7 +28,6 @@ def beneficiario(request):
     paginator = Paginator(beneficiarios, 10)
     page_number = request.GET.get('page')
     
-
     try:
         beneficiarios = paginator.page(page_number)
     except PageNotAnInteger:
@@ -37,9 +36,10 @@ def beneficiario(request):
         beneficiarios = paginator.page(paginator.num_pages)
     
     return render(request, 'beneficiario.html',{
-        'beneficiarios': beneficiarios,
+        'entity': beneficiarios,
         'proyect':proyect,
         'query':query,
+        'paginator': paginator
     })
 
 
@@ -117,7 +117,7 @@ def beneficiario_detalle(request, pk):
 @login_required      
 def beneficiario_actualizar(request, pk):
     if request.method == 'GET':
-        beneficiarios = get_object_or_404(Beneficiario, id=pk, user=request.user)
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
         form = BeneficiarioForm(instance=beneficiarios)
         return render(request, 'beneficiario_actualizar.html',{
             'beneficiarios':beneficiarios,
@@ -327,7 +327,14 @@ def imc_benef(request, pk):
     else:
         try:
             beneficiarios = get_object_or_404(Beneficiario, id=pk)
-            form = ImcBenefForm(request.POST)
+            if beneficiarios.embarazada == "SI" or beneficiarios.lactante == "SI":
+                form = ImcBenefForm(request.POST)
+            else:
+                form = ImcBenefForm(request.POST)
+                request.POST._mutable = True
+                request.POST['tiempo_gestacion']='0'
+                request.POST._mutable = False
+            
             new_imc_benef = form.save(commit=False)
 
             talla = float(new_imc_benef.talla)
@@ -400,7 +407,6 @@ def imc_benef(request, pk):
             xDiag = Diagnostico.objects.get(codigo_diag = xDiagnostico)
             diagnostico = xDiag.diagnostico
 
-
             fecha_inicial = beneficiarios.fecha_nac
             dia_hoy = date.today()
             fecha_fin = dia_hoy.strftime('%d-%m-%Y')
@@ -409,17 +415,16 @@ def imc_benef(request, pk):
 
             xEdad = tiempo_transc.years
             xMeses = tiempo_transc.months
-            proyecto = beneficiarios.proyecto
-
-            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = proyecto, jornada = new_imc_benef.jornada, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico, min_imc = min_imc, max_imc = max_imc)
+            xProyecto = beneficiarios.proyecto
+            
+            antropometrico = AntropBef(cedula_bef_id=pk, proyecto = xProyecto, jornada = new_imc_benef.jornada, embarazo_lactando=estado, tiempo_gestacion=tiempo, edad=xEdad, meses=xMeses, peso=peso, talla=talla, cbi=float(cbi), imc=imc, diagnostico=diagnostico, min_imc = min_imc, max_imc = max_imc)
             
             antropometrico.save()
             idimc=antropometrico.id
 
-            beneficiarios.edad = xEdad
-            beneficiarios.meses = xMeses
-            beneficiarios.save()
+            
 
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
             return redirect("imc_benef_riesgo", pk, idimc)
         
         except ValueError:

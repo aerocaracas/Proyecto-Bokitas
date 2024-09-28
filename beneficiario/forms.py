@@ -124,9 +124,11 @@ class ImcBenefForm(ModelForm):
         fields = ['jornada','tiempo_gestacion','peso','talla','cbi'
         ]
 
+        initial = {'tiempo_gestacion': '0', 'cbi': '0'}
+
         labels = {'jornada':'Fecha Jornada','peso':'Peso','talla':'Talla','cbi':'CBI'
         }
-
+        
 
 class FamiliarForm(ModelForm):
     class Meta:
