@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from bokitas.models import Menor, Beneficiario, AntropMenor, Medica, Proyecto,Jornada
+from bokitas.models import Menor, Beneficiario, AntropMenor, Medica, Proyecto, Jornada, Vacunas
 from bokitas.models import ImcCla, ImcPesoTalla_5x, ImcTalla, ImcCla_5x, Diagnostico
-from menores.forms import MenorForm, ImcMenorForm, MedicaForm
+from menores.forms import MenorForm, ImcMenorForm, MedicaForm, VacunaForm
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
@@ -95,6 +95,7 @@ def menor_detalle(request, pk, id):
         beneficiarios = Beneficiario.objects.filter(id=pk)
         antropMenores = AntropMenor.objects.filter(cedula = id)
         medicas = Medica.objects.filter(cedula = id)
+        vacunas = Vacunas.objects.filter(cedula = id)
         proyectos = get_object_or_404(Proyecto, id=menor_detalles.proyecto_id)
 
         form = MenorForm(instance=menor_detalles)
@@ -107,6 +108,7 @@ def menor_detalle(request, pk, id):
         context["beneficiarios"]=beneficiarios
         context["antropMenores"]=antropMenores
         context["medicas"]=medicas
+        context["vacunas"]=vacunas
         context["proyectos"]=proyectos
 
     
@@ -704,3 +706,55 @@ def medica_eliminar(request, pk, id, idmed):
 
     return redirect("menor_detalle", pk, id)
 
+
+@login_required  
+def vacuna_crear(request, pk, id):
+  
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario, id=pk)
+        menor_detalles = get_object_or_404(Menor, id=id)
+        
+        proyecto_id = menor_detalles.proyecto_id
+        form = VacunaForm()
+        form.fields['jornada'].queryset = Jornada.objects.filter(proyecto=proyecto_id)
+
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
+        context["form"]=form
+        return render(request, 'vacuna_crear.html', context)
+
+    else:
+        try:
+            beneficiarios = get_object_or_404(Beneficiario, id=pk)
+            menor_detalles = get_object_or_404(Menor, id=id)
+            form = VacunaForm(request.POST)
+            fecha_inicial = menor_detalles.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+            new_vacuna = form.save(commit=False)
+            new_vacuna.cedula_id = id
+            new_vacuna.proyecto = menor_detalles.proyecto
+            new_vacuna.edad = tiempo_transc.years
+            new_vacuna.meses = tiempo_transc.months
+            new_vacuna.save()
+            menor_detalles.edad = tiempo_transc.years
+            menor_detalles.meses = tiempo_transc.months
+            menor_detalles.save()
+
+            messages.success(request, "Se guardo satisfactoriamente el Registro")
+            return redirect( "menor_detalle", pk, id)
+
+        except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
+            return render(request, 'vacuna_crear.html', {
+            'pk': pk,
+            'id':id,
+            'form': form,
+            'bemeficiarios':beneficiarios,
+            'menor_detalles':menor_detalles,
+            })

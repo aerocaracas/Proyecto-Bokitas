@@ -16,6 +16,8 @@ urlpatterns = [
     path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/<int:idimc>/imc_menor_riesgo', views.imc_menor_riesgo, name='imc_menor_riesgo'),
     path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/<int:idimc>/imc_menor_detalle', views.imc_menor_detalle, name='imc_menor_detalle'),
     path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/<int:idimc>/eliminar', views.imc_menor_eliminar, name='imc_menor_eliminar'),
+
+    path('beneficiario/<int:pk>/menor/<int:id>/vacuna/crear/', views.vacuna_crear, name='vacuna_crear'),
     
     path('beneficiario/<int:pk>/menor/crear/load_jornadas_menor/', views.load_jornadas_menor, name='load_jornadas_menor'),
 

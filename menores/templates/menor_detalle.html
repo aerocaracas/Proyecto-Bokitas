@@ -307,6 +307,58 @@
     <br>
 
 
+    <!-- ########  Tabla  Vacunación  ##########-->
+    <h4 class="text-center">CONTROL DE INMUNIZACIONES</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">PROYECTO</th>
+                    <th scope="col" class="text-center">JORNADA</th>
+                    <th scope="col" class="text-center">EDAD</th>
+                    <th scope="col" class="text-center">MESES</th>
+                    <th scope="col" class="text-center">VACUNA</th>
+                    <th scope="col" class="text-center">DOSIS</th>
+                    <th scope="col" class="text-center">DETALLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if vacunas %}
+                    {% for vacuna in vacunas %}
+                        <tr>
+                            <td>{{vacuna.proyecto}}</td>
+                            <td class="text-center">{{vacuna.jornada.jornada | date:"d/m/Y"}}</td>
+                            <td class="text-center">{{vacuna.edad}}</td>
+                            <td class="text-center">{{vacuna.meses}}</td>
+                            <td class="text-center">{{vacuna.vacuna}}</td>
+                            <td class="text-center">{{vacuna.dosis}}</td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="#"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
+                        </tr>
+                    {% endfor %}
+                {% endif%}
+            </tbody>
+        </table>
+
+        <!-- ########  Boton Agregar Control Medico ##########-->
+        {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'vacuna_crear' pk id %}">
+
+                Nuevo Vacuna
+        
+            </a>
+        {% else %}
+        <a class="btn btn-outline-secondary btn-sm" href="#">
+
+            Nuevo Vacuna
+    
+        </a>
+        {% endif %}
+
+    </div>
+    <hr>
+    <br>
+
+
     <!-- ########  Menu de opciones  ##########-->
   
     <div class="container">
@@ -326,7 +378,7 @@
 </div>
 
 
-<!-- Modal Eliminar -->
+<!-- Modal Eliminar Menor-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -345,5 +397,7 @@
         </div>
     </div>
 </div>
+
+
 
 {% endblock %}

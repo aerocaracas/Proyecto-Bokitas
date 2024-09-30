@@ -201,8 +201,8 @@ DOSIS_VACUNAS = (
     ("1ra DOSIS", "1ra DOSIS"),
     ("2da DOSIS", "2da DOSIS"),
     ("3ra DOSIS", "3ra DOSIS"),
-    ("4ra DOSIS", "4ra DOSIS"),
-    ("5ra DOSIS", "5ra DOSIS"),
+    ("4ta DOSIS", "4ta DOSIS"),
+    ("5ta DOSIS", "5ta DOSIS"),
     ("REFUERZO 1ra DOSIS", "REFUERZO 1ra DOSIS"),
     ("REFUERZO 2da DOSIS", "REFUERZO 2da DOSIS"),
     ("REFUERZO 3ra DOSIS", "REFUERZO 3ra DOSIS"),
@@ -567,6 +567,7 @@ class Vacunas(models.Model):
     dosis = models.CharField(max_length=50, choices=DOSIS_VACUNAS, blank=False)
     edad = models.PositiveIntegerField(default=0)
     meses = models.PositiveIntegerField(default=0)
+    observacion = models.TextField(max_length=200, blank=True)
     creado = models.DateField(auto_now_add=True)
     
     def __str__(self):

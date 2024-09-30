@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Menor, AntropMenor, Medica, Jornada
+from bokitas.models import Menor, AntropMenor, Medica, Jornada, Vacunas
 from django.forms.widgets import NumberInput 
 
 
@@ -67,3 +67,17 @@ class MedicaForm(forms.ModelForm):
             'paraclinicos': forms.Textarea(attrs={'rows':4}),
                 }
  
+
+class VacunaForm(forms.ModelForm):
+
+    class Meta:
+        model = Vacunas
+        fields = ['jornada','vacuna','dosis','observacion'
+        ]
+
+        labels = {'jornada':'Fecha de Jornada','vacuna':'Vacuna','dosis':'Dosis','observacion':'Observación'
+        }
+
+        widgets = {
+            'observacion': forms.Textarea(attrs={'rows':4}),
+                }
