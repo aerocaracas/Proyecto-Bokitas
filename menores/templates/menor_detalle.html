@@ -34,7 +34,6 @@
         {% endif %}
     </div>
     <div class="row">
-
         <div class="col">
             <P> <strong> Cédula: </strong> {{menor_detalles.cedula}} </p>
         </div>
@@ -239,9 +238,9 @@
                     <th scope="col" class="text-center">TIPO CONSULTA</th>
                     <th scope="col" class="text-center">EXAMEN FISICO</th>
                     <th scope="col" class="text-center">NIÑO SANO</th>
-                    <th scope="col" class="text-center">ASESOR. LACTANCIA</th>
-                    <th scope="col" class="text-center">RECOMED. NUTRICIONAL</th>
-                    <th scope="col" class="text-center">REF. PSICOLOGICA</th>
+                    <th scope="col" class="text-center">ASESORÍA LACTANCIA</th>
+                    <th scope="col" class="text-center">RECOMENDACIÓN NUTRICIONAL</th>
+                    <th scope="col" class="text-center">REFERENCIA PSICOLÓGICA</th>
                     <th scope="col" class="text-center">DETALLE</th>
                 </tr>
             </thead>
@@ -261,7 +260,6 @@
                                 <td class="text-center">NO</td>
                             {% endif%}
 
-
                             {% if medica.asesor_lactancia %}
                                 <td class="text-center">SI</td>
                             {% else %}
@@ -277,8 +275,6 @@
                             {% else %}
                                 <td class="text-center">NO</td>
                             {% endif%}
-
-
 
                             <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'medica_detalle' pk id medica.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
@@ -332,7 +328,7 @@
                             <td class="text-center">{{vacuna.meses}}</td>
                             <td class="text-center">{{vacuna.vacuna}}</td>
                             <td class="text-center">{{vacuna.dosis}}</td>
-                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="#"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
+                            <td class="text-center"> <a class="btn btn btn-outline-primary btn-sm" href="{% url 'vacuna_detalle' pk id vacuna.id %}"><i class="bi bi-pencil-square"></i> Detalle</a> </td>
                         </tr>
                     {% endfor %}
                 {% endif%}
@@ -343,13 +339,13 @@
         {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
             <a class="btn btn-outline-primary btn-sm" href="{% url 'vacuna_crear' pk id %}">
 
-                Nuevo Vacuna
+                Nueva Vacuna
         
             </a>
         {% else %}
         <a class="btn btn-outline-secondary btn-sm" href="#">
 
-            Nuevo Vacuna
+            Nueva Vacuna
     
         </a>
         {% endif %}

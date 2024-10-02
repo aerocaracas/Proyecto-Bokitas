@@ -7,8 +7,8 @@
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
 
-    <h1 class="text-center">Registro de Vacunación</h1>
-    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+    <h1 class="text-center">Actualización de Datos</h1>
+    <h5 class="text-center">Actualice los datos del Familiar</h5>
     
     <hr>             
 
@@ -64,22 +64,42 @@
             <br>
             <hr>
 
-            <a href="{% url 'menor_detalle' pk id %}" class="btn btn-secondary"> Regresar </a>
+            <a class="btn btn-secondary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
             &nbsp
-            <button type="submit" class="btn btn-primary" action="{% url 'vacuna_crear' pk id %}">Aceptar </button>
+            <button class="btn btn-info">
+                Actualizar
+            </button>
+            &nbsp
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVacuna">
+                Eliminar
+            </button>
 
         </form>
         <br>
-        <br>
-
-        {% load static %}  
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'img\Bokitas_vacunas.png' %}" alt="Bokitas_vacunas">  
-        </div>
-
 
     </div>
 
 </div>
+
+
+<!-- Modal Eliminar Vacuna -->
+<div class="modal fade" id="eliminarVacuna" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Vacuna </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Está seguro de Eliminar el Registro de Vacunación?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'vacuna_eliminar' pk id idvac %}" role="button" class="btn btn-danger"> Eliminar </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

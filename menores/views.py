@@ -758,3 +758,68 @@ def vacuna_crear(request, pk, id):
             'bemeficiarios':beneficiarios,
             'menor_detalles':menor_detalles,
             })
+        
+
+@login_required      
+def vacuna_detalle(request, pk, id, idvac):
+    if request.method == 'GET':
+        beneficiarios = get_object_or_404(Beneficiario,id=pk)
+        menor_detalles = get_object_or_404(Menor,id=id)
+        vacunas = get_object_or_404(Vacunas, id=idvac)
+        form = VacunaForm(instance=vacunas)
+
+        context={}
+        context["pk"]=pk
+        context["id"]=id
+        context["idvac"]=idvac
+        context["form"]=form
+        context["beneficiarios"]=beneficiarios
+        context["menor_detalles"]=menor_detalles
+        context["medicas"]=vacunas
+    
+        return render(request, 'vacuna_detalle.html', context)
+    else:
+        try:
+            vacunas = get_object_or_404(Vacunas, id=idvac)
+            menor_detalles = get_object_or_404(Menor, id=id)
+            form = VacunaForm(request.POST, instance=vacunas)
+            new_vacuna = form.save(commit=False)
+            
+            fecha_inicial = menor_detalles.fecha_nac
+            dia_hoy = date.today()
+            fecha_fin = dia_hoy.strftime('%d-%m-%Y')
+            fecha_fin = datetime.strptime(fecha_fin, '%d-%m-%Y')
+            tiempo_transc = relativedelta.relativedelta(fecha_fin, fecha_inicial)
+
+            new_vacuna.cedula_id = id
+            new_vacuna.proyecto = menor_detalles.proyecto
+            new_vacuna.edad = tiempo_transc.years
+            new_vacuna.meses = tiempo_transc.months
+            new_vacuna.save()
+
+            menor_detalles.edad = tiempo_transc.years
+            menor_detalles.meses = tiempo_transc.months
+            menor_detalles.save()
+
+            messages.success(request, "Se actualizo satisfactoriamente el Registro")
+            return redirect("menor_detalle", pk, id)
+        
+        except ValueError:
+            messages.warning(request, "Datos incorectos, Favor verificar la información")
+            return render(request, 'vacuna_detalle.html', {
+            'form': form,
+            'pk': pk,
+            'id': id,
+            'idvac': idvac,
+            })
+
+
+@login_required   
+def vacuna_eliminar(request, pk, id, idvac):
+    vacunas = get_object_or_404(Vacunas, id=idvac)
+    vacunas.delete()
+    messages.error(request, "Se Elimino satisfactoriamente el registro")
+
+    return redirect("menor_detalle", pk, id)
+
+

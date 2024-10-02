@@ -18,6 +18,8 @@ urlpatterns = [
     path('beneficiario/<int:pk>/menor/<int:id>/imc_menor/<int:idimc>/eliminar', views.imc_menor_eliminar, name='imc_menor_eliminar'),
 
     path('beneficiario/<int:pk>/menor/<int:id>/vacuna/crear/', views.vacuna_crear, name='vacuna_crear'),
+    path('beneficiario/<int:pk>/menor/<int:id>/vacuna/<int:idvac>/vacuna_detalle/', views.vacuna_detalle, name='vacuna_detalle'),
+    path('beneficiario/<int:pk>/menor/<int:id>/vacuna/<int:idvac>/vacuna_eliminar/', views.vacuna_eliminar, name='vacuna_eliminar'),
     
     path('beneficiario/<int:pk>/menor/crear/load_jornadas_menor/', views.load_jornadas_menor, name='load_jornadas_menor'),
 

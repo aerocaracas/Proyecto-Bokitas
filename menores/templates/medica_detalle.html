@@ -6,18 +6,18 @@
 
 <br>
 <div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
-
-    <h1 class="text-center">Consulta Medica</h1>
-    <h5 class="text-center">Agrege los datos requerido para su control</h5>
-    
-    <hr>             
-
-    {{error}}
+                
+    <h1 class="text-center">Actualización de Datos</h1>
+    <h5 class="text-center">Actualice los datos del Familiar</h5>
+    <hr>
+    <br>
+                
+    <h1 class="text-center">Detalle Consulta Medica</h1>
 
     <div class="tabcontent">  
         <form action="" method="POST">
             {% csrf_token %}
-
+            
             <div class="row">
                 <div class="col-12 text-center">
                     <strong> BENEFICIARIO </strong>
@@ -28,13 +28,24 @@
                 <div class="col-12 text-center">
                     <br>
                     <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
-                    <div class="col-12 text-center">
-                        {{menor_detalles}}
+                    <div class="row d-flex justify-content-center text-center">
+
+                        <div class="col-2">
+                            <P> <strong> Cédula: </strong> {{menor_detalles.cedula}} </p>
+                        </div>
+                        <div class="col-4">
+                            <P> <strong> Nombre: </strong>{{menor_detalles.nombre}}    {{menor_detalles.apellido}}</p> 
+                        </div>
+                        <div class="col-1">
+                            <P> <strong> Edad: </strong> {{menor_detalles.edad}} </p>
+                        </div>
+                        <div class="col-2">
+                            <P> <strong> Meses: </strong> {{menor_detalles.meses}} </p>
+                        </div>
                     </div>
                 </div>
             </div>
             <BR>
-
             <div class="row">
                 <div class="col-4 text-center">
                     {{form.jornada | as_crispy_field}}
@@ -96,7 +107,7 @@
                     <hr>
                     <strong> CONTROL ANÉMICO</strong>
                 </div>
-
+                <br>
                 <div class="col d-flex justify-content-center">
                     <h6>{{form.anemico | as_crispy_field}}</h6>
                 </div>
@@ -116,8 +127,8 @@
                     <h6>{{form.prokids | as_crispy_field}}</h6>
                 </div>
             </div>
-            <hr>
             <div class="col-12 text-center">
+                <hr>
                 <strong> INDICACIONES</strong>
             </div>
             <br>
@@ -134,15 +145,40 @@
             </div>
             <br>
             <hr>
-                     
+                                 
             <a class="btn btn-secondary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
             &nbsp
-            <button class="btn btn-primary">
-                Guardar
+            <button class="btn btn-info">
+                Actualizar
             </button>
-            
+            &nbsp
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Eliminar
+            </button>
+                        
         </form>
     </div>
 </div>
+
+<!-- Modal Eliminar Medica -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Registro Medico </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Está seguro de Eliminar el Registro Medico del Menor?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'medica_eliminar' pk id idmed %}" role="button" class="btn btn-danger"> Eliminar </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock %}
