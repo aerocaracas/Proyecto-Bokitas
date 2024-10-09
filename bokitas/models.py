@@ -573,6 +573,7 @@ class Vacunas(models.Model):
     def __str__(self):
         return f"{self.cedula}"
 
+
 class Diagnostico(models.Model):
     codigo_diag = models.PositiveIntegerField()
     diagnostico = models.CharField(max_length=25)
