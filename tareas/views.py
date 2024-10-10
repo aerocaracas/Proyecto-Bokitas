@@ -9,10 +9,94 @@ from django.contrib.auth.decorators import login_required
 
 @login_required  
 def tareas(request):
+    '''
+    if request.method == 'GET':
+        form = TareaForm
+        events = Tarea.objects.get_all_events(user=request.user)
+        events_month = Tarea.objects.get_running_events(user=request.user)
+        event_list = []
+        # start: '2020-09-16T16:00:00'
+        for event in events:
+            event_list.append(
+                {   "id": event.id,
+                    "title": event.titulo,
+                    "start": event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "end": event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "description": event.descripcion,
+                }
+            )
+        
+        context = {"form": forms, "events": event_list,
+                   "events_month": events_month}
+        return render(request, self.template_name, context)
+
+
+
+        return render(request, 'tarea_crear.html', {
+            'form': TareaForm
+        })
+    else:
+        try:
+            form = TareaForm(request.POST)
+            new_tarea = form.save(commit=False)
+            new_tarea.user = request.user
+            new_tarea.save()
+            return redirect('tareas')
+        except ValueError:
+            return render(request, 'tarea_crear.html', {
+            'form': TareaForm,
+            'error': 'Datos incorectos, Favor verificar la información'
+            })
+
+'''
     tareas = Tarea.objects.filter(user=request.user, completado__isnull=True)
     return render(request, 'tareas.html', {
         'tareas': tareas
     })
+
+
+
+
+'''
+
+class CalendarViewNew():
+    login_url = "accounts:signin"
+    template_name = "calendarapp/calendar.html"
+    form_class = EventForm
+
+    def get(self, request, *args, **kwargs):
+        forms = self.form_class()
+        events = Event.objects.get_all_events(user=request.user)
+        events_month = Event.objects.get_running_events(user=request.user)
+        event_list = []
+        # start: '2020-09-16T16:00:00'
+        for event in events:
+            event_list.append(
+                {   "id": event.id,
+                    "title": event.title,
+                    "start": event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "end": event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "description": event.description,
+                }
+            )
+        
+        context = {"form": forms, "events": event_list,
+                   "events_month": events_month}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        forms = self.form_class(request.POST)
+        if forms.is_valid():
+            form = forms.save(commit=False)
+            form.user = request.user
+            form.save()
+            return redirect("calendarapp:calendar")
+        context = {"form": forms}
+        return render(request, self.template_name, context)
+
+
+'''
+
 
 @login_required  
 def tarea_crear(request):
