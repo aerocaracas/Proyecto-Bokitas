@@ -3,38 +3,35 @@ from django.contrib.auth.models import User
 from tareas.forms import TareaForm
 from bokitas.models import Tarea
 from django.utils import timezone
+from datetime import date
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 @login_required  
 def tareas(request):
-    '''
+    
     if request.method == 'GET':
+        fecha = date.today()
         form = TareaForm
-        events = Tarea.objects.get_all_events(user=request.user)
-        events_month = Tarea.objects.get_running_events(user=request.user)
+        tareas = Tarea.objects.filter(user=request.user, completado__isnull=True)
+        tareas_mes = Tarea.objects.filter(fecha_inicio__year=fecha.year, fecha_inicio__month=fecha.month, user=request.user,completado__isnull=True)
         event_list = []
-        # start: '2020-09-16T16:00:00'
-        for event in events:
+        
+        for event in tareas:
             event_list.append(
                 {   "id": event.id,
                     "title": event.titulo,
-                    "start": event.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-                    "end": event.end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "start": event.fecha_inicio.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "end": event.fecha_fin.strftime("%Y-%m-%dT%H:%M:%S"),
                     "description": event.descripcion,
                 }
             )
         
-        context = {"form": forms, "events": event_list,
-                   "events_month": events_month}
-        return render(request, self.template_name, context)
+        context = {"form": form, "events": tareas,
+                   "events_month": tareas_mes}
+        return render(request, 'tareas.html', context)
 
-
-
-        return render(request, 'tarea_crear.html', {
-            'form': TareaForm
-        })
     else:
         try:
             form = TareaForm(request.POST)
@@ -47,12 +44,6 @@ def tareas(request):
             'form': TareaForm,
             'error': 'Datos incorectos, Favor verificar la información'
             })
-
-'''
-    tareas = Tarea.objects.filter(user=request.user, completado__isnull=True)
-    return render(request, 'tareas.html', {
-        'tareas': tareas
-    })
 
 
 
