@@ -27,54 +27,11 @@
             <div class="col-md-9">
                 <div id="calendar" class="container" style="padding: 20px;"></div>
             </div>
-            <script>
-
-                document.addEventListener('DOMContentLoaded', function() {
-                  var calendarEl = document.getElementById('calendar');
-                  var today = new Date();
-                  var calendar = new FullCalendar.Calendar(calendarEl, {
-                    headerToolbar: {
-                      left: 'prev,next today',
-                      center: 'title',
-                      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                    },
-                    initialDate: today,
-                    navLinks: true, // can click day/week names to navigate views
-                    businessHours: true, // display business hours
-                    editable: true,
-                    selectable: true,
-                    selectMirror: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
-                    editable: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
-
-
-                    events: [
-                      {% for tarea in events %}
-                      {
-                        title: '{{tarea.titulo}}',
-                        start: '{{tarea.fecha_inicio | date:"Y-m-d"}}',
-                        end: '{{tarea.fecha_fin | date:"Y-m-d"}}',
-                      },
-                      {% endfor %}
-                    ]
-                  });
-              
-                  calendar.render();
-                  calendar.setOption('locale', 'es');
-                });
-              
-            </script>
+            
 
         </div>
     </div>
 </div>
-
-
-
-
-
-
 
 
 {% endblock content %}
