@@ -4,6 +4,7 @@ FROM python:3.12
 
 RUN pip install --upgrade pip
 
+RUN pip install --root-user-action=ignore
 
 # Set the working directory in the container
 WORKDIR /Proyecto-Bokitas
