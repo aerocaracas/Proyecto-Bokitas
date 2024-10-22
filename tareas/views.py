@@ -32,7 +32,8 @@ def add_event(request):
     data = {}
 
     return JsonResponse(data)
- 
+
+
 def update(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
@@ -44,11 +45,14 @@ def update(request):
     event.title = title
     event.save()
     data = {}
+
     return JsonResponse(data)
- 
+
+
 def remove(request):
     id = request.GET.get("id", None)
     event = Tarea.objects.get(id=id)
     event.delete()
     data = {}
+
     return JsonResponse(data)
