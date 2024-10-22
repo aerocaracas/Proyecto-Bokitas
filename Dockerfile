@@ -4,6 +4,8 @@ FROM python:3.12
 
 RUN pip install --upgrade pip
 
+RUN adduser -D aerocaracas
+USER aerocaracas
 
 # Set the working directory in the container
 WORKDIR /Proyecto-Bokitas
