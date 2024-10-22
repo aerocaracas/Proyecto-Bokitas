@@ -643,13 +643,10 @@ class ImcPesoTalla_5x(models.Model):
 
 
 class Tarea(models.Model):
-    titulo = models.CharField(max_length=100)
-    descripcion = models.TextField(max_length=255,null=True,blank=True)
+    title = models.CharField(max_length=200)
     creado = models.DateTimeField(auto_now_add=True)
-    fecha_inicio = models.DateTimeField(null=True, blank=True)
-    fecha_fin = models.DateTimeField(null=True, blank=True)
-    completado = models.DateTimeField(null=True, blank=True)
-    importante = models.BooleanField(default=False)
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
