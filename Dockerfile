@@ -1,8 +1,8 @@
 # Use the official Python image as the base image
-FROM python:3.12
+FROM python:3.12.1
 
 
-RUN pip install --root-user-action=ignore
+RUN pip install --upgrade pip --root-user-action=ignore
 
 
 # Set the working directory in the container
