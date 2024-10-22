@@ -2,7 +2,7 @@
 FROM python:3.12
 
 
-RUN pip install --upgrade pip --root-user-action=ignore
+RUN pip install --root-user-action=ignore
 
 
 # Set the working directory in the container
