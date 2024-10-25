@@ -14,7 +14,7 @@ RUN pip install --upgrade pip
 WORKDIR /Proyecto-Bokitas
 
 # Copy the application files into the working directory
-COPY . /Proyecto-Bokitas
+COPY . .
 
 ENV PATH=/usr/local/nginx/bin:$PATH
 
@@ -26,5 +26,7 @@ RUN pip install -r requirements.txt
 
 # Define the entry point for the container
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
 
 
