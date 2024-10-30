@@ -5,524 +5,532 @@
 {% load crispy_forms_tags %}
 
 <br>
-<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5 form-layout">
-                
-    <h1 class="text-center">Registro Antropométrico</h1>
-    <h5 class="text-center">Agrege los datos requerido para su registro</h5>
-    <hr>
-    <div class="tabcontent" id="metric">
+<div class="container">
+    <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
+                    
+        <h1 class="text-center">Registro Antropométrico</h1>
+        <h5 class="text-center">Agrege los datos requerido para su registro</h5>
+        <hr>
+        <div class="tabcontent" id="metric">
 
-        <div class="col-12 text-center">
-            <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
             <div class="col-12 text-center">
-                {{menor_detalles}}
+                <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
+                <div class="col-12 text-center">
+                    {{menor_detalles}}
+                </div>
+                <br>
             </div>
-            <br>
+
+            <div class="row">
+                <div class="col-4">
+                    <P> <strong> Peso: </strong> {{imc_menores.peso}} Kg</p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> Talla: </strong> {{imc_menores.talla}} cm</p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> CBI: </strong> {{imc_menores.cbi}} cm</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <P> <strong> PTR: </strong> {{imc_menores.ptr}} cm</p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> PSE: </strong> {{imc_menores.pse}} cm</p>
+                </div>
+
+                <div class="col-4">
+                    <P> <strong> CC: </strong> {{imc_menores.cc}} cm</p>
+                </div>
+            </div>
+      
         </div>
 
-        <div class="row">
-            <div class="col-4">
-                <P> <strong> Peso: </strong> {{imc_menores.peso}} Kg</p>
-            </div>
+        {% if imc_menores.imc %}
+            {% if menor_detalles.edad <= 5 %}
+                <div class="col d-flex justify-content-center">
+                      <div id="main0" style="width: 200px;height:150px;"></div>
 
-            <div class="col-4">
-                <P> <strong> Talla: </strong> {{imc_menores.talla}} cm</p>
-            </div>
+                      <!-- ########    DIAGNOSTICO IMC   ##########-->
 
-            <div class="col-4">
-                <P> <strong> CBI: </strong> {{imc_menores.cbi}} cm</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <P> <strong> PTR: </strong> {{imc_menores.ptr}} cm</p>
-            </div>
+                      <script type="text/javascript">
+                          var col1 = '{{diag_peso.color1}}';
+                          var col2 = '{{diag_peso.color2}}';
+                          var col3 = '{{diag_peso.color3}}';
+                          var col4 = '{{diag_peso.color4}}';
+                          var col5 = '{{diag_peso.color5}}';
+                          var datos = {{imc}};
+                          var min = {{min_imc}};
+                          var max = {{max_imc}};
+                          var chartDom = document.getElementById('main0');
+                          var myChart = echarts.init(chartDom);
+                          var option;
 
-            <div class="col-4">
-                <P> <strong> PSE: </strong> {{imc_menores.pse}} cm</p>
-            </div>
-
-            <div class="col-4">
-                <P> <strong> CC: </strong> {{imc_menores.cc}} cm</p>
-            </div>
-        </div>
-  
-    </div>
-
-    {% if imc_menores.imc %}
-        {% if menor_detalles.edad <= 5 %}
-            <div class="col d-flex justify-content-center">
-                  <div id="main0" style="width: 200px;height:150px;"></div>
-
-                  <!-- ########    DIAGNOSTICO IMC   ##########-->
-
-                  <script type="text/javascript">
-                      var col1 = '{{diag_peso.color1}}';
-                      var col2 = '{{diag_peso.color2}}';
-                      var col3 = '{{diag_peso.color3}}';
-                      var col4 = '{{diag_peso.color4}}';
-                      var col5 = '{{diag_peso.color5}}';
-                      var datos = {{imc}};
-                      var min = {{min_imc}};
-                      var max = {{max_imc}};
-                      var chartDom = document.getElementById('main0');
-                      var myChart = echarts.init(chartDom);
-                      var option;
-
-                      option = {
-                          series: [
-                          {
-                              type: 'gauge',
-                              startAngle: 180,
-                              endAngle: 0,
-                              center: ['50%', '75%'],
-                              radius: '130%',
-                              min: min,
-                              max: max,
-                              splitNumber: 2,
-                              axisLine: {
-                                lineStyle: {
-                                  width: 20,
-                                  color: [
-                                      [0.1, col1],
-                                      [0.2, col2],
-                                      [0.3, col3],
-                                      [0.4, col4],
-                                      [0.5, col5],
-                                      [0.6, col5],
-                                      [0.7, col4],
-                                      [0.8, col3],
-                                      [0.9, col2],
-                                      [1, col1]
-                                      
-                                    ]  
-                                  }
-                                },
-                                pointer: {
-                                  icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                                  length: '15%',
-                                  width: 20,
-                                  offsetCenter: [0, '-60%'],
-                                  itemStyle: {
-                                    color: '#464646'
-                                  }
-                                },
-                                axisTick: {
-                                  length: 8,
-                                  lineStyle: {
-                                    color: 'auto',
-                                    width: 2
-                                  }
-                                },
-                                splitLine: {
-                                  length: 10,
-                                  lineStyle: {
-                                    color: 'auto',
-                                    width: 5
-                                  }
-                                },
-                                axisLabel: {
-                                  color: '#464646',
-                                  fontSize: 9,
-                                  distance: 30,
-                                  rotate: 'tangential',
-                                },
-                                title: {
-                                  offsetCenter: [0, '10%'],
-                                  fontSize: 15
-                                },
-                                detail: {
-                                  fontSize: 30,
-                                  offsetCenter: [0, '-10%'],
-                                  valueAnimation: true,
-                                  color: '#464646'
-                                },
-                                data: [
-                                  {
-                                    value: datos,
-                                    name: 'Kg/m²'
+                          option = {
+                              series: [
+                              {
+                                  type: 'gauge',
+                                  startAngle: 180,
+                                  endAngle: 0,
+                                  center: ['50%', '75%'],
+                                  radius: '130%',
+                                  min: min,
+                                  max: max,
+                                  splitNumber: 2,
+                                  axisLine: {
+                                    lineStyle: {
+                                      width: 20,
+                                      color: [
+                                          [0.1, col1],
+                                          [0.2, col2],
+                                          [0.3, col3],
+                                          [0.4, col4],
+                                          [0.5, col5],
+                                          [0.6, col5],
+                                          [0.7, col4],
+                                          [0.8, col3],
+                                          [0.9, col2],
+                                          [1, col1]
+                                          
+                                        ]  
+                                      }
+                                    },
+                                    pointer: {
+                                      icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                                      length: '15%',
+                                      width: 20,
+                                      offsetCenter: [0, '-60%'],
+                                      itemStyle: {
+                                        color: '#464646'
+                                      }
+                                    },
+                                    axisTick: {
+                                      length: 8,
+                                      lineStyle: {
+                                        color: 'auto',
+                                        width: 2
+                                      }
+                                    },
+                                    splitLine: {
+                                      length: 10,
+                                      lineStyle: {
+                                        color: 'auto',
+                                        width: 5
+                                      }
+                                    },
+                                    axisLabel: {
+                                      color: '#464646',
+                                      fontSize: 9,
+                                      distance: 30,
+                                      rotate: 'tangential',
+                                    },
+                                    title: {
+                                      offsetCenter: [0, '10%'],
+                                      fontSize: 15
+                                    },
+                                    detail: {
+                                      fontSize: 30,
+                                      offsetCenter: [0, '-10%'],
+                                      valueAnimation: true,
+                                      color: '#464646'
+                                    },
+                                    data: [
+                                      {
+                                        value: datos,
+                                        name: 'Kg/m²'
+                                      }
+                                    ]
                                   }
                                 ]
-                              }
-                            ]
-                          };
+                              };
 
-                          option && myChart.setOption(option);
+                              option && myChart.setOption(option);
 
-                  </script>
-            </div>
-        {% endif %}
-        
-        {% if menor_detalles.edad < 19 %}
-            <div class="row">
+                      </script>
+                </div>
+            {% endif %}
+            
+            {% if menor_detalles.edad < 19 %}
+                <div class="row">
+                    <div class="col-12 text-center">
+                      <h4><strong> IMC: </strong> {{imc_menores.imc}} Kg/m²</h4>
+                    </div>
+                    <div class="col-6">
+                        <div class="col d-flex justify-content-center">
+
+                            <div id="main" style="width: 200px;height:145px;"></div>
+
+                            <!-- ########    DIAGNOSTICO PESO PARA LA TALLA    ##########-->
+
+                            <script type="text/javascript">
+                                var col1 = '{{diag_peso.color1}}';
+                                var col2 = '{{diag_peso.color2}}';
+                                var col3 = '{{diag_peso.color3}}';
+                                var col4 = '{{diag_peso.color4}}';
+                                var col5 = '{{diag_peso.color5}}';
+                                var datos = {{peso}};
+                                var min = {{min_peso}};
+                                var max = {{max_peso}};
+                                var chartDom = document.getElementById('main');
+                                var myChart = echarts.init(chartDom);
+                                var option;
+
+                                option = {
+                                    series: [
+                                    {
+                                        type: 'gauge',
+                                        startAngle: 180,
+                                        endAngle: 0,
+                                        center: ['50%', '75%'],
+                                        radius: '130%',
+                                        min: min,
+                                        max: max,
+                                        splitNumber: 2,
+                                        axisLine: {
+                                          lineStyle: {
+                                            width: 20,
+                                            color: [
+                                                [0.1, col1],
+                                                [0.2, col2],
+                                                [0.3, col3],
+                                                [0.4, col4],
+                                                [0.5, col5],
+                                                [0.6, col5],
+                                                [0.7, col4],
+                                                [0.8, col3],
+                                                [0.9, col2],
+                                                [1, col1]
+                                                
+                                              ]  
+                                            }
+                                          },
+                                          pointer: {
+                                            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                                            length: '15%',
+                                            width: 20,
+                                            offsetCenter: [0, '-60%'],
+                                            itemStyle: {
+                                              color: '#464646'
+                                            }
+                                          },
+                                          axisTick: {
+                                            length: 8,
+                                            lineStyle: {
+                                              color: 'auto',
+                                              width: 2
+                                            }
+                                          },
+                                          splitLine: {
+                                            length: 10,
+                                            lineStyle: {
+                                              color: 'auto',
+                                              width: 5
+                                            }
+                                          },
+                                          axisLabel: {
+                                            color: '#464646',
+                                            fontSize: 9,
+                                            distance: 30,
+                                            rotate: 'tangential',
+                                          },
+                                          title: {
+                                            offsetCenter: [0, '10%'],
+                                            fontSize: 15
+                                          },
+                                          detail: {
+                                            fontSize: 30,
+                                            offsetCenter: [0, '-10%'],
+                                            valueAnimation: true,
+                                            color: '#464646'
+                                          },
+                                          data: [
+                                            {
+                                              value: datos,
+                                              name: 'Kg.'
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    };
+
+                                    option && myChart.setOption(option);
+                
+                            </script>
+                        </div>
+                    </div>
+
+                    <!-- ########    DIAGNOSTICO TALLA    ##########-->
+
+                    <div class="col-6">
+                        <div class="col d-flex justify-content-center">
+                            <div id="main2" style="width: 200px;height:145px;"></div>
+
+                            <script type="text/javascript">
+                                var col1 = '{{diag_talla.color1}}';
+                                var col2 = '{{diag_talla.color2}}';
+                                var col3 = '{{diag_talla.color3}}';
+                                var col4 = '{{diag_talla.color4}}';
+                                var col5 = '{{diag_talla.color5}}';
+                                var talla = {{talla}};
+                                var min = {{min_talla}};
+                                var max = {{max_talla}};
+                                var chartDom = document.getElementById('main2');
+                                var myChart = echarts.init(chartDom);
+                                var option;
+
+                                option = {
+                                    series: [
+                                    {
+                                        type: 'gauge',
+                                        startAngle: 180,
+                                        endAngle: 0,
+                                        center: ['50%', '75%'],
+                                        radius: '130%',
+                                        min: min,
+                                        max: max,
+                                        splitNumber: 2,
+                                        axisLine: {
+                                          lineStyle: {
+                                            width: 20,
+                                            color: [
+                                                [0.1, col1],
+                                                [0.2, col2],
+                                                [0.3, col3],
+                                                [0.4, col4],
+                                                [0.5, col5],
+                                                [0.6, col5],
+                                                [0.7, col4],
+                                                [0.8, col3],
+                                                [0.9, col2],
+                                                [1, col1]
+                                                
+                                              ]  
+                                            }
+                                          },
+                                          pointer: {
+                                            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                                            length: '15%',
+                                            width: 20,
+                                            offsetCenter: [0, '-60%'],
+                                            itemStyle: {
+                                              color: '#464646'
+                                            }
+                                          },
+                                          axisTick: {
+                                              length: 8,
+                                              lineStyle: {
+                                                color: 'auto',
+                                                width: 2
+                                              }
+                                            },
+                                            splitLine: {
+                                              length: 10,
+                                              lineStyle: {
+                                                color: 'auto',
+                                                width: 5
+                                              }
+                                            },
+                                          axisLabel: {
+                                              color: '#464646',
+                                              fontSize: 9,
+                                              distance: 30,
+                                              rotate: 'tangential',
+                                            },
+                                            title: {
+                                              offsetCenter: [0, '10%'],
+                                              fontSize: 15
+                                            },
+                                            detail: {
+                                              fontSize: 30,
+                                              offsetCenter: [0, '-10%'],
+                                              valueAnimation: true,
+                                              color: '#464646'
+                                            },
+                                          data: [
+                                            {
+                                              value: talla,
+                                              name: 'cm.'
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    };
+
+                                    option && myChart.setOption(option);
+                
+                            </script>
+                        </div>
+                    </div>
+                </div>
+              
+            {% else %}
                 <div class="col-12 text-center">
                   <h4><strong> IMC: </strong> {{imc_menores.imc}} Kg/m²</h4>
                 </div>
-                <div class="col-6">
+                <div class="row text-center">
+                  <div class="col-sm-12">
+                      <div class="col d-flex justify-content-center">
 
-                    <div id="main" style="width: 200px;height:150px;"></div>
+                            <div id="main" style="width: 400px;height:300px;"></div>
 
-                    <!-- ########    DIAGNOSTICO PESO PARA LA TALLA    ##########-->
+                            <script type="text/javascript">
+                                var datos = {{imc}};
+                                var chartDom = document.getElementById('main');
+                                var myChart = echarts.init(chartDom);
+                                var option;
 
-                    <script type="text/javascript">
-                        var col1 = '{{diag_peso.color1}}';
-                        var col2 = '{{diag_peso.color2}}';
-                        var col3 = '{{diag_peso.color3}}';
-                        var col4 = '{{diag_peso.color4}}';
-                        var col5 = '{{diag_peso.color5}}';
-                        var datos = {{peso}};
-                        var min = {{min_peso}};
-                        var max = {{max_peso}};
-                        var chartDom = document.getElementById('main');
-                        var myChart = echarts.init(chartDom);
-                        var option;
-
-                        option = {
-                            series: [
-                            {
-                                type: 'gauge',
-                                startAngle: 180,
-                                endAngle: 0,
-                                center: ['50%', '75%'],
-                                radius: '130%',
-                                min: min,
-                                max: max,
-                                splitNumber: 2,
-                                axisLine: {
-                                  lineStyle: {
-                                    width: 20,
-                                    color: [
-                                        [0.1, col1],
-                                        [0.2, col2],
-                                        [0.3, col3],
-                                        [0.4, col4],
-                                        [0.5, col5],
-                                        [0.6, col5],
-                                        [0.7, col4],
-                                        [0.8, col3],
-                                        [0.9, col2],
-                                        [1, col1]
-                                        
-                                      ]  
-                                    }
-                                  },
-                                  pointer: {
-                                    icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                                    length: '15%',
-                                    width: 20,
-                                    offsetCenter: [0, '-60%'],
-                                    itemStyle: {
-                                      color: '#464646'
-                                    }
-                                  },
-                                  axisTick: {
-                                    length: 8,
-                                    lineStyle: {
-                                      color: 'auto',
-                                      width: 2
-                                    }
-                                  },
-                                  splitLine: {
-                                    length: 10,
-                                    lineStyle: {
-                                      color: 'auto',
-                                      width: 5
-                                    }
-                                  },
-                                  axisLabel: {
-                                    color: '#464646',
-                                    fontSize: 9,
-                                    distance: 30,
-                                    rotate: 'tangential',
-                                  },
-                                  title: {
-                                    offsetCenter: [0, '10%'],
-                                    fontSize: 15
-                                  },
-                                  detail: {
-                                    fontSize: 30,
-                                    offsetCenter: [0, '-10%'],
-                                    valueAnimation: true,
-                                    color: '#464646'
-                                  },
-                                  data: [
+                                option = {
+                                  series: [
                                     {
-                                      value: datos,
-                                      name: 'Kg.'
+                                      type: 'gauge',
+                                      startAngle: 180,
+                                      endAngle: 0,
+                                      center: ['50%', '75%'],
+                                      radius: '130%',
+                                      min: 15,
+                                      max: 33,
+                                      splitNumber: 4,
+                                      axisLine: {
+                                        lineStyle: {
+                                          width: 30,
+                                          color: [
+                                            [0.19, '#dc3545'],
+                                            [0.44, '#198754'],
+                                            [0.55, '#ffc107'],
+                                            [0.833, '#FF7F50'],
+                                            [1, '#dc3545']
+                                            
+                                          ]
+                                        }
+                                      },
+                                      pointer: {
+                                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                                        length: '15%',
+                                        width: 30,
+                                        offsetCenter: [0, '-60%'],
+                                        itemStyle: {
+                                          color: 'auto'
+                                        }
+                                      },
+                                      axisTick: {
+                                        length: 12,
+                                        lineStyle: {
+                                          color: 'auto',
+                                          width: 2
+                                        }
+                                      },
+                                      splitLine: {
+                                        length: 20,
+                                        lineStyle: {
+                                          color: 'auto',
+                                          width: 5
+                                        }
+                                      },
+                                      axisLabel: {
+                                        color: '#464646',
+                                        fontSize: 12,
+                                        distance: 45,
+                                        rotate: 'tangential',
+                                      },
+                                      title: {
+                                        offsetCenter: [0, '-10%'],
+                                        fontSize: 25
+                                      },
+                                      detail: {
+                                        fontSize: 50,
+                                        offsetCenter: [0, '-35%'],
+                                        valueAnimation: true,
+                                        color: 'inherit'
+                                      },
+                                      data: [
+                                        {
+                                          value: datos,
+                                          name: 'IMC Kg/m²'
+                                        }
+                                      ]
                                     }
                                   ]
-                                }
-                              ]
-                            };
+                                };
 
-                            option && myChart.setOption(option);
+                                option && myChart.setOption(option);
+                          
+                            </script>
+                            <div  class="col-12 text-center" >
+                                    <p class="text-center"><strong>DIAGN. IMC PARA TALLA</strong></p>
+                                    <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
         
-                    </script>
-                </div>
+            {% endif %}
 
-                <!-- ########    DIAGNOSTICO TALLA    ##########-->
+            <div class="row">
+              {% if menor_detalles.edad < 19 %}
+                {% if menor_detalles.edad <= 5 %}
+                        <div  class="col-6 text-center" >
+                          <p class="text-center"><strong>DIAGN. PESO PARA TALLA</strong></p>
+                              <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
+                        </div>
 
-                <div class="col-6">
-                  <div id="main2" style="width: 200px;height:150px;"></div>
-
-                  <script type="text/javascript">
-                      var col1 = '{{diag_talla.color1}}';
-                      var col2 = '{{diag_talla.color2}}';
-                      var col3 = '{{diag_talla.color3}}';
-                      var col4 = '{{diag_talla.color4}}';
-                      var col5 = '{{diag_talla.color5}}';
-                      var talla = {{talla}};
-                      var min = {{min_talla}};
-                      var max = {{max_talla}};
-                      var chartDom = document.getElementById('main2');
-                      var myChart = echarts.init(chartDom);
-                      var option;
-
-                      option = {
-                          series: [
-                          {
-                              type: 'gauge',
-                              startAngle: 180,
-                              endAngle: 0,
-                              center: ['50%', '75%'],
-                              radius: '130%',
-                              min: min,
-                              max: max,
-                              splitNumber: 2,
-                              axisLine: {
-                                lineStyle: {
-                                  width: 20,
-                                  color: [
-                                      [0.1, col1],
-                                      [0.2, col2],
-                                      [0.3, col3],
-                                      [0.4, col4],
-                                      [0.5, col5],
-                                      [0.6, col5],
-                                      [0.7, col4],
-                                      [0.8, col3],
-                                      [0.9, col2],
-                                      [1, col1]
-                                      
-                                    ]  
-                                  }
-                                },
-                                pointer: {
-                                  icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                                  length: '15%',
-                                  width: 20,
-                                  offsetCenter: [0, '-60%'],
-                                  itemStyle: {
-                                    color: '#464646'
-                                  }
-                                },
-                                axisTick: {
-                                    length: 8,
-                                    lineStyle: {
-                                      color: 'auto',
-                                      width: 2
-                                    }
-                                  },
-                                  splitLine: {
-                                    length: 10,
-                                    lineStyle: {
-                                      color: 'auto',
-                                      width: 5
-                                    }
-                                  },
-                                axisLabel: {
-                                    color: '#464646',
-                                    fontSize: 9,
-                                    distance: 30,
-                                    rotate: 'tangential',
-                                  },
-                                  title: {
-                                    offsetCenter: [0, '10%'],
-                                    fontSize: 15
-                                  },
-                                  detail: {
-                                    fontSize: 30,
-                                    offsetCenter: [0, '-10%'],
-                                    valueAnimation: true,
-                                    color: '#464646'
-                                  },
-                                data: [
-                                  {
-                                    value: talla,
-                                    name: 'cm.'
-                                  }
-                                ]
-                              }
-                            ]
-                          };
-
-                          option && myChart.setOption(option);
-      
-                  </script>
-                </div>
-            </div>
-           
-        {% else %}
-            <div class="col-12 text-center">
-              <h4><strong> IMC: </strong> {{imc_menores.imc}} Kg/m²</h4>
-            </div>
-            <div class="row text-center">
-              <div class="col-sm-12">
-
-                <div id="main" style="width: 400px;height:300px;"></div>
-
-                <script type="text/javascript">
-                    var datos = {{imc}};
-                    var chartDom = document.getElementById('main');
-                    var myChart = echarts.init(chartDom);
-                    var option;
-
-                    option = {
-                      series: [
-                        {
-                          type: 'gauge',
-                          startAngle: 180,
-                          endAngle: 0,
-                          center: ['50%', '75%'],
-                          radius: '130%',
-                          min: 15,
-                          max: 33,
-                          splitNumber: 4,
-                          axisLine: {
-                            lineStyle: {
-                              width: 30,
-                              color: [
-                                [0.19, '#dc3545'],
-                                [0.44, '#198754'],
-                                [0.55, '#ffc107'],
-                                [0.833, '#FF7F50'],
-                                [1, '#dc3545']
-                                
-                              ]
-                            }
-                          },
-                          pointer: {
-                            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                            length: '15%',
-                            width: 30,
-                            offsetCenter: [0, '-60%'],
-                            itemStyle: {
-                              color: 'auto'
-                            }
-                          },
-                          axisTick: {
-                            length: 12,
-                            lineStyle: {
-                              color: 'auto',
-                              width: 2
-                            }
-                          },
-                          splitLine: {
-                            length: 20,
-                            lineStyle: {
-                              color: 'auto',
-                              width: 5
-                            }
-                          },
-                          axisLabel: {
-                            color: '#464646',
-                            fontSize: 12,
-                            distance: 45,
-                            rotate: 'tangential',
-                          },
-                          title: {
-                            offsetCenter: [0, '-10%'],
-                            fontSize: 25
-                          },
-                          detail: {
-                            fontSize: 50,
-                            offsetCenter: [0, '-35%'],
-                            valueAnimation: true,
-                            color: 'inherit'
-                          },
-                          data: [
-                            {
-                              value: datos,
-                              name: 'IMC Kg/m²'
-                            }
-                          ]
-                        }
-                      ]
-                    };
-
-                    option && myChart.setOption(option);
-               
-                </script>
-                  <div  class="col-12 text-center" >
-                        <p class="text-center"><strong>DIAGN. IMC PARA TALLA</strong></p>
-                        <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
-                  </div>
-                </div>
-            </div>
-     
-        {% endif %}
-
-        <div class="row">
-          {% if menor_detalles.edad < 19 %}
-            {% if menor_detalles.edad <= 5 %}
+                {% else %}
                     <div  class="col-6 text-center" >
-                      <p class="text-center"><strong>DIAGN. PESO PARA TALLA</strong></p>
+                      <p class="text-center"><strong>DIAGN. IMC PARA TALLA</strong></p>
                           <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
                     </div>
-
-            {% else %}
-                <div  class="col-6 text-center" >
-                  <p class="text-center"><strong>DIAGN. IMC PARA TALLA</strong></p>
-                      <div class="text-white p-1"style="background-color:{{diag_peso.color5}}">{{imc_menores.diagnostico}}</div>  
-                </div>
-            {% endif%}
-                <div  class="col-6 text-center" >
-                  <p class="text-center"><strong>DIAGN. TALLA POR EDAD</strong></p>
-                      <div class="text-white p-1"style="background-color:{{diag_talla.color5}}">{{imc_menores.diagnostico_talla}}</div>  
-                </div>
-          {% endif%}
-        </div>
-        <br>
-
-            <form action="imc_menor_riesgo" method="POST">
-                {% csrf_token %}
-        
-                <div class="row justify-content-center">
-                    <div class="col-5 text-center">
-                        <label for="riesgo"><strong>Presenta Riesgo:</strong></label>
-                        <select id="riesgo" name="riesgo">
-                            <option value="NO" selected>NO</option>
-                            <option value="SI">SI</option>
-                        </select>
+                {% endif%}
+                    <div  class="col-6 text-center" >
+                      <p class="text-center"><strong>DIAGN. TALLA POR EDAD</strong></p>
+                          <div class="text-white p-1"style="background-color:{{diag_talla.color5}}">{{imc_menores.diagnostico_talla}}</div>  
                     </div>
-                </div> 
-                
-                <div class="row">
-                    <div class="col">
-                        <br>
-                        <label for="servicio">Servicio:</label>
-                        <textarea name="servicio" rows="6" cols="12"></textarea>
-                    </div>
-                    <div class="col">
-                        <br>
-                        <label for="centro_hospital">Centro:</label>
-                        <textarea name="centro_hospital" rows="6" cols="12"></textarea>
-                    </div>
-                    <div class="col">
-                        <br>
-                        <label for="observacion">Observación:</label>
-                        <textarea name="observacion" rows="6" cols="12"></textarea>
-                    </div>
-                </div> 
-                
-                <br>
-                <button type="submit" class="btn btn-primary" action="{% url 'menor_detalle' pk id %}">Aceptar </button>
+              {% endif%}
+            </div>
+            <br>
 
-            </form>
+                <form action="imc_menor_riesgo" method="POST">
+                    {% csrf_token %}
+            
+                    <div class="row justify-content-center">
+                        <div class="col-5 text-center">
+                            <label for="riesgo"><strong>Presenta Riesgo:</strong></label>
+                            <select id="riesgo" name="riesgo">
+                                <option value="NO" selected>NO</option>
+                                <option value="SI">SI</option>
+                            </select>
+                        </div>
+                    </div> 
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <br>
+                            <label for="servicio">Servicio:</label>
+                            <textarea name="servicio" rows="6" cols="12"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <br>
+                            <label for="centro_hospital">Centro:</label>
+                            <textarea name="centro_hospital" rows="6" cols="12"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <br>
+                            <label for="observacion">Observación:</label>
+                            <textarea name="observacion" rows="6" cols="12"></textarea>
+                        </div>
+                    </div> 
+                    
+                    <br>
+                    <button type="submit" class="btn btn-primary" action="{% url 'menor_detalle' pk id %}">Aceptar </button>
+
+                </form>
 
 
-    {% endif %}
+        {% endif %}
 
+    </div>
 </div>
 
 {% endblock %}

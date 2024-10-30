@@ -5,7 +5,7 @@
 {% load crispy_forms_tags %}
 
 <br>
-<div class="container bg-light card shadow-md p-5 shadow p-3 mb-5">
+<div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
 
     <h1 class="text-center">Registro de Vacunación</h1>
     <h5 class="text-center">Agrege los datos requerido para su registro</h5>
@@ -29,13 +29,13 @@
                 </div>
                 <div class="row d-flex justify-content-center text-center">
 
-                    <div class="col-2">
+                    <div class="col-4">
                         <P> <strong> Cédula: </strong> {{menor_detalles.cedula}} </p>
                     </div>
                     <div class="col-4">
                         <P> <strong> Nombre: </strong>{{menor_detalles.nombre}}    {{menor_detalles.apellido}}</p> 
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                         <P> <strong> Edad: </strong> {{menor_detalles.edad}} </p>
                     </div>
                     <div class="col-2">
@@ -73,8 +73,12 @@
         <br>
 
         {% load static %}  
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'img\Bokitas_vacunas.png' %}" alt="Bokitas_vacunas">  
+        <div class="row">
+            <div class="d-flex justify-content-center"  style="width: 900px;height:400px;">
+                
+                    <img src="{% static 'img\Bokitas_vacunas.png' %}" alt="Bokitas_vacunas">  
+                
+            </div>
         </div>
 
 
