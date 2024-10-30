@@ -5,80 +5,82 @@
 {% load crispy_forms_tags %}
 
 <br>
-<div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
+<div class="container">
+    <div class="container bg-light card shadow-md p-5 shadow p-3 col-md-6 offset-md-3">
 
-    <h1 class="text-center">Actualización de Datos</h1>
-    <h5 class="text-center">Actualice los datos del Familiar</h5>
-    
-    <hr>             
+        <h1 class="text-center">Detalles de la Vacunación</h1>
+        <h5 class="text-center">Actualice los datos de la Vacunación</h5>
+        
+        <hr>             
 
-    <div class="tabcontent">  
-        <form action="" method="POST">
-            {% csrf_token %}
+        <div class="tabcontent">  
+            <form action="" method="POST">
+                {% csrf_token %}
 
-            <div class="row">
-                <div class="col-12 text-center">
-                    <strong> BENEFICIARIO </strong>
-                </div>
-                <div class="col-12 text-center">
-                    {{beneficiarios}}
-                </div>
-                <div class="col-12 text-center">
-                    <br>
-                    <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
-                </div>
-                <div class="row d-flex justify-content-center text-center">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <strong> BENEFICIARIO </strong>
+                    </div>
+                    <div class="col-12 text-center">
+                        {{beneficiarios}}
+                    </div>
+                    <div class="col-12 text-center">
+                        <br>
+                        <strong> NOMBRE DEL MENOR EN CONSULTA</strong>
+                    </div>
+                    <div class="row d-flex justify-content-center text-center">
 
-                    <div class="col-4">
-                        <P> <strong> Cédula: </strong> {{menor_detalles.cedula}} </p>
+                        <div class="col-4">
+                            <P> <strong> Cédula: </strong> {{menor_detalles.cedula}} </p>
+                        </div>
+                        <div class="col-4">
+                            <P> <strong> Nombre: </strong>{{menor_detalles.nombre}}    {{menor_detalles.apellido}}</p> 
+                        </div>
+                        <div class="col-2">
+                            <P> <strong> Edad: </strong> {{menor_detalles.edad}} </p>
+                        </div>
+                        <div class="col-2">
+                            <P> <strong> Meses: </strong> {{menor_detalles.meses}} </p>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <P> <strong> Nombre: </strong>{{menor_detalles.nombre}}    {{menor_detalles.apellido}}</p> 
+                    
+                </div>
+                <br>
+                <div class="col-12 d-flex justify-content-center text-center">
+                    <h6>{{form.jornada | as_crispy_field}}</h6>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <h6>{{form.vacuna | as_crispy_field}}</h6>
                     </div>
-                    <div class="col-2">
-                        <P> <strong> Edad: </strong> {{menor_detalles.edad}} </p>
+
+                    <div class="col-6">
+                        <h6>{{form.dosis | as_crispy_field}}</h6>
                     </div>
-                    <div class="col-2">
-                        <P> <strong> Meses: </strong> {{menor_detalles.meses}} </p>
+
+                    <div class="d-flex justify-content-center">
+                        <h6>{{form.observacion | as_crispy_field}}</h6>
                     </div>
                 </div>
-                
-            </div>
+                <br>
+                <hr>
+
+                <a class="btn btn-primary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
+                &nbsp
+                <button class="btn btn-info">
+                    Actualizar
+                </button>
+                &nbsp
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVacuna">
+                    Eliminar
+                </button>
+
+            </form>
             <br>
-            <div class="col-12 d-flex justify-content-center text-center">
-                <h6>{{form.jornada | as_crispy_field}}</h6>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <h6>{{form.vacuna | as_crispy_field}}</h6>
-                </div>
 
-                <div class="col-6">
-                    <h6>{{form.dosis | as_crispy_field}}</h6>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <h6>{{form.observacion | as_crispy_field}}</h6>
-                </div>
-            </div>
-            <br>
-            <hr>
-
-            <a class="btn btn-primary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
-            &nbsp
-            <button class="btn btn-info">
-                Actualizar
-            </button>
-            &nbsp
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVacuna">
-                Eliminar
-            </button>
-
-        </form>
-        <br>
+        </div>
 
     </div>
-
 </div>
 
 
