@@ -66,17 +66,28 @@
                     <br>
                     <strong> DIAGNÓSTICO DEL EXAMEN</strong>
                 </div>
-                <div class="col" >
+                <div class="col-4" >
                     <br>
-                    <h6>{{form.diagnostico1 | as_crispy_field}}</h6>
+                    <h6>{{form.sano | as_crispy_field}}</h6>
+                    <h6>{{form.traumatismo | as_crispy_field}}</h6>
+                    <h6>{{form.alergia | as_crispy_field}}</h6>
+                    <h6>{{form.cefalea | as_crispy_field}}</h6>
+                    <h6>{{form.rinitis | as_crispy_field}}</h6>
                 </div>
-                <div class="col" >
+                <div class="col-4" >
                     <br>
-                    <h6>{{form.diagnostico2 | as_crispy_field}}</h6>
+                    <h6>{{form.infeccion | as_crispy_field}}</h6>
+                    <h6>{{form.faringoamigdalitis | as_crispy_field}}</h6>
+                    <h6>{{form.sinusitis | as_crispy_field}}</h6>
+                    <h6>{{form.parasitosis | as_crispy_field}}</h6>
+                    <h6>{{form.diarreas | as_crispy_field}}</h6>
                 </div>
-                <div class="col" >
+                <div class="col-4" >
                     <br>
-                    <h6>{{form.diagnostico3 | as_crispy_field}}</h6>
+                    <h6>{{form.dermatitis | as_crispy_field}}</h6>
+                    <h6>{{form.otitis | as_crispy_field}}</h6>
+                    <h6>{{form.caries | as_crispy_field}}</h6>
+                    <h6>{{form.abscesos | as_crispy_field}}</h6>
                 </div>
             </div>
             <div class="row">
@@ -89,14 +100,16 @@
                     <hr>
                     <strong> DESPARACITACIÓN</strong>
                 </div>
-                <br>
+                
                 <div class="col-1">
                 </div>
                 <div class="col">
+                    <br>
                     <h6>Se encuentra el Paciente Desparacitado*</h6>
                     {{form.desp_menor | as_crispy_field}}
                 </div>
                 <div class="col">
+                    <br>
                     <h6>Se encuentra el Grupo Familiar Desparacitado*</h6>
                     {{form.desp_familia | as_crispy_field}}
                 </div>
@@ -107,25 +120,35 @@
                 <div class="col-12 text-center">
                     <hr>
                     <strong> CONTROL ANÉMICO</strong>
+                    <br>
+                    <br>
                 </div>
-
-                <div class="col d-flex justify-content-center">
-                    <h6>{{form.anemico | as_crispy_field}}</h6>
+                <div class="col d-flex justify-content-evenly">
+                    <h6>{{form.folico | as_crispy_field}}</h6>
+                    <h6>{{form.hierro | as_crispy_field}}</h6>
+                    <h6>{{form.minerales | as_crispy_field}}</h6>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 text-center">
                     <hr>
                     <strong> RECOMENDACIONES</strong>
+                    <br>
+                    <br>
                 </div>
-                <br>
-                <div class="col d-flex justify-content-evenly">
-                    <h6>{{form.asesor_lactancia | as_crispy_field}}</h6>
-                    <h6>{{form.recomen_nutricional | as_crispy_field}}</h6>
-                    <h6>{{form.refe_psicologica | as_crispy_field}}</h6>
-                    <h6>{{form.vitaminas | as_crispy_field}}</h6>
-                    <h6>{{form.lacktokiana | as_crispy_field}}</h6>
-                    <h6>{{form.prokids | as_crispy_field}}</h6>
+                <div class="col-12">
+                    <div class="col d-flex justify-content-evenly">
+                        <h6>{{form.asesor_lactancia | as_crispy_field}}</h6>
+                        <h6>{{form.recomen_nutricional | as_crispy_field}}</h6>
+                        <h6>{{form.refe_psicologica | as_crispy_field}}</h6>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="col d-flex justify-content-evenly">
+                        <h6>{{form.vitaminas | as_crispy_field}}</h6>
+                        <h6>{{form.lacktokiana | as_crispy_field}}</h6>
+                        <h6>{{form.prokids | as_crispy_field}}</h6>
+                    </div>
                 </div>
             </div>
             <hr>
