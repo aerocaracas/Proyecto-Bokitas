@@ -43,12 +43,12 @@ GRUPOS = (
 )
 
 CONSUMO = (
-    ("0/7", "0/7"),
-    ("1-2/7", "1-2/7"),
-    ("3-5/7", "3-5/7"),
-    ("7/7", "7/7"),
-    ("1-2/15", "1-2/15"),
-    ("1-2/30", "1-2/30"),
+    ("0/7 días", "0/7 días"),
+    ("1-2/7 días", "1-2/7 días"),
+    ("3-5/7 días", "3-5/7 días"),
+    ("7/7 días" , "7/7 días"),
+    ("1-2/15 días", "1-2/15 días"),
+    ("1-2/30 días", "1-2/30 días"),
 )
 
 TIEMPO = (
@@ -84,8 +84,8 @@ class NutricionalForm(ModelForm):
         model = Nutricional
         fields = ['cedula_bef','jornada','en_embarazo','en_lactando','tiempo_gestacion','tiempo_lactancia','mercado_lorealiza','cocina_lorealiza','frecuencia','apetito','cuantas_comidas','meriendas','cuantos_grupos','tipo_grupos','cereales','vegetales','frutas','carnes','pollo','pescado','embutidos','viceras','grasas','lacteos','huevos','leguminosas','tuberculos','charcuteria','poco_vegetales','poco_frutas','poco_viceras','bonos','bonos_entre','clap','clap_entre','iglesia','iglesia_entre','familiar','familiar_entre','pensionado','pensionado_entre','practica_deporte','tiempo','actividad','medicamento','medicamento_suplemento','agua','falla_servicio','compra_gas','compra_agua','almacena_agua','donde_almacena','conoce_grupos','conoce_calidad','conoce_desnutricion','conoce_beneficio','embarazo','lactando','desea_amamantar','dificultad_amamantar','desea_orientacion','desea_conocimiento']
 
-        labels = {'cedula_bef':'Cédula del Beneficiario','mercado_lorealiza':'','frecuencia':'','cocina_lorealiza':'','apetito':'','cuantas_comidas':'','meriendas':'','cuantos_grupos':'','tipo_grupos':'','poco_vegetales':'','poco_frutas':'','poco_viceras':'','practica_deporte':'',
-        'tiempo':'','actividad':'','medicamento':'','medicamento_suplemento':'','agua':'','falla_servicio':'','compra_gas':'','compra_agua':'','almacena_agua':'','donde_almacena':'','conoce_grupos':'','conoce_calidad':'','conoce_desnutricion':''}
+        labels = {'cedula_bef':'Cédula del Beneficiario','en_embarazo':'','en_lactando':'','tiempo_gestacion':'','tiempo_lactancia':'','mercado_lorealiza':'','frecuencia':'','cocina_lorealiza':'','apetito':'','cuantas_comidas':'','meriendas':'','cuantos_grupos':'','tipo_grupos':'','cereales':'','vegetales':'','frutas':'','carnes':'','pollo':'','pescado':'','embutidos':'','viceras':'','grasas':'','lacteos':'','huevos':'','leguminosas':'','tuberculos':'','charcuteria':'','poco_vegetales':'','poco_frutas':'','poco_viceras':'','bonos':'','bonos_entre':'','clap':'','clap_entre':'','iglesia':'','iglesia_entre':'','familiar':'','familiar_entre':'','pensionado':'','pensionado_entre':'','practica_deporte':'',
+        'tiempo':'','actividad':'','medicamento':'','medicamento_suplemento':'','agua':'','falla_servicio':'','compra_gas':'','compra_agua':'','almacena_agua':'','donde_almacena':'','conoce_grupos':'','conoce_calidad':'','conoce_desnutricion':'','conoce_beneficio':'','embarazo':'','lactando':'','desea_amamantar':'','dificultad_amamantar':'','desea_orientacion':'','desea_conocimiento':''}
 
         widgets = {
             'cedula_bef': forms.Select(attrs={"hx-get": "load_jornadas_nutri/", "hx-target": "#id_jornada"}),

@@ -15,11 +15,11 @@
     <form action="{% url 'nutricional_crear' %}" method="POST">
         {% csrf_token %}
 
-        <div class="row">
+        <div class="row d-flex justify-content-evenly">
             <div class="col-6">
                 <h5>{{form.cedula_bef | as_crispy_field}}</h5>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-4">
                 <h5>{{form.jornada | as_crispy_field}}</h5>
             </div>
         </div>
