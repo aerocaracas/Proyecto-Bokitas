@@ -429,7 +429,7 @@ class Medicamento(models.Model):
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
+    jornada = models.ForeignKey(Jornada, on_delete=models.CASCADE)
     en_embarazo = models.CharField(max_length=10, blank=True)
     en_lactando = models.CharField(max_length=10, blank=True)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 

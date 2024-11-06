@@ -41,8 +41,8 @@ def nutricional_crear(request):
     else:
         try:
             form = NutricionalForm(request.POST)
-
-            new_nutricional = form.save(commit=False)
+            print(request.POST)
+            new_nutricional = form.save(commit=False)            
             cedula = new_nutricional.cedula_bef_id
             beneficiario = get_object_or_404(Beneficiario, id=cedula)
             new_nutricional.proyecto_id = beneficiario.proyecto_id
@@ -97,4 +97,5 @@ def load_jornadas_nutri(request):
     beneficiario_id = request.GET.get("cedula_bef")
     proyecto_id = Beneficiario.objects.get(id=beneficiario_id).proyecto_id
     jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
-    return render(request, "jornadas_options.html", {"jornadas": jornadas})
+    return render(request, "jornadas_nutricional.html", {"jornadas": jornadas})
+

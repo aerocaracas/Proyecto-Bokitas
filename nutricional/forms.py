@@ -138,12 +138,12 @@ class NutricionalForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['jornada'].queryset = Jornada.objects.none()
-
         if "proyecto" in self.data:
             proyecto_id = int(self.data.get("proyecto"))
             self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
         elif self.instance.pk:
             self.fields['jornada'].queryset = self.instance.proyecto.jornada_set.order_by('jornada')
+            
 
 
 class NutricionalForm2(ModelForm):
