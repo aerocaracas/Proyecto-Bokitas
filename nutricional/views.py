@@ -36,13 +36,13 @@ def nutricional(request):
 def nutricional_crear(request):
     if request.method == 'GET':
         return render(request, 'nutricional_crear.html', {
-            'form': NutricionalForm, 
+            'form': NutricionalForm 
         })
     else:
         try:
             form = NutricionalForm(request.POST)
+            new_nutricional = form.save(commit=False)
             print(request.POST)
-            new_nutricional = form.save(commit=False)            
             cedula = new_nutricional.cedula_bef_id
             beneficiario = get_object_or_404(Beneficiario, id=cedula)
             new_nutricional.proyecto_id = beneficiario.proyecto_id
@@ -52,7 +52,7 @@ def nutricional_crear(request):
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'nutricional_crear.html', {
-            'form': form,
+            'form': form
             })
 
 

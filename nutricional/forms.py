@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from bokitas.models import Nutricional, Jornada
+from bokitas.models import Nutricional, Jornada, Beneficiario
 
 SI_NO_MINUSCULA = (
     ("Si", "Si"),
@@ -78,10 +78,16 @@ SI_NO_POCA_APLICA = (
     ("No Aplica", "No Aplica"),
 )
 
+ENTRE = (
+    ("Entre 1 a 3 meses", "Entre 1 a 3 meses"),
+    ("Entre 3 a 6 meses", "Entre 3 a 6 meses"),
+)
 
-class NutricionalForm(ModelForm):
+
+class NutricionalForm(forms.ModelForm):
     class Meta:
         model = Nutricional
+
         fields = ['cedula_bef','jornada','en_embarazo','en_lactando','tiempo_gestacion','tiempo_lactancia','mercado_lorealiza','cocina_lorealiza','frecuencia','apetito','cuantas_comidas','meriendas','cuantos_grupos','tipo_grupos','cereales','vegetales','frutas','carnes','pollo','pescado','embutidos','viceras','grasas','lacteos','huevos','leguminosas','tuberculos','charcuteria','poco_vegetales','poco_frutas','poco_viceras','bonos','bonos_entre','clap','clap_entre','iglesia','iglesia_entre','familiar','familiar_entre','pensionado','pensionado_entre','practica_deporte','tiempo','actividad','medicamento','medicamento_suplemento','agua','falla_servicio','compra_gas','compra_agua','almacena_agua','donde_almacena','conoce_grupos','conoce_calidad','conoce_desnutricion','conoce_beneficio','embarazo','lactando','desea_amamantar','dificultad_amamantar','desea_orientacion','desea_conocimiento']
 
         labels = {'cedula_bef':'Cédula del Beneficiario','en_embarazo':'','en_lactando':'','tiempo_gestacion':'','tiempo_lactancia':'','mercado_lorealiza':'','frecuencia':'','cocina_lorealiza':'','apetito':'','cuantas_comidas':'','meriendas':'','cuantos_grupos':'','tipo_grupos':'','cereales':'','vegetales':'','frutas':'','carnes':'','pollo':'','pescado':'','embutidos':'','viceras':'','grasas':'','lacteos':'','huevos':'','leguminosas':'','tuberculos':'','charcuteria':'','poco_vegetales':'','poco_frutas':'','poco_viceras':'','bonos':'','bonos_entre':'','clap':'','clap_entre':'','iglesia':'','iglesia_entre':'','familiar':'','familiar_entre':'','pensionado':'','pensionado_entre':'','practica_deporte':'',
@@ -111,10 +117,15 @@ class NutricionalForm(ModelForm):
             'tuberculos': forms.RadioSelect(choices=CONSUMO),
             'charcuteria': forms.RadioSelect(choices=CONSUMO),
             'bonos': forms.RadioSelect(choices=SI_NO_MINUSCULA),
+            'bonos_entre': forms.RadioSelect(choices=ENTRE),
             'clap': forms.RadioSelect(choices=SI_NO_MINUSCULA),
+            'clap_entre': forms.RadioSelect(choices=ENTRE),
             'iglesia': forms.RadioSelect(choices=SI_NO_MINUSCULA),
+            'iglesia_entre': forms.RadioSelect(choices=ENTRE),
             'familiar': forms.RadioSelect(choices=SI_NO_MINUSCULA),
+            'familiar_entre': forms.RadioSelect(choices=ENTRE),
             'pensionado': forms.RadioSelect(choices=SI_NO_MINUSCULA),
+            'pensionado_entre': forms.RadioSelect(choices=ENTRE),
             'practica_deporte': forms.RadioSelect(choices=SI_NO_MINUSCULA),
             'tiempo': forms.RadioSelect(choices=TIEMPO),
             'actividad': forms.RadioSelect(choices=ACTIVIDAD),

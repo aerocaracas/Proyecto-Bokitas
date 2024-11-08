@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 from multiselectfield import MultiSelectField
 
 
@@ -429,7 +428,7 @@ class Medicamento(models.Model):
 class Nutricional(models.Model):
     cedula_bef = models.ForeignKey(Beneficiario, on_delete=models.CASCADE)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.SET_NULL, null=True)
-    jornada = models.ForeignKey(Jornada, on_delete=models.CASCADE)
+    jornada = models.ForeignKey(Jornada, on_delete=models.SET_NULL, null=True)
     en_embarazo = models.CharField(max_length=10, blank=True)
     en_lactando = models.CharField(max_length=10, blank=True)
     tiempo_gestacion = models.PositiveIntegerField(default=0,null=True, blank=True,) 
@@ -460,15 +459,15 @@ class Nutricional(models.Model):
     poco_frutas = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
     poco_viceras = MultiSelectField(max_length=200, choices=POCO_CONSUMO, blank=True)
     bonos = models.CharField(max_length=10, blank=True)
-    bonos_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
+    bonos_entre = models.CharField(max_length=50, blank=True)
     clap = models.CharField(max_length=10, blank=True)
-    clap_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
+    clap_entre = models.CharField(max_length=50, blank=True)
     iglesia = models.CharField(max_length=10, blank=True)
-    iglesia_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
+    iglesia_entre = models.CharField(max_length=50, blank=True)
     familiar = models.CharField(max_length=10, blank=True)
-    familiar_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
+    familiar_entre = models.CharField(max_length=50, blank=True)
     pensionado = models.CharField(max_length=10, blank=True)
-    pensionado_entre = MultiSelectField(max_length=50, choices=ENTRE, blank=True)
+    pensionado_entre = models.CharField(max_length=50, blank=True)
     practica_deporte = models.CharField(max_length=10, blank=True)
     tiempo = models.CharField(max_length=100, blank=True)
     actividad = models.CharField(max_length=100, blank=True)
