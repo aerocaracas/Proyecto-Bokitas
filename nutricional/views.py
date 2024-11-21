@@ -41,14 +41,26 @@ def nutricional_crear(request):
     else:
         try:
             form = NutricionalForm(request.POST)
-            new_nutricional = form.save(commit=False)
-            print(request.POST)
-            cedula = new_nutricional.cedula_bef_id
-            beneficiario = get_object_or_404(Beneficiario, id=cedula)
-            new_nutricional.proyecto_id = beneficiario.proyecto_id
-            new_nutricional.save()
-            messages.success(request, "Se guardo satisfactoriamente el Registro")
-            return redirect('nutricional')
+            jornada_id = request.POST.get('jornada')
+            form.fields['jornada'].choices = [(jornada_id, jornada_id)]
+            
+            if form.is_valid():
+                
+                new_nutricional = form.save(commit=False)
+                cedula = new_nutricional.cedula_bef_id
+                beneficiario = get_object_or_404(Beneficiario, id=cedula)
+                new_nutricional.proyecto = beneficiario.proyecto
+                new_nutricional.save()
+                messages.success(request, "Se guardo satisfactoriamente el Registro")
+                return redirect('nutricional')
+            else:
+                print("No es Valido!!!")
+                print(form.errors)
+                print(request.POST)
+                messages.warning(request, "Datos incorectos, Favor verificar la información")
+                return render(request, 'nutricional_crear.html', {
+                'form': form
+                })
         except ValueError:
             messages.warning(request, "Datos incorectos, Favor verificar la información")
             return render(request, 'nutricional_crear.html', {

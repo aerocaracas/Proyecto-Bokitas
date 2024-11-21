@@ -106,7 +106,7 @@ MERCADO = (
 TIPO_GRUPOS = (
     ("Cereales y Leguminosas", "Cereales y Leguminosas"),
     ("Frutas y Verduras", "Frutas y Verduras"),
-    ("Leche, Yogures y Quesos", "Leche, Yogures y Quesos"),
+    ("Leche Yogures y Quesos", "Leche Yogures y Quesos"),
     ("Grasas y Aceites", "Grasas y Aceites"),
     ("Dulces", "Dulces"),
     ("Carnes y Huevos", "Carnes y Huevos"),

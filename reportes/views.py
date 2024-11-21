@@ -81,7 +81,11 @@ class exportar_proyecto(TemplateView):
     #**************  Agrega la data a las celdas
         for beneficiario in beneficiarios:
             row_num += 1
-            datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac.strftime('%d-%m-%Y'),beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+            if beneficiario.fecha_nac:
+                datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac.strftime('%d-%m-%Y'),beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+            else:
+                datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac,beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
@@ -104,7 +108,7 @@ class exportar_proyecto(TemplateView):
 
     #*********  Registro de Datos de los Menores  *************
         worksheet = workbook.worksheets[1]
-        worksheet.merge_cells('A4:O6')
+        worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTROS DEL PERFIL DE MENORES"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
@@ -121,7 +125,7 @@ class exportar_proyecto(TemplateView):
         total_menores_5 = menores.values("edad").filter(edad__lte=5).count()
         total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
 
-        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
+        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -140,13 +144,13 @@ class exportar_proyecto(TemplateView):
     #**************  Agrega la data a las celdas
         for menor in menores:
             row_num += 1
-            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y')]
+            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y'),menor.estatus]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
                 cell.value = str(cell_value)
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
-                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15:
+                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15 or col_num == 16:
                     cell.alignment = Alignment(horizontal="center")
 
         #**************  Agrega el total de Menores  ************************
@@ -257,7 +261,10 @@ class exportar_proyecto(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            if beneficiario.fecha_nac:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            else:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac,imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -311,7 +318,10 @@ class exportar_proyecto(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            if beneficiario.fecha_nac:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            else:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac,imc.jornada.jornada.strftime('%d-%m-%Y'),imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
 
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
@@ -735,7 +745,10 @@ class listado_beneficiario(TemplateView):
     #**************  Agrega la data a las celdas
         for beneficiario in beneficiarios:
             row_num += 1
-            datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac.strftime('%d-%m-%Y'),beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+            if beneficiario.fecha_nac:
+                datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac.strftime('%d-%m-%Y'),beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
+            else:
+                datos = [beneficiario.proyecto,beneficiario.cedula,beneficiario.nombre,beneficiario.apellido,beneficiario.sexo,beneficiario.fecha_nac,beneficiario.edad,beneficiario.meses,beneficiario.nacionalidad,beneficiario.num_hijos,beneficiario.embarazada,beneficiario.lactante,beneficiario.estado_civil,beneficiario.educacion,beneficiario.profesion,beneficiario.laboral,beneficiario.telefono,beneficiario.correo,beneficiario.direccion,beneficiario.ciudad,beneficiario.estado,beneficiario.estatus,beneficiario.numero_cuenta]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
@@ -794,7 +807,7 @@ class listado_menores(TemplateView):
 
     #*********  Registro de Datos de los Menores  *************
         worksheet = workbook.worksheets[0]
-        worksheet.merge_cells('A4:O6')
+        worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTROS DEL PERFIL DE MENORES"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
@@ -811,7 +824,7 @@ class listado_menores(TemplateView):
         total_menores_5 = menores.values("edad").filter(edad__lte=5).count()
         total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
 
-        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
+        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -830,13 +843,13 @@ class listado_menores(TemplateView):
     #**************  Agrega la data a las celdas
         for menor in menores:
             row_num += 1
-            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y')]
+            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y'),menor.estatus]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
                 cell.value = str(cell_value)
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
-                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15:
+                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15 or col_num == 16:
                     cell.alignment = Alignment(horizontal="center")
 
                 #**************  Agrega el total de Menores  ************************
@@ -907,7 +920,7 @@ class exportar_jornada(TemplateView):
 
     #*********  Registro de Datos de los Menores  *************
         worksheet = workbook.worksheets[0]
-        worksheet.merge_cells('A4:O6')
+        worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTROS DEL PERFIL DE MENORES"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
@@ -924,7 +937,7 @@ class exportar_jornada(TemplateView):
         total_menores_5 = menores.values("edad").filter(edad__lte=5).count()
         total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
 
-        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO']
+        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -943,13 +956,13 @@ class exportar_jornada(TemplateView):
     #**************  Agrega la data a las celdas
         for menor in menores:
             row_num += 1
-            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y')]
+            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y'),menor.estatus]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
                 cell.value = str(cell_value)
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
-                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15:
+                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15 or col_num == 16:
                     cell.alignment = Alignment(horizontal="center")
 
         #**************  Agrega el total de Menores  ************************
