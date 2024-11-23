@@ -40,13 +40,13 @@
 
                 <br>
                 <hr>
-                <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"> Regresar </a>
+                <a class="btn btn-secondary" href="{% url 'beneficiario_detalle' pk %}"><i class="bi bi-caret-left-square-fill"></i> Regresar </a>
                 &nbsp
-                <button class="btn btn-info">
+                <button class="btn btn-info"><i class="bi bi-database-fill-up"></i>
                     Actualizar
                 </button>
                 &nbsp
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-trash-fill"></i>
                     Eliminar
                 </button>
                                
@@ -68,8 +68,8 @@
                 Está seguro de Eliminar al Familiar?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="{% url 'familiar_eliminar' pk familias.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+                <a href="{% url 'familiar_eliminar' pk familias.id %}" role="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar </a>
             </div>
         </div>
     </div>

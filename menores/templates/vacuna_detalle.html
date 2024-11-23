@@ -65,13 +65,13 @@
                 <br>
                 <hr>
 
-                <a class="btn btn-primary" href="{% url 'menor_detalle' pk id %}"> Regresar </a>
+                <a class="btn btn-primary" href="{% url 'menor_detalle' pk id %}"><i class="bi bi-caret-left-square-fill"></i> Regresar </a>
                 &nbsp
-                <button class="btn btn-info">
+                <button class="btn btn-info"><i class="bi bi-database-fill-up"></i>
                     Actualizar
                 </button>
                 &nbsp
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVacuna">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVacuna"><i class="bi bi-trash-fill"></i>
                     Eliminar
                 </button>
 
@@ -96,8 +96,8 @@
                 Está seguro de Eliminar el Registro de Vacunación?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="{% url 'vacuna_eliminar' pk id idvac %}" role="button" class="btn btn-danger"> Eliminar </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+                <a href="{% url 'vacuna_eliminar' pk id idvac %}" role="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar </a>
             </div>
         </div>
     </div>

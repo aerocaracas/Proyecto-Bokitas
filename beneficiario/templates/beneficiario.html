@@ -13,19 +13,19 @@
       <hr>
       <div class="row">
         <div class="col">
-          <a class="btn btn-outline-primary mx-2" href="{% url 'beneficiario_crear' %}">
+          <a class="btn btn-outline-primary mx-2" href="{% url 'beneficiario_crear' %}"><i class="bi bi-person-plus-fill"></i>
   
-            Crear Nuevo Beneficiario
+            Nuevo Beneficiario
   
           </a>
           &nbsp
-          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_beneficiario">Exportar Listado</a>
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_beneficiario"><i class="bi bi-filetype-xls"></i> Exportar Listado</a>
         </div>
-        <div class="col">
+        <div class="col-5">
           <form action="" method="POST" class="d-flex">
             {% csrf_token %}
             <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar...">
-            <button class="btn btn-success mx-2" name="search">Buscar</button>
+            <button class="btn btn-success mx-2" name="search"> Buscar</button>
           </form>
         </div>
       </div>
@@ -77,7 +77,7 @@
                 {% csrf_token %}
                 <h6>{{proyect.proyecto | as_crispy_field}}</h6>                
                 <dev class="d-flex justify-content-center">
-                  <button class="btn btn-success mx-2">
+                  <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>
                     Exportar
                   </button>
                 </dev>
@@ -86,7 +86,7 @@
               
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
           </div>
       </div>
   </div>

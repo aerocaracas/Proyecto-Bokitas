@@ -208,13 +208,13 @@
 
         <!-- ########  boton agregar Antropometrico  ##########-->
         {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
-            <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}">
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'imc_menor_crear' pk id %}"><i class="bi bi-clipboard2-pulse-fill"></i>
 
                 Nuevo Control Antropométrico
         
             </a>
         {% else %}
-            <a class="btn btn-outline-secondary btn-sm" href="#">
+            <a class="btn btn-outline-secondary btn-sm" href="#"><i class="bi bi-clipboard2-pulse-fill"></i>
 
                 Nuevo Control Antropométrico
         
@@ -285,13 +285,13 @@
 
         <!-- ########  Boton Agregar Control Medico ##########-->
         {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
-            <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}">
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'medica_crear' pk id %}"><i class="bi bi-heart-pulse-fill"></i>
 
                 Nuevo Control Pediatrico
         
             </a>
         {% else %}
-        <a class="btn btn-outline-secondary btn-sm" href="#">
+        <a class="btn btn-outline-secondary btn-sm" href="#"><i class="bi bi-heart-pulse-fill"></i>
 
             Nuevo Control Pediatrico
     
@@ -337,13 +337,13 @@
 
         <!-- ########  Boton Agregar Control Medico ##########-->
         {% if proyectos.estatus == "ACTIVO" and menor_detalles.estatus == "ACTIVO" %}
-            <a class="btn btn-outline-primary btn-sm" href="{% url 'vacuna_crear' pk id %}">
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'vacuna_crear' pk id %}"><i class="bi bi-eyedropper"></i>
 
                 Nueva Vacuna
         
             </a>
         {% else %}
-        <a class="btn btn-outline-secondary btn-sm" href="#">
+        <a class="btn btn-outline-secondary btn-sm" href="#"><i class="bi bi-eyedropper"></i>
 
             Nueva Vacuna
     
@@ -358,13 +358,13 @@
     <!-- ########  Menu de opciones  ##########-->
   
     <div class="container">
-        <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-primary"> Regresar </a>
+        <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-primary"><i class="bi bi-caret-left-square-fill"></i> Regresar </a>
            
         &nbsp
-        <a href="{% url 'menor_actualizar' pk id %}" class="btn btn-info"> Actualizar </a>
+        <a href="{% url 'menor_actualizar' pk id %}" class="btn btn-info"><i class="bi bi-database-fill-up"></i> Actualizar </a>
            
         &nbsp
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-trash-fill"></i>
             Eliminar
         </button>
         
@@ -387,8 +387,8 @@
                 Esta acción elimina también la información registrada del menor
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+                <a href="{% url 'menor_eliminar' pk id %}" role="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar </a>
             </div>
         </div>
     </div>

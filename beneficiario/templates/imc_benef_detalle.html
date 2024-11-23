@@ -298,10 +298,10 @@
             <br>
             <hr>
             <div class="container">
-                <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-primary"> Regresar </a>
+                <a href="{% url 'beneficiario_detalle' pk %}" class="btn btn-primary"><i class="bi bi-caret-left-square-fill"></i> Regresar </a>
                 
                 &nbsp
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-trash-fill"></i>
                   Eliminar
                 </button>
                 
@@ -324,8 +324,8 @@
                   Está seguro de Eliminar el Registro Antropométrico?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="{% url 'imc_benef_eliminar' pk imc_beneficiarios.id %}" role="button" class="btn btn-danger"> Eliminar </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+                <a href="{% url 'imc_benef_eliminar' pk imc_beneficiarios.id %}" role="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar </a>
             </div>
         </div>
     </div>
