@@ -11,14 +11,6 @@ class ProyectoForm(forms.ModelForm):
         labels = {'proyecto':'Proyecto','estatus':'Estatus','nombre_centro':'Nombre del Centro', 'direccion':'Dirección','estado':'Estado','ciudad':'Ciudad','representante':'Representante','telefono':'Teléfono','correo':'Correo'}
 
 
-class ExpProyectoForm(forms.ModelForm):
-    class Meta:
-        model = Proyecto
-        fields = ['proyecto']
-
-        labels = {'proyecto':'Seleccione el Proyecto'}
-
-
 class JornadaForm(forms.ModelForm):
     class Meta:
         model = Jornada
@@ -27,6 +19,14 @@ class JornadaForm(forms.ModelForm):
         labels = {'jornada':'Seleccione la Jornada','descripcion':'Descripción'}
         
         widgets = {'jornada': NumberInput(attrs={'type':'date'})}
+
+
+class ExpProyectoForm(forms.ModelForm):
+    class Meta:
+        model = Proyecto
+        fields = ['proyecto']
+
+        labels = {'proyecto':'Seleccione el Proyecto'}
 
 
 class ExpJornadaForm(forms.Form):

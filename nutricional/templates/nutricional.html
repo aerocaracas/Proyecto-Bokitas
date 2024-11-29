@@ -3,6 +3,8 @@
 
 {% block content %}   
 
+{% load crispy_forms_tags %}
+
     
     <div class="col-10 offset-1"> 
       <br>
@@ -15,8 +17,19 @@
             Nueva Encuesta
   
           </a>
+
+          &nbsp
+          &nbsp
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto"><i class="bi bi-filetype-xls"></i>
+            Estadística Proyecto
+          </a>
+          
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_jornada"><i class="bi bi-filetype-xls"></i>
+            Estadística Jornada
+          </a>
         </div>
-        <div class="col">
+
+        <div class="col-4">
           <form action="" method="POST" class="d-flex">
             {% csrf_token %}
             <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Buscar cédula...">
@@ -54,6 +67,71 @@
       </div>
       </div>
     </div>
-     
-   
+
+    
+
+<!-- Modal exp_Proyecto -->
+<div class="modal fade" id="exp_proyecto" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_beneficiariooLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exp_beneficiarioLabel">Exportar Información Estadística del Proyecto </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/exportar_proyecto" method="GET">
+                  {% csrf_token %}
+                  <h6>{{expProyectoForm | crispy}}</h6>                
+                  <dev class="d-flex justify-content-center">
+                    <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>
+                      Exportar
+                    </button>
+                  </dev>
+                  
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+<!-- Modal exp_Jornada -->
+<div class="modal fade" id="exp_jornada" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_jornadaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exp_jornadaLabel">Exportar Estadística por Jornada </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+              <form action="exportar_jornada" method="GET">
+                {% csrf_token %}
+
+                <h6>{{expJornadaForm | crispy}}</h6> 
+      
+                <dev class="d-flex justify-content-center">
+                  <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>
+                    Exportar
+                  </button>
+                </dev>
+                
+              </form>
+  
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-caret-left-square-fill"></i> Cancelar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+    
+
+
+
 {% endblock %}

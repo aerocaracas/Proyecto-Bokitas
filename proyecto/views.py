@@ -7,14 +7,13 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
-from django.http import JsonResponse
-import json
+
 
 # Create your views here.
 @login_required      
 def proyecto(request):
     proyectos = Proyecto.objects.all()
-    proyect = ExpProyectoForm
+    expProyectoForm = ExpProyectoForm()
     expJornadaForm = ExpJornadaForm()
     query = ""
     page = request.GET.get('page',1)
@@ -27,7 +26,7 @@ def proyecto(request):
             proyectos = paginator.page(page)
             return render(request, 'proyecto.html',{
                 'entity': proyectos,
-                'proyect':proyect,
+                'expProyectoForm':expProyectoForm,
                 'expJornadaForm':expJornadaForm,
                 'query':query,
                 'paginator': paginator
@@ -38,7 +37,7 @@ def proyecto(request):
             expJornadaForm = ExpJornadaForm(request.POST)
             if expJornadaForm.is_valid():
                 expJornadaForm.save()
-                return redirect('pryectos')
+                return redirect('proyectos')
 
         
     except:
@@ -46,7 +45,7 @@ def proyecto(request):
 
     return render(request, 'proyecto.html',{
         'entity': proyectos,
-        'proyect':proyect,
+        'expProyectoForm':expProyectoForm,
         'expJornadaForm':expJornadaForm,
         'query':query,
         'paginator': paginator

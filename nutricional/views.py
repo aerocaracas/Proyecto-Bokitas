@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from bokitas.models import Beneficiario, Nutricional, Jornada
-from nutricional.forms import NutricionalForm
-from django.core.paginator import Paginator
-from nutricional.forms import NutricionalForm,NutricionalForm2
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from nutricional.forms import NutricionalForm, NutricionalForm2, ExpJornadaForm
+from beneficiario.forms import ExpProyectoForm
 from django.contrib import messages
 
 
@@ -12,22 +13,30 @@ from django.contrib import messages
 @login_required  
 def nutricional(request):
 
-    nutricionales = Nutricional.objects.all()
-    query = ""
-    page = request.GET.get('page',1)
-
-    try:
-        if "search" in request.POST:
+    if "search" in request.POST:
             query = request.POST.get("searchquery")
-            nutricionales = Nutricional.objects.filter(cedula_bef__cedula__contains=query)
-        paginator = Paginator(nutricionales, 15)
-        nutricionales = paginator.page(page)
-    except:
-        raise Http404
+            nutricionales = Nutricional.objects.filter(Q(cedula_bef__cedula__icontains=query)).order_by('cedula_bef')
+    else:
+        query = ""
+        nutricionales = Nutricional.objects.all().order_by('cedula_bef')
+
+    expProyectoForm = ExpProyectoForm
+    expJornadaForm = ExpJornadaForm
+    paginator = Paginator(nutricionales, 10)
+    page_number = request.GET.get('page')
+    
+    try:
+        nutricionales = paginator.page(page_number)
+    except PageNotAnInteger:
+        nutricionales = paginator.page(1)
+    except EmptyPage:
+        nutricionales = paginator.page(paginator.num_pages)
     
     return render(request, 'nutricional.html',{
         'entity': nutricionales,
-        'query': query,
+        'expProyectoForm':expProyectoForm,
+        'expJornadaForm':expJornadaForm,
+        'query':query,
         'paginator': paginator
     })
 
@@ -110,4 +119,9 @@ def load_jornadas_nutri(request):
     proyecto_id = Beneficiario.objects.get(id=beneficiario_id).proyecto_id
     jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
     return render(request, "jornadas_nutricional.html", {"jornadas": jornadas})
+
+def load_jornadas(request):
+    proyecto_id = request.GET.get("proyecto")
+    jornadas = Jornada.objects.filter(proyecto_id=proyecto_id)
+    return render(request, "jornadas_options.html", {"jornadas": jornadas})
 

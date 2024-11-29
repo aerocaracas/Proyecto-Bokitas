@@ -1,6 +1,6 @@
 
 from django import forms
-from bokitas.models import Nutricional, Jornada
+from bokitas.models import Nutricional, Jornada, Proyecto
 
 
 
@@ -202,4 +202,20 @@ class NutricionalForm2(forms.ModelForm):
             'desea_orientacion': forms.RadioSelect(choices=SI_NO_POCA_APLICA),
             'desea_conocimiento': forms.RadioSelect(choices=SI_NO_POCA_APLICA)
         }
+
+
+class ExpJornadaForm(forms.Form):
+    proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(),
+            widget=forms.Select(attrs={"hx-get": "load_jornadas/", "hx-target": "#id_jornada"}))
+    jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jornada'].queryset = Jornada.objects.none()
+
+        if "proyecto" in self.data:
+            proyecto_id = int(self.data.get("proyecto"))
+            self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+
+
 

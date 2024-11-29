@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from bokitas.models import ImcEmbarazada, Diagnostico
 from django.contrib.auth.models import User
-from django.http import Http404
 from datetime import datetime, date
 from dateutil import relativedelta
 from django.contrib import messages

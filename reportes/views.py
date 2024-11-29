@@ -1204,3 +1204,94 @@ class exportar_jornada(TemplateView):
         workbook.save(response)
         return response
     
+
+
+class exportar_nutricional(TemplateView):
+    def get(self, request,  pk, *args, **kwargs):
+        jornada = request.GET.get('jornada')
+        beneficiarios = Beneficiario.objects.filter(id=pk)
+        proyecto = beneficiarios[0].proyecto
+        workbook = Workbook()
+        worksheet = workbook.create_sheet("ESTADISTICA NUTRICIONAL")
+
+    #*********  Crear encabezado en la hoja  *************
+        fecha = datetime.now()
+        fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
+        worksheet.merge_cells('A1:C1')
+        first_cell = worksheet['A1']
+        first_cell.value = "Fecha: " + fecha_fin
+        
+        worksheet.merge_cells('A2:D2')
+        second_cell = worksheet['A2']
+        second_cell.value = "Bokitas"
+        second_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 52, bold = True, color="6F42C1")
+
+        worksheet.merge_cells('A3:D3')
+        third_cell = worksheet['A3']
+        third_cell.value = "Bokitas Fundation    www.bokitas.org"
+        third_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 12, bold = True, color="6F42C1")
+        
+#***********************  DATOS ESTADISTICA NUTRICIONAL  ********************************
+
+    #*********  Registro de Datos  *************
+        worksheet = workbook.worksheets[0]
+        worksheet.merge_cells('A4:P6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        nutricional = Nutricional.objects.filter(proyecto=proyecto,jornada=jornada).order_by('-cedula_bef')
+
+    #**************  Obtener el total de las encuestas  ***************
+        total_encuestados = nutricional.count()
+
+        padre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza="Padre").count()
+        madre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza="Madre").count()
+        abuelo_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza="Abuelo(a)").count()
+        tio_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza="Tio(a)").count()
+        otros_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza="Otros").count()
+
+        padre_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza="Padre").count()
+        madre_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza="Madre").count()
+        abuelo_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza="Abuelo(a)").count()
+        tio_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza="Tio(a)").count()
+        otros_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza="Otros").count()
+        
+        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia="diario").count()
+        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia="2-3 días").count()
+        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia="Semanal").count()
+        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia="Quincenal").count()
+
+    #********* asigna el titulo a los graficos  ************************
+        worksheet = workbook.worksheets[0]
+        worksheet.merge_cells('A5:E5')
+        fourth_cell = worksheet['A5']
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO COCINAR"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")  
+
+        worksheet = workbook.worksheets[0]
+        worksheet.merge_cells('H5:L5')
+        fourth_cell = worksheet['A5']
+        fourth_cell.value = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+
+
+    #**************  Agrega la data a las celdas
+
+        row_num = 7
+
+
+    #*********  Establecer el nombre del Archivo *******
+        nombre_archvo = "Reporte_Estadistica_Nutricional.xlsx"
+    
+    #*********  Definir el tipo de respuesta que se va a dar ***********
+        response = HttpResponse(content_type = "application/ms-excel")
+        contenido = "attachment; filename = {0}".format(nombre_archvo)
+        response["Content-Disposition"] = contenido
+        workbook.save(response)
+        return response
+    
