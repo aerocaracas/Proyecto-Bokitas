@@ -1237,7 +1237,7 @@ class exportar_nutricional(TemplateView):
         worksheet = workbook.worksheets[0]
         worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
-        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO, COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
@@ -1267,7 +1267,7 @@ class exportar_nutricional(TemplateView):
         worksheet = workbook.worksheets[0]
         worksheet.merge_cells('A5:E5')
         fourth_cell = worksheet['A5']
-        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO COCINAR"
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")  
 
