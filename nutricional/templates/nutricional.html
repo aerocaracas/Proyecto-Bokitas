@@ -79,7 +79,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/exportar_proyecto" method="GET">
+                <form action="/estadistica_nutricional_proyecto" method="GET">
                   {% csrf_token %}
                   <h6>{{expProyectoForm | crispy}}</h6>                
                   <dev class="d-flex justify-content-center">

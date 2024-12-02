@@ -8,6 +8,7 @@ from datetime import datetime
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.chart import BarChart, Reference
 
 # Create your views here.
 
@@ -1206,13 +1207,131 @@ class exportar_jornada(TemplateView):
     
 
 
-class exportar_nutricional(TemplateView):
+class estadistica_nutricional_proyecto(TemplateView):
+    def get(self, request, *args, **kwargs):
+        proyecto = request.GET.get('proyecto')
+        workbook = Workbook()
+        worksheet = workbook.create_sheet("ESTADISTICA NUTRICIONAL")
+        wb = Workbook(write_only=True)
+        ws = wb.create_sheet()
+
+    #*********  Crear encabezado en la hoja  *************
+        fecha = datetime.now()
+        fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
+        worksheet.merge_cells('A1:C1')
+        first_cell = worksheet['A1']
+        first_cell.value = "Fecha: " + fecha_fin
+        
+        worksheet.merge_cells('A2:E2')
+        second_cell = worksheet['A2']
+        second_cell.value = "Bokitas"
+        second_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 52, bold = True, color="6F42C1")
+
+        worksheet.merge_cells('A3:E3')
+        third_cell = worksheet['A3']
+        third_cell.value = "Bokitas Fundation    www.bokitas.org"
+        third_cell.font  = Font(name = 'Tw Cen MT Condensed Extra Bold', size = 12, bold = True, color="6F42C1")
+        
+#***********************  DATOS ESTADISTICA NUTRICIONAL  ********************************
+
+    #*********  Registro de Datos  *************
+        #worksheet = workbook.worksheets[0]
+        worksheet.merge_cells('A4:P6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO, COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        nutricional = Nutricional.objects.filter(proyecto=proyecto)
+
+    #********* asigna el titulo a los graficos  ************************
+
+        worksheet = workbook.worksheets[1]
+        worksheet.merge_cells('A7:G7')
+        five_cell = worksheet['A7']
+        five_cell.value = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
+        five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.alignment = Alignment(horizontal="center", vertical="center")  
+
+        worksheet = workbook.worksheets[1]
+        worksheet.merge_cells('J7:O7')
+        six_cell = worksheet['K7']
+        six_cell.value = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+
+
+    #**************  Obtener el total de las encuestas  ***************
+        total_encuestados = nutricional.count()
+
+        padre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Padre").count()
+        madre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Madre").count()
+        abuelo_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Abuelo(a)").count()
+        tio_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Tio(a)").count()
+        otros_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Otros").count()
+
+        padre_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza__icontains="Padre").count()
+        madre_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza__icontains="Madre").count()
+        abuelo_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza__icontains="Abuelo(a)").count()
+        tio_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza__icontains="Tio(a)").count()
+        otros_cocina = nutricional.values("cocina_lorealiza").filter(cocina_lorealiza__icontains="Otros").count()
+        
+        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia__icontains="diario").count()
+        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia__icontains="2-3 días").count()
+        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia__icontains="Semanal").count()
+        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
+
+
+    #**************  Agrega la data a las celdas
+
+        row_num = 7
+        rows = [
+                ('Integrantes', 'Hace Mercado', 'Quien Cocina'),
+                ('Madre', madre_mercado, madre_cocina),
+                ('Padre', padre_mercado, padre_cocina),
+                ('Abuela', abuelo_mercado, abuelo_cocina),
+                ('Tios', tio_mercado, tio_cocina),
+                ('Otros', otros_mercado, otros_cocina),
+            ]
+        for row in rows:
+            ws.append(row)
+        chart1 = BarChart()
+        chart1.type = "col"
+        chart1.style = 10
+        chart1.title = "Bar Chart"
+        chart1.y_axis.title = 'Número de Casos'
+        chart1.x_axis.title = 'Integrantes'
+
+        data = Reference(ws, min_col=2, min_row=1, max_row=7, max_col=3)
+        cats = Reference(ws, min_col=1, min_row=2, max_row=7)
+        chart1.add_data(data, titles_from_data=True)
+        chart1.set_categories(cats)
+        chart1.shape = 4
+        ws.add_chart(chart1, "A12")
+
+
+    #*********  Establecer el nombre del Archivo *******
+        nombre_archvo = "Reporte_Estadistica_Nutricional.xlsx"
+    
+    #*********  Definir el tipo de respuesta que se va a dar ***********
+        response = HttpResponse(content_type = "application/ms-excel")
+        contenido = "attachment; filename = {0}".format(nombre_archvo)
+        response["Content-Disposition"] = contenido
+        workbook.save(response)
+        return response
+    
+
+
+class estadistica_nutricional_jornada(TemplateView):
     def get(self, request,  pk, *args, **kwargs):
         jornada = request.GET.get('jornada')
         beneficiarios = Beneficiario.objects.filter(id=pk)
         proyecto = beneficiarios[0].proyecto
         workbook = Workbook()
         worksheet = workbook.create_sheet("ESTADISTICA NUTRICIONAL")
+        wb = Workbook(write_only=True)
+        ws = wb.create_sheet()
 
     #*********  Crear encabezado en la hoja  *************
         fecha = datetime.now()
@@ -1283,6 +1402,28 @@ class exportar_nutricional(TemplateView):
     #**************  Agrega la data a las celdas
 
         row_num = 7
+        rows = [
+                ('Integrantes', 'Hace Mercado', 'Quien Cocina'),
+                ('Madre', madre_mercado, madre_cocina),
+                ('Padre', padre_mercado, padre_cocina),
+                ('Abuela', abuelo_mercado, abuelo_cocina),
+                ('Tios', tio_mercado, tio_cocina),
+                ('Otros', otros_mercado, otros_cocina),
+            ]
+
+        chart1 = BarChart()
+        chart1.type = "col"
+        chart1.style = 10
+        chart1.title = "Bar Chart"
+        chart1.y_axis.title = 'Número de Casos'
+        chart1.x_axis.title = 'Integrantes'
+
+        data = Reference(ws, min_col=2, min_row=1, max_row=7, max_col=3)
+        cats = Reference(ws, min_col=1, min_row=2, max_row=7)
+        chart1.add_data(data, titles_from_data=True)
+        chart1.set_categories(cats)
+        chart1.shape = 4
+        ws.add_chart(chart1, "A10")
 
 
     #*********  Establecer el nombre del Archivo *******
