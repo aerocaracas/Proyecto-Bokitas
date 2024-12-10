@@ -5,13 +5,11 @@ from django.db.models import Q
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView
 from datetime import datetime
+import openpyxl  
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
-from openpyxl.chart import BarChart, Reference
-from openpyxl.chart.axis import ChartLines
-from openpyxl.chart.shapes import GraphicalProperties
-from openpyxl.drawing.line import LineProperties
+from openpyxl.chart import BarChart, Reference, BarChart3D
 
 # Create your views here.
 
@@ -1213,11 +1211,20 @@ class exportar_jornada(TemplateView):
 class estadistica_nutricional_proyecto(TemplateView):
     def get(self, request, *args, **kwargs):
         proyecto = request.GET.get('proyecto')
+        nutricional = Nutricional.objects.filter(proyecto=proyecto)
+        nombre_proyecto = get_object_or_404(Proyecto, id=proyecto)
+        total_encuestados = nutricional.count()
         wb = Workbook()
         ws = wb.active
         ws.title = "ESTADISTICA NUTRICIONAL"
+        thin = Side(border_style="thin", color="000000")
 
     #*********  Crear encabezado en la hoja  *************
+
+        for column in ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S'): 
+            ws.column_dimensions[column].width = 20
+    
+
         fecha = datetime.now()
         fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
         ws.merge_cells('A1:C1')
@@ -1236,30 +1243,35 @@ class estadistica_nutricional_proyecto(TemplateView):
         
 #***********************  DATOS ESTADISTICA NUTRICIONAL  ********************************
 
-    #*********  Registro de Datos  *************
-        ws.merge_cells('A4:V6')
+        #*********  Tutulo Principal  *************
+        ws.merge_cells('A4:S6')
         fourth_cell = ws['A4']
-        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO, COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
+        fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + ", CON UN TOTAL DE ESNCUESTADOS DE: " + str(total_encuestados)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
+    
+    
+    #*********  Titulo de la Primera Pregunta  *************
+        ws.merge_cells('A8:S10')
+        fourth_cell = ws['A8']
+        fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO, COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        nutricional = Nutricional.objects.filter(proyecto=proyecto)
-
     #********* asigna el titulo a los graficos  ************************
-        ws.merge_cells('A7:J7')
-        five_cell = ws['A7']
+        ws.merge_cells('A11:G11')
+        five_cell = ws['A11']
         five_cell.value = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
         five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
         five_cell.alignment = Alignment(horizontal="center", vertical="center")  
 
-        ws.merge_cells('L7:V7')
-        six_cell = ws['L7']
+        ws.merge_cells('L11:S11')
+        six_cell = ws['L11']
         six_cell.value = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
         six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
         six_cell.alignment = Alignment(horizontal="center", vertical="center") 
 
     #**************  Obtener el total de las encuestas  ***************
-        total_encuestados = nutricional.count()
 
         padre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Padre").count()
         madre_mercado = nutricional.values("mercado_lorealiza").filter(mercado_lorealiza__icontains="Madre").count()
@@ -1279,10 +1291,10 @@ class estadistica_nutricional_proyecto(TemplateView):
         fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
 
 
-    #**************  Agrega la data a las celdas
+    #**************  Agrega la data a las celdas  ***************************
 
-        row_num = 7
-        rows = [
+    #**************  RESPONSABLE DE HACER EL MERCADO Y COCINAR  *********
+        datos = [
                 ('Integrantes', 'Quíen Hace Mercado', 'Quíen Cocina'),
                 ('Madre', madre_mercado, madre_cocina),
                 ('Padre', padre_mercado, padre_cocina),
@@ -1290,28 +1302,252 @@ class estadistica_nutricional_proyecto(TemplateView):
                 ('Tios', tio_mercado, tio_cocina),
                 ('Otros', otros_mercado, otros_cocina),
             ]
-        for row in rows:
-            ws.append(row)
+        for row, cell_value in enumerate(datos, 12):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 3):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+               # if row == 12:
+               #     adjusted_width = (len(cell.value) + 2) * 1.2
+               #     ws.column_dimensions[get_column_letter(col_num)].width = adjusted_width
         
-        chart1 = BarChart()
+        chart1 = BarChart3D()
         chart1.type = "col"
         chart1.style = 10
         chart1.title = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
         chart1.y_axis.title = 'Número de Casos'
         chart1.x_axis.title = 'Integrantes'
-        #chart1.y_axis.majorGridlines = True  
-        #chart1.x_axis.majorGridlines = True 
-        chart1.width = 10  # Ancho en pulgadas  
+        chart1.width = 14  # Ancho en pulgadas  
         chart1.height = 7  # Altura en pulgadas
 
-        data = Reference(ws, min_col=2, min_row=8, max_row=13, max_col=3)
-        cats = Reference(ws, min_col=1, min_row=9, max_row=13)
+        data = Reference(ws, min_col=4, min_row=13, max_row=18, max_col=5)
+        cats = Reference(ws, min_col=3, min_row=14, max_row=18)
         chart1.add_data(data, titles_from_data=True)
         chart1.set_categories(cats)
-         
-        # chart1.shape = 4
-        ws.add_chart(chart1, "B15")
+    
+        ws.add_chart(chart1, "B19")
 
+
+
+    #**************  FRECUENCIA DE LA COMPRA DE ALIMENTOS  *********
+        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia__icontains="diario").count()
+        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia__icontains="2-3 días").count()
+        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia__icontains="Semanal").count()
+        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
+
+        #********* asigna los Datos a las celdas  ************************
+        datos = [
+                ('Compras', 'Frecuencia de la Compra'),
+                ('Diaria', fecuencia_diario),
+                ('2-3 días', fecuencia_2_3),
+                ('Semanal', fecuencia_semanal),
+                ('Quincenal', fecuencia_quincenal),
+            ]
+        
+        for row, cell_value in enumerate(datos, 12):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 15):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                #if row == 12:
+                #    adjusted_width = (len(cell.value) + 2) * 1.2
+                #    ws.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Frecuencia de la Compra'
+        chart2.width = 14  # Ancho en pulgadas  
+        chart2.height = 7  # Altura en pulgadas
+
+        data = Reference(ws, min_col=16, min_row=13, max_row=17)
+        cats = Reference(ws, min_col=15, min_row=14, max_row=17)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "M19")
+
+
+
+
+#*********  Titulo de la Segunda Pregunta  *************
+        ws.merge_cells('A35:S37')
+        fourth_cell = ws['A35']
+        fourth_cell.value = "APETITO, COMIDAS Y MERIENDAS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+    #********* asigna el titulo a los graficos  ************************
+        ws.merge_cells('A38:G38')
+        five_cell = ws['A38']
+        five_cell.value = "COMO ES EL APETITO"
+        five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.alignment = Alignment(horizontal="center", vertical="center")  
+
+        ws.merge_cells('H38:N38')
+        six_cell = ws['H38']
+        six_cell.value = "COMIDAS AL DIA"
+        six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+        ws.merge_cells('O38:U38')
+        seven_cell = ws['O38']
+        seven_cell.value = "CUANTAS MERIENDAS"
+        seven_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        seven_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+    #**************  Obtener el total de las encuestas  ***************
+
+        apetito_bueno = nutricional.values("apetito").filter(apetito__icontains="Bueno").count()
+        apetito_regular = nutricional.values("apetito").filter(apetito__icontains="Regular").count()
+        apetito_malo = nutricional.values("apetito").filter(apetito__icontains="Malo").count()
+        apetito_elevado = nutricional.values("apetito").filter(apetito__icontains="Elevado").count()
+
+        comidas_una = nutricional.values("cuantas_comidas").filter(cuantas_comidas__icontains="1 Comida").count()
+        comidas_dos = nutricional.values("cuantas_comidas").filter(cuantas_comidas__icontains="2 Comidas").count()
+        comidas_tres = nutricional.values("cuantas_comidas").filter(cuantas_comidas__icontains="3 Comidas").count()
+
+        meriendas_una = nutricional.values("meriendas").filter(meriendas__icontains="1 Merienda").count()
+        meriendas_dos = nutricional.values("meriendas").filter(meriendas__icontains="2 Meriendas").count()
+        meriendas_tres = nutricional.values("meriendas").filter(meriendas__icontains="3 Meriendas").count()
+        meriendas_ninguna = nutricional.values("meriendas").filter(meriendas__icontains="Ninguna").count()
+
+    #**************  Agrega la data a las celdas  ***************************
+
+    #**************  COMO ES EL APETITO  *********
+        datos = [
+                ('Apetiro', 'Resultados'),
+                ('Bueno', apetito_bueno),
+                ('Regular', apetito_regular),
+                ('Malo', apetito_malo),
+                ('Elevado', apetito_elevado),
+            ]
+        
+        for row, cell_value in enumerate(datos, 39):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 3):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Frecuencia de la Compra'
+        chart2.width = 13  # Ancho en pulgadas  
+        chart2.height = 7  # Altura en pulgadas
+
+        data = Reference(ws, min_col=16, min_row=13, max_row=17)
+        cats = Reference(ws, min_col=15, min_row=14, max_row=17)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "B46")
+
+
+
+    #**************  FRECUENCIA DE LA COMPRA DE ALIMENTOS  *********
+        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia__icontains="diario").count()
+        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia__icontains="2-3 días").count()
+        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia__icontains="Semanal").count()
+        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
+
+        #********* asigna los Datos a las celdas  ************************
+        datos = [
+                ('Integrantes', 'Frecuencia de la Compra'),
+                ('Diaria', fecuencia_diario),
+                ('2-3 días', fecuencia_2_3),
+                ('Semanal', fecuencia_semanal),
+                ('Quincenal', fecuencia_quincenal),
+            ]
+        
+        for row, cell_value in enumerate(datos, 12):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 15):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Frecuencia de la Compra'
+        chart2.width = 14  # Ancho en pulgadas  
+        chart2.height = 7  # Altura en pulgadas
+
+        data = Reference(ws, min_col=16, min_row=13, max_row=17)
+        cats = Reference(ws, min_col=15, min_row=14, max_row=17)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "M19")
+
+
+
+
+
+    #**************  FRECUENCIA DE LA COMPRA DE ALIMENTOS  *********
+        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia__icontains="diario").count()
+        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia__icontains="2-3 días").count()
+        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia__icontains="Semanal").count()
+        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
+
+        #********* asigna los Datos a las celdas  ************************
+        datos = [
+                ('Integrantes', 'Frecuencia de la Compra'),
+                ('Diaria', fecuencia_diario),
+                ('2-3 días', fecuencia_2_3),
+                ('Semanal', fecuencia_semanal),
+                ('Quincenal', fecuencia_quincenal),
+            ]
+        
+        for row, cell_value in enumerate(datos, 12):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 15):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Frecuencia de la Compra'
+        chart2.width = 14  # Ancho en pulgadas  
+        chart2.height = 7  # Altura en pulgadas
+
+        data = Reference(ws, min_col=16, min_row=13, max_row=17)
+        cats = Reference(ws, min_col=15, min_row=14, max_row=17)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "M19")
+
+
+
+
+
+
+
+
+#*-*-*-*-*-*-*-*-*-**-*    final de la seccion de la hoja   *-*-*-*-*-*-*-*-*
 
     #*********  Establecer el nombre del Archivo *******
         nombre_archvo = "Reporte_Nutricional_Proyecto.xlsx"
