@@ -1244,7 +1244,7 @@ class estadistica_nutricional_proyecto(TemplateView):
 #***********************  DATOS ESTADISTICA NUTRICIONAL  ********************************
 
         #*********  Tutulo Principal  *************
-        ws.merge_cells('A4:O6')
+        ws.merge_cells('A4:P6')
         fourth_cell = ws['A4']
         fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + ", CON UN TOTAL DE ESNCUESTADOS DE: " + str(total_encuestados)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
@@ -1252,8 +1252,8 @@ class estadistica_nutricional_proyecto(TemplateView):
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
     
     
-    #*********  Titulo de la Primera Pregunta  *************
-        ws.merge_cells('A8:O10')
+#**********************       TITULO DE LA PRIMERA PREGUNTA    *********************
+        ws.merge_cells('A8:P9')
         fourth_cell = ws['A8']
         fourth_cell.value = "RESPONSABLE DE HACER EL MERCADO, COCINAR Y FRECUENCIA DE COMPRA DE ALIMENTOS"
         fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
@@ -1261,16 +1261,18 @@ class estadistica_nutricional_proyecto(TemplateView):
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
     #********* asigna el titulo a los graficos  ************************
-        ws.merge_cells('B11:E11')
-        five_cell = ws['B11']
+        ws.merge_cells('D11:G11')
+        five_cell = ws['D11']
         five_cell.value = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
         five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.fill = PatternFill("solid", fgColor="C6E2FF")
         five_cell.alignment = Alignment(horizontal="center", vertical="center")  
 
-        ws.merge_cells('L11:O11')
-        six_cell = ws['L11']
+        ws.merge_cells('J11:M11')
+        six_cell = ws['J11']
         six_cell.value = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
         six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.fill = PatternFill("solid", fgColor="C6E2FF")
         six_cell.alignment = Alignment(horizontal="center", vertical="center") 
 
     #**************  Obtener el total de las encuestas  ***************
@@ -1306,7 +1308,7 @@ class estadistica_nutricional_proyecto(TemplateView):
             ]
         for row, cell_value in enumerate(datos, 12):
             ws.cell(row=row+1, column=13)
-            for col_num, cell_value in enumerate(cell_value, 2):
+            for col_num, cell_value in enumerate(cell_value, 4):
                 cell = ws.cell(row=row+1, column=col_num)
                 cell.value = cell_value
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
@@ -1318,22 +1320,18 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart1.title = "RESPONSABLE DE HACER EL MERCADO Y COCINAR"
         chart1.y_axis.title = 'Número de Casos'
         chart1.x_axis.title = 'Integrantes'
-        chart1.width = 14  # Ancho en pulgadas  
-        chart1.height = 7  # Altura en pulgadas
+        chart1.width = 15  # Ancho en pulgadas  
+        chart1.height = 8  # Altura en pulgadas
 
-        data = Reference(ws, min_col=3, min_row=13, max_row=18, max_col=4)
-        cats = Reference(ws, min_col=2, min_row=14, max_row=18)
+        data = Reference(ws, min_col=5, min_row=13, max_row=18, max_col=6)
+        cats = Reference(ws, min_col=4, min_row=14, max_row=18)
         chart1.add_data(data, titles_from_data=True)
         chart1.set_categories(cats)
     
-        ws.add_chart(chart1, "B19")
+        ws.add_chart(chart1, "D19")
 
 
     #**************  FRECUENCIA DE LA COMPRA DE ALIMENTOS  *********
-        fecuencia_diario = nutricional.values("frecuencia").filter(frecuencia__icontains="diario").count()
-        fecuencia_2_3 = nutricional.values("frecuencia").filter(frecuencia__icontains="2-3 días").count()
-        fecuencia_semanal = nutricional.values("frecuencia").filter(frecuencia__icontains="Semanal").count()
-        fecuencia_quincenal = nutricional.values("frecuencia").filter(frecuencia__icontains="Quincenal").count()
 
         #********* asigna los Datos a las celdas  ************************
         datos = [
@@ -1346,7 +1344,7 @@ class estadistica_nutricional_proyecto(TemplateView):
         
         for row, cell_value in enumerate(datos, 12):
             ws.cell(row=row+1, column=13)
-            for col_num, cell_value in enumerate(cell_value, 13):
+            for col_num, cell_value in enumerate(cell_value, 11):
                 cell = ws.cell(row=row+1, column=col_num)
                 cell.value = cell_value
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
@@ -1358,19 +1356,19 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart2.title = "FRECUENCIA DE LA COMPRA DE ALIMENTOS"
         chart2.y_axis.title = 'Número de Casos'
         chart2.x_axis.title = 'Frecuencia de la Compra'
-        chart2.width = 14  # Ancho en pulgadas  
-        chart2.height = 7  # Altura en pulgadas
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
 
-        data = Reference(ws, min_col=14, min_row=13, max_row=17)
-        cats = Reference(ws, min_col=13, min_row=14, max_row=17)
+        data = Reference(ws, min_col=12, min_row=13, max_row=17)
+        cats = Reference(ws, min_col=11, min_row=14, max_row=17)
         chart2.add_data(data, titles_from_data=True)
         chart2.set_categories(cats)
     
-        ws.add_chart(chart2, "L19")
+        ws.add_chart(chart2, "J19")
 
 
-#*********  Titulos de la Segunda Pregunta  *************
-        ws.merge_cells('A35:O37')
+#**********************       TITULO DE LA SEGUNDA PREGUNTA    *********************
+        ws.merge_cells('A35:P36')
         fourth_cell = ws['A35']
         fourth_cell.value = "APETITO, COMIDAS Y MERIENDAS"
         fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
@@ -1382,18 +1380,21 @@ class estadistica_nutricional_proyecto(TemplateView):
         five_cell = ws['B38']
         five_cell.value = "COMO ES EL APETITO"
         five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.fill = PatternFill("solid", fgColor="C6E2FF")
         five_cell.alignment = Alignment(horizontal="center", vertical="center")  
 
         ws.merge_cells('G38:J38')
         six_cell = ws['G38']
         six_cell.value = "COMIDAS AL DIA"
         six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.fill = PatternFill("solid", fgColor="C6E2FF")
         six_cell.alignment = Alignment(horizontal="center", vertical="center") 
 
         ws.merge_cells('L38:O38')
         seven_cell = ws['L38']
         seven_cell.value = "CUANTAS MERIENDAS"
         seven_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        seven_cell.fill = PatternFill("solid", fgColor="C6E2FF")
         seven_cell.alignment = Alignment(horizontal="center", vertical="center") 
 
     #**************  Obtener el total de las encuestas  ***************
@@ -1438,8 +1439,8 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart2.title = "FRECUENCIA DEL APETITO"
         chart2.y_axis.title = 'Número de Casos'
         chart2.x_axis.title = 'Frecuencia del Apetito'
-        chart2.width = 13  # Ancho en pulgadas  
-        chart2.height = 7  # Altura en pulgadas
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
 
         data = Reference(ws, min_col=4, min_row=40, max_row=44)
         cats = Reference(ws, min_col=3, min_row=41, max_row=44)
@@ -1471,8 +1472,8 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart2.title = "COMIDAS AL DIA"
         chart2.y_axis.title = 'Número de Casos'
         chart2.x_axis.title = 'Frecuencia de Comidas al Día'
-        chart2.width = 13  # Ancho en pulgadas  
-        chart2.height = 7  # Altura en pulgadas
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
 
         data = Reference(ws, min_col=9, min_row=40, max_row=43)
         cats = Reference(ws, min_col=8, min_row=41, max_row=43)
@@ -1505,8 +1506,8 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart2.title = "FRECUENCIA DE LAS MERIENDAS"
         chart2.y_axis.title = 'Número de Casos'
         chart2.x_axis.title = 'Frecuencia de la Merienda'
-        chart2.width = 14  # Ancho en pulgadas  
-        chart2.height = 7  # Altura en pulgadas
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
 
         data = Reference(ws, min_col=14, min_row=40, max_row=44)
         cats = Reference(ws, min_col=13, min_row=41, max_row=44)
@@ -1514,6 +1515,354 @@ class estadistica_nutricional_proyecto(TemplateView):
         chart2.set_categories(cats)
     
         ws.add_chart(chart2, "L46")
+
+#**********************       TITULO DE LA TERCESA PREGUNTA    *********************
+        ws.merge_cells('A62:P63')
+        fourth_cell = ws['A62']
+        fourth_cell.value = "GRUPOS DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        fourth_cell.fill = PatternFill("solid", fgColor="E6E6FA")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+    #********* asigna el titulo a los graficos  ************************
+        ws.merge_cells('D65:G65')
+        five_cell = ws['D65']
+        five_cell.value = "CUANTOS GRUPOS ESTAN PRESENTES EN LA ALIMENTACION"
+        five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.fill = PatternFill("solid", fgColor="C6E2FF")
+        five_cell.alignment = Alignment(horizontal="center", vertical="center")  
+
+        ws.merge_cells('J65:M65')
+        six_cell = ws['J65']
+        six_cell.value = "CUALES SON LOS GRUPOS PRESENTES"
+        six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.fill = PatternFill("solid", fgColor="C6E2FF")
+        six_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+    #**************  Obtener el total de las encuestas  ***************
+
+        grupo_1_2 = nutricional.values("cuantos_grupos").filter(cuantos_grupos__icontains="1 - 2").count()
+        grupo_2_3 = nutricional.values("cuantos_grupos").filter(cuantos_grupos__icontains="2 - 3").count()
+        grupo_3_4 = nutricional.values("cuantos_grupos").filter(cuantos_grupos__icontains="3 - 4").count()
+        grupo_4_5 = nutricional.values("cuantos_grupos").filter(cuantos_grupos__icontains="4 - 5").count()
+        grupo_5_6 = nutricional.values("cuantos_grupos").filter(cuantos_grupos__icontains="5 - 6").count()
+
+        grupo_1 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Cereales y Leguminosas").count()
+        grupo_2 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Frutas y Verduras").count()
+        grupo_3 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Leche Yogures y Quesos").count()
+        grupo_4 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Grasas y Aceites").count()
+        grupo_5 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Dulces").count()
+        grupo_6 = nutricional.values("cuantos_grupos").filter(tipo_grupos__icontains="Carnes y Huevos").count()
+
+    #**************  Agrega la data a las celdas  ***************************
+
+    #**************  CUANTOS GRUPOS ESTAN PRESENTES EN LA ALIMENTACION  *********
+        datos = [
+                ('Grupos', 'Presentes'),
+                ('1 - 2', grupo_1_2),
+                ('2 - 3', grupo_2_3),
+                ('3 - 4', grupo_3_4),
+                ('4 - 5', grupo_4_5),
+                ('5 - 6', grupo_5_6),
+            ]
+        for row, cell_value in enumerate(datos, 66):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 5):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+        
+        chart1 = BarChart3D()
+        chart1.type = "col"
+        chart1.style = 10
+        chart1.title = "GRUPOS PRESENTES EN LA ALIMENTACION"
+        chart1.y_axis.title = 'Número de Casos'
+        chart1.x_axis.title = 'Grupos de Alimentos'
+        chart1.width = 15  # Ancho en pulgadas  
+        chart1.height = 8  # Altura en pulgadas
+
+        data = Reference(ws, min_col=6, min_row=67, max_row=72)
+        cats = Reference(ws, min_col=5, min_row=68, max_row=72)
+        chart1.add_data(data, titles_from_data=True)
+        chart1.set_categories(cats)
+    
+        ws.add_chart(chart1, "D73")
+
+
+    #**************  FRECUENCIA DEL CONSUMO DE LOS GRUPOS  *********
+
+        #********* asigna los Datos a las celdas  ************************
+        datos = [
+                ('Grupos', 'Grupos Presentes'),
+                ('Grupo 1', grupo_1),
+                ('Grupo 2', grupo_2),
+                ('Grupo 3', grupo_3),
+                ('Grupo 4', grupo_4),
+                ('Grupo 5', grupo_5),
+                ('Grupo 6', grupo_6),
+            ]
+        
+        for row, cell_value in enumerate(datos, 65):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 11):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "CUALES GRUPOS SE PRESENTAN EN LA ALIMENTACION"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Frecuencia de la Grupos'
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
+
+        data = Reference(ws, min_col=12, min_row=66, max_row=72)
+        cats = Reference(ws, min_col=11, min_row=67, max_row=72)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "J73")
+
+
+#**********************       TITULO DE LA CUARTA PREGUNTA    *********************
+        ws.merge_cells('A89:P90')
+        fourth_cell = ws['A89']
+        fourth_cell.value = "FRECUENCIA DEL CONSUMO DE LOS ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        fourth_cell.fill = PatternFill("solid", fgColor="E6E6FA")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+    #********* asigna el titulo a los graficos  ************************
+        ws.merge_cells('E92:L92')
+        five_cell = ws['E92']
+        five_cell.value = "FRECUENCIA DEL CONSUMO"
+        five_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        five_cell.fill = PatternFill("solid", fgColor="C6E2FF")
+        five_cell.alignment = Alignment(horizontal="center", vertical="center")  
+
+    #**************  Obtener el total de las encuestas  ***************
+
+        cereales_1 = nutricional.values("cereales").filter(cereales__icontains="0/7 días").count()
+        cereales_2 = nutricional.values("cereales").filter(cereales__icontains="1-2/7 días").count()
+        cereales_3 = nutricional.values("cereales").filter(cereales__icontains="3-5/7 días").count()
+        cereales_4 = nutricional.values("cereales").filter(cereales__icontains="7/7 días").count()
+        cereales_5 = nutricional.values("cereales").filter(cereales__icontains="1-2/15 días").count()
+        cereales_6 = nutricional.values("cereales").filter(cereales__icontains="1-2/30 días").count()
+
+        vegetales_1 = nutricional.values("vegetales").filter(vegetales__icontains="0/7 días").count()
+        vegetales_2 = nutricional.values("vegetales").filter(vegetales__icontains="1-2/7 días").count()
+        vegetales_3 = nutricional.values("vegetales").filter(vegetales__icontains="3-5/7 días").count()
+        vegetales_4 = nutricional.values("vegetales").filter(vegetales__icontains="7/7 días").count()
+        vegetales_5 = nutricional.values("vegetales").filter(vegetales__icontains="1-2/15 días").count()
+        vegetales_6 = nutricional.values("vegetales").filter(vegetales__icontains="1-2/30 días").count()
+
+        frutas_1 = nutricional.values("frutas").filter(frutas__icontains="0/7 días").count()
+        frutas_2 = nutricional.values("frutas").filter(frutas__icontains="1-2/7 días").count()
+        frutas_3 = nutricional.values("frutas").filter(frutas__icontains="3-5/7 días").count()
+        frutas_4 = nutricional.values("frutas").filter(frutas__icontains="7/7 días").count()
+        frutas_5 = nutricional.values("frutas").filter(frutas__icontains="1-2/15 días").count()
+        frutas_6 = nutricional.values("frutas").filter(frutas__icontains="1-2/30 días").count()
+
+        carnes_1 = nutricional.values("carnes").filter(carnes__icontains="0/7 días").count()
+        carnes_2 = nutricional.values("carnes").filter(carnes__icontains="1-2/7 días").count()
+        carnes_3 = nutricional.values("carnes").filter(carnes__icontains="3-5/7 días").count()
+        carnes_4 = nutricional.values("carnes").filter(carnes__icontains="7/7 días").count()
+        carnes_5 = nutricional.values("carnes").filter(carnes__icontains="1-2/15 días").count()
+        carnes_6 = nutricional.values("carnes").filter(carnes__icontains="1-2/30 días").count()
+
+        pollo_1 = nutricional.values("pollo").filter(pollo__icontains="0/7 días").count()
+        pollo_2 = nutricional.values("pollo").filter(pollo__icontains="1-2/7 días").count()
+        pollo_3 = nutricional.values("pollo").filter(pollo__icontains="3-5/7 días").count()
+        pollo_4 = nutricional.values("pollo").filter(pollo__icontains="7/7 días").count()
+        pollo_5 = nutricional.values("pollo").filter(pollo__icontains="1-2/15 días").count()
+        pollo_6 = nutricional.values("pollo").filter(pollo__icontains="1-2/30 días").count()
+
+        pescado_1 = nutricional.values("pescado").filter(pescado__icontains="0/7 días").count()
+        pescado_2 = nutricional.values("pescado").filter(pescado__icontains="1-2/7 días").count()
+        pescado_3 = nutricional.values("pescado").filter(pescado__icontains="3-5/7 días").count()
+        pescado_4 = nutricional.values("pescado").filter(pescado__icontains="7/7 días").count()
+        pescado_5 = nutricional.values("pescado").filter(pescado__icontains="1-2/15 días").count()
+        pescado_6 = nutricional.values("pescado").filter(pescado__icontains="1-2/30 días").count()
+
+        embutidos_1 = nutricional.values("embutidos").filter(embutidos__icontains="0/7 días").count()
+        embutidos_2 = nutricional.values("embutidos").filter(embutidos__icontains="1-2/7 días").count()
+        embutidos_3 = nutricional.values("embutidos").filter(embutidos__icontains="3-5/7 días").count()
+        embutidos_4 = nutricional.values("embutidos").filter(embutidos__icontains="7/7 días").count()
+        embutidos_5 = nutricional.values("embutidos").filter(embutidos__icontains="1-2/15 días").count()
+        embutidos_6 = nutricional.values("embutidos").filter(embutidos__icontains="1-2/30 días").count()
+
+        viceras_1 = nutricional.values("viceras").filter(viceras__icontains="0/7 días").count()
+        viceras_2 = nutricional.values("viceras").filter(viceras__icontains="1-2/7 días").count()
+        viceras_3 = nutricional.values("viceras").filter(viceras__icontains="3-5/7 días").count()
+        viceras_4 = nutricional.values("viceras").filter(viceras__icontains="7/7 días").count()
+        viceras_5 = nutricional.values("viceras").filter(viceras__icontains="1-2/15 días").count()
+        viceras_6 = nutricional.values("viceras").filter(viceras__icontains="1-2/30 días").count()
+
+        grasas_1 = nutricional.values("grasas").filter(grasas__icontains="0/7 días").count()
+        grasas_2 = nutricional.values("grasas").filter(grasas__icontains="1-2/7 días").count()
+        grasas_3 = nutricional.values("grasas").filter(grasas__icontains="3-5/7 días").count()
+        grasas_4 = nutricional.values("grasas").filter(grasas__icontains="7/7 días").count()
+        grasas_5 = nutricional.values("grasas").filter(grasas__icontains="1-2/15 días").count()
+        grasas_6 = nutricional.values("grasas").filter(grasas__icontains="1-2/30 días").count()
+
+        lacteos_1 = nutricional.values("lacteos").filter(lacteos__icontains="0/7 días").count()
+        lacteos_2 = nutricional.values("lacteos").filter(lacteos__icontains="1-2/7 días").count()
+        lacteos_3 = nutricional.values("lacteos").filter(lacteos__icontains="3-5/7 días").count()
+        lacteos_4 = nutricional.values("lacteos").filter(lacteos__icontains="7/7 días").count()
+        lacteos_5 = nutricional.values("lacteos").filter(lacteos__icontains="1-2/15 días").count()
+        lacteos_6 = nutricional.values("lacteos").filter(lacteos__icontains="1-2/30 días").count()
+
+        huevos_1 = nutricional.values("huevos").filter(huevos__icontains="0/7 días").count()
+        huevos_2 = nutricional.values("huevos").filter(huevos__icontains="1-2/7 días").count()
+        huevos_3 = nutricional.values("huevos").filter(huevos__icontains="3-5/7 días").count()
+        huevos_4 = nutricional.values("huevos").filter(huevos__icontains="7/7 días").count()
+        huevos_5 = nutricional.values("huevos").filter(huevos__icontains="1-2/15 días").count()
+        huevos_6 = nutricional.values("huevos").filter(huevos__icontains="1-2/30 días").count()
+
+        leguminosas_1 = nutricional.values("leguminosas").filter(leguminosas__icontains="0/7 días").count()
+        leguminosas_2 = nutricional.values("leguminosas").filter(leguminosas__icontains="1-2/7 días").count()
+        leguminosas_3 = nutricional.values("leguminosas").filter(leguminosas__icontains="3-5/7 días").count()
+        leguminosas_4 = nutricional.values("leguminosas").filter(leguminosas__icontains="7/7 días").count()
+        leguminosas_5 = nutricional.values("leguminosas").filter(leguminosas__icontains="1-2/15 días").count()
+        leguminosas_6 = nutricional.values("leguminosas").filter(leguminosas__icontains="1-2/30 días").count()
+
+        tuberculos_1 = nutricional.values("tuberculos").filter(tuberculos__icontains="0/7 días").count()
+        tuberculos_2 = nutricional.values("tuberculos").filter(tuberculos__icontains="1-2/7 días").count()
+        tuberculos_3 = nutricional.values("tuberculos").filter(tuberculos__icontains="3-5/7 días").count()
+        tuberculos_4 = nutricional.values("tuberculos").filter(tuberculos__icontains="7/7 días").count()
+        tuberculos_5 = nutricional.values("tuberculos").filter(tuberculos__icontains="1-2/15 días").count()
+        tuberculos_6 = nutricional.values("tuberculos").filter(tuberculos__icontains="1-2/30 días").count()
+
+        charcuteria_1 = nutricional.values("charcuteria").filter(charcuteria__icontains="0/7 días").count()
+        charcuteria_2 = nutricional.values("charcuteria").filter(charcuteria__icontains="1-2/7 días").count()
+        charcuteria_3 = nutricional.values("charcuteria").filter(charcuteria__icontains="3-5/7 días").count()
+        charcuteria_4 = nutricional.values("charcuteria").filter(charcuteria__icontains="7/7 días").count()
+        charcuteria_5 = nutricional.values("charcuteria").filter(charcuteria__icontains="1-2/15 días").count()
+        charcuteria_6 = nutricional.values("charcuteria").filter(charcuteria__icontains="1-2/30 días").count()
+
+    #**************  Agrega la data a las celdas  ***************************
+
+    #**************  RESPONSABLE DE HACER EL MERCADO Y COCINAR  *********
+        datos = [
+                ('Alimentos', '0/7 días', '1-2/7 días', '3-5/7 días', '7/7 días', '1-2/15 días', '1-2/30 días'),
+                ('Cereales', cereales_1, cereales_2, cereales_3, cereales_4, cereales_5, cereales_6),
+                ('Vegetales', vegetales_1, vegetales_2, vegetales_3, vegetales_4, vegetales_5, vegetales_6),
+                ('Frutas', frutas_1, frutas_2, frutas_3, frutas_4, frutas_5, frutas_6),
+                ('Carnes', carnes_1, carnes_2, carnes_3, carnes_4, carnes_5, carnes_6),
+                ('Pollo', pollo_1, pollo_2, pollo_3, pollo_4, pollo_5, pollo_6),
+                ('Pescado', pescado_1, pescado_2, pescado_3, pescado_4, pescado_5, pescado_6),
+                ('Embutidos', embutidos_1, embutidos_2, embutidos_3, embutidos_4, embutidos_5, embutidos_6),
+                ('Viceras', viceras_1, viceras_2, viceras_3, viceras_4, viceras_5, viceras_6),
+                ('Grasas', grasas_1, grasas_2, grasas_3, grasas_4, grasas_5, grasas_6),
+                ('Lacteos', lacteos_1, lacteos_2, lacteos_3, lacteos_4, lacteos_5, lacteos_6),
+                ('Huevos', huevos_1, huevos_2, huevos_3, huevos_4, huevos_5, huevos_6),
+                ('Leguminosas', leguminosas_1, leguminosas_2, leguminosas_3, leguminosas_4, leguminosas_5, leguminosas_6),
+                ('Tuberculos', tuberculos_1, tuberculos_2, tuberculos_3, tuberculos_4, tuberculos_5, tuberculos_6),
+                ('Charcuteria', charcuteria_1, charcuteria_2, charcuteria_3, charcuteria_4, charcuteria_5, charcuteria_6),
+            ]
+        for row, cell_value in enumerate(datos, 93):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 6):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+        
+        chart1 = BarChart3D()
+        chart1.type = "col"
+        chart1.style = 10
+        chart1.title = "FRECUENCIA DEL CONSUMO DE ALIMENTOS"
+        chart1.y_axis.title = 'Número de Casos'
+        chart1.x_axis.title = 'Alimentos'
+        chart1.width = 44  # Ancho en pulgadas  
+        chart1.height = 12  # Altura en pulgadas
+
+        data = Reference(ws, min_col=7, min_row=94, max_row=109, max_col=12)
+        cats = Reference(ws, min_col=6, min_row=95, max_row=109)
+        chart1.add_data(data, titles_from_data=True)
+        chart1.set_categories(cats)
+    
+        ws.add_chart(chart1, "C110")
+
+
+#**********************       TITULO DE LA QUINTA PREGUNTA    *********************
+        ws.merge_cells('A135:P136')
+        fourth_cell = ws['A135']
+        fourth_cell.value = "POCO CONSUMO DE ALIMENTOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        fourth_cell.fill = PatternFill("solid", fgColor="E6E6FA")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+    #********* asigna el titulo a los graficos  ************************
+
+        ws.merge_cells('G138:J138')
+        six_cell = ws['G138']
+        six_cell.value = "POCO CONSUMO DE VEGETALES FRUTAS Y VICERAS"
+        six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.fill = PatternFill("solid", fgColor="C6E2FF")
+        six_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+    #**************  Obtener el total de las encuestas  ***************
+
+        poco_vegetales_1 = nutricional.values("poco_vegetales").filter(poco_vegetales__icontains="Rechazo").count()
+        poco_vegetales_2 = nutricional.values("poco_vegetales").filter(poco_vegetales__icontains="prepararlo").count()
+        poco_vegetales_3 = nutricional.values("poco_vegetales").filter(poco_vegetales__icontains="costosos").count()
+        poco_vegetales_4 = nutricional.values("poco_vegetales").filter(poco_vegetales__icontains="acostumbrados").count()
+
+        poco_frutas_1 = nutricional.values("poco_frutas").filter(poco_frutas__icontains="Rechazo").count()
+        poco_frutas_2 = nutricional.values("poco_frutas").filter(poco_frutas__icontains="prepararlo").count()
+        poco_frutas_3 = nutricional.values("poco_frutas").filter(poco_frutas__icontains="costosos").count()
+        poco_frutas_4 = nutricional.values("poco_frutas").filter(poco_frutas__icontains="acostumbrados").count()
+
+        poco_viceras_1 = nutricional.values("poco_viceras").filter(poco_viceras__icontains="Rechazo").count()
+        poco_viceras_2 = nutricional.values("poco_viceras").filter(poco_viceras__icontains="prepararlo").count()
+        poco_viceras_3 = nutricional.values("poco_viceras").filter(poco_viceras__icontains="costosos").count()
+        poco_viceras_4 = nutricional.values("poco_viceras").filter(poco_viceras__icontains="acostumbrados").count()
+        
+
+    #**************  Agrega la data a las celdas  ***************************
+
+    #**************  CONSUMO DE VEGETALES, FRUTAS Y VICERAS  *********
+        datos = [
+                ('Poco Consumo', 'Vegetales', 'Frutas', 'Viceras'),
+                ('Por Rechazo', poco_vegetales_1, poco_frutas_1, poco_viceras_1),
+                ('No sabe prepararlo', poco_vegetales_2, poco_frutas_2, poco_viceras_2),
+                ('Están muy costosos', poco_vegetales_3, poco_frutas_3, poco_viceras_3),
+                ('No están acostumbrados', poco_vegetales_4, poco_frutas_4, poco_viceras_4),
+            ]
+        
+        for row, cell_value in enumerate(datos, 139):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 7):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "POCO CONSUMO DE ALIMENTOS"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Causas de poco consumo'
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
+
+        data = Reference(ws, min_col=8, min_row=140, max_row=144, max_col=10)
+        cats = Reference(ws, min_col=7, min_row=141, max_row=144)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "G146")
+
+
+
+
 
 
 
