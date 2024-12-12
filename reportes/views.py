@@ -1246,7 +1246,7 @@ class estadistica_nutricional_proyecto(TemplateView):
         #*********  Tutulo Principal  *************
         ws.merge_cells('A4:P6')
         fourth_cell = ws['A4']
-        fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + ", CON UN TOTAL DE ESNCUESTADOS DE: " + str(total_encuestados)
+        fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + ", CON UN TOTAL DE ESNCUESTADOS: " + str(total_encuestados)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
         fourth_cell.fill = PatternFill("solid", fgColor="E2D9F3")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
@@ -1861,6 +1861,74 @@ class estadistica_nutricional_proyecto(TemplateView):
         ws.add_chart(chart2, "G146")
 
 
+
+
+
+
+
+
+
+#**********************       TITULO DE LA SEXTA PREGUNTA    *********************
+        ws.merge_cells('A162:P163')
+        fourth_cell = ws['A162']
+        fourth_cell.value = "AYUDA ECONOMICA Y BONOS"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        fourth_cell.fill = PatternFill("solid", fgColor="E6E6FA")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+    #********* asigna el titulo a los graficos  ************************
+
+        ws.merge_cells('G165:J165')
+        six_cell = ws['G165']
+        six_cell.value = "RECIBE ALGUNA AYUDA ECONOMICA Y ALGUN BONO"
+        six_cell.font  = Font(name = 'Tahoma', size = 12, bold = True, color="333399")
+        six_cell.fill = PatternFill("solid", fgColor="C6E2FF")
+        six_cell.alignment = Alignment(horizontal="center", vertical="center") 
+
+    #**************  Obtener el total de las encuestas  ***************
+
+        recibe_bono = nutricional.values("bonos").filter(bonos__icontains="Si").count()
+        recibe_clap = nutricional.values("clap").filter(clap__icontains="Si").count()
+        recibe_iglesia = nutricional.values("iglesia").filter(iglesia__icontains="Si").count()
+        recibe_familiar = nutricional.values("familiar").filter(familiar__icontains="Si").count()
+        recibe_pensionado = nutricional.values("pensionado").filter(pensionado__icontains="Si").count()
+
+    #**************  Agrega la data a las celdas  ***************************
+
+    #**************  RECIBE ALGUNA AYUDA ECONOMICA O BONO  *********
+        datos = [
+                ('Ayuda Economica', 'Recibidos'),
+                ('Algún Bono', recibe_bono),
+                ('CALP', recibe_clap),
+                ('Iglesia', recibe_iglesia),
+                ('Familiar', recibe_familiar),
+                ('Pensionado', recibe_pensionado),
+            ]
+        
+        for row, cell_value in enumerate(datos, 166):
+            ws.cell(row=row+1, column=13)
+            for col_num, cell_value in enumerate(cell_value, 8):
+                cell = ws.cell(row=row+1, column=col_num)
+                cell.value = cell_value
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                
+
+        chart2 = BarChart3D()
+        chart2.type = "col"
+        chart2.style = 10
+        chart2.title = "AYUDA ECONOMICA Y ALGUN BONO"
+        chart2.y_axis.title = 'Número de Casos'
+        chart2.x_axis.title = 'Ayudas y Bonos'
+        chart2.width = 15  # Ancho en pulgadas  
+        chart2.height = 8  # Altura en pulgadas
+
+        data = Reference(ws, min_col=9, min_row=167, max_row=172)
+        cats = Reference(ws, min_col=8, min_row=168, max_row=172)
+        chart2.add_data(data, titles_from_data=True)
+        chart2.set_categories(cats)
+    
+        ws.add_chart(chart2, "G173")
 
 
 
