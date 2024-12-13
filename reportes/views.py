@@ -1,15 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from bokitas.models import Proyecto, Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Jornada, Nutricional
 from django.db.models import Q
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView
 from datetime import datetime
-import openpyxl  
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
-from openpyxl.chart import BarChart, Reference, BarChart3D
+from openpyxl.chart import Reference, BarChart3D
 
 # Create your views here.
 
