@@ -82,7 +82,7 @@
             <div class="modal-body">
                 <form action="/estadistica_nutricional_proyecto" method="GET">
                   {% csrf_token %}
-                  <h6>{{expProyectoForm_nutri | crispy}}</h6>                
+                  <h6>{{nutriExpProyectoForm | crispy}}</h6>                
                   <dev class="d-flex justify-content-center">
                     <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>
                       Exportar
@@ -113,7 +113,7 @@
               <form action="/estadistica_nutricional_jornada" method="GET">
                 {% csrf_token %}
 
-                <h6>{{expJornadaForm_nutri | crispy}}</h6> 
+                <h6>{{nutriExpJornadaForm | crispy}}</h6> 
       
                 <dev class="d-flex justify-content-center">
                   <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>

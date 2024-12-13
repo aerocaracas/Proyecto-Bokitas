@@ -204,7 +204,7 @@ class NutricionalForm2(forms.ModelForm):
         }
 
 
-class ExpJornadaForm(forms.Form):
+class NutriExpJornadaForm(forms.Form):
     proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(),
             widget=forms.Select(attrs={"hx-get": "load_jornadas/", "hx-target": "#id_jornada"}))
     jornada = forms.ModelChoiceField(queryset=Jornada.objects.none())
@@ -216,6 +216,7 @@ class ExpJornadaForm(forms.Form):
         if "proyecto" in self.data:
             proyecto_id = int(self.data.get("proyecto"))
             self.fields["jornada"].queryset = Jornada.objects.filter(proyecto_id=proyecto_id)
+
 
 
 
