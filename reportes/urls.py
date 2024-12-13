@@ -1,6 +1,6 @@
 from django.urls import path
 from reportes import views
-from reportes.views import exportar_proyecto, exportar_jornada, exp_beneficiario_detalle, listado_beneficiario, listado_menores,estadistica_nutricional_proyecto
+from reportes.views import exportar_proyecto, exportar_jornada, exp_beneficiario_detalle, listado_beneficiario, listado_menores,estadistica_nutricional_proyecto,estadistica_nutricional_jornada
 
 urlpatterns = [
     path('exportar_proyecto/', exportar_proyecto.as_view(), name = 'exportar_proyecto'),
@@ -9,5 +9,6 @@ urlpatterns = [
     path('listado_beneficiario/', listado_beneficiario.as_view(), name = 'listado_beneficiario'),
     path('listado_menores/', listado_menores.as_view(), name = 'listado_menores'),
     path('estadistica_nutricional_proyecto/', estadistica_nutricional_proyecto.as_view(), name = 'estadistica_nutricional_proyecto'),
+    path('estadistica_nutricional_jornada/', estadistica_nutricional_jornada.as_view(), name = 'estadistica_nutricional_jornada'),
 
 ]

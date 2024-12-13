@@ -109,7 +109,7 @@
           </div>
           <div class="modal-body">
 
-              <form action="exportar_jornada" method="GET">
+              <form action="/estadistica_nutricional_jornada" method="GET">
                 {% csrf_token %}
 
                 <h6>{{expJornadaForm | crispy}}</h6> 
