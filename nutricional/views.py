@@ -34,8 +34,8 @@ def nutricional(request):
     
     return render(request, 'nutricional.html',{
         'entity': nutricionales,
-        'expProyectoForm':expProyectoForm,
-        'expJornadaForm':expJornadaForm,
+        'expProyectoForm_nutri':expProyectoForm,
+        'expJornadaForm_nutri':expJornadaForm,
         'query':query,
         'paginator': paginator
     })

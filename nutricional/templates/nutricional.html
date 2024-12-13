@@ -20,11 +20,11 @@
 
           &nbsp
           &nbsp
-          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto"><i class="bi bi-filetype-xls"></i>
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_proyecto_nutri"><i class="bi bi-filetype-xls"></i>
             Estadística Proyecto
           </a>
           
-          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_jornada"><i class="bi bi-filetype-xls"></i>
+          <a class="btn btn-outline-primary"class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exp_jornada_nutri"><i class="bi bi-filetype-xls"></i>
             Estadística Jornada
           </a>
         </div>
@@ -70,8 +70,9 @@
 
     
 
-<!-- Modal exp_Proyecto -->
-<div class="modal fade" id="exp_proyecto" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_beneficiariooLabel" aria-hidden="true">
+
+  <!-- Modal exp_Proyecto Nutricional -->
+  <div class="modal fade" id="exp_proyecto_nutri" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_beneficiariooLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,7 +82,7 @@
             <div class="modal-body">
                 <form action="/estadistica_nutricional_proyecto" method="GET">
                   {% csrf_token %}
-                  <h6>{{expProyectoForm | crispy}}</h6>                
+                  <h6>{{expProyectoForm_nutri | crispy}}</h6>                
                   <dev class="d-flex justify-content-center">
                     <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>
                       Exportar
@@ -96,11 +97,11 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
 
   
-<!-- Modal exp_Jornada -->
-<div class="modal fade" id="exp_jornada" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_jornadaLabel" aria-hidden="true">
+<!-- Modal exp_Jornada Nutricional -->
+<div class="modal fade" id="exp_jornada_nutri" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exp_jornadaLabel" aria-hidden="true">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -112,7 +113,7 @@
               <form action="/estadistica_nutricional_jornada" method="GET">
                 {% csrf_token %}
 
-                <h6>{{expJornadaForm | crispy}}</h6> 
+                <h6>{{expJornadaForm_nutri | crispy}}</h6> 
       
                 <dev class="d-flex justify-content-center">
                   <button class="btn btn-success mx-2"><i class="bi bi-filetype-xls"></i>

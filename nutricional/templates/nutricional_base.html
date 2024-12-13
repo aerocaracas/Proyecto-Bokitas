@@ -425,25 +425,11 @@
     <div class="col-6 d-flex justify-content-center">
         <h5>Conoce sobre los beneficios de la lactancia materna?</h5>
     </div>
-    <div class="col-6  d-flex justify-content-center">
-        <h5>Se encuentra Embarazada?</h5>
-    </div>
-    <div class="col-6 d-flex justify-content-center">
-        {{form.conoce_beneficio | as_crispy_field}}
-    </div>
-
-    <div class="col-6 d-flex justify-content-center">
-        {{form.embarazo | as_crispy_field}}
-    </div>
-    <hr>
-    <div class="col-6 d-flex justify-content-center">
-        <h5>Se encuentra Lactando?</h5>
-    </div>
     <div class="col-6 d-flex justify-content-center">
         <h5>Desea amamantar a tu bebé cuando nazca?</h5>
     </div>
     <div class="col-6 d-flex justify-content-center">
-        {{form.lactando | as_crispy_field}}
+        {{form.conoce_beneficio | as_crispy_field}}
     </div>
     <div class="col-6 d-flex justify-content-center">
         {{form.desea_amamantar | as_crispy_field}}
