@@ -1251,7 +1251,7 @@ class estadistica_nutricional_proyecto(TemplateView):
 
         ws.merge_cells('A6:P6')
         fourth_cell = ws['A6']
-        fourth_cell.value = "TOTAL DE ESNCUESTADOS: " + str(total_encuestados)
+        fourth_cell.value = "TOTAL DE ENCUESTADOS: " + str(total_encuestados)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
         fourth_cell.fill = PatternFill("solid", fgColor="E2D9F3")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
@@ -2640,14 +2640,14 @@ class estadistica_nutricional_jornada(TemplateView):
         #*********  Tutulo Principal  *************
         ws.merge_cells('A4:P5')
         fourth_cell = ws['A4']
-        fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + " DE LA JORNADA: " + str(nombre_jornada)
+        fourth_cell.value = "ESTADISTICA NUTRICIONAL DEL PROYECTO: " + str(nombre_proyecto) + " DE LA JORNADA: " + str(nombre_jornada.jornada)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
         fourth_cell.fill = PatternFill("solid", fgColor="E2D9F3")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
 
         ws.merge_cells('A6:P6')
         fourth_cell = ws['A6']
-        fourth_cell.value = "TOTAL DE ESNCUESTADOS: " + str(total_encuestados)
+        fourth_cell.value = "TOTAL DE ENCUESTADOS: " + str(total_encuestados)
         fourth_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
         fourth_cell.fill = PatternFill("solid", fgColor="E2D9F3")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center") 
