@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from bokitas.models import Proyecto, Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Jornada, Nutricional
+from bokitas.models import Proyecto, Beneficiario, Menor, Familia, AntropBef, AntropMenor, Medicamento, Jornada, Nutricional, Vacunas, Medica
 from django.db.models import Q
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView
@@ -19,7 +19,7 @@ class exportar_proyecto(TemplateView):
         fecha = datetime.now()
         fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
         
-        hojas = ["REGISTRO BENEFICIARIOS","REGISTRO MENORES","ANTROPOMETRICOS MENORES","ANTROPOMETRICO EMBARAZADAS","ANTROPOMETRICO LACTANTE","MEDICAMENTOS Y PRODUCTOS"]
+        hojas = ["REGISTRO BENEFICIARIOS","REGISTRO MENORES","ANTROPOMETRICOS MENORES","CONTROL PEDIATRICO","REGISTRO DE VACUNACION","ANTROPOMETRICO EMBARAZADAS","ANTROPOMETRICO LACTANTE","MEDICAMENTOS Y PRODUCTOS"]
 
         for hoja in hojas: 
             if bandera:
@@ -228,10 +228,143 @@ class exportar_proyecto(TemplateView):
                             cell.alignment = Alignment(horizontal="left")
 
 
+
+
+
+#***********************  HOJA DE DATOS PEDIATRIA  ********************************
+
+    #*********  Registro de Datos de Consulta Pediatrica  *************
+        worksheet = workbook.worksheets[3]
+        worksheet.merge_cells('A4:P6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "REGISTROS DEL CONTROL PEDIATRICO "
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        pediatrico = Medica.objects.filter(proyecto=proyecto).order_by('-cedula_bef')
+
+        #**************  Obtener el total de Menores  ***************
+        total_menores = menores.count()
+        total_activos = menores.values("estatus").filter(estatus="ACTIVO").count()
+        total_altas = menores.values("estatus").filter(estatus="ALTA").count()
+        total_egresos = menores.values("estatus").filter(estatus="EGRESO").count()
+        total_desincorporados = menores.values("estatus").filter(estatus="DESINCORPORADO").count()
+        total_menores_5 = menores.values("edad").filter(edad__lte=5).count()
+        total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
+
+        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
+        row_num = 7
+        thin = Side(border_style="thin", color="000000")
+        double = Side(border_style="double", color="000000")
+
+    #********* asigna el titulo a las columnas  ************************
+        for col_num, column_title in enumerate(titulos, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.fill = PatternFill("solid", fgColor="E2D9F3")
+            cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
+            cell.font  = Font(bold=True, size = 14, color="333399")
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+    #**************  Agrega la data a las celdas
+        for menor in menores:
+            row_num += 1
+            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y'),menor.estatus]
+
+            for col_num, cell_value in enumerate(datos, 1):
+                cell = worksheet.cell(row=row_num, column=col_num)
+                cell.value = str(cell_value)
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15 or col_num == 16:
+                    cell.alignment = Alignment(horizontal="center")
+
+        #**************  Agrega el total de Menores  ************************
+        row_num += 2
+        worksheet.merge_cells('A'+str(row_num+1)+':B'+str(row_num+1))
+        cell = worksheet.cell(row=row_num+1, column=1)
+        cell.value = "Total de Menores: " +' ' + str(total_menores)
+        cell2 = worksheet.cell(row=row_num+2, column=1)
+        cell2.value = "Total de Activos: " +' ' + str(total_activos)
+        cell3 = worksheet.cell(row=row_num+3, column=1)
+        cell3.value = "Total de Altas: " +' ' + str(total_altas)
+        cell4 = worksheet.cell(row=row_num+4, column=1)
+        cell4.value = "Total de Egresos: " +' ' + str(total_egresos)
+        cell5 = worksheet.cell(row=row_num+5, column=1)
+        cell5.value = "Total de Desincorporados: " +' ' + str(total_desincorporados)
+        cell6 = worksheet.cell(row=row_num+6, column=1)
+        cell6.value = "Total de Menores de 5 años: " +' ' + str(total_menores_5)
+        cell7 = worksheet.cell(row=row_num+7, column=1)
+        cell7.value = "Total de Menores de 2 años: " +' ' + str(total_menores_2)
+
+
+
+
+
+
+
+#******************  HOJA DE DATOS VACUNAS DEL MENORES  ***********************
+
+    #*********  Registro de Datos de las Vacunas de los Menores  *************
+        worksheet = workbook.worksheets[4]
+        worksheet.merge_cells('A4:N6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "REGISTRO DE VACUNACION DEL MENOR"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        vacunas = Vacunas.objects.filter(proyecto_id=proyecto).order_by('cedula_id').select_related('cedula')
+
+        titulos = ['PROYECTO', 'JORNADA','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','FECHA JORNADA','VACUNA','DOSIS','OBSERVACION']
+        row_num = 7
+        thin = Side(border_style="thin", color="000000")
+        double = Side(border_style="double", color="000000")
+
+    #********* asigna el titulo a las columnas  ************************
+        for col_num, column_title in enumerate(titulos, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.fill = PatternFill("solid", fgColor="E2D9F3")
+            cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
+            cell.font  = Font(bold=True, size = 14, color="333399")
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+    #**************  Agrega la data a las celdas
+        xCedula = 0
+
+        for vacuna in vacunas:
+            row_num += 1
+            datos = [vacuna.proyecto,vacuna.jornada,vacuna.cedula.cedula_bef,vacuna.cedula.cedula,vacuna.cedula.nombre,vacuna.cedula.apellido,vacuna.cedula.sexo,vacuna.cedula.fecha_nac.strftime('%d-%m-%Y'),vacuna.edad,vacuna.meses,vacuna.creado.strftime('%d-%m-%Y'),vacuna.vacuna,vacuna.dosis,vacuna.observacion]
+
+            if imc.cedula.cedula != xCedula:
+                for col_num, cell_value in enumerate(datos, 1):
+                    cell = worksheet.cell(row=row_num, column=col_num)
+                    cell.value = str(cell_value)
+                    cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                    cell.alignment = Alignment(horizontal="center")
+                    if col_num == 1 or col_num == 2 or col_num == 4 or col_num == 12 or col_num == 14:
+                        cell.alignment = Alignment(horizontal="left")
+
+                xCedula = imc.cedula.cedula
+            else:
+                for col_num, cell_value in enumerate(datos, 1):
+                    if col_num > 10:
+                        cell = worksheet.cell(row=row_num, column=col_num)
+                        cell.value = str(cell_value)
+                        cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                        cell.alignment = Alignment(horizontal="center")
+                        if col_num == 12 or col_num == 14:
+                            cell.alignment = Alignment(horizontal="left")
+                        
+
+
 #*************  HOJA DE DATOS ANTROPOMETRICOS EMBARAZADAS  *********************
 
     #*********  Registro de Datos antropometricos Embarazadas  *************
-        worksheet = workbook.worksheets[3]
+        worksheet = workbook.worksheets[5]
         worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DATOS ANTROPOMETRICOS EMBARAZADAS"
@@ -288,7 +421,7 @@ class exportar_proyecto(TemplateView):
 #*************  HOJA DE DATOS ANTROPOMETRICOS LACTANTES  *********************
 
     #*********  Registro de Datos antropometricos Lactante  *************
-        worksheet = workbook.worksheets[4]
+        worksheet = workbook.worksheets[6]
         worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DATOS ANTROPOMETRICOS LACTANTES"
@@ -344,7 +477,7 @@ class exportar_proyecto(TemplateView):
 #*************  HOJA DE DATOS ENTREGA MEDICAMENTOS PRODUCTOS  *********************
 
     #*********  Registro de Datos DATOS ENTREGA MEDICAMENTOS  *************
-        worksheet = workbook.worksheets[5]
+        worksheet = workbook.worksheets[7]
         worksheet.merge_cells('A4:H6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DE ENTREGA DE MEDICAMENTOS Y PRODUCTOS"
@@ -384,7 +517,8 @@ class exportar_proyecto(TemplateView):
                     cell.alignment = Alignment(horizontal="left")
 
 
-    #*********  Establecer el nombre del Archivo *******
+
+#********************  Establecer el nombre del Archivo ***********************
         nombre_archvo = "Reporte_por_Proyecto.xlsx"
     
     #*********  Definir el tipo de respuesta que se va a dar ***********
