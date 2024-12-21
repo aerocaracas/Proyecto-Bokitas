@@ -228,14 +228,11 @@ class exportar_proyecto(TemplateView):
                             cell.alignment = Alignment(horizontal="left")
 
 
-
-
-
 #***********************  HOJA DE DATOS PEDIATRIA  ********************************
 
     #*********  Registro de Datos de Consulta Pediatrica  *************
         worksheet = workbook.worksheets[3]
-        worksheet.merge_cells('A4:AM6')
+        worksheet.merge_cells('A4:AK6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTROS DEL CONTROL PEDIATRICO"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
@@ -244,18 +241,18 @@ class exportar_proyecto(TemplateView):
         pediatricos = Medica.objects.filter(proyecto=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
 
         #**************  Obtener el total de Menores  ***************
-        total_consultas = Medica.count()
-        total_consulta_menores_5 = Medica.values("edad").filter(edad__lte=5).count()
-        total_consulta_menores_2 = Medica.values("edad").filter(edad__lte=2).count()
-        total_sanos = Medica.values("examen_fisico").filter(examen_fisico="SANO").count()
-        total_anormal = Medica.values("examen_fisico").filter(examen_fisico="ANORMAL").count()
-        total_NinoSano = Medica.values("sano").filter(sano=1).count()
-        recomendacion_lactancia = Medica.values("asesor_lactancia").filter(asesor_lactancia=1).count()
-        recomendacion_nutricional = Medica.values("recomen_nutricional").filter(recomen_nutricional=1).count()
-        recomendacion_psicologia = Medica.values("refe_psicologica").filter(refe_psicologica=1).count()
-        recomendacion_vitaminas = Medica.values("vitaminas").filter(vitaminas=1).count()
-        recomendacion_lacktokiana = Medica.values("lacktokiana").filter(lacktokiana=1).count()
-        recomendacion_prokids = Medica.values("prokids").filter(prokids=1).count()
+        total_consultas = pediatricos.count()
+        total_consulta_menores_5 = pediatricos.values("edad").filter(edad__lte=5).count()
+        total_consulta_menores_2 = pediatricos.values("edad").filter(edad__lte=2).count()
+        total_sanos = pediatricos.values("examen_fisico").filter(examen_fisico="SANO").count()
+        total_anormal = pediatricos.values("examen_fisico").filter(examen_fisico="ANORMAL").count()
+        total_NinoSano = pediatricos.values("sano").filter(sano=1).count()
+        recomendacion_lactancia = pediatricos.values("asesor_lactancia").filter(asesor_lactancia=1).count()
+        recomendacion_nutricional = pediatricos.values("recomen_nutricional").filter(recomen_nutricional=1).count()
+        recomendacion_psicologia = pediatricos.values("refe_psicologica").filter(refe_psicologica=1).count()
+        recomendacion_vitaminas = pediatricos.values("vitaminas").filter(vitaminas=1).count()
+        recomendacion_lacktokiana = pediatricos.values("lacktokiana").filter(lacktokiana=1).count()
+        recomendacion_prokids = pediatricos.values("prokids").filter(prokids=1).count()
 
 
         titulos = ['PROYECTO','JORNADA','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','EXAMEN FISICO','NIÑO SANO','TRAUMATISMOS','ALERGIA','CEFALEA','BRONKITIS Y RINITIS','INFECCION RESPIRATORIA','FARINGOAMIGDALITIS','SINUSITIS','PARASITOSIS','DIARREAS','DERMATITIS','OTITIS','CARIES','ADSESOS DENTALES','OTRO DIAGNOSTICO','PACIENTE DESPARACITADO','FAMILIAR DESPARACITADO','ACIDO FOLICO','HIERRO','VITAMINAS Y MINERALES','ASESOR LACTANCIA','RECOMENDACION NUTRICIONAL','REFERENCIA PSICOLOGICA','VITAMINAS','LACKTOKIANA','PROKIDS']
@@ -277,28 +274,48 @@ class exportar_proyecto(TemplateView):
     #**************  Agrega la data a las celdas
         for pedi in pediatricos:
             row_num += 1
-            datos = [pedi.proyecto,pedi.jornada,pedi.cedula_bef,pedi.cedula,pedi.cedula.nombre,pedi.cedula.apellido,pedi.cedula.sexo,pedi.cedula.fecha_nac.strftime('%d-%m-%Y'),pedi.edad,pedi.meses,pedi.examen_fisico,pedi.sano,pedi.traumatismo,pedi.alergia,pedi.cefalea,pedi.rinitis,pedi.infeccion,pedi.faringoamigdalitis,pedi.sinusitis,pedi.parasitosis,pedi.diarreas,pedi.dermatitis,pedi.otitis,pedi.caries,pedi.abscesos,pedi.otros_varios,pedi.desp_menor,pedi.desp_familia,pedi.folico,pedi.hierro,pedi.minerales,pedi.asesor_lactancia,pedi.recomen_nutricional,pedi.refe_psicologica,pedi.vitaminas,pedi.lacktokiana,pedi.prokids]
+            datos = [pedi.proyecto,pedi.jornada,pedi.cedula_bef,pedi.cedula.cedula,pedi.cedula.nombre,pedi.cedula.apellido,pedi.cedula.sexo,pedi.cedula.fecha_nac.strftime('%d-%m-%Y'),pedi.edad,pedi.meses,pedi.examen_fisico,pedi.sano,pedi.traumatismo,pedi.alergia,pedi.cefalea,pedi.rinitis,pedi.infeccion,pedi.faringoamigdalitis,pedi.sinusitis,pedi.parasitosis,pedi.diarreas,pedi.dermatitis,pedi.otitis,pedi.caries,pedi.abscesos,pedi.otros_varios,pedi.desp_menor,pedi.desp_familia,pedi.folico,pedi.hierro,pedi.minerales,pedi.asesor_lactancia,pedi.recomen_nutricional,pedi.refe_psicologica,pedi.vitaminas,pedi.lacktokiana,pedi.prokids]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
-                cell.value = str(cell_value)
+                if cell_value == True:
+                    cell.value = 'SI'
+                elif cell_value == False:
+                        cell.value = ' '
+                else:
+                    cell.value = str(cell_value)
                 cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
-                if col_num == 3 or col_num == 8 or col_num == 9 or col_num == 10 or col_num == 11 or col_num == 12 or col_num == 15 or col_num == 16:
-                    cell.alignment = Alignment(horizontal="center")
+                cell.alignment = Alignment(horizontal="center")
+                if col_num == 1 or col_num == 2 or col_num == 3 or col_num == 5 or col_num == 6:
+                   cell.alignment = Alignment(horizontal="left")
 
         #**************  Agrega el total de Menores  ************************
         row_num += 2
         worksheet.merge_cells('A'+str(row_num+1)+':B'+str(row_num+1))
         cell = worksheet.cell(row=row_num+1, column=1)
         cell.value = "Total de Menores en Consulta: " +' ' + str(total_consultas)
-        cell2 = worksheet.cell(row=row_num+6, column=1)
+        cell2 = worksheet.cell(row=row_num+2, column=1)
         cell2.value = "Total de Menores de 5 años: " +' ' + str(total_consulta_menores_5)
-        cell3 = worksheet.cell(row=row_num+7, column=1)
+        cell3 = worksheet.cell(row=row_num+3, column=1)
         cell3.value = "Total de Menores de 2 años: " +' ' + str(total_consulta_menores_2)
-
-
-
-
+        cell4 = worksheet.cell(row=row_num+4, column=1)
+        cell4.value = "Total en Examen Físico Sano: " +' ' + str(total_sanos)
+        cell5 = worksheet.cell(row=row_num+5, column=1)
+        cell5.value = "Total en Examen Físico Anormal: " +' ' + str(total_anormal)
+        cell6 = worksheet.cell(row=row_num+6, column=1)
+        cell6.value = "Total en Diagnóstico Niño Sano: " +' ' + str(total_NinoSano)
+        cell7 = worksheet.cell(row=row_num+7, column=1)
+        cell7.value = "Total Recomendación de Asesoría en Lactancia: " +' ' + str(recomendacion_lactancia)
+        cell8 = worksheet.cell(row=row_num+8, column=1)
+        cell8.value = "Total Recomendación de Asesoría Nutricional: " +' ' + str(recomendacion_nutricional)
+        cell9 = worksheet.cell(row=row_num+9, column=1)
+        cell9.value = "Total Recomendación de Referencia Psicológica: " +' ' + str(recomendacion_psicologia)
+        cell10 = worksheet.cell(row=row_num+10, column=1)
+        cell10.value = "Total Recomendación de Vitaminas: " +' ' + str(recomendacion_vitaminas)
+        cell11 = worksheet.cell(row=row_num+11, column=1)
+        cell11.value = "Total Recomendación de Lacktokiana: " +' ' + str(recomendacion_lacktokiana)
+        cell12 = worksheet.cell(row=row_num+12, column=1)
+        cell12.value = "Total Recomendación de Prokids: " +' ' + str(recomendacion_prokids)
 
 
 
@@ -1027,7 +1044,7 @@ class exportar_jornada(TemplateView):
         fecha = datetime.now()
         fecha_fin = fecha.strftime('%d-%m-%Y - hora: %H:%m')
         
-        hojas = ["REGISTRO MENORES","ANTROPOMETRICO MENOR","REGISTRO DE EMBARAZADAS","REGISTRO DE LACTANTES","MEDICAMENTOS Y PRODUCTOS"]
+        hojas = ["REGISTRO MENORES","ANTROPOMETRICO MENOR","CONTROL PEDIATRICO","REGISTRO DE VACUNACION","REGISTRO DE EMBARAZADAS","REGISTRO DE LACTANTES","MEDICAMENTOS Y PRODUCTOS"]
 
         for hoja in hojas: 
             if bandera:
@@ -1118,6 +1135,7 @@ class exportar_jornada(TemplateView):
         cell7 = worksheet.cell(row=row_num+7, column=1)
         cell7.value = "Total de Menores de 2 años: " +' ' + str(total_menores_2)
 
+
 #*************  HOJA DE DATOS ANTROPOMETRICOS DEL MENORES  *********************
 
     #*********  Registro de Datos antropometricos Menores  *************
@@ -1175,10 +1193,163 @@ class exportar_jornada(TemplateView):
 
 
 
+#***********************  HOJA DE CONTROL PEDIATRIA  ********************************
+
+    #*********  Registro de Datos de Consulta Pediatrica  *************
+        worksheet = workbook.worksheets[2]
+        worksheet.merge_cells('A4:AK6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "REGISTROS DEL CONTROL PEDIATRICO"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        pediatricos = Medica.objects.filter(proyecto=proyecto,jornada=jornada).order_by('-cedula_bef','cedula_id').select_related('cedula')
+
+        #**************  Obtener el total de Menores  ***************
+        total_consultas = pediatricos.count()
+        total_consulta_menores_5 = pediatricos.values("edad").filter(edad__lte=5).count()
+        total_consulta_menores_2 = pediatricos.values("edad").filter(edad__lte=2).count()
+        total_sanos = pediatricos.values("examen_fisico").filter(examen_fisico="SANO").count()
+        total_anormal = pediatricos.values("examen_fisico").filter(examen_fisico="ANORMAL").count()
+        total_NinoSano = pediatricos.values("sano").filter(sano=1).count()
+        recomendacion_lactancia = pediatricos.values("asesor_lactancia").filter(asesor_lactancia=1).count()
+        recomendacion_nutricional = pediatricos.values("recomen_nutricional").filter(recomen_nutricional=1).count()
+        recomendacion_psicologia = pediatricos.values("refe_psicologica").filter(refe_psicologica=1).count()
+        recomendacion_vitaminas = pediatricos.values("vitaminas").filter(vitaminas=1).count()
+        recomendacion_lacktokiana = pediatricos.values("lacktokiana").filter(lacktokiana=1).count()
+        recomendacion_prokids = pediatricos.values("prokids").filter(prokids=1).count()
+
+
+        titulos = ['PROYECTO','JORNADA','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','EXAMEN FISICO','NIÑO SANO','TRAUMATISMOS','ALERGIA','CEFALEA','BRONKITIS Y RINITIS','INFECCION RESPIRATORIA','FARINGOAMIGDALITIS','SINUSITIS','PARASITOSIS','DIARREAS','DERMATITIS','OTITIS','CARIES','ADSESOS DENTALES','OTRO DIAGNOSTICO','PACIENTE DESPARACITADO','FAMILIAR DESPARACITADO','ACIDO FOLICO','HIERRO','VITAMINAS Y MINERALES','ASESOR LACTANCIA','RECOMENDACION NUTRICIONAL','REFERENCIA PSICOLOGICA','VITAMINAS','LACKTOKIANA','PROKIDS']
+        row_num = 7
+        thin = Side(border_style="thin", color="000000")
+        double = Side(border_style="double", color="000000")
+
+    #********* asigna el titulo a las columnas  ************************
+        for col_num, column_title in enumerate(titulos, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.fill = PatternFill("solid", fgColor="E2D9F3")
+            cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
+            cell.font  = Font(bold=True, size = 14, color="333399")
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+    #**************  Agrega la data a las celdas
+        for pedi in pediatricos:
+            row_num += 1
+            datos = [pedi.proyecto,pedi.jornada,pedi.cedula_bef,pedi.cedula.cedula,pedi.cedula.nombre,pedi.cedula.apellido,pedi.cedula.sexo,pedi.cedula.fecha_nac.strftime('%d-%m-%Y'),pedi.edad,pedi.meses,pedi.examen_fisico,pedi.sano,pedi.traumatismo,pedi.alergia,pedi.cefalea,pedi.rinitis,pedi.infeccion,pedi.faringoamigdalitis,pedi.sinusitis,pedi.parasitosis,pedi.diarreas,pedi.dermatitis,pedi.otitis,pedi.caries,pedi.abscesos,pedi.otros_varios,pedi.desp_menor,pedi.desp_familia,pedi.folico,pedi.hierro,pedi.minerales,pedi.asesor_lactancia,pedi.recomen_nutricional,pedi.refe_psicologica,pedi.vitaminas,pedi.lacktokiana,pedi.prokids]
+
+            for col_num, cell_value in enumerate(datos, 1):
+                cell = worksheet.cell(row=row_num, column=col_num)
+                if cell_value == True:
+                    cell.value = 'SI'
+                elif cell_value == False:
+                        cell.value = ' '
+                else:
+                    cell.value = str(cell_value)
+                cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                cell.alignment = Alignment(horizontal="center")
+                if col_num == 1 or col_num == 2 or col_num == 3 or col_num == 5 or col_num == 6:
+                   cell.alignment = Alignment(horizontal="left")
+
+        #**************  Agrega el total de Menores  ************************
+        row_num += 2
+        worksheet.merge_cells('A'+str(row_num+1)+':B'+str(row_num+1))
+        cell = worksheet.cell(row=row_num+1, column=1)
+        cell.value = "Total de Menores en Consulta: " +' ' + str(total_consultas)
+        cell2 = worksheet.cell(row=row_num+2, column=1)
+        cell2.value = "Total de Menores de 5 años: " +' ' + str(total_consulta_menores_5)
+        cell3 = worksheet.cell(row=row_num+3, column=1)
+        cell3.value = "Total de Menores de 2 años: " +' ' + str(total_consulta_menores_2)
+        cell4 = worksheet.cell(row=row_num+4, column=1)
+        cell4.value = "Total en Examen Físico Sano: " +' ' + str(total_sanos)
+        cell5 = worksheet.cell(row=row_num+5, column=1)
+        cell5.value = "Total en Examen Físico Anormal: " +' ' + str(total_anormal)
+        cell6 = worksheet.cell(row=row_num+6, column=1)
+        cell6.value = "Total en Diagnóstico Niño Sano: " +' ' + str(total_NinoSano)
+        cell7 = worksheet.cell(row=row_num+7, column=1)
+        cell7.value = "Total Recomendación de Asesoría en Lactancia: " +' ' + str(recomendacion_lactancia)
+        cell8 = worksheet.cell(row=row_num+8, column=1)
+        cell8.value = "Total Recomendación de Asesoría Nutricional: " +' ' + str(recomendacion_nutricional)
+        cell9 = worksheet.cell(row=row_num+9, column=1)
+        cell9.value = "Total Recomendación de Referencia Psicológica: " +' ' + str(recomendacion_psicologia)
+        cell10 = worksheet.cell(row=row_num+10, column=1)
+        cell10.value = "Total Recomendación de Vitaminas: " +' ' + str(recomendacion_vitaminas)
+        cell11 = worksheet.cell(row=row_num+11, column=1)
+        cell11.value = "Total Recomendación de Lacktokiana: " +' ' + str(recomendacion_lacktokiana)
+        cell12 = worksheet.cell(row=row_num+12, column=1)
+        cell12.value = "Total Recomendación de Prokids: " +' ' + str(recomendacion_prokids)
+
+
+
+#******************  HOJA DE DATOS VACUNAS DEL MENORES  ***********************
+
+    #*********  Registro de Datos de las Vacunas de los Menores  *************
+        worksheet = workbook.worksheets[3]
+        worksheet.merge_cells('A4:N6')
+        fourth_cell = worksheet['A4']
+        fourth_cell.value = "REGISTRO DE VACUNACION DEL MENOR"
+        fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
+        fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
+
+        vacunas = Vacunas.objects.filter(proyecto_id=proyecto,jornada=jornada).order_by('cedula_id').select_related('cedula')
+
+        titulos = ['PROYECTO', 'JORNADA','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','FECHA JORNADA','VACUNA','DOSIS','OBSERVACION']
+        row_num = 7
+        thin = Side(border_style="thin", color="000000")
+        double = Side(border_style="double", color="000000")
+
+    #********* asigna el titulo a las columnas  ************************
+        for col_num, column_title in enumerate(titulos, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.fill = PatternFill("solid", fgColor="E2D9F3")
+            cell.border = Border(top=thin, left=thin, right=thin, bottom=double)
+            cell.font  = Font(bold=True, size = 14, color="333399")
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            adjusted_width = (len(cell.value) + 10) * 1.2
+            worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
+
+    #**************  Agrega la data a las celdas
+        xCedula = 0
+
+        for vacuna in vacunas:
+            row_num += 1
+            datos = [vacuna.proyecto,vacuna.jornada,vacuna.cedula.cedula_bef,vacuna.cedula.cedula,vacuna.cedula.nombre,vacuna.cedula.apellido,vacuna.cedula.sexo,vacuna.cedula.fecha_nac.strftime('%d-%m-%Y'),vacuna.edad,vacuna.meses,vacuna.creado.strftime('%d-%m-%Y'),vacuna.vacuna,vacuna.dosis,vacuna.observacion]
+
+            if imc.cedula.cedula != xCedula:
+                for col_num, cell_value in enumerate(datos, 1):
+                    cell = worksheet.cell(row=row_num, column=col_num)
+                    cell.value = str(cell_value)
+                    cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                    cell.alignment = Alignment(horizontal="center")
+                    if col_num == 1 or col_num == 2 or col_num == 4 or col_num == 12 or col_num == 14:
+                        cell.alignment = Alignment(horizontal="left")
+
+                xCedula = imc.cedula.cedula
+            else:
+                for col_num, cell_value in enumerate(datos, 1):
+                    if col_num > 10:
+                        cell = worksheet.cell(row=row_num, column=col_num)
+                        cell.value = str(cell_value)
+                        cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+                        cell.alignment = Alignment(horizontal="center")
+                        if col_num == 12 or col_num == 14:
+                            cell.alignment = Alignment(horizontal="left")
+                        
+
+
+
+
+
+
+
 #*************  HOJA DE DATOS ANTROPOMETRICOS EMBARAZADAS  *********************
 
     #*********  Registro de Datos antropometricos Embarazadas  *************
-        worksheet = workbook.worksheets[2]
+        worksheet = workbook.worksheets[4]
         worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DATOS ANTROPOMETRICOS EMBARAZADAS"
@@ -1232,7 +1403,7 @@ class exportar_jornada(TemplateView):
 #*************  HOJA DE DATOS ANTROPOMETRICOS LACTANTES  *********************
 
     #*********  Registro de Datos antropometricos Lactante  *************
-        worksheet = workbook.worksheets[3]
+        worksheet = workbook.worksheets[5]
         worksheet.merge_cells('A4:P6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DATOS ANTROPOMETRICOS LACTANTES"
@@ -1286,7 +1457,7 @@ class exportar_jornada(TemplateView):
 #*************  HOJA DE DATOS ENTREGA MEDICAMENTOS PRODUCTOS  *********************
 
     #*********  Registro de Datos DATOS ENTREGA MEDICAMENTOS  *************
-        worksheet = workbook.worksheets[4]
+        worksheet = workbook.worksheets[6]
         worksheet.merge_cells('A4:H6')
         fourth_cell = worksheet['A4']
         fourth_cell.value = "REGISTRO DE ENTREGA DE MEDICAMENTOS Y PRODUCTOS"
