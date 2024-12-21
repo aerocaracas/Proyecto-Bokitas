@@ -235,24 +235,30 @@ class exportar_proyecto(TemplateView):
 
     #*********  Registro de Datos de Consulta Pediatrica  *************
         worksheet = workbook.worksheets[3]
-        worksheet.merge_cells('A4:P6')
+        worksheet.merge_cells('A4:AM6')
         fourth_cell = worksheet['A4']
-        fourth_cell.value = "REGISTROS DEL CONTROL PEDIATRICO "
+        fourth_cell.value = "REGISTROS DEL CONTROL PEDIATRICO"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
 
-        pediatrico = Medica.objects.filter(proyecto=proyecto).order_by('-cedula_bef')
+        pediatricos = Medica.objects.filter(proyecto=proyecto).order_by('-cedula_bef','cedula_id').select_related('cedula')
 
         #**************  Obtener el total de Menores  ***************
-        total_menores = menores.count()
-        total_activos = menores.values("estatus").filter(estatus="ACTIVO").count()
-        total_altas = menores.values("estatus").filter(estatus="ALTA").count()
-        total_egresos = menores.values("estatus").filter(estatus="EGRESO").count()
-        total_desincorporados = menores.values("estatus").filter(estatus="DESINCORPORADO").count()
-        total_menores_5 = menores.values("edad").filter(edad__lte=5).count()
-        total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
+        total_consultas = Medica.count()
+        total_consulta_menores_5 = Medica.values("edad").filter(edad__lte=5).count()
+        total_consulta_menores_2 = Medica.values("edad").filter(edad__lte=2).count()
+        total_sanos = Medica.values("examen_fisico").filter(examen_fisico="SANO").count()
+        total_anormal = Medica.values("examen_fisico").filter(examen_fisico="ANORMAL").count()
+        total_NinoSano = Medica.values("sano").filter(sano=1).count()
+        recomendacion_lactancia = Medica.values("asesor_lactancia").filter(asesor_lactancia=1).count()
+        recomendacion_nutricional = Medica.values("recomen_nutricional").filter(recomen_nutricional=1).count()
+        recomendacion_psicologia = Medica.values("refe_psicologica").filter(refe_psicologica=1).count()
+        recomendacion_vitaminas = Medica.values("vitaminas").filter(vitaminas=1).count()
+        recomendacion_lacktokiana = Medica.values("lacktokiana").filter(lacktokiana=1).count()
+        recomendacion_prokids = Medica.values("prokids").filter(prokids=1).count()
 
-        titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
+
+        titulos = ['PROYECTO','JORNADA','REPRESENTANTE','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','EXAMEN FISICO','NIÑO SANO','TRAUMATISMOS','ALERGIA','CEFALEA','BRONKITIS Y RINITIS','INFECCION RESPIRATORIA','FARINGOAMIGDALITIS','SINUSITIS','PARASITOSIS','DIARREAS','DERMATITIS','OTITIS','CARIES','ADSESOS DENTALES','OTRO DIAGNOSTICO','PACIENTE DESPARACITADO','FAMILIAR DESPARACITADO','ACIDO FOLICO','HIERRO','VITAMINAS Y MINERALES','ASESOR LACTANCIA','RECOMENDACION NUTRICIONAL','REFERENCIA PSICOLOGICA','VITAMINAS','LACKTOKIANA','PROKIDS']
         row_num = 7
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
@@ -269,9 +275,9 @@ class exportar_proyecto(TemplateView):
             worksheet.column_dimensions[get_column_letter(col_num)].width = adjusted_width
 
     #**************  Agrega la data a las celdas
-        for menor in menores:
+        for pedi in pediatricos:
             row_num += 1
-            datos = [menor.proyecto,menor.cedula_bef,menor.parentesco,menor.cedula,menor.nombre,menor.apellido,menor.sexo,menor.fecha_nac.strftime('%d-%m-%Y'),menor.edad,menor.meses,menor.peso_actual,menor.talla_actual,menor.diagnostico_actual,menor.diagnostico_talla_actual,menor.fecha_ing_proyecto.strftime('%d-%m-%Y'),menor.estatus]
+            datos = [pedi.proyecto,pedi.jornada,pedi.cedula_bef,pedi.cedula,pedi.cedula.nombre,pedi.cedula.apellido,pedi.cedula.sexo,pedi.cedula.fecha_nac.strftime('%d-%m-%Y'),pedi.edad,pedi.meses,pedi.examen_fisico,pedi.sano,pedi.traumatismo,pedi.alergia,pedi.cefalea,pedi.rinitis,pedi.infeccion,pedi.faringoamigdalitis,pedi.sinusitis,pedi.parasitosis,pedi.diarreas,pedi.dermatitis,pedi.otitis,pedi.caries,pedi.abscesos,pedi.otros_varios,pedi.desp_menor,pedi.desp_familia,pedi.folico,pedi.hierro,pedi.minerales,pedi.asesor_lactancia,pedi.recomen_nutricional,pedi.refe_psicologica,pedi.vitaminas,pedi.lacktokiana,pedi.prokids]
 
             for col_num, cell_value in enumerate(datos, 1):
                 cell = worksheet.cell(row=row_num, column=col_num)
@@ -284,19 +290,11 @@ class exportar_proyecto(TemplateView):
         row_num += 2
         worksheet.merge_cells('A'+str(row_num+1)+':B'+str(row_num+1))
         cell = worksheet.cell(row=row_num+1, column=1)
-        cell.value = "Total de Menores: " +' ' + str(total_menores)
-        cell2 = worksheet.cell(row=row_num+2, column=1)
-        cell2.value = "Total de Activos: " +' ' + str(total_activos)
-        cell3 = worksheet.cell(row=row_num+3, column=1)
-        cell3.value = "Total de Altas: " +' ' + str(total_altas)
-        cell4 = worksheet.cell(row=row_num+4, column=1)
-        cell4.value = "Total de Egresos: " +' ' + str(total_egresos)
-        cell5 = worksheet.cell(row=row_num+5, column=1)
-        cell5.value = "Total de Desincorporados: " +' ' + str(total_desincorporados)
-        cell6 = worksheet.cell(row=row_num+6, column=1)
-        cell6.value = "Total de Menores de 5 años: " +' ' + str(total_menores_5)
-        cell7 = worksheet.cell(row=row_num+7, column=1)
-        cell7.value = "Total de Menores de 2 años: " +' ' + str(total_menores_2)
+        cell.value = "Total de Menores en Consulta: " +' ' + str(total_consultas)
+        cell2 = worksheet.cell(row=row_num+6, column=1)
+        cell2.value = "Total de Menores de 5 años: " +' ' + str(total_consulta_menores_5)
+        cell3 = worksheet.cell(row=row_num+7, column=1)
+        cell3.value = "Total de Menores de 2 años: " +' ' + str(total_consulta_menores_2)
 
 
 
