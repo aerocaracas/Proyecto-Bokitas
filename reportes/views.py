@@ -14,6 +14,7 @@ from openpyxl.chart import Reference, BarChart3D
 class exportar_proyecto(TemplateView):
     def get(self, request, *args, **kwargs):
         proyecto = request.GET.get('proyecto')
+        nombre_proyecto = get_object_or_404(Proyecto, id=proyecto)
         workbook = Workbook()
         bandera = True
         fecha = datetime.now()
@@ -46,9 +47,17 @@ class exportar_proyecto(TemplateView):
 #***********************  HOJA DE DATOS DE LOS BENEFICIARIOS  ********************************
 
     #*********  Registro de Datos de los Beneficiario  *************
+            #*********  Tutulo Principal  *************
         worksheet = workbook.worksheets[0]
-        worksheet.merge_cells('A4:W6')
-        fourth_cell = worksheet['A4']
+        worksheet.merge_cells('A4:W5')
+        cuarta_cell = worksheet['A4']
+        cuarta_cell.value = "INFORMACIÓN DEL PROYECTO: " + str(nombre_proyecto)
+        cuarta_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
+        cuarta_cell.fill = PatternFill("solid", fgColor="E2D9F3")
+        cuarta_cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        worksheet.merge_cells('A6:W7')
+        fourth_cell = worksheet['A6']
         fourth_cell.value = "REGISTRO DE LOS BENEFICIARIOS"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
@@ -63,7 +72,7 @@ class exportar_proyecto(TemplateView):
 
 
         titulos = ['PROYECTO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','NACIONALIDAD','NUM HIJOS','EMBARAZADA','LACTANDO','ESTADO CIVIL','EDUCACIÓN','PROFESIÓN','LABORAL','TELEFONO','CORREO','DIRECCIÓN','CIUDAD','ESTADO','ESTATUS','NÚMERO DE CUENTA']
-        row_num = 7
+        row_num = 8
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
 
@@ -1039,6 +1048,8 @@ class exportar_jornada(TemplateView):
     def get(self, request, *args, **kwargs):
         proyecto = request.GET.get('proyecto')
         jornada = request.GET.get('jornada')
+        nombre_proyecto = get_object_or_404(Proyecto, id=proyecto)
+        nombre_jornada = get_object_or_404(Jornada, id=jornada)
         workbook = Workbook()
         bandera = True
         fecha = datetime.now()
@@ -1072,8 +1083,15 @@ class exportar_jornada(TemplateView):
 
     #*********  Registro de Datos de los Menores  *************
         worksheet = workbook.worksheets[0]
-        worksheet.merge_cells('A4:P6')
-        fourth_cell = worksheet['A4']
+        worksheet.merge_cells('A4:W5')
+        cuarta_cell = worksheet['A4']
+        cuarta_cell.value = "INFORMACIÓN DEL PROYECTO: " + str(nombre_proyecto) + " DE LA JORNADA: " + str(nombre_jornada.jornada)
+        cuarta_cell.font  = Font(name = 'Tahoma', size = 14, bold = True, color="333399")
+        cuarta_cell.fill = PatternFill("solid", fgColor="E2D9F3")
+        cuarta_cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        worksheet.merge_cells('A6:W7')
+        fourth_cell = worksheet['A6']
         fourth_cell.value = "REGISTROS DEL PERFIL DE MENORES"
         fourth_cell.font  = Font(name = 'Tahoma', size = 16, bold = True, color="333399")
         fourth_cell.alignment = Alignment(horizontal="center", vertical="center")      
@@ -1090,7 +1108,7 @@ class exportar_jornada(TemplateView):
         total_menores_2 = menores.values("edad").filter(edad__lte=2).count()
 
         titulos = ['PROYECTO','REPRESENTANTE','PARENTESCO','CÉDULA','NOMBRE','APELLIDO','SEXO','FECHA NAC.','EDAD','MESES','PESO ACTUAL','TALLA ACTUAL','DIAGNOSTICO PESO','DIAGNOSTICO TALLA','FECHA INGRESO','ESTATUS']
-        row_num = 7
+        row_num = 8
         thin = Side(border_style="thin", color="000000")
         double = Side(border_style="double", color="000000")
 
@@ -1433,8 +1451,11 @@ class exportar_jornada(TemplateView):
 
         for imc in imc_embarazos:
             row_num += 1
-            datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada,imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
-
+            if imc.cedula_bef.fecha_nac:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac.strftime('%d-%m-%Y'),imc.jornada,imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            else:
+                datos = [imc.cedula_bef.proyecto,imc.cedula_bef.cedula,imc.cedula_bef.nombre,imc.cedula_bef.apellido,imc.cedula_bef.fecha_nac,imc.jornada,imc.edad,imc.meses,imc.tiempo_gestacion,imc.peso,imc.talla,imc.cbi,imc.imc,imc.diagnostico,imc.riesgo,imc.observacion]
+            
             if imc.cedula_bef.cedula != xCedula:
                 for col_num, cell_value in enumerate(datos, 1):
                     cell = worksheet.cell(row=row_num, column=col_num)
